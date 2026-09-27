@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://hhhhyyyyujuj12-creator.github.io/Atlascom/sitemap.xml
