@@ -52,15 +52,8 @@ html, body { background: #000; color: var(--text); min-height: 100vh; overflow-x
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #050505; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff6b00, #ff8c33);
-  border-radius: 5px;
-  border: 2px solid #050505;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff8c33, #ff6b00);
-  box-shadow: 0 0 10px rgba(255,107,0,0.6);
-}
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff6b00, #ff8c33); border-radius: 5px; border: 2px solid #050505; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #ff8c33, #ff6b00); box-shadow: 0 0 10px rgba(255,107,0,0.6); }
 
 body::before {
   content: "";
@@ -137,21 +130,6 @@ header {
 .sidebar-nav a.danger:hover { background: rgba(255,51,85,0.1); color: var(--danger); }
 .sidebar-nav a.admin { color: var(--verified); }
 .sidebar-nav a.admin:hover { background: rgba(29,155,240,0.1); }
-.sidebar-nav a::after {
-  content: "";
-  position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--orange);
-  transform: translateX(4px);
-  opacity: 0;
-  transition: all 0.3s;
-}
-.sidebar-nav a:hover::after,
-.sidebar-nav a.active::after {
-  transform: translateX(0);
-  opacity: 1;
-}
 .sidebar-footer { padding: 16px 22px 4px; border-top: 1px solid var(--border); margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.8; }
 .sidebar-footer b { color: var(--orange); font-weight: 800; }
 .sidebar-footer .brand-txt { font-size: 10px; color: #3a3a44; margin-top: 8px; letter-spacing: 1px; }
@@ -164,7 +142,6 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .section-head { padding: 20px 5% 12px; display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; }
 .section-head i { color: var(--orange); }
 
-/* ============ GRID: centered, responsive ============ */
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +152,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 }
 .grid > .card {
   width: 100%;
-  max-width: 340px;
+  max-width: 400px;
   flex-shrink: 0;
 }
 .grid > .empty {
@@ -204,22 +181,21 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   box-shadow: 0 8px 40px rgba(0,0,0,0.7);
 }
 
-/* Media container: dynamic ratio, no cropping */
+/* Media: sized by content — no cropping, no forcing */
 .card-media-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/5;
-  max-height: 85vh;
   background: #000;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 200px;
+  font-size: 0;
+  line-height: 0;
 }
 
 .card-media {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 80vh;
   display: block;
   object-fit: contain;
   background: #000;
@@ -238,6 +214,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   gap: 10px;
   z-index: 3;
   pointer-events: none;
+  line-height: 1.5;
 }
 .card-author-chip {
   display: inline-flex;
@@ -456,7 +433,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 }
 .skeleton-card {
   width: 100%;
-  max-width: 340px;
+  max-width: 400px;
   flex-shrink: 0;
   background: var(--card);
   border: 1px solid var(--border);
@@ -581,6 +558,7 @@ html { background-color: #000; }
   .user-card-avatar { width: 42px; height: 42px; font-size: 16px; }
   .user-card-name { font-size: 13px; }
   .home-tab { padding: 7px 14px; font-size: 12px; }
+  .card-media { max-height: 70vh; }
 }
 </style>
 </head>
@@ -2094,29 +2072,11 @@ function applySearch() {
 }
 
 /* ============================================================
-   Autoplay + Sound + Controls + Dynamic Aspect Ratio
+   Autoplay + Sound + Controls
    ============================================================ */
 ['click','touchstart','keydown'].forEach(ev => {
   document.addEventListener(ev, () => { userInteracted = true; }, { once: true, passive: true });
 });
-
-function adjustMediaRatio(el) {
-  const wrap = el.closest('.card-media-wrap');
-  if (!wrap) return;
-  let w = 0, h = 0;
-  if (el.tagName === 'IMG') {
-    w = el.naturalWidth;
-    h = el.naturalHeight;
-  } else if (el.tagName === 'VIDEO') {
-    w = el.videoWidth;
-    h = el.videoHeight;
-  }
-  if (!w || !h) return;
-  let ratio = w / h;
-  if (ratio < 0.5) ratio = 0.5;
-  if (ratio > 1.2) ratio = 1.2;
-  wrap.style.aspectRatio = ratio;
-}
 
 function initVideoObserver() {
   if (videoObserver) return;
@@ -2174,15 +2134,8 @@ function setupAutoPlayVideos() {
       const playBtn = card ? card.querySelector('.play-big') : null;
       if (playBtn) playBtn.classList.remove('show');
     });
-    v.addEventListener('loadeddata', () => {
-      v.classList.add('loaded');
-      adjustMediaRatio(v);
-    });
-    v.addEventListener('loadedmetadata', () => adjustMediaRatio(v));
-    if (v.readyState >= 2) {
-      v.classList.add('loaded');
-      adjustMediaRatio(v);
-    }
+    v.addEventListener('loadeddata', () => v.classList.add('loaded'));
+    if (v.readyState >= 2) v.classList.add('loaded');
   });
 }
 
@@ -2215,27 +2168,17 @@ function seekVideo(e, barEl) {
 }
 
 /* ============================================================
-   Blur-up Images + Auto Ratio
+   Blur-up
    ============================================================ */
 function setupBlurUp() {
   document.querySelectorAll('.card-media').forEach(el => {
     if (el.tagName === 'IMG') {
-      const loaded = () => {
-        el.classList.add('loaded');
-        adjustMediaRatio(el);
-      };
+      const loaded = () => el.classList.add('loaded');
       if (el.complete && el.naturalHeight !== 0) loaded();
       else el.addEventListener('load', loaded, { once: true });
     } else {
-      if (el.readyState >= 2) {
-        el.classList.add('loaded');
-        adjustMediaRatio(el);
-      } else {
-        el.addEventListener('loadeddata', () => {
-          el.classList.add('loaded');
-          adjustMediaRatio(el);
-        }, { once: true });
-      }
+      if (el.readyState >= 2) el.classList.add('loaded');
+      else el.addEventListener('loadeddata', () => el.classList.add('loaded'), { once: true });
     }
   });
 }
