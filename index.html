@@ -119,16 +119,22 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .verified-badge.lg{font-size:1em}
 .header-icon-btn.has-notif{border-color:var(--danger);color:var(--danger);animation:bellGlow 1.5s ease-in-out infinite}
 @keyframes bellGlow{0%,100%{box-shadow:0 0 4px rgba(255,51,85,0.4)}50%{box-shadow:0 0 16px rgba(255,51,85,0.9)}}
+/* REELS — استخدم نفس بطاقة الرئيسية */
 .reels-container{height:calc(100dvh - 64px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
 .reel-item{height:calc(100dvh - 64px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.reel-item video{max-width:100%;max-height:100%;object-fit:contain}
-.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 90px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
+.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block}
+.reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.reel-item .reel-play-big.hidden{display:none}
+.reel-item .reel-progress{position:absolute;bottom:90px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
+.reel-item .reel-progress-fill{height:100%;width:0%;background:var(--orange);border-radius:2px}
+.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 60px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
 .reel-overlay .reel-author{display:flex;align-items:center;gap:8px;margin-bottom:10px;pointer-events:auto}
 .reel-overlay h3{font-size:16px;font-weight:800;margin-bottom:6px;color:#fff}
 .reel-overlay p{font-size:13px;color:#ddd;line-height:1.5;max-height:60px;overflow:hidden}
 .reel-actions{position:absolute;top:16px;left:16px;display:flex;gap:8px;z-index:2}
 .reel-actions .icon-btn{background:rgba(0,0,0,0.6);color:#fff;width:38px;height:38px;border-radius:50%}
+.reel-mute-btn{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:2}
 .profile-head{padding:30px 5% 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .profile-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:36px;overflow:hidden;margin-bottom:14px}
 .profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -226,15 +232,12 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
-/* Creator-like badge */
 .creator-like-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,107,0,0.15);color:var(--orange);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:8px;margin-right:6px;border:1px solid rgba(255,107,0,0.3)}
 .creator-like-badge i{font-size:10px}
-/* Replies toggle */
 .replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
 .replies-toggle-btn:hover{text-decoration:underline}
 .replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
 .replies-container.show{display:block}
-/* Notif list */
 .notif-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border)}
 .notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .notif-item.unread{background:rgba(255,107,0,0.06);border-color:rgba(255,107,0,0.3)}
@@ -270,6 +273,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
   .home-tab{padding:7px 14px;font-size:12px}
   .card-media{max-height:70vh}
   .comment-item.reply{margin-right:12px}
+  .reel-item .reel-play-big{width:60px;height:60px;font-size:22px}
 }
 </style>
 </head>
@@ -518,8 +522,9 @@ let likedVideos = new Set();
 let viewedVideos = new Set();
 let likedComments = new Set();
 let savedPostIds = new Set();
-let userInteracted = false;
 let notifPollTimer = null;
+let reelsObserver = null;
+let activeReelVideo = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -568,12 +573,32 @@ function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('war
 function acceptWarning() {
   localStorage.setItem('atlas_warn', '1');
   $('warningOverlay').classList.remove('active');
-  userInteracted = true;
+}
+
+/* ============ إيقاف كل الفيديوهات ============ */
+function pauseAllVideos() {
+  document.querySelectorAll('video').forEach(v => {
+    try { v.pause(); v.currentTime = v.currentTime; } catch(e) {}
+    const card = v.closest('.card');
+    if (card) {
+      const pb = card.querySelector('.play-big');
+      if (pb) pb.style.display = 'flex';
+    }
+    const reel = v.closest('.reel-item');
+    if (reel) {
+      const pb = reel.querySelector('.reel-play-big');
+      if (pb) pb.classList.remove('hidden');
+    }
+  });
+  activeReelVideo = null;
 }
 
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
 
 function switchSection(name, id) {
+  // إيقاف كل الفيديوهات عند التنقل
+  pauseAllVideos();
+
   currentSection = name;
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   const t = $('section-' + name);
@@ -954,7 +979,7 @@ function renderSaved() {
     return;
   }
   box.innerHTML = saved.map(cardHTML).join('');
-  setTimeout(setupBlurUp, 100);
+  setTimeout(setupBlurUp, 150);
 }
 
 /* ============ Comment Likes ============ */
@@ -976,6 +1001,7 @@ async function toggleCommentLike(commentId, btn) {
   btn.disabled = true;
   try {
     const comment = allComments.find(c => c.$id === commentId);
+    const amCreator = currentCommentsVideoOwnerId === currentUser.$id;
     if (isLiked) {
       const q1 = encodeURIComponent(JSON.stringify({ method: 'equal', attribute: 'user_id', values: [currentUser.$id] }));
       const q2 = encodeURIComponent(JSON.stringify({ method: 'equal', attribute: 'comment_id', values: [commentId] }));
@@ -989,13 +1015,9 @@ async function toggleCommentLike(commentId, btn) {
       if (comment) {
         const nc = Math.max(0, (comment.likes_count || 0) - 1);
         comment.likes_count = nc;
-        // إذا كان صاحب الفيديو هو من أزال إعجابه → أزل creator_liked
-        if (currentCommentsVideoOwnerId === currentUser.$id) {
-          comment.creator_liked = false;
-          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc, creator_liked: false } }) });
-        } else {
-          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
-        }
+        const payload = { likes_count: nc };
+        if (amCreator) { comment.creator_liked = false; payload.creator_liked = false; }
+        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: payload }) });
       }
     } else {
       await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows`, {
@@ -1008,16 +1030,12 @@ async function toggleCommentLike(commentId, btn) {
       if (comment) {
         const nc = (comment.likes_count || 0) + 1;
         comment.likes_count = nc;
-        // إذا كان صاحب الفيديو هو من أعطى إعجاب → علّم creator_liked
-        if (currentCommentsVideoOwnerId === currentUser.$id) {
-          comment.creator_liked = true;
-          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc, creator_liked: true } }) });
-        } else {
-          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
-        }
+        const payload = { likes_count: nc };
+        if (amCreator) { comment.creator_liked = true; payload.creator_liked = true; }
+        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: payload }) });
         if (comment.user_id && comment.user_id !== currentUser.$id) {
-          const notifType = currentCommentsVideoOwnerId === currentUser.$id ? 'creator_like' : 'comment_like';
-          const notifContent = currentCommentsVideoOwnerId === currentUser.$id ? 'صاحب المنشور أعجب بتعليقك ⭐' : 'أعجب بتعليقك';
+          const notifType = amCreator ? 'creator_like' : 'comment_like';
+          const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك ⭐' : 'أعجب بتعليقك';
           await createNotification(comment.user_id, notifType, notifContent, comment.video_id);
         }
       }
@@ -1180,6 +1198,7 @@ async function doLogin() {
 
 async function doLogout() {
   if (!confirm('هل تريد تسجيل الخروج؟')) return;
+  pauseAllVideos();
   try { await fetch(`${APPWRITE_ENDPOINT}/account/sessions/current`, { method: 'DELETE', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID }, credentials: 'include' }); } catch(e){}
   currentUser = null;
   followingIds = new Set();
@@ -1542,6 +1561,7 @@ function renderGrid(container, rows) {
   setTimeout(setupBlurUp, 150);
 }
 
+/* ============ REELS — نفس تصميم الرئيسية لكن مع scroll-snap ============ */
 function renderReels(rows) {
   if (!rows.length) {
     reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>${searchQuery ? 'لا نتائج' : 'لا توجد ريلزات بعد'}</p></div>`;
@@ -1557,8 +1577,11 @@ function renderReels(rows) {
     const isLiked = likedVideos.has(v.$id);
     const verified = verifiedBadgeHTML(v.author_id);
     return `
-      <div class="reel-item">
-        <video src="${url}" controls preload="metadata" playsinline loop muted onplay="markViewed('${v.$id}')"></video>
+      <div class="reel-item" data-reel-id="${v.$id}">
+        <video src="${url}" loop muted playsinline preload="metadata" onplay="markViewed('${v.$id}')"></video>
+        <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
+        <button class="reel-mute-btn" onclick="toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button>
+        <div class="reel-progress"><div class="reel-progress-fill"></div></div>
         <div class="reel-actions">
           <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
           ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.$id}','${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
@@ -1583,10 +1606,85 @@ function renderReels(rows) {
         </div>
       </div>`;
   }).join('');
+  setTimeout(setupReelsObserver, 100);
+  setTimeout(setupReelsControls, 150);
+}
+
+function setupReelsObserver() {
+  if (reelsObserver) reelsObserver.disconnect();
+  reelsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const item = entry.target;
+      const video = item.querySelector('video');
+      if (!video) return;
+      const playBtn = item.querySelector('.reel-play-big');
+      if (entry.intersectionRatio >= 0.75) {
+        // العنصر ظاهر بالكامل - نتركه كما هو (بدون تشغيل تلقائي)
+      } else {
+        // المستخدم سحب بعيد - نوقف الفيديو نهائياً
+        if (!video.paused) {
+          video.pause();
+          if (playBtn) playBtn.classList.remove('hidden');
+        }
+      }
+    });
+  }, { threshold: [0, 0.3, 0.75, 1] });
+  document.querySelectorAll('.reel-item').forEach(el => reelsObserver.observe(el));
+}
+
+function setupReelsControls() {
+  document.querySelectorAll('.reel-item').forEach(item => {
+    const video = item.querySelector('video');
+    const fill = item.querySelector('.reel-progress-fill');
+    if (!video || video.dataset.rBound) return;
+    video.dataset.rBound = '1';
+    video.addEventListener('timeupdate', () => {
+      if (fill && video.duration) fill.style.width = ((video.currentTime / video.duration) * 100) + '%';
+    });
+    video.addEventListener('click', () => {
+      toggleReelPlayByVideo(item);
+    });
+  });
+}
+
+function toggleReelPlayByVideo(item) {
+  const video = item.querySelector('video');
+  const pb = item.querySelector('.reel-play-big');
+  if (!video) return;
+  if (video.paused) {
+    // إيقاف أي فيديو ريلز آخر
+    document.querySelectorAll('.reel-item video').forEach(v => {
+      if (v !== video && !v.paused) {
+        v.pause();
+        const pb2 = v.closest('.reel-item').querySelector('.reel-play-big');
+        if (pb2) pb2.classList.remove('hidden');
+      }
+    });
+    video.play().catch(() => {});
+    if (pb) pb.classList.add('hidden');
+  } else {
+    video.pause();
+    if (pb) pb.classList.remove('hidden');
+  }
+}
+
+function toggleReelPlay(btn) {
+  const item = btn.closest('.reel-item');
+  if (item) toggleReelPlayByVideo(item);
+}
+
+function toggleReelMute(btn) {
+  const item = btn.closest('.reel-item');
+  const video = item ? item.querySelector('video') : null;
+  if (!video) return;
+  video.muted = !video.muted;
+  const icon = btn.querySelector('i');
+  if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
 }
 
 /* ============ Profile ============ */
 async function viewProfile(userId) {
+  pauseAllVideos();
   const box = $('profileContent');
   box.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
   let profile = null;
@@ -1643,6 +1741,7 @@ async function viewProfile(userId) {
 }
 
 async function showFollowers(userId, handle) {
+  pauseAllVideos();
   currentSection = 'connections';
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   $('section-connections').classList.add('active');
@@ -1657,6 +1756,7 @@ async function showFollowers(userId, handle) {
 }
 
 async function showFollowing(userId, handle) {
+  pauseAllVideos();
   currentSection = 'connections';
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   $('section-connections').classList.add('active');
@@ -1779,7 +1879,6 @@ async function toggleLike(videoId, btn) {
   cardRow.likes_count = newCount;
   saveLikesLocal();
 
-  // تحديث فوري على كل البطاقات بنفس الـ ID
   document.querySelectorAll(`.card[data-row-id="${videoId}"] .icon-btn[onclick*="toggleLike"]`).forEach(b => {
     const icon = b.querySelector('i');
     const span = b.querySelector('span');
@@ -1787,13 +1886,6 @@ async function toggleLike(videoId, btn) {
     else { b.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; }
     if (span) span.textContent = newCount;
   });
-  if (btn) {
-    const icon = btn.querySelector('i');
-    const span = btn.querySelector('span');
-    if (isLiked) { btn.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; }
-    else { btn.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; }
-    if (span) span.textContent = newCount;
-  }
 
   try {
     await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`, {
@@ -1813,9 +1905,8 @@ async function markViewed(videoId) {
   if (!row) return;
   const newCount = (row.views_count || 0) + 1;
   row.views_count = newCount;
-  // تحديث فوري على كل البطاقات
   document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el => {
-    if (el.textContent.includes('👁') || el.querySelector('.fa-eye')) el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newCount}`;
+    el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newCount}`;
   });
   try {
     await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`, {
@@ -1826,6 +1917,8 @@ async function markViewed(videoId) {
 
 /* ============ Comments ============ */
 function openComments(videoId, title, ownerId) {
+  // إيقاف كل الفيديوهات عند فتح التعليقات
+  pauseAllVideos();
   currentCommentsVideoId = videoId;
   currentCommentsVideoOwnerId = ownerId || null;
   $('commentsTitle').textContent = title ? `على: ${title}` : '—';
@@ -1877,11 +1970,11 @@ function toggleReplies(commentId, btn) {
   const el = $('replies-' + commentId);
   if (!el) return;
   const isShown = el.classList.toggle('show');
-  const icon = btn.querySelector('i');
+  const count = el.children.length;
   if (isShown) {
-    btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${el.children.length})`;
+    btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`;
   } else {
-    btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${el.children.length})`;
+    btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`;
   }
 }
 
@@ -2026,12 +2119,21 @@ function applySearch() {
   searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 200);
 }
 
-/* ============ Video Controls (يدوي فقط - بدون تشغيل تلقائي) ============ */
+/* ============ تشغيل/إيقاف يدوي للفيديو (بدون تلقائي) ============ */
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card');
   const video = card ? card.querySelector('.card-media') : null;
   if (!video || video.tagName !== 'VIDEO') return;
   if (video.paused) {
+    // إيقاف كل الفيديوهات الأخرى أولاً
+    document.querySelectorAll('.card-media').forEach(v => {
+      if (v !== video && v.tagName === 'VIDEO' && !v.paused) {
+        v.pause();
+        const c = v.closest('.card');
+        const pb = c ? c.querySelector('.play-big') : null;
+        if (pb) pb.style.display = 'flex';
+      }
+    });
     video.play().catch(() => {});
     btn.style.display = 'none';
   } else {
@@ -2060,12 +2162,10 @@ function seekVideo(e, barEl) {
   video.currentTime = pct * video.duration;
 }
 
-/* ربط أحداث الفيديو يدوياً (بدون تشغيل تلقائي) */
 function setupVideoControls() {
   document.querySelectorAll('.card-media').forEach(el => {
     if (el.dataset.vcBound) return;
     if (el.tagName !== 'VIDEO') {
-      // الصورة: نضيف عدّاد المشاهدة عند أول عرض
       if (!el.dataset.imgObserved) {
         el.dataset.imgObserved = '1';
         const card = el.closest('.card');
@@ -2105,12 +2205,24 @@ function setupVideoControls() {
     el.addEventListener('loadeddata', () => el.classList.add('loaded'));
     if (el.readyState >= 2) el.classList.add('loaded');
 
-    // ضغط على الفيديو نفسه = تشغيل/إيقاف
     el.addEventListener('click', () => {
       const card = el.closest('.card');
       const pb = card ? card.querySelector('.play-big') : null;
-      if (el.paused) { el.play().catch(() => {}); if (pb) pb.style.display = 'none'; }
-      else { el.pause(); if (pb) pb.style.display = 'flex'; }
+      if (el.paused) {
+        document.querySelectorAll('.card-media').forEach(v => {
+          if (v !== el && v.tagName === 'VIDEO' && !v.paused) {
+            v.pause();
+            const c = v.closest('.card');
+            const p = c ? c.querySelector('.play-big') : null;
+            if (p) p.style.display = 'flex';
+          }
+        });
+        el.play().catch(() => {});
+        if (pb) pb.style.display = 'none';
+      } else {
+        el.pause();
+        if (pb) pb.style.display = 'flex';
+      }
     });
   });
 }
@@ -2128,12 +2240,12 @@ function setupBlurUp() {
   setupVideoControls();
 }
 
-// مراقبة بعد كل رندر
-const _origRenderAll = renderAll;
-renderAll = function() {
-  _origRenderAll.apply(this, arguments);
-  setTimeout(setupBlurUp, 100);
-};
+/* ============ إيقاف الفيديو عند مغادرة الصفحة ============ */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) pauseAllVideos();
+});
+
+window.addEventListener('beforeunload', pauseAllVideos);
 
 /* ============ PWA ============ */
 if ('serviceWorker' in navigator) {
