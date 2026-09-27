@@ -84,10 +84,9 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .home-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:22px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .home-tab:hover{border-color:var(--orange);color:var(--orange)}
 .home-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
-/* ✅ إزالة content-visibility لمنع الشاشة السوداء */
 .card{background:#101010;border:1px solid rgba(255,255,255,0.05);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px rgba(0,0,0,0.5)}
 .card-media-wrap{position:relative;width:100%;background:#000;overflow:hidden;min-height:200px;font-size:0;line-height:0}
-.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
 .card-media:not(.loaded){opacity:0.5}
 .card-media.loaded{opacity:1}
 .card-overlay-author{position:absolute;top:12px;right:12px;left:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:3;pointer-events:none;line-height:1.5}
@@ -123,7 +122,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reels-container{height:calc(100dvh - 64px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
 .reel-item{height:calc(100dvh - 64px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000;transform:translateZ(0)}
+.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .reel-item .reel-play-big.hidden{display:none}
 .reel-item .reel-progress{position:absolute;bottom:130px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
@@ -170,7 +169,6 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .skeleton-line{height:12px;border-radius:6px;background:#1a1a1a}
 .skeleton-line.title{width:70%;height:14px}
 .skeleton-line.desc{width:100%}
-/* ✅ Modal + منع حركة الخلفية */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
 .modal-overlay.active{display:flex}
 .modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
@@ -232,12 +230,12 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
+/* ✅ Creator Like Badge (بدون نجمة) */
 .creator-like-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,51,0.12));color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px 3px 3px;border-radius:14px;border:1px solid rgba(255,107,0,0.35);box-shadow:0 0 8px rgba(255,107,0,0.15)}
 .creator-like-badge .creator-like-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;overflow:hidden;flex-shrink:0;border:1px solid rgba(255,255,255,0.15)}
 .creator-like-badge .creator-like-avatar img{width:100%;height:100%;object-fit:cover}
 .creator-like-badge .creator-like-name{color:#fff;font-weight:800;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .creator-like-badge .creator-like-name .verified-badge{font-size:0.9em}
-.creator-like-badge .creator-star{color:var(--orange);font-size:9.5px;filter:drop-shadow(0 0 4px rgba(255,107,0,0.7))}
 .replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
 .replies-toggle-btn:hover{text-decoration:underline}
 .replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
@@ -253,7 +251,6 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .notif-text b{color:#fff}
 .notif-text .notif-type-icon{display:inline-block;margin-left:4px}
 .notif-time{font-size:10px;color:var(--muted);margin-top:4px}
-/* ✅ منع التمرير بالخلفية */
 body.modal-open{overflow:hidden!important;position:fixed;width:100%}
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
@@ -530,6 +527,7 @@ let likedComments = new Set();
 let savedPostIds = new Set();
 let notifPollTimer = null;
 let homeVideoObserver = null;
+let reelsObserver = null;
 let activeVideo = null;
 let savedScrollY = 0;
 
@@ -549,7 +547,6 @@ function showToast(msg, isError = false) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-/* ============ منع حركة الخلفية عند فتح Modal ============ */
 function lockBodyScroll() {
   if (document.body.classList.contains('modal-open')) return;
   savedScrollY = window.scrollY || window.pageYOffset || 0;
@@ -563,10 +560,7 @@ function unlockBodyScroll() {
   window.scrollTo(0, savedScrollY);
 }
 
-function openModal(id) {
-  $(id).classList.add('active');
-  lockBodyScroll();
-}
+function openModal(id) { $(id).classList.add('active'); lockBodyScroll(); }
 function closeModal(id, force = false) {
   const m = $(id);
   if (!force) {
@@ -578,7 +572,6 @@ function closeModal(id, force = false) {
     if (id === 'broadcastModal' && $('broadcastSendBtn').disabled) return;
   }
   m.classList.remove('active');
-  // إذا ما بقى modal مفتوح، نفتح السكرول
   setTimeout(() => {
     const anyOpen = document.querySelector('.modal-overlay.active');
     if (!anyOpen) unlockBodyScroll();
@@ -1088,7 +1081,7 @@ async function toggleCommentLike(commentId, btn) {
         });
         if (comment.user_id && comment.user_id !== currentUser.$id) {
           const notifType = amCreator ? 'creator_like' : 'comment_like';
-          const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك ⭐' : 'أعجب بتعليقك';
+          const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك' : 'أعجب بتعليقك';
           await createNotification(comment.user_id, notifType, notifContent, comment.video_id);
         }
       }
@@ -1554,7 +1547,7 @@ function cardHTML(v) {
 
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
-    : `<video class="card-media" src="${url}" loop playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
+    : `<video class="card-media" src="${url}" loop playsinline preload="auto" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
 
   return `
     <div class="card" data-row-id="${v.$id}">
@@ -1630,7 +1623,7 @@ function renderReels(rows) {
     const verified = verifiedBadgeHTML(v.author_id);
     return `
       <div class="reel-item" data-reel-id="${v.$id}">
-        <video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.$id}')"></video>
+        <video src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.$id}')"></video>
         <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
         <div class="reel-progress"><div class="reel-progress-fill"></div></div>
         <div class="reel-actions">
@@ -1658,6 +1651,7 @@ function renderReels(rows) {
       </div>`;
   }).join('');
   setTimeout(setupReelsControls, 100);
+  setTimeout(setupReelsObserver, 150);
 }
 
 function setupReelsControls() {
@@ -1673,7 +1667,39 @@ function setupReelsControls() {
       const btn = item.querySelector('.reel-play-big');
       if (btn) toggleReelPlay(btn);
     });
+    video.addEventListener('play', () => {
+      const btn = item.querySelector('.reel-play-big');
+      if (btn) btn.classList.add('hidden');
+      activeVideo = video;
+    });
+    video.addEventListener('pause', () => {
+      const btn = item.querySelector('.reel-play-big');
+      if (btn) btn.classList.remove('hidden');
+      if (activeVideo === video) activeVideo = null;
+    });
   });
+}
+
+/* ✅ Observer جديد: يوقف الريل تلقائياً عند الخروج من الشاشة */
+function setupReelsObserver() {
+  if (reelsObserver) reelsObserver.disconnect();
+  reelsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const item = entry.target;
+      const video = item.querySelector('video');
+      const btn = item.querySelector('.reel-play-big');
+      if (!video) return;
+      // إذا خرج العنصر عن الشاشة (أقل من 50% مرئي) → أوقف الفيديو
+      if (entry.intersectionRatio < 0.5) {
+        if (!video.paused) {
+          video.pause();
+          if (btn) btn.classList.remove('hidden');
+        }
+        try { video.currentTime = 0; } catch(e) {}
+      }
+    });
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  document.querySelectorAll('.reel-item').forEach(el => reelsObserver.observe(el));
 }
 
 function toggleReelPlay(btn) {
@@ -1689,7 +1715,8 @@ function toggleReelPlay(btn) {
       }
     });
     video.muted = false;
-    video.play().catch(() => {});
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
     btn.classList.add('hidden');
     activeVideo = video;
   } else {
@@ -1896,7 +1923,6 @@ async function toggleLike(videoId, btn) {
   cardRow.likes_count = newCount;
   saveLikesLocal();
 
-  // تحديث فوري على كل الأزرار بنفس الـ ID (في الرئيسية والريلزات والصورة)
   document.querySelectorAll(`[data-like-id="${videoId}"]`).forEach(b => {
     const icon = b.querySelector('i');
     const span = b.querySelector('span');
@@ -1995,7 +2021,7 @@ function toggleReplies(commentId, btn) {
   }
 }
 
-/* ============ Creator Like Badge (اسم + صورة + توثيق) ============ */
+/* ============ Creator Like Badge (بدون نجمة) ============ */
 function getCreatorLikeBadgeHTML(c) {
   const cName = c.creator_name || '';
   const cAvatar = c.creator_avatar || '';
@@ -2006,7 +2032,6 @@ function getCreatorLikeBadgeHTML(c) {
   return `<span class="creator-like-badge">
     <span class="creator-like-avatar">${avatar}</span>
     <span class="creator-like-name">${esc(cName)}${verified}</span>
-    <i class="fa-solid fa-star creator-star"></i>
   </span>`;
 }
 
@@ -2171,7 +2196,13 @@ function togglePlayPauseCard(btn) {
       }
     });
     video.muted = false;
-    video.play().catch(() => {});
+    // ✅ حل مشكلة الشاشة السوداء على الحاسوب
+    video.style.visibility = 'hidden';
+    requestAnimationFrame(() => {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+      video.style.visibility = 'visible';
+    });
     btn.style.display = 'none';
     activeVideo = video;
   } else {
@@ -2192,7 +2223,7 @@ function seekVideo(e, barEl) {
   video.currentTime = pct * video.duration;
 }
 
-/* ============ Home Video Auto-Stop Observer ============ */
+/* ============ Observer للرئيسية: يوقف الفيديو عند الخروج ============ */
 function setupHomeObserver() {
   if (homeVideoObserver) homeVideoObserver.disconnect();
   homeVideoObserver = new IntersectionObserver((entries) => {
@@ -2243,13 +2274,10 @@ function setupVideoControls() {
       const pb = card ? card.querySelector('.play-big') : null;
       if (pb) pb.style.display = 'none';
       activeVideo = el;
-      // ✅ عند البدء، نطلب من المتصفح يرسم الفيديو (حل الشاشة السوداء)
+      // ✅ حل الشاشة السوداء - إعادة رسم الفيديو
       try {
-        // ضرب خفيف لإعادة رسم الفيديو على الحاسوب
         el.style.willChange = 'transform';
-        requestAnimationFrame(() => {
-          el.style.transform = 'translateZ(0)';
-        });
+        el.style.transform = 'translate3d(0,0,0)';
       } catch(e) {}
     });
     el.addEventListener('pause', () => {
@@ -2265,8 +2293,12 @@ function setupVideoControls() {
     });
     el.addEventListener('loadeddata', () => el.classList.add('loaded'));
     el.addEventListener('waiting', () => {
-      // حل إضافي للشاشة السوداء على الحاسوب
-      try { el.style.opacity = '0.99'; requestAnimationFrame(() => el.style.opacity = '1'); } catch(e) {}
+      // ✅ حل إضافي للشاشة السوداء
+      try {
+        el.style.opacity = '0.99';
+        requestAnimationFrame(() => el.style.opacity = '1');
+        el.style.transform = 'translate3d(0,0,0)';
+      } catch(e) {}
     });
     if (el.readyState >= 2) el.classList.add('loaded');
 
@@ -2283,7 +2315,12 @@ function setupVideoControls() {
           }
         });
         el.muted = false;
-        el.play().catch(() => {});
+        el.style.visibility = 'hidden';
+        requestAnimationFrame(() => {
+          const p = el.play();
+          if (p && p.catch) p.catch(() => {});
+          el.style.visibility = 'visible';
+        });
         if (pb) pb.style.display = 'none';
       } else {
         el.pause();
@@ -2307,14 +2344,12 @@ function setupBlurUp() {
   setupVideoControls();
 }
 
-/* ============ إيقاف الفيديو عند مغادرة الصفحة ============ */
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) pauseAllVideos();
 });
 
 window.addEventListener('beforeunload', pauseAllVideos);
 
-/* ============ PWA ============ */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
