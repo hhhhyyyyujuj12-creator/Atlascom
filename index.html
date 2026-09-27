@@ -41,7 +41,6 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .header-icon-btn .notif-count{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #000}
 .header-icon-btn .notif-count.hidden{display:none}
 .publish-btn-top{background:var(--orange);color:#000;border:none;height:40px;padding:0 16px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-weight:900;font-size:13px;cursor:pointer;flex-shrink:0}
-.publish-btn-top:active{transform:scale(0.96)}
 .user-chip{display:none;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--border);padding:5px 10px 5px 5px;border-radius:22px;cursor:pointer;flex-shrink:0}
 .user-chip:hover{border-color:var(--orange)}
 .user-chip.active{display:flex}
@@ -96,10 +95,8 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .card-author-chip .card-author-name{color:#fff;font-size:12px;font-weight:700}
 .overlay-btns{display:flex;gap:6px;pointer-events:auto}
 .mute-btn,.save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.mute-btn:active,.save-btn:active{transform:scale(0.95)}
 .save-btn.saved{color:var(--orange);background:rgba(255,107,0,0.2)}
-.play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;z-index:2;pointer-events:none}
-.play-big.show{opacity:1;visibility:visible;pointer-events:auto}
+.play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:auto}
 .progress-bar-overlay{position:absolute;bottom:0;left:0;right:0;height:22px;display:flex;align-items:flex-end;padding:0 0 8px 0;z-index:3;cursor:pointer;pointer-events:auto}
 .progress-track{width:100%;height:3px;background:rgba(255,255,255,0.25);border-radius:3px;overflow:hidden;margin:0 12px}
 .progress-fill-v{height:100%;width:0%;background:var(--orange);border-radius:3px}
@@ -215,12 +212,12 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .comment-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border);margin-bottom:12px}
 .comment-item{padding:10px 12px;background:#0a0a0a;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
-.comment-item.reply{margin-right:20px;background:#080808}
+.comment-item.reply{margin-right:20px;background:#080808;margin-top:6px}
 .comment-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .comment-item-head b{font-size:12px;color:var(--orange);display:flex;align-items:center;gap:4px}
 .comment-item-head span{font-size:10px;color:var(--muted);margin-right:auto}
 .comment-item-body{font-size:13px;color:#ddd;line-height:1.5;word-break:break-word}
-.comment-actions{display:flex;gap:12px;margin-top:6px;font-size:11px}
+.comment-actions{display:flex;gap:12px;margin-top:6px;font-size:11px;align-items:center;flex-wrap:wrap}
 .comment-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 6px;border-radius:6px}
 .comment-actions button:hover{color:var(--orange)}
 .comment-actions button.liked{color:var(--danger)}
@@ -229,6 +226,15 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
+/* Creator-like badge */
+.creator-like-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,107,0,0.15);color:var(--orange);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:8px;margin-right:6px;border:1px solid rgba(255,107,0,0.3)}
+.creator-like-badge i{font-size:10px}
+/* Replies toggle */
+.replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
+.replies-toggle-btn:hover{text-decoration:underline}
+.replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
+.replies-container.show{display:block}
+/* Notif list */
 .notif-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border)}
 .notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .notif-item.unread{background:rgba(255,107,0,0.06);border-color:rgba(255,107,0,0.3)}
@@ -468,7 +474,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('broadcastModal')"><i class="fa-solid fa-xmark"></i></button>
     <h2><i class="fa-solid fa-tower-broadcast"></i> بث جماعي</h2>
-    <p class="modal-sub">الرسالة ستُرسل لجميع المستخدمين.</p>
+    <p class="modal-sub">الرسالة ستُرسل لجميع المستخدمين باسمك وصورتك.</p>
     <textarea id="broadcastText" class="input-field" rows="4" maxlength="300" placeholder="اكتب رسالتك..."></textarea>
     <button class="btn btn-primary" id="broadcastSendBtn" onclick="sendBroadcast()"><i class="fa-solid fa-paper-plane"></i> إرسال للجميع</button>
   </div>
@@ -496,7 +502,7 @@ const ADMIN_USERNAMES = ['atlas'];
 const $ = id => document.getElementById(id);
 const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile');
 const progressWrap = $('progressWrap'), progressFill = $('progressFill'), progressPct = $('progressPct'), progressStat = $('progressStatus');
-const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images');
+const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images'), gridSaved = $('grid-saved');
 const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 
 let currentUser = null;
@@ -505,6 +511,7 @@ let currentSection = 'home', searchQuery = '';
 let currentFile = null, currentFileType = null, avatarFile = null, editAvatarFile = null;
 let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null;
+let currentCommentsVideoOwnerId = null;
 let homeFilter = 'all';
 let followingIds = new Set();
 let likedVideos = new Set();
@@ -512,8 +519,6 @@ let viewedVideos = new Set();
 let likedComments = new Set();
 let savedPostIds = new Set();
 let userInteracted = false;
-let videoObserver = null;
-let currentPlayingVideo = null;
 let notifPollTimer = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
@@ -564,7 +569,6 @@ function acceptWarning() {
   localStorage.setItem('atlas_warn', '1');
   $('warningOverlay').classList.remove('active');
   userInteracted = true;
-  document.querySelectorAll('.autoplay-video').forEach(v => { v.muted = false; v.play().catch(() => {}); });
 }
 
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
@@ -592,7 +596,6 @@ function saveSession(u) { try { localStorage.setItem('atlas_me', JSON.stringify(
 function loadSession() { try { return JSON.parse(localStorage.getItem('atlas_me') || 'null'); } catch(e) { return null; } }
 function clearSession() { try { localStorage.removeItem('atlas_me'); } catch(e){} }
 
-/* ============ Shuffle ============ */
 function shuffleArray(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -770,16 +773,18 @@ function renderNotifications() {
     else if (n.type === 'comment') icon = 'fa-comment';
     else if (n.type === 'reply') icon = 'fa-reply';
     else if (n.type === 'comment_like') icon = 'fa-heart';
+    else if (n.type === 'creator_like') icon = 'fa-star';
     else if (n.type === 'follow') icon = 'fa-user-plus';
     else if (n.type === 'verify') icon = 'fa-circle-check';
     else if (n.type === 'broadcast') icon = 'fa-tower-broadcast';
     const timeAgo = timeAgoFrom(n.$createdAt);
+    const verifiedSender = n.sender_id ? verifiedBadgeHTML(n.sender_id) : '';
     return `
       <div class="notif-item ${n.is_read ? '' : 'unread'} ${n.is_broadcast ? 'broadcast' : ''}" onclick="markNotifRead('${n.$id}')">
-        <div class="notif-avatar">${n.is_broadcast ? '<i class="fa-solid fa-tower-broadcast" style="font-size:16px;color:#1d9bf0;"></i>' : avatar}</div>
+        <div class="notif-avatar">${n.is_broadcast && !n.sender_avatar ? '<i class="fa-solid fa-tower-broadcast" style="font-size:16px;color:#1d9bf0;"></i>' : avatar}</div>
         <div class="notif-body">
           <div class="notif-text">
-            <b>${esc(n.sender_name || 'النظام')}</b>
+            <b>${esc(n.sender_name || 'النظام')}${verifiedSender}</b>
             <i class="fa-solid ${icon} notif-type-icon" style="color:var(--orange);margin-right:4px;"></i>
             ${esc(n.content || '')}
           </div>
@@ -854,6 +859,8 @@ async function sendBroadcast() {
     const usersRes = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows`, { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } });
     const uData = await usersRes.json();
     const users = uData.rows || [];
+    const senderName = currentUser.display_name || currentUser.username;
+    const senderAvatar = currentUser.avatar_url || '';
     let sent = 0;
     for (const u of users) {
       try {
@@ -866,8 +873,8 @@ async function sendBroadcast() {
             data: {
               recipient_id: u.user_id,
               sender_id: currentUser.$id,
-              sender_name: currentUser.display_name || currentUser.username,
-              sender_avatar: currentUser.avatar_url || '',
+              sender_name: senderName,
+              sender_avatar: senderAvatar,
               type: 'broadcast',
               content: text,
               target_id: '',
@@ -947,8 +954,7 @@ function renderSaved() {
     return;
   }
   box.innerHTML = saved.map(cardHTML).join('');
-  setTimeout(setupAutoPlayVideos, 100);
-  setTimeout(setupBlurUp, 150);
+  setTimeout(setupBlurUp, 100);
 }
 
 /* ============ Comment Likes ============ */
@@ -983,7 +989,13 @@ async function toggleCommentLike(commentId, btn) {
       if (comment) {
         const nc = Math.max(0, (comment.likes_count || 0) - 1);
         comment.likes_count = nc;
-        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
+        // إذا كان صاحب الفيديو هو من أزال إعجابه → أزل creator_liked
+        if (currentCommentsVideoOwnerId === currentUser.$id) {
+          comment.creator_liked = false;
+          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc, creator_liked: false } }) });
+        } else {
+          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
+        }
       }
     } else {
       await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows`, {
@@ -996,9 +1008,17 @@ async function toggleCommentLike(commentId, btn) {
       if (comment) {
         const nc = (comment.likes_count || 0) + 1;
         comment.likes_count = nc;
-        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
+        // إذا كان صاحب الفيديو هو من أعطى إعجاب → علّم creator_liked
+        if (currentCommentsVideoOwnerId === currentUser.$id) {
+          comment.creator_liked = true;
+          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc, creator_liked: true } }) });
+        } else {
+          await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`, { method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: nc } }) });
+        }
         if (comment.user_id && comment.user_id !== currentUser.$id) {
-          await createNotification(comment.user_id, 'comment_like', 'أعجب بتعليقك', comment.video_id);
+          const notifType = currentCommentsVideoOwnerId === currentUser.$id ? 'creator_like' : 'comment_like';
+          const notifContent = currentCommentsVideoOwnerId === currentUser.$id ? 'صاحب المنشور أعجب بتعليقك ⭐' : 'أعجب بتعليقك';
+          await createNotification(comment.user_id, notifType, notifContent, comment.video_id);
         }
       }
     }
@@ -1376,7 +1396,6 @@ async function loadContent() {
     allRows = shuffleArray(data.rows || []);
     renderAll();
     setTimeout(setupBlurUp, 100);
-    setTimeout(setupAutoPlayVideos, 150);
   } catch (err) { console.error(err); showErrorAll(err.message); }
 }
 
@@ -1390,12 +1409,12 @@ function setLoadingAll() {
       </div>
     </div>
   `).join('');
-  gridHome.innerHTML = h; gridImages.innerHTML = h; reelsBox.innerHTML = h;
+  gridHome.innerHTML = h; gridImages.innerHTML = h; if (gridSaved) gridSaved.innerHTML = h;
 }
 
 function showErrorAll(msg) {
   const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`;
-  gridHome.innerHTML = h; gridImages.innerHTML = h; reelsBox.innerHTML = h;
+  gridHome.innerHTML = h; gridImages.innerHTML = h;
 }
 
 function getMediaType(r) {
@@ -1463,10 +1482,10 @@ function cardHTML(v) {
 
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
-    : `<video class="card-media autoplay-video" src="${url}" loop muted playsinline preload="none" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
+    : `<video class="card-media" src="${url}" loop muted playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
 
   return `
-    <div class="card">
+    <div class="card" data-row-id="${v.$id}">
       <div class="card-media-wrap">
         ${media}
         <div class="card-overlay-author">
@@ -1497,7 +1516,7 @@ function cardHTML(v) {
               <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
               <span>${likesCount}</span>
             </button>
-            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}')">
+            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id || ''}')">
               <i class="fa-solid fa-comment"></i>
               <span>تعليقات</span>
             </button>
@@ -1513,13 +1532,13 @@ function cardHTML(v) {
 }
 
 function renderGrid(container, rows) {
+  if (!container) return;
   if (!rows.length) {
     const msg = searchQuery ? 'لا نتائج' : 'لا يوجد محتوى';
     container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>${msg}</p><span>${searchQuery ? 'جرّب كلمات أخرى' : 'اضغط "نشر" بالأعلى'}</span></div>`;
     return;
   }
   container.innerHTML = rows.map(cardHTML).join('');
-  setTimeout(setupAutoPlayVideos, 100);
   setTimeout(setupBlurUp, 150);
 }
 
@@ -1556,7 +1575,7 @@ function renderReels(rows) {
               <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
               <span>${v.likes_count || 0}</span>
             </button>
-            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
+            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id || ''}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
               <i class="fa-solid fa-comment"></i>
               <span>تعليقات</span>
             </button>
@@ -1620,8 +1639,7 @@ async function viewProfile(userId) {
   const grid = $('profileGrid');
   if (!userVideos.length) grid.innerHTML = `<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`;
   else grid.innerHTML = userVideos.map(cardHTML).join('');
-  setTimeout(setupBlurUp, 100);
-  setTimeout(setupAutoPlayVideos, 150);
+  setTimeout(setupBlurUp, 150);
 }
 
 async function showFollowers(userId, handle) {
@@ -1760,11 +1778,23 @@ async function toggleLike(videoId, btn) {
   else { likedVideos.add(videoId); newCount++; }
   cardRow.likes_count = newCount;
   saveLikesLocal();
-  const icon = btn.querySelector('i');
-  const span = btn.querySelector('span');
-  if (isLiked) { btn.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; }
-  else { btn.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; }
-  if (span) span.textContent = newCount;
+
+  // تحديث فوري على كل البطاقات بنفس الـ ID
+  document.querySelectorAll(`.card[data-row-id="${videoId}"] .icon-btn[onclick*="toggleLike"]`).forEach(b => {
+    const icon = b.querySelector('i');
+    const span = b.querySelector('span');
+    if (isLiked) { b.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; }
+    else { b.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; }
+    if (span) span.textContent = newCount;
+  });
+  if (btn) {
+    const icon = btn.querySelector('i');
+    const span = btn.querySelector('span');
+    if (isLiked) { btn.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; }
+    else { btn.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; }
+    if (span) span.textContent = newCount;
+  }
+
   try {
     await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`, {
       method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { likes_count: newCount } })
@@ -1783,6 +1813,10 @@ async function markViewed(videoId) {
   if (!row) return;
   const newCount = (row.views_count || 0) + 1;
   row.views_count = newCount;
+  // تحديث فوري على كل البطاقات
+  document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el => {
+    if (el.textContent.includes('👁') || el.querySelector('.fa-eye')) el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newCount}`;
+  });
   try {
     await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`, {
       method: 'PATCH', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ data: { views_count: newCount } })
@@ -1791,8 +1825,9 @@ async function markViewed(videoId) {
 }
 
 /* ============ Comments ============ */
-function openComments(videoId, title) {
+function openComments(videoId, title, ownerId) {
   currentCommentsVideoId = videoId;
+  currentCommentsVideoOwnerId = ownerId || null;
   $('commentsTitle').textContent = title ? `على: ${title}` : '—';
   openModal('commentsModal');
   loadComments(videoId);
@@ -1826,11 +1861,27 @@ async function loadComments(videoId) {
     }
     list.innerHTML = parents.map(p => {
       const childs = replies.filter(r => r.parent_id === p.$id).sort((a,b) => new Date(a.$createdAt) - new Date(b.$createdAt));
-      return renderCommentItem(p) + childs.map(r => renderCommentItem(r, true)).join('');
+      const repliesHTML = childs.length
+        ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.$id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button>
+           <div class="replies-container" id="replies-${p.$id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>`
+        : '';
+      return renderCommentItem(p) + repliesHTML;
     }).join('');
   } catch (err) {
     console.error(err);
     list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p></div>`;
+  }
+}
+
+function toggleReplies(commentId, btn) {
+  const el = $('replies-' + commentId);
+  if (!el) return;
+  const isShown = el.classList.toggle('show');
+  const icon = btn.querySelector('i');
+  if (isShown) {
+    btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${el.children.length})`;
+  } else {
+    btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${el.children.length})`;
   }
 }
 
@@ -1841,6 +1892,7 @@ function renderCommentItem(c, isReply = false) {
   const initial = (c.author_name || 'ز').charAt(0).toUpperCase();
   const avatar = c.author_avatar ? `<img src="${esc(c.author_avatar)}" alt="">` : esc(initial);
   const likeCount = c.likes_count || 0;
+  const creatorBadge = c.creator_liked ? `<span class="creator-like-badge"><i class="fa-solid fa-star"></i> أعجب المنشئ</span>` : '';
   return `
     <div class="comment-item ${isReply ? 'reply' : ''}">
       <div class="comment-item-head">
@@ -1851,6 +1903,7 @@ function renderCommentItem(c, isReply = false) {
       </div>
       <div class="comment-item-body">${esc(c.content)}</div>
       <div class="comment-actions">
+        ${creatorBadge}
         <button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.$id}', this)">
           <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> ${likeCount}
         </button>
@@ -1892,7 +1945,8 @@ async function submitReply(parentId) {
           content: content,
           is_deleted: false,
           parent_id: parentId,
-          likes_count: 0
+          likes_count: 0,
+          creator_liked: false
         },
         permissions: ['read("any")', 'update("any")']
       })
@@ -1930,7 +1984,8 @@ async function addComment() {
           content: content,
           is_deleted: false,
           parent_id: '',
-          likes_count: 0
+          likes_count: 0,
+          creator_liked: false
         },
         permissions: ['read("any")', 'update("any")']
       })
@@ -1971,69 +2026,24 @@ function applySearch() {
   searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 200);
 }
 
-/* ============ Autoplay ============ */
-['click','touchstart','keydown'].forEach(ev => {
-  document.addEventListener(ev, () => { userInteracted = true; }, { once: true, passive: true });
-});
-
-function initVideoObserver() {
-  if (videoObserver) return;
-  videoObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target;
-      if (entry.intersectionRatio >= 0.6) {
-        if (currentPlayingVideo && currentPlayingVideo !== video) {
-          try { currentPlayingVideo.pause(); } catch(e) {}
-        }
-        currentPlayingVideo = video;
-        video.muted = !userInteracted;
-        video.play().catch(() => {});
-        const card = video.closest('.card');
-        const pb = card ? card.querySelector('.play-big') : null;
-        if (pb) pb.classList.remove('show');
-      } else if (entry.intersectionRatio < 0.3) {
-        video.pause();
-        if (currentPlayingVideo === video) currentPlayingVideo = null;
-      }
-    });
-  }, { threshold: [0, 0.3, 0.6], rootMargin: '100px 0px' });
-}
-
-function setupAutoPlayVideos() {
-  initVideoObserver();
-  document.querySelectorAll('.autoplay-video').forEach(v => {
-    if (v.dataset.observed) return;
-    v.dataset.observed = '1';
-    videoObserver.observe(v);
-    v.addEventListener('click', () => {
-      const card = v.closest('.card');
-      const pb = card ? card.querySelector('.play-big') : null;
-      if (v.paused) { v.play().catch(() => {}); if (pb) pb.classList.remove('show'); }
-      else { v.pause(); if (pb) pb.classList.add('show'); }
-    });
-    v.addEventListener('timeupdate', () => {
-      const card = v.closest('.card');
-      const fill = card ? card.querySelector('.progress-fill-v') : null;
-      if (fill && v.duration) fill.style.width = ((v.currentTime / v.duration) * 100) + '%';
-    });
-    v.addEventListener('pause', () => { const c = v.closest('.card'); const pb = c ? c.querySelector('.play-big') : null; if (pb) pb.classList.add('show'); });
-    v.addEventListener('play', () => { const c = v.closest('.card'); const pb = c ? c.querySelector('.play-big') : null; if (pb) pb.classList.remove('show'); });
-    v.addEventListener('loadeddata', () => v.classList.add('loaded'));
-    if (v.readyState >= 2) v.classList.add('loaded');
-  });
-}
-
+/* ============ Video Controls (يدوي فقط - بدون تشغيل تلقائي) ============ */
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card');
-  const video = card ? card.querySelector('.autoplay-video') : null;
-  if (!video) return;
-  if (video.paused) video.play().catch(() => {}); else video.pause();
+  const video = card ? card.querySelector('.card-media') : null;
+  if (!video || video.tagName !== 'VIDEO') return;
+  if (video.paused) {
+    video.play().catch(() => {});
+    btn.style.display = 'none';
+  } else {
+    video.pause();
+    btn.style.display = 'flex';
+  }
 }
 
 function toggleMute(btn) {
   const card = btn.closest('.card');
-  const video = card ? card.querySelector('.autoplay-video') : null;
-  if (!video) return;
+  const video = card ? card.querySelector('.card-media') : null;
+  if (!video || video.tagName !== 'VIDEO') return;
   video.muted = !video.muted;
   const icon = btn.querySelector('i');
   if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
@@ -2042,12 +2052,67 @@ function toggleMute(btn) {
 function seekVideo(e, barEl) {
   e.stopPropagation();
   const card = barEl.closest('.card');
-  const video = card ? card.querySelector('.autoplay-video') : null;
-  if (!video || !video.duration) return;
+  const video = card ? card.querySelector('.card-media') : null;
+  if (!video || video.tagName !== 'VIDEO' || !video.duration) return;
   const rect = barEl.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const pct = Math.max(0, Math.min(1, x / rect.width));
   video.currentTime = pct * video.duration;
+}
+
+/* ربط أحداث الفيديو يدوياً (بدون تشغيل تلقائي) */
+function setupVideoControls() {
+  document.querySelectorAll('.card-media').forEach(el => {
+    if (el.dataset.vcBound) return;
+    if (el.tagName !== 'VIDEO') {
+      // الصورة: نضيف عدّاد المشاهدة عند أول عرض
+      if (!el.dataset.imgObserved) {
+        el.dataset.imgObserved = '1';
+        const card = el.closest('.card');
+        const vid = card ? card.getAttribute('data-row-id') : null;
+        if (vid && typeof IntersectionObserver !== 'undefined') {
+          const obs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                markViewed(vid);
+                obs.disconnect();
+              }
+            });
+          }, { threshold: 0.5 });
+          obs.observe(el);
+        }
+      }
+      return;
+    }
+    el.dataset.vcBound = '1';
+    el.muted = true;
+
+    el.addEventListener('play', () => {
+      const card = el.closest('.card');
+      const pb = card ? card.querySelector('.play-big') : null;
+      if (pb) pb.style.display = 'none';
+    });
+    el.addEventListener('pause', () => {
+      const card = el.closest('.card');
+      const pb = card ? card.querySelector('.play-big') : null;
+      if (pb) pb.style.display = 'flex';
+    });
+    el.addEventListener('timeupdate', () => {
+      const card = el.closest('.card');
+      const fill = card ? card.querySelector('.progress-fill-v') : null;
+      if (fill && el.duration) fill.style.width = ((el.currentTime / el.duration) * 100) + '%';
+    });
+    el.addEventListener('loadeddata', () => el.classList.add('loaded'));
+    if (el.readyState >= 2) el.classList.add('loaded');
+
+    // ضغط على الفيديو نفسه = تشغيل/إيقاف
+    el.addEventListener('click', () => {
+      const card = el.closest('.card');
+      const pb = card ? card.querySelector('.play-big') : null;
+      if (el.paused) { el.play().catch(() => {}); if (pb) pb.style.display = 'none'; }
+      else { el.pause(); if (pb) pb.style.display = 'flex'; }
+    });
+  });
 }
 
 function setupBlurUp() {
@@ -2055,12 +2120,20 @@ function setupBlurUp() {
     if (el.tagName === 'IMG') {
       if (el.complete && el.naturalHeight !== 0) el.classList.add('loaded');
       else el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
-    } else {
+    } else if (el.tagName === 'VIDEO') {
       if (el.readyState >= 2) el.classList.add('loaded');
       else el.addEventListener('loadeddata', () => el.classList.add('loaded'), { once: true });
     }
   });
+  setupVideoControls();
 }
+
+// مراقبة بعد كل رندر
+const _origRenderAll = renderAll;
+renderAll = function() {
+  _origRenderAll.apply(this, arguments);
+  setTimeout(setupBlurUp, 100);
+};
 
 /* ============ PWA ============ */
 if ('serviceWorker' in navigator) {
