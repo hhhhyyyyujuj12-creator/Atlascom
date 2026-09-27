@@ -94,7 +94,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .card-author-chip .card-author-avatar{width:28px;height:28px;font-size:12px}
 .card-author-chip .card-author-name{color:#fff;font-size:12px;font-weight:700}
 .overlay-btns{display:flex;gap:6px;pointer-events:auto}
-.mute-btn,.save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .save-btn.saved{color:var(--orange);background:rgba(255,107,0,0.2)}
 .play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:auto}
 .progress-bar-overlay{position:absolute;bottom:0;left:0;right:0;height:22px;display:flex;align-items:flex-end;padding:0 0 8px 0;z-index:3;cursor:pointer;pointer-events:auto}
@@ -119,14 +119,13 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .verified-badge.lg{font-size:1em}
 .header-icon-btn.has-notif{border-color:var(--danger);color:var(--danger);animation:bellGlow 1.5s ease-in-out infinite}
 @keyframes bellGlow{0%,100%{box-shadow:0 0 4px rgba(255,51,85,0.4)}50%{box-shadow:0 0 16px rgba(255,51,85,0.9)}}
-/* REELS — استخدم نفس بطاقة الرئيسية */
 .reels-container{height:calc(100dvh - 64px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
 .reel-item{height:calc(100dvh - 64px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block}
 .reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .reel-item .reel-play-big.hidden{display:none}
-.reel-item .reel-progress{position:absolute;bottom:90px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
+.reel-item .reel-progress{position:absolute;bottom:130px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
 .reel-item .reel-progress-fill{height:100%;width:0%;background:var(--orange);border-radius:2px}
 .reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 60px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
 .reel-overlay .reel-author{display:flex;align-items:center;gap:8px;margin-bottom:10px;pointer-events:auto}
@@ -134,7 +133,6 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reel-overlay p{font-size:13px;color:#ddd;line-height:1.5;max-height:60px;overflow:hidden}
 .reel-actions{position:absolute;top:16px;left:16px;display:flex;gap:8px;z-index:2}
 .reel-actions .icon-btn{background:rgba(0,0,0,0.6);color:#fff;width:38px;height:38px;border-radius:50%}
-.reel-mute-btn{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:2}
 .profile-head{padding:30px 5% 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .profile-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:36px;overflow:hidden;margin-bottom:14px}
 .profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -232,8 +230,13 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
-.creator-like-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,107,0,0.15);color:var(--orange);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:8px;margin-right:6px;border:1px solid rgba(255,107,0,0.3)}
-.creator-like-badge i{font-size:10px}
+/* Creator Like Badge مع الصورة والاسم */
+.creator-like-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,51,0.12));color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px 3px 3px;border-radius:14px;border:1px solid rgba(255,107,0,0.35);box-shadow:0 0 8px rgba(255,107,0,0.15)}
+.creator-like-badge .creator-like-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;overflow:hidden;flex-shrink:0;border:1px solid rgba(255,255,255,0.15)}
+.creator-like-badge .creator-like-avatar img{width:100%;height:100%;object-fit:cover}
+.creator-like-badge .creator-like-name{color:#fff;font-weight:800;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.creator-like-badge .creator-like-name .verified-badge{font-size:0.9em}
+.creator-like-badge .creator-star{color:var(--orange);font-size:9.5px;filter:drop-shadow(0 0 4px rgba(255,107,0,0.7))}
 .replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
 .replies-toggle-btn:hover{text-decoration:underline}
 .replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
@@ -523,8 +526,8 @@ let viewedVideos = new Set();
 let likedComments = new Set();
 let savedPostIds = new Set();
 let notifPollTimer = null;
-let reelsObserver = null;
-let activeReelVideo = null;
+let homeVideoObserver = null;
+let activeVideo = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -578,7 +581,7 @@ function acceptWarning() {
 /* ============ إيقاف كل الفيديوهات ============ */
 function pauseAllVideos() {
   document.querySelectorAll('video').forEach(v => {
-    try { v.pause(); v.currentTime = v.currentTime; } catch(e) {}
+    try { if (!v.paused) v.pause(); } catch(e) {}
     const card = v.closest('.card');
     if (card) {
       const pb = card.querySelector('.play-big');
@@ -590,15 +593,13 @@ function pauseAllVideos() {
       if (pb) pb.classList.remove('hidden');
     }
   });
-  activeReelVideo = null;
+  activeVideo = null;
 }
 
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
 
 function switchSection(name, id) {
-  // إيقاف كل الفيديوهات عند التنقل
   pauseAllVideos();
-
   currentSection = name;
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   const t = $('section-' + name);
@@ -1501,7 +1502,7 @@ function cardHTML(v) {
 
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
-    : `<video class="card-media" src="${url}" loop muted playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
+    : `<video class="card-media" src="${url}" loop playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
 
   return `
     <div class="card" data-row-id="${v.$id}">
@@ -1513,7 +1514,6 @@ function cardHTML(v) {
             <div class="card-author-name">${authorName}${verified}</div>
           </div>
           <div class="overlay-btns">
-            ${mtype === 'video' ? `<button class="mute-btn" onclick="event.stopPropagation(); toggleMute(this)" title="الصوت"><i class="fa-solid fa-volume-xmark"></i></button>` : ''}
             <button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.$id}', this)" title="حفظ">
               <i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i>
             </button>
@@ -1561,7 +1561,7 @@ function renderGrid(container, rows) {
   setTimeout(setupBlurUp, 150);
 }
 
-/* ============ REELS — نفس تصميم الرئيسية لكن مع scroll-snap ============ */
+/* ============ REELS ============ */
 function renderReels(rows) {
   if (!rows.length) {
     reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>${searchQuery ? 'لا نتائج' : 'لا توجد ريلزات بعد'}</p></div>`;
@@ -1578,9 +1578,8 @@ function renderReels(rows) {
     const verified = verifiedBadgeHTML(v.author_id);
     return `
       <div class="reel-item" data-reel-id="${v.$id}">
-        <video src="${url}" loop muted playsinline preload="metadata" onplay="markViewed('${v.$id}')"></video>
+        <video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.$id}')"></video>
         <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
-        <button class="reel-mute-btn" onclick="toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button>
         <div class="reel-progress"><div class="reel-progress-fill"></div></div>
         <div class="reel-actions">
           <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
@@ -1594,7 +1593,7 @@ function renderReels(rows) {
           <h3>${title}</h3>
           ${desc ? `<p>${desc}</p>` : ''}
           <div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;">
-            <button class="icon-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
+            <button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.$id}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
               <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
               <span>${v.likes_count || 0}</span>
             </button>
@@ -1606,30 +1605,7 @@ function renderReels(rows) {
         </div>
       </div>`;
   }).join('');
-  setTimeout(setupReelsObserver, 100);
-  setTimeout(setupReelsControls, 150);
-}
-
-function setupReelsObserver() {
-  if (reelsObserver) reelsObserver.disconnect();
-  reelsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const item = entry.target;
-      const video = item.querySelector('video');
-      if (!video) return;
-      const playBtn = item.querySelector('.reel-play-big');
-      if (entry.intersectionRatio >= 0.75) {
-        // العنصر ظاهر بالكامل - نتركه كما هو (بدون تشغيل تلقائي)
-      } else {
-        // المستخدم سحب بعيد - نوقف الفيديو نهائياً
-        if (!video.paused) {
-          video.pause();
-          if (playBtn) playBtn.classList.remove('hidden');
-        }
-      }
-    });
-  }, { threshold: [0, 0.3, 0.75, 1] });
-  document.querySelectorAll('.reel-item').forEach(el => reelsObserver.observe(el));
+  setTimeout(setupReelsControls, 100);
 }
 
 function setupReelsControls() {
@@ -1641,45 +1617,27 @@ function setupReelsControls() {
     video.addEventListener('timeupdate', () => {
       if (fill && video.duration) fill.style.width = ((video.currentTime / video.duration) * 100) + '%';
     });
-    video.addEventListener('click', () => {
-      toggleReelPlayByVideo(item);
-    });
   });
-}
-
-function toggleReelPlayByVideo(item) {
-  const video = item.querySelector('video');
-  const pb = item.querySelector('.reel-play-big');
-  if (!video) return;
-  if (video.paused) {
-    // إيقاف أي فيديو ريلز آخر
-    document.querySelectorAll('.reel-item video').forEach(v => {
-      if (v !== video && !v.paused) {
-        v.pause();
-        const pb2 = v.closest('.reel-item').querySelector('.reel-play-big');
-        if (pb2) pb2.classList.remove('hidden');
-      }
-    });
-    video.play().catch(() => {});
-    if (pb) pb.classList.add('hidden');
-  } else {
-    video.pause();
-    if (pb) pb.classList.remove('hidden');
-  }
 }
 
 function toggleReelPlay(btn) {
   const item = btn.closest('.reel-item');
-  if (item) toggleReelPlayByVideo(item);
-}
-
-function toggleReelMute(btn) {
-  const item = btn.closest('.reel-item');
-  const video = item ? item.querySelector('video') : null;
+  const video = item.querySelector('video');
   if (!video) return;
-  video.muted = !video.muted;
-  const icon = btn.querySelector('i');
-  if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+  if (video.paused) {
+    document.querySelectorAll('.reel-item video').forEach(v => {
+      if (v !== video && !v.paused) {
+        v.pause();
+        const p = v.closest('.reel-item').querySelector('.reel-play-big');
+        if (p) p.classList.remove('hidden');
+      }
+    });
+    video.play().catch(() => {});
+    btn.classList.add('hidden');
+  } else {
+    video.pause();
+    btn.classList.remove('hidden');
+  }
 }
 
 /* ============ Profile ============ */
@@ -1879,7 +1837,8 @@ async function toggleLike(videoId, btn) {
   cardRow.likes_count = newCount;
   saveLikesLocal();
 
-  document.querySelectorAll(`.card[data-row-id="${videoId}"] .icon-btn[onclick*="toggleLike"]`).forEach(b => {
+  // تحديث فوري على كل الأزرار بنفس الـ ID (بما فيها الريلزات)
+  document.querySelectorAll(`[data-like-id="${videoId}"], .card[data-row-id="${videoId}"] .icon-btn[onclick*="toggleLike"]`).forEach(b => {
     const icon = b.querySelector('i');
     const span = b.querySelector('span');
     if (isLiked) { b.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; }
@@ -1917,7 +1876,6 @@ async function markViewed(videoId) {
 
 /* ============ Comments ============ */
 function openComments(videoId, title, ownerId) {
-  // إيقاف كل الفيديوهات عند فتح التعليقات
   pauseAllVideos();
   currentCommentsVideoId = videoId;
   currentCommentsVideoOwnerId = ownerId || null;
@@ -1978,6 +1936,35 @@ function toggleReplies(commentId, btn) {
   }
 }
 
+/* ============ Creator Like Badge ============ */
+function getCreatorLikeBadgeHTML() {
+  // نأخذ صاحب المنشور الحالي (من currentCommentsVideoOwnerId)
+  if (!currentCommentsVideoOwnerId) return '';
+  const creator = getUserById(currentCommentsVideoOwnerId);
+  if (!creator) {
+    // بديل: نستخدم بيانات currentUser إذا كان هو المنشئ
+    if (currentUser && currentUser.$id === currentCommentsVideoOwnerId) {
+      const initial = (currentUser.display_name || currentUser.username || '?').charAt(0).toUpperCase();
+      const avatar = currentUser.avatar_url ? `<img src="${esc(currentUser.avatar_url)}" alt="">` : initial;
+      const verified = isUserVerified(currentUser.$id) ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+      return `<span class="creator-like-badge">
+        <span class="creator-like-avatar">${avatar}</span>
+        <span class="creator-like-name">${esc(currentUser.display_name || currentUser.username)}${verified}</span>
+        <i class="fa-solid fa-star creator-star"></i>
+      </span>`;
+    }
+    return '';
+  }
+  const initial = (creator.display_name || creator.username || '?').charAt(0).toUpperCase();
+  const avatar = creator.avatar_url ? `<img src="${esc(creator.avatar_url)}" alt="">` : initial;
+  const verified = creator.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+  return `<span class="creator-like-badge">
+    <span class="creator-like-avatar">${avatar}</span>
+    <span class="creator-like-name">${esc(creator.display_name || creator.username)}${verified}</span>
+    <i class="fa-solid fa-star creator-star"></i>
+  </span>`;
+}
+
 function renderCommentItem(c, isReply = false) {
   const canDel = canDeleteComment(c);
   const isLiked = likedComments.has(c.$id);
@@ -1985,7 +1972,7 @@ function renderCommentItem(c, isReply = false) {
   const initial = (c.author_name || 'ز').charAt(0).toUpperCase();
   const avatar = c.author_avatar ? `<img src="${esc(c.author_avatar)}" alt="">` : esc(initial);
   const likeCount = c.likes_count || 0;
-  const creatorBadge = c.creator_liked ? `<span class="creator-like-badge"><i class="fa-solid fa-star"></i> أعجب المنشئ</span>` : '';
+  const creatorBadge = c.creator_liked ? getCreatorLikeBadgeHTML() : '';
   return `
     <div class="comment-item ${isReply ? 'reply' : ''}">
       <div class="comment-item-head">
@@ -2119,13 +2106,13 @@ function applySearch() {
   searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 200);
 }
 
-/* ============ تشغيل/إيقاف يدوي للفيديو (بدون تلقائي) ============ */
+/* ============ تشغيل/إيقاف يدوي للفيديو (صوت تلقائي) ============ */
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card');
   const video = card ? card.querySelector('.card-media') : null;
   if (!video || video.tagName !== 'VIDEO') return;
   if (video.paused) {
-    // إيقاف كل الفيديوهات الأخرى أولاً
+    // إيقاف كل الفيديوهات الأخرى
     document.querySelectorAll('.card-media').forEach(v => {
       if (v !== video && v.tagName === 'VIDEO' && !v.paused) {
         v.pause();
@@ -2134,21 +2121,16 @@ function togglePlayPauseCard(btn) {
         if (pb) pb.style.display = 'flex';
       }
     });
+    // ✅ الصوت يشتغل تلقائياً
+    video.muted = false;
     video.play().catch(() => {});
     btn.style.display = 'none';
+    activeVideo = video;
   } else {
     video.pause();
     btn.style.display = 'flex';
+    activeVideo = null;
   }
-}
-
-function toggleMute(btn) {
-  const card = btn.closest('.card');
-  const video = card ? card.querySelector('.card-media') : null;
-  if (!video || video.tagName !== 'VIDEO') return;
-  video.muted = !video.muted;
-  const icon = btn.querySelector('i');
-  if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
 }
 
 function seekVideo(e, barEl) {
@@ -2160,6 +2142,29 @@ function seekVideo(e, barEl) {
   const x = e.clientX - rect.left;
   const pct = Math.max(0, Math.min(1, x / rect.width));
   video.currentTime = pct * video.duration;
+}
+
+/* ============ Home Video Auto-Stop Observer ============ */
+function setupHomeObserver() {
+  if (homeVideoObserver) homeVideoObserver.disconnect();
+  homeVideoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const card = video.closest('.card');
+      const pb = card ? card.querySelector('.play-big') : null;
+      // إذا خرج الفيديو من الشاشة أثناء التشغيل → أوقفه
+      if (entry.intersectionRatio < 0.3) {
+        if (!video.paused) {
+          video.pause();
+          if (pb) pb.style.display = 'flex';
+          if (activeVideo === video) activeVideo = null;
+        }
+      }
+    });
+  }, { threshold: [0, 0.3, 0.5], rootMargin: '0px' });
+  document.querySelectorAll('.card-media').forEach(el => {
+    if (el.tagName === 'VIDEO') homeVideoObserver.observe(el);
+  });
 }
 
 function setupVideoControls() {
@@ -2185,17 +2190,18 @@ function setupVideoControls() {
       return;
     }
     el.dataset.vcBound = '1';
-    el.muted = true;
 
     el.addEventListener('play', () => {
       const card = el.closest('.card');
       const pb = card ? card.querySelector('.play-big') : null;
       if (pb) pb.style.display = 'none';
+      activeVideo = el;
     });
     el.addEventListener('pause', () => {
       const card = el.closest('.card');
       const pb = card ? card.querySelector('.play-big') : null;
       if (pb) pb.style.display = 'flex';
+      if (activeVideo === el) activeVideo = null;
     });
     el.addEventListener('timeupdate', () => {
       const card = el.closest('.card');
@@ -2217,6 +2223,7 @@ function setupVideoControls() {
             if (p) p.style.display = 'flex';
           }
         });
+        el.muted = false;
         el.play().catch(() => {});
         if (pb) pb.style.display = 'none';
       } else {
@@ -2225,6 +2232,7 @@ function setupVideoControls() {
       }
     });
   });
+  setupHomeObserver();
 }
 
 function setupBlurUp() {
