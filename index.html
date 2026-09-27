@@ -21,6 +21,7 @@
   --text: #e8e8ee;
   --muted: #6b6b78;
   --danger: #ff3355;
+  --verified: #1d9bf0;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
 html, body { background: #000; color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
@@ -61,7 +62,7 @@ header {
 .sidebar-user-info { display: flex; align-items: center; gap: 12px; }
 .sidebar-avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--orange), #ff00c8); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 18px; overflow: hidden; }
 .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.sidebar-user-name { font-size: 14px; font-weight: 800; }
+.sidebar-user-name { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
 .sidebar-user-handle { font-size: 11px; color: var(--muted); }
 .sidebar-nav { flex: 1; padding: 0 12px; }
 .sidebar-nav a { display: flex; align-items: center; gap: 14px; padding: 12px 16px; color: var(--text); text-decoration: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 4px; }
@@ -91,7 +92,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .card-author { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 6px 0; cursor: pointer; }
 .card-author-avatar { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--orange), #ff00c8); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 11px; overflow: hidden; }
 .card-author-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.card-author-name { font-size: 12px; color: #aaa; font-weight: 700; }
+.card-author-name { font-size: 12px; color: #aaa; font-weight: 700; display: flex; align-items: center; gap: 4px; }
 .card-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto; font-size: 11px; color: var(--muted); }
 .icon-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; height: 30px; min-width: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; gap: 5px; padding: 0 8px; }
 .icon-btn:hover { background: #1a1a1a; color: var(--orange); }
@@ -100,6 +101,9 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .icon-btn.liked i { color: var(--danger); }
 .actions-row { display: flex; align-items: center; gap: 6px; }
 .meta-date { font-size: 11px; color: var(--muted); }
+
+.verified-badge { color: var(--verified); font-size: 0.85em; margin-right: 2px; }
+.verified-badge.lg { font-size: 1em; }
 
 .reels-container { height: calc(100dvh - 64px); overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; background: #000; }
 .reels-container::-webkit-scrollbar { display: none; }
@@ -115,11 +119,15 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .profile-head { padding: 30px 5% 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .profile-avatar { width: 92px; height: 92px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), #ff00c8); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 36px; overflow: hidden; margin-bottom: 14px; }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.profile-name { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+.profile-name { font-size: 20px; font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; justify-content: center; }
 .profile-handle { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-.profile-actions { display: flex; gap: 10px; margin-bottom: 10px; }
+.profile-actions { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
 .profile-btn { padding: 8px 18px; border-radius: 10px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .profile-btn:hover { border-color: var(--orange); color: var(--orange); }
+.profile-btn.verify { border-color: var(--verified); color: var(--verified); }
+.profile-btn.verify:hover { background: var(--verified); color: #fff; }
+.profile-btn.unverify { border-color: var(--danger); color: var(--danger); }
+.profile-btn.unverify:hover { background: var(--danger); color: #fff; }
 .profile-stats { display: flex; gap: 26px; margin-top: 6px; padding: 12px 22px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); }
 .profile-stat { text-align: center; }
 .profile-stat b { display: block; font-size: 18px; color: var(--orange); font-weight: 900; }
@@ -185,15 +193,16 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .spinner-border { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Comments Modal Styles */
 .comment-list { max-height: 50vh; overflow-y: auto; padding: 8px; background: #050505; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 12px; }
 .comment-list::-webkit-scrollbar { width: 6px; }
 .comment-list::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
-.comment-item { padding: 10px 12px; background: #0a0a0a; border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border); }
+.comment-item { padding: 10px 12px; background: #0a0a0a; border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border); position: relative; }
 .comment-item-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.comment-item-head b { font-size: 12px; color: var(--orange); }
+.comment-item-head b { font-size: 12px; color: var(--orange); display: flex; align-items: center; gap: 4px; }
 .comment-item-head span { font-size: 10px; color: var(--muted); margin-right: auto; }
 .comment-item-body { font-size: 13px; color: #ddd; line-height: 1.5; word-break: break-word; }
+.comment-del-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; width: 26px; height: 26px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.comment-del-btn:hover { background: rgba(255,51,85,0.15); color: var(--danger); }
 
 @media (max-width: 600px) {
   header { padding: 10px 3%; gap: 7px; }
@@ -222,7 +231,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
     <div class="warning-list">
       <div><i class="fa-solid fa-circle-check"></i> الموقع <b>مجاني بالكامل</b> ومتاح للجميع.</div>
       <div><i class="fa-solid fa-circle-check"></i> النشر متاح للمسجّلين فقط.</div>
-      <div><i class="fa-solid fa-circle-check"></i> كل مستخدم يحذف فقط محتواه الخاص.</div>
+      <div><i class="fa-solid fa-circle-check"></i> كل مستخدم نشط يستطيع الحصول على علامة توثيق بمراسلة الدعم.</div>
       <div><i class="fa-solid fa-circle-exclamation"></i> قد يحتوي الموقع على محتوى حساس.</div>
       <div><i class="fa-solid fa-circle-exclamation"></i> الدخول يعني موافقتك على تحمّل المسؤولية.</div>
     </div>
@@ -357,7 +366,6 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   </div>
 </div>
 
-<!-- Comments Modal -->
 <div class="modal-overlay" id="commentsModal">
   <div class="modal-box" style="max-width:520px;">
     <button class="modal-close" onclick="closeModal('commentsModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -381,6 +389,9 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 <div class="toast" id="toast"></div>
 
 <script>
+/* ============================================================
+   إعدادات Appwrite
+   ============================================================ */
 const APPWRITE_ENDPOINT    = 'https://nyc.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT_ID  = '6ab8f4c00005f04fa0ce';
 const APPWRITE_DATABASE_ID = '6ab8f5960034f9a2e6de';
@@ -390,6 +401,13 @@ const APPWRITE_USERS_TABLE = '6ab90b900035f5dd1edb';
 const APPWRITE_COMMENTS_TABLE = '6ab95b86002048e1e68b';
 const EMAIL_DOMAIN         = 'atlasapp.io';
 
+/* ============================================================
+   🔑 المالكون (Admin) — عدّل هذه القائمة بأسماء المالكين
+   ============================================================ */
+const ADMIN_USERNAMES = ['atlas']; // ← ضع اسم المستخدم الخاص بك هنا
+
+/* ============================================================ */
+
 const $ = id => document.getElementById(id);
 const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile');
 const progressWrap = $('progressWrap'), progressFill = $('progressFill'), progressPct = $('progressPct'), progressStat = $('progressStatus');
@@ -397,21 +415,20 @@ const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('gri
 const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 
 let currentUser = null;
-let allRows = [], currentSection = 'home', searchQuery = '';
+let allRows = [], allUsers = [], currentSection = 'home', searchQuery = '';
 let currentFile = null, currentFileType = null, avatarFile = null, editAvatarFile = null;
 let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null;
 
-/* ============ Local tracking ============ */
 let likedVideos = new Set();
 let viewedVideos = new Set();
 try {
-  JSON.parse(localStorage.getItem('atlas_likes_v2') || '[]').forEach(id => likedVideos.add(id));
-  JSON.parse(localStorage.getItem('atlas_views_v2') || '[]').forEach(id => viewedVideos.add(id));
+  JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id));
+  JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id));
 } catch(e) {}
 
-function saveLikesLocal() { try { localStorage.setItem('atlas_likes_v2', JSON.stringify([...likedVideos])); } catch(e){} }
-function saveViewsLocal() { try { localStorage.setItem('atlas_views_v2', JSON.stringify([...viewedVideos])); } catch(e){} }
+function saveLikesLocal() { try { localStorage.setItem('atlas_likes', JSON.stringify([...likedVideos])); } catch(e){} }
+function saveViewsLocal() { try { localStorage.setItem('atlas_views', JSON.stringify([...viewedVideos])); } catch(e){} }
 
 /* ============================================================
    HELPERS
@@ -457,10 +474,10 @@ function switchAuthModal(id) {
 }
 
 function showWarningIfNeeded() {
-  if (!localStorage.getItem('atlas_warn_v8')) $('warningOverlay').classList.add('active');
+  if (!localStorage.getItem('atlas_warn')) $('warningOverlay').classList.add('active');
 }
 function acceptWarning() {
-  localStorage.setItem('atlas_warn_v8', '1');
+  localStorage.setItem('atlas_warn', '1');
   $('warningOverlay').classList.remove('active');
 }
 
@@ -482,11 +499,47 @@ function switchSection(name, id) {
 function goToMyProfile() { if (currentUser) switchSection('profile', currentUser.$id); }
 
 /* ============================================================
+   ADMIN CHECK
+   ============================================================ */
+function isAdmin() {
+  if (!currentUser) return false;
+  return ADMIN_USERNAMES.map(u => u.toLowerCase()).includes((currentUser.username || '').toLowerCase());
+}
+
+/* ============================================================
    SESSION
    ============================================================ */
-function saveSession(u) { try { localStorage.setItem('atlas_me_v4', JSON.stringify(u)); } catch(e){} }
-function loadSession() { try { return JSON.parse(localStorage.getItem('atlas_me_v4') || 'null'); } catch(e) { return null; } }
-function clearSession() { try { localStorage.removeItem('atlas_me_v4'); } catch(e){} }
+function saveSession(u) { try { localStorage.setItem('atlas_me', JSON.stringify(u)); } catch(e){} }
+function loadSession() { try { return JSON.parse(localStorage.getItem('atlas_me') || 'null'); } catch(e) { return null; } }
+function clearSession() { try { localStorage.removeItem('atlas_me'); } catch(e){} }
+
+/* ============================================================
+   USERS CACHE — لمعرفة من موثّق
+   ============================================================ */
+async function loadAllUsers() {
+  try {
+    const q = encodeURIComponent('limit(500)');
+    const res = await fetch(
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows?queries[]=${q}`,
+      { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
+    );
+    if (!res.ok) return;
+    const d = await res.json();
+    allUsers = d.rows || [];
+  } catch (e) { console.warn('loadAllUsers failed', e); }
+}
+
+function getUserById(userId) {
+  return allUsers.find(u => u.user_id === userId) || null;
+}
+function isUserVerified(userId) {
+  const u = getUserById(userId);
+  return u && u.is_verified === true;
+}
+function verifiedBadgeHTML(userId, size = '') {
+  if (!isUserVerified(userId)) return '';
+  return `<i class="fa-solid fa-circle-check verified-badge ${size}" title="موثّق"></i>`;
+}
 
 /* ============================================================
    SIDEBAR RENDER
@@ -501,7 +554,8 @@ function renderSidebar() {
       else el.innerHTML = esc(initial);
     };
     setAvatar($('sidebarAvatar'));
-    $('sidebarName').textContent = currentUser.display_name || currentUser.username;
+    const verified = isUserVerified(currentUser.$id) ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+    $('sidebarName').innerHTML = esc(currentUser.display_name || currentUser.username) + verified;
     $('sidebarHandle').textContent = '@' + currentUser.username;
     chip.classList.add('active');
     setAvatar($('userChipAvatar'));
@@ -523,8 +577,9 @@ function renderSidebar() {
    ============================================================ */
 async function queryUsersByField(field, value) {
   try {
+    const q = encodeURIComponent(`equal("${field}",["${value}"])`);
     const res = await fetch(
-      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows?queries[]=equal("${field}","${value}")`,
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows?queries[]=${q}`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
     );
     if (!res.ok) return [];
@@ -602,9 +657,10 @@ async function doSignup() {
             user_id: acc.$id,
             username: username,
             display_name: finalName,
-            avatar_url: avatarUrl
+            avatar_url: avatarUrl,
+            is_verified: false
           },
-          permissions: ['read("any")']
+          permissions: ['read("any")', 'update("any")']
         })
       }
     );
@@ -620,6 +676,8 @@ async function doSignup() {
       avatar_url: avatarUrl
     };
     saveSession(currentUser);
+
+    await loadAllUsers();
 
     showToast('✓ تم إنشاء الحساب');
     resetSignupForm();
@@ -673,6 +731,8 @@ async function doLogin() {
       avatar_url: userRow.avatar_url || ''
     };
     saveSession(currentUser);
+
+    await loadAllUsers();
 
     showToast('✓ تم تسجيل الدخول');
     $('loginUsername').value = '';
@@ -786,9 +846,10 @@ async function saveProfileEdit() {
               user_id: currentUser.$id,
               username: newUsername,
               display_name: newDisplayName,
-              avatar_url: avatarUrl
+              avatar_url: avatarUrl,
+              is_verified: false
             },
-            permissions: ['read("any")']
+            permissions: ['read("any")', 'update("any")']
           })
         }
       );
@@ -802,6 +863,8 @@ async function saveProfileEdit() {
     currentUser.display_name = newDisplayName;
     currentUser.avatar_url = avatarUrl;
     saveSession(currentUser);
+
+    await loadAllUsers();
 
     showToast('✓ تم حفظ التعديلات');
     closeModal('editModal', true);
@@ -1038,7 +1101,8 @@ function authorHTML(row) {
   const name = esc(row.author_name || 'مجهول');
   const avatar = row.author_avatar ? `<img src="${esc(row.author_avatar)}" alt="">` : name.charAt(0).toUpperCase();
   const clickable = row.author_id ? `onclick="switchSection('profile','${id}')"` : '';
-  return `<div class="card-author" ${clickable}><div class="card-author-avatar">${avatar}</div><div class="card-author-name">${name}</div></div>`;
+  const verified = verifiedBadgeHTML(row.author_id);
+  return `<div class="card-author" ${clickable}><div class="card-author-avatar">${avatar}</div><div class="card-author-name">${name}${verified}</div></div>`;
 }
 
 function cardHTML(v) {
@@ -1051,7 +1115,7 @@ function cardHTML(v) {
   const isLiked = likedVideos.has(v.$id);
   const likesCount = v.likes_count || 0;
   const viewsCount = v.views_count || 0;
-  const safeTitle = (v.title || '').replace(/'/g, '');
+  const safeTitle = (v.title || '').replace(/'/g, '').replace(/"/g, '');
 
   const media = mtype === 'image'
     ? `<img class="card-media cover" src="${url}" alt="${title}" loading="lazy">`
@@ -1104,7 +1168,9 @@ function renderReels(rows) {
     const authorName = esc(v.author_name || 'مجهول');
     const avatarImg = v.author_avatar ? `<img src="${esc(v.author_avatar)}" alt="">` : authorName.charAt(0).toUpperCase();
     const authorClick = v.author_id ? `onclick="switchSection('profile','${esc(v.author_id)}')"` : '';
-    const safeTitle = (v.title || '').replace(/'/g, '');
+    const safeTitle = (v.title || '').replace(/'/g, '').replace(/"/g, '');
+    const isLiked = likedVideos.has(v.$id);
+    const verified = verifiedBadgeHTML(v.author_id);
     return `
       <div class="reel-item">
         <video src="${url}" controls preload="metadata" playsinline onplay="markViewed('${v.$id}')"></video>
@@ -1115,13 +1181,13 @@ function renderReels(rows) {
         <div class="reel-overlay">
           <div class="reel-author card-author" ${authorClick}>
             <div class="card-author-avatar">${avatarImg}</div>
-            <div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}</div>
+            <div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div>
           </div>
           <h3>${title}</h3>
           ${desc ? `<p>${desc}</p>` : ''}
           <div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;">
-            <button class="icon-btn ${likedVideos.has(v.$id) ? 'liked' : ''}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;border:1px solid rgba(255,255,255,0.15);padding:6px 14px;">
-              <i class="fa-${likedVideos.has(v.$id) ? 'solid' : 'regular'} fa-heart"></i>
+            <button class="icon-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;border:1px solid rgba(255,255,255,0.15);padding:6px 14px;">
+              <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
               <span>${v.likes_count || 0}</span>
             </button>
             <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;border:1px solid rgba(255,255,255,0.15);padding:6px 14px;">
@@ -1146,11 +1212,12 @@ async function viewProfile(userId) {
   if (rows.length) profile = rows[0];
 
   if (!profile && currentUser && currentUser.$id === userId) {
-    profile = { user_id: currentUser.$id, username: currentUser.username, display_name: currentUser.display_name, avatar_url: currentUser.avatar_url };
+    profile = { user_id: currentUser.$id, username: currentUser.username, display_name: currentUser.display_name, avatar_url: currentUser.avatar_url, is_verified: false };
   }
 
   const userVideos = allRows.filter(r => r.author_id === userId);
   const isMe = currentUser && currentUser.$id === userId;
+  const amAdmin = isAdmin();
 
   if (!profile) {
     box.innerHTML = `<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">حساب غير موجود</div></div>`;
@@ -1160,13 +1227,28 @@ async function viewProfile(userId) {
   const name = esc(profile.display_name || profile.username);
   const handle = esc(profile.username);
   const avatar = profile.avatar_url ? `<img src="${esc(profile.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
+  const isVerified = profile.is_verified === true;
+  const verifiedIcon = isVerified ? '<i class="fa-solid fa-circle-check verified-badge lg" title="موثّق"></i>' : '';
+
+  // Actions
+  let actions = '';
+  if (isMe) {
+    actions += `<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل الحساب</button>`;
+  }
+  if (amAdmin && !isMe) {
+    if (isVerified) {
+      actions += `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>`;
+    } else {
+      actions += `<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> منح التوثيق</button>`;
+    }
+  }
 
   box.innerHTML = `
     <div class="profile-head">
       <div class="profile-avatar">${avatar}</div>
-      <div class="profile-name">${name}</div>
+      <div class="profile-name">${name}${verifiedIcon}</div>
       <div class="profile-handle">@${handle}</div>
-      ${isMe ? `<div class="profile-actions"><button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل الحساب</button></div>` : ''}
+      ${actions ? `<div class="profile-actions">${actions}</div>` : ''}
       <div class="profile-stats"><div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div></div>
     </div>
     <div class="grid" id="profileGrid"></div>`;
@@ -1177,7 +1259,42 @@ async function viewProfile(userId) {
 }
 
 /* ============================================================
-   DELETE
+   ADMIN — TOGGLE VERIFICATION
+   ============================================================ */
+async function toggleVerification(userId) {
+  if (!isAdmin()) return showToast('لا تملك الصلاحية', true);
+
+  const row = getUserById(userId);
+  if (!row) return showToast('المستخدم غير موجود', true);
+
+  const newValue = !(row.is_verified === true);
+
+  try {
+    const res = await fetch(
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,
+      {
+        method: 'PATCH',
+        headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ data: { is_verified: newValue } })
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'فشل التحديث');
+    }
+    row.is_verified = newValue;
+    showToast(newValue ? '✓ تم منح التوثيق' : '✓ تم إزالة التوثيق');
+    if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
+    loadContent();
+  } catch (err) {
+    console.error(err);
+    showToast(err.message || 'فشل', true);
+  }
+}
+
+/* ============================================================
+   DELETE ITEM
    ============================================================ */
 async function deleteItem(rowId, videoUrl) {
   if (!currentUser) return showToast('سجّل دخول للحذف', true);
@@ -1205,7 +1322,7 @@ async function deleteItem(rowId, videoUrl) {
 }
 
 /* ============================================================
-   LIKE SYSTEM
+   LIKES / VIEWS
    ============================================================ */
 async function toggleLike(videoId, btn) {
   if (!currentUser) { showToast('سجّل دخول للإعجاب', true); openModal('loginModal'); return; }
@@ -1226,7 +1343,6 @@ async function toggleLike(videoId, btn) {
   cardRow.likes_count = newCount;
   saveLikesLocal();
 
-  // Update UI inside this button
   const icon = btn.querySelector('i');
   const span = btn.querySelector('span');
   if (isLiked) {
@@ -1238,7 +1354,6 @@ async function toggleLike(videoId, btn) {
   }
   if (span) span.textContent = newCount;
 
-  // Sync with server
   try {
     await fetch(
       `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,
@@ -1252,9 +1367,6 @@ async function toggleLike(videoId, btn) {
   } catch (e) { console.warn('like sync failed', e); }
 }
 
-/* ============================================================
-   VIEWS SYSTEM
-   ============================================================ */
 async function markViewed(videoId) {
   if (viewedVideos.has(videoId)) return;
   viewedVideos.add(videoId);
@@ -1280,7 +1392,7 @@ async function markViewed(videoId) {
 }
 
 /* ============================================================
-   COMMENTS SYSTEM
+   COMMENTS
    ============================================================ */
 function openComments(videoId, title) {
   currentCommentsVideoId = videoId;
@@ -1297,12 +1409,25 @@ function openComments(videoId, title) {
   }
 }
 
+function canDeleteComment(comment) {
+  if (!currentUser) return false;
+  // صاحب التعليق
+  if (comment.user_id === currentUser.$id) return true;
+  // صاحب الفيديو
+  const video = allRows.find(r => r.$id === comment.video_id);
+  if (video && video.author_id === currentUser.$id) return true;
+  // المالك العام
+  if (isAdmin()) return true;
+  return false;
+}
+
 async function loadComments(videoId) {
   const list = $('commentList');
   list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
   try {
+    const q = encodeURIComponent(`equal("video_id",["${videoId}"])`);
     const res = await fetch(
-      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows?queries[]=equal("video_id","${videoId}")&queries[]=orderDesc("$createdAt")`,
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows?queries[]=${q}`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
     );
     if (!res.ok) {
@@ -1310,25 +1435,32 @@ async function loadComments(videoId) {
       throw new Error(err.message || 'فشل');
     }
     const data = await res.json();
-    const comments = data.rows || [];
+    let comments = (data.rows || []).filter(c => c.is_deleted !== true);
+
+    comments.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
 
     if (!comments.length) {
       list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p><span>كن أول من يعلّق</span></div>`;
       return;
     }
 
-    list.innerHTML = comments.map(c => `
-      <div class="comment-item">
-        <div class="comment-item-head">
-          <div class="card-author-avatar" style="width:22px;height:22px;font-size:10px;">
-            ${c.author_avatar ? `<img src="${esc(c.author_avatar)}" alt="">` : esc((c.author_name || 'ز').charAt(0).toUpperCase())}
+    list.innerHTML = comments.map(c => {
+      const canDel = canDeleteComment(c);
+      const verified = verifiedBadgeHTML(c.user_id);
+      return `
+        <div class="comment-item">
+          <div class="comment-item-head">
+            <div class="card-author-avatar" style="width:22px;height:22px;font-size:10px;">
+              ${c.author_avatar ? `<img src="${esc(c.author_avatar)}" alt="">` : esc((c.author_name || 'ز').charAt(0).toUpperCase())}
+            </div>
+            <b>${esc(c.author_name || 'زائر')}${verified}</b>
+            <span>${c.$createdAt ? new Date(c.$createdAt).toLocaleDateString('ar-EG') : ''}</span>
+            ${canDel ? `<button class="comment-del-btn" onclick="deleteComment('${c.$id}')" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
-          <b>${esc(c.author_name || 'زائر')}</b>
-          <span>${c.$createdAt ? new Date(c.$createdAt).toLocaleDateString('ar-EG') : ''}</span>
+          <div class="comment-item-body">${esc(c.content)}</div>
         </div>
-        <div class="comment-item-body">${esc(c.content)}</div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   } catch (err) {
     console.error(err);
     list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p><span>${esc(err.message || '')}</span></div>`;
@@ -1359,9 +1491,10 @@ async function addComment() {
             user_id: currentUser.$id,
             author_name: currentUser.display_name || currentUser.username,
             author_avatar: currentUser.avatar_url || '',
-            content: content
+            content: content,
+            is_deleted: false
           },
-          permissions: ['read("any")']
+          permissions: ['read("any")', 'update("any")']
         })
       }
     );
@@ -1378,6 +1511,30 @@ async function addComment() {
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> نشر التعليق';
+  }
+}
+
+async function deleteComment(commentId) {
+  if (!confirm('حذف هذا التعليق؟')) return;
+  try {
+    const res = await fetch(
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,
+      {
+        method: 'PATCH',
+        headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ data: { is_deleted: true } })
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'فشل الحذف');
+    }
+    showToast('✓ تم حذف التعليق');
+    loadComments(currentCommentsVideoId);
+  } catch (err) {
+    console.error(err);
+    showToast(err.message || 'فشل الحذف', true);
   }
 }
 
@@ -1404,8 +1561,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   showWarningIfNeeded();
   currentUser = loadSession();
   renderSidebar();
+  await loadAllUsers();
   await loadContent();
 });
 </script>
 </body>
-</html>
+  </html>
