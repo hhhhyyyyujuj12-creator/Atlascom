@@ -41,7 +41,6 @@ header {
 .search-wrap i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; pointer-events: none; }
 
 .publish-btn-top { background: var(--orange); color: #000; border: none; height: 40px; padding: 0 16px; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 13px; cursor: pointer; flex-shrink: 0; }
-.publish-btn-top:active { transform: scale(0.96); }
 
 .user-chip { display: none; align-items: center; gap: 8px; background: #0a0a0a; border: 1px solid var(--border); padding: 5px 10px 5px 5px; border-radius: 22px; cursor: pointer; flex-shrink: 0; }
 .user-chip.active { display: flex; }
@@ -71,6 +70,8 @@ header {
 .sidebar-nav a .count { margin-right: auto; background: rgba(255,107,0,0.15); color: var(--orange); font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
 .sidebar-nav a.danger { color: #ff6677; }
 .sidebar-nav a.danger:hover { background: rgba(255,51,85,0.1); color: var(--danger); }
+.sidebar-nav a.admin { color: var(--verified); }
+.sidebar-nav a.admin:hover { background: rgba(29,155,240,0.1); }
 .sidebar-footer { padding: 16px 22px 4px; border-top: 1px solid var(--border); margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.8; }
 .sidebar-footer b { color: var(--orange); font-weight: 800; }
 .sidebar-footer .brand-txt { font-size: 10px; color: #3a3a44; margin-top: 8px; letter-spacing: 1px; }
@@ -132,6 +133,20 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .profile-stat { text-align: center; }
 .profile-stat b { display: block; font-size: 18px; color: var(--orange); font-weight: 900; }
 .profile-stat span { font-size: 11px; color: var(--muted); }
+
+/* Users list for admin */
+.user-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
+.user-card-avatar { width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--orange), #ff00c8); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 20px; overflow: hidden; }
+.user-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.user-card-info { flex: 1; min-width: 0; }
+.user-card-name { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.user-card-handle { font-size: 11px; color: var(--muted); }
+.user-card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.user-action-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+.user-action-btn.verify { border-color: var(--verified); color: var(--verified); }
+.user-action-btn.verify:hover { background: var(--verified); color: #fff; }
+.user-action-btn.unverify { border-color: var(--danger); color: var(--danger); }
+.user-action-btn.unverify:hover { background: var(--danger); color: #fff; }
 
 .empty { grid-column: 1/-1; text-align: center; padding: 70px 24px; color: var(--muted); }
 .empty i { font-size: 50px; color: #1c1c1c; margin-bottom: 16px; display: block; }
@@ -218,6 +233,9 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   .modal-box { padding: 22px 18px; }
   .warning-box { padding: 24px 20px; }
   .profile-avatar { width: 78px; height: 78px; font-size: 30px; }
+  .user-card { padding: 12px; }
+  .user-card-avatar { width: 42px; height: 42px; font-size: 16px; }
+  .user-card-name { font-size: 13px; }
 }
 </style>
 </head>
@@ -231,7 +249,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
     <div class="warning-list">
       <div><i class="fa-solid fa-circle-check"></i> الموقع <b>مجاني بالكامل</b> ومتاح للجميع.</div>
       <div><i class="fa-solid fa-circle-check"></i> النشر متاح للمسجّلين فقط.</div>
-      <div><i class="fa-solid fa-circle-check"></i> كل مستخدم نشط يستطيع الحصول على علامة توثيق بمراسلة الدعم.</div>
+      <div><i class="fa-solid fa-circle-check"></i> كل مستخدم يحذف فقط محتواه الخاص.</div>
       <div><i class="fa-solid fa-circle-exclamation"></i> قد يحتوي الموقع على محتوى حساس.</div>
       <div><i class="fa-solid fa-circle-exclamation"></i> الدخول يعني موافقتك على تحمّل المسؤولية.</div>
     </div>
@@ -295,6 +313,10 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
       <div class="grid" id="grid-images"></div>
     </section>
     <section id="section-profile" class="section"><div id="profileContent"></div></section>
+    <section id="section-users" class="section">
+      <div class="section-head"><i class="fa-solid fa-users"></i> المستخدمون (للمالك فقط)</div>
+      <div style="padding: 0 5% 30px;" id="usersList"></div>
+    </section>
   </main>
 </div>
 
@@ -402,10 +424,9 @@ const APPWRITE_COMMENTS_TABLE = '6ab95b86002048e1e68b';
 const EMAIL_DOMAIN         = 'atlasapp.io';
 
 /* ============================================================
-   🔑 المالكون (Admin) — عدّل هذه القائمة بأسماء المالكين
+   🔑 المالكون — ضع اسم المستخدم الخاص بك هنا
    ============================================================ */
-const ADMIN_USERNAMES = ['atlas']; // ← ضع اسم المستخدم الخاص بك هنا
-
+const ADMIN_USERNAMES = ['atlas'];
 /* ============================================================ */
 
 const $ = id => document.getElementById(id);
@@ -430,9 +451,6 @@ try {
 function saveLikesLocal() { try { localStorage.setItem('atlas_likes', JSON.stringify([...likedVideos])); } catch(e){} }
 function saveViewsLocal() { try { localStorage.setItem('atlas_views', JSON.stringify([...viewedVideos])); } catch(e){} }
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
 function esc(s) { return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
 
 let toastTimer;
@@ -493,28 +511,23 @@ function switchSection(name, id) {
   if (t) t.classList.add('active');
   document.querySelectorAll('.sidebar-nav a[data-section]').forEach(a => a.classList.toggle('active', a.dataset.section === name));
   if (name === 'profile' && id) { viewingProfileId = id; viewProfile(id); }
+  if (name === 'users') { renderUsersList(); }
   if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function goToMyProfile() { if (currentUser) switchSection('profile', currentUser.$id); }
 
-/* ============================================================
-   ADMIN CHECK
-   ============================================================ */
 function isAdmin() {
   if (!currentUser) return false;
   return ADMIN_USERNAMES.map(u => u.toLowerCase()).includes((currentUser.username || '').toLowerCase());
 }
 
-/* ============================================================
-   SESSION
-   ============================================================ */
 function saveSession(u) { try { localStorage.setItem('atlas_me', JSON.stringify(u)); } catch(e){} }
 function loadSession() { try { return JSON.parse(localStorage.getItem('atlas_me') || 'null'); } catch(e) { return null; } }
 function clearSession() { try { localStorage.removeItem('atlas_me'); } catch(e){} }
 
 /* ============================================================
-   USERS CACHE — لمعرفة من موثّق
+   Users cache
    ============================================================ */
 async function loadAllUsers() {
   try {
@@ -523,26 +536,25 @@ async function loadAllUsers() {
       `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows?queries[]=${q}`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
     );
-    if (!res.ok) return;
+    if (!res.ok) {
+      console.warn('loadAllUsers failed:', res.status);
+      return;
+    }
     const d = await res.json();
     allUsers = d.rows || [];
-  } catch (e) { console.warn('loadAllUsers failed', e); }
+    console.log('Loaded users:', allUsers.length);
+  } catch (e) { console.warn('loadAllUsers exception', e); }
 }
 
-function getUserById(userId) {
-  return allUsers.find(u => u.user_id === userId) || null;
-}
-function isUserVerified(userId) {
-  const u = getUserById(userId);
-  return u && u.is_verified === true;
-}
+function getUserById(userId) { return allUsers.find(u => u.user_id === userId) || null; }
+function isUserVerified(userId) { const u = getUserById(userId); return u && u.is_verified === true; }
 function verifiedBadgeHTML(userId, size = '') {
   if (!isUserVerified(userId)) return '';
   return `<i class="fa-solid fa-circle-check verified-badge ${size}" title="موثّق"></i>`;
 }
 
 /* ============================================================
-   SIDEBAR RENDER
+   Sidebar render
    ============================================================ */
 function renderSidebar() {
   const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
@@ -560,7 +572,11 @@ function renderSidebar() {
     chip.classList.add('active');
     setAvatar($('userChipAvatar'));
     $('userChipName').textContent = currentUser.display_name || currentUser.username;
+
+    const adminLink = isAdmin() ? `<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>` : '';
+
     nav.innerHTML = `
+      ${adminLink}
       <a data-section="profile" onclick="switchSection('profile','${currentUser.$id}')"><i class="fa-solid fa-user"></i> حسابي</a>
       <a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
   } else {
@@ -573,19 +589,23 @@ function renderSidebar() {
 }
 
 /* ============================================================
-   QUERY HELPERS
+   Query helpers — بصيغة JSON الصحيحة
    ============================================================ */
-async function queryUsersByField(field, value) {
+async function queryTable(tableId, queryObj) {
   try {
-    const q = encodeURIComponent(`equal("${field}",["${value}"])`);
+    const q = encodeURIComponent(JSON.stringify(queryObj));
     const res = await fetch(
-      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows?queries[]=${q}`,
+      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${tableId}/rows?queries[]=${q}`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
     );
     if (!res.ok) return [];
     const d = await res.json();
     return d.rows || [];
   } catch (e) { return []; }
+}
+
+function queryUsersByField(field, value) {
+  return queryTable(APPWRITE_USERS_TABLE, { method: 'equal', attribute: field, values: [value] });
 }
 
 /* ============================================================
@@ -623,9 +643,7 @@ async function doSignup() {
     if (!signupRes.ok) {
       const err = await signupRes.json().catch(() => ({}));
       const msg = (err.message || '').toLowerCase();
-      if (msg.includes('already') || msg.includes('exists')) {
-        throw new Error('اسم المستخدم محجوز. جرّب اسماً آخر.');
-      }
+      if (msg.includes('already') || msg.includes('exists')) throw new Error('اسم المستخدم محجوز. جرّب اسماً آخر.');
       throw new Error(err.message || 'فشل إنشاء الحساب');
     }
     const acc = await signupRes.json();
@@ -669,20 +687,15 @@ async function doSignup() {
       throw new Error(err.message || 'فشل حفظ بيانات الحساب');
     }
 
-    currentUser = {
-      $id: acc.$id,
-      username: username,
-      display_name: finalName,
-      avatar_url: avatarUrl
-    };
+    currentUser = { $id: acc.$id, username: username, display_name: finalName, avatar_url: avatarUrl };
     saveSession(currentUser);
 
     await loadAllUsers();
+    renderSidebar();
 
     showToast('✓ تم إنشاء الحساب');
     resetSignupForm();
     closeModal('signupModal', true);
-    renderSidebar();
     switchSection('home');
     loadContent();
   } catch (err) {
@@ -733,12 +746,12 @@ async function doLogin() {
     saveSession(currentUser);
 
     await loadAllUsers();
+    renderSidebar();
 
     showToast('✓ تم تسجيل الدخول');
     $('loginUsername').value = '';
     $('loginPassword').value = '';
     closeModal('loginModal', true);
-    renderSidebar();
     switchSection('home');
     loadContent();
   } catch (err) {
@@ -821,11 +834,7 @@ async function saveProfileEdit() {
           headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({
-            data: {
-              username: newUsername,
-              display_name: newDisplayName,
-              avatar_url: avatarUrl
-            }
+            data: { username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }
           })
         }
       );
@@ -865,10 +874,10 @@ async function saveProfileEdit() {
     saveSession(currentUser);
 
     await loadAllUsers();
+    renderSidebar();
 
     showToast('✓ تم حفظ التعديلات');
     closeModal('editModal', true);
-    renderSidebar();
     if (currentSection === 'profile') viewProfile(currentUser.$id);
     loadContent();
   } catch (err) {
@@ -880,9 +889,6 @@ async function saveProfileEdit() {
   }
 }
 
-/* ============================================================
-   SIGNUP AVATAR
-   ============================================================ */
 $('signupAvatarInput').addEventListener('change', e => {
   if (!e.target.files.length) return;
   avatarFile = e.target.files[0];
@@ -947,7 +953,6 @@ async function uploadContent() {
   try {
     const fileId = await uploadFile(currentFile, false);
     const fileUrl = `${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fileId}/view?project=${APPWRITE_PROJECT_ID}`;
-
     progressStat.textContent = 'اكتمل الرفع! جاري النشر...';
 
     const rowData = {
@@ -968,11 +973,7 @@ async function uploadContent() {
         method: 'POST',
         headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({
-          rowId: 'unique()',
-          data: rowData,
-          permissions: ['read("any")']
-        })
+        body: JSON.stringify({ rowId: 'unique()', data: rowData, permissions: ['read("any")'] })
       }
     );
     if (!saveRes.ok) {
@@ -1094,7 +1095,7 @@ function renderAll() {
   renderReels(getFiltered(r => getMediaType(r) === 'video'));
 }
 
-function canDelete(row) { return currentUser && row.author_id === currentUser.$id; }
+function canDelete(row) { return currentUser && (row.author_id === currentUser.$id || isAdmin()); }
 
 function authorHTML(row) {
   const id = esc(row.author_id || '');
@@ -1230,12 +1231,11 @@ async function viewProfile(userId) {
   const isVerified = profile.is_verified === true;
   const verifiedIcon = isVerified ? '<i class="fa-solid fa-circle-check verified-badge lg" title="موثّق"></i>' : '';
 
-  // Actions
   let actions = '';
   if (isMe) {
     actions += `<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل الحساب</button>`;
   }
-  if (amAdmin && !isMe) {
+  if (amAdmin) {
     if (isVerified) {
       actions += `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>`;
     } else {
@@ -1259,13 +1259,55 @@ async function viewProfile(userId) {
 }
 
 /* ============================================================
-   ADMIN — TOGGLE VERIFICATION
+   ADMIN — Users List
+   ============================================================ */
+function renderUsersList() {
+  const box = $('usersList');
+  if (!isAdmin()) {
+    box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح لك بالوصول</p></div>`;
+    return;
+  }
+
+  if (!allUsers.length) {
+    box.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون</p></div>`;
+    return;
+  }
+
+  box.innerHTML = allUsers.map(u => {
+    const name = esc(u.display_name || u.username);
+    const handle = esc(u.username);
+    const initial = name.charAt(0).toUpperCase();
+    const avatar = u.avatar_url ? `<img src="${esc(u.avatar_url)}" alt="">` : initial;
+    const isVerified = u.is_verified === true;
+    const me = currentUser && u.user_id === currentUser.$id ? '<span style="color:var(--muted);font-size:11px;">(أنت)</span>' : '';
+
+    const btn = isVerified
+      ? `<button class="user-action-btn unverify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>`
+      : `<button class="user-action-btn verify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
+
+    return `
+      <div class="user-card">
+        <div class="user-card-avatar" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">${avatar}</div>
+        <div class="user-card-info" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">
+          <div class="user-card-name">
+            ${name}${me}
+            ${isVerified ? '<i class="fa-solid fa-circle-check verified-badge" title="موثّق"></i>' : ''}
+          </div>
+          <div class="user-card-handle">@${handle}</div>
+        </div>
+        <div class="user-card-actions">${btn}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   ADMIN — Toggle Verification
    ============================================================ */
 async function toggleVerification(userId) {
   if (!isAdmin()) return showToast('لا تملك الصلاحية', true);
 
   const row = getUserById(userId);
-  if (!row) return showToast('المستخدم غير موجود', true);
+  if (!row) return showToast('المستخدم غير موجود في قاعدة البيانات', true);
 
   const newValue = !(row.is_verified === true);
 
@@ -1285,6 +1327,8 @@ async function toggleVerification(userId) {
     }
     row.is_verified = newValue;
     showToast(newValue ? '✓ تم منح التوثيق' : '✓ تم إزالة التوثيق');
+    renderUsersList();
+    renderSidebar();
     if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
     loadContent();
   } catch (err) {
@@ -1294,7 +1338,7 @@ async function toggleVerification(userId) {
 }
 
 /* ============================================================
-   DELETE ITEM
+   DELETE
    ============================================================ */
 async function deleteItem(rowId, videoUrl) {
   if (!currentUser) return showToast('سجّل دخول للحذف', true);
@@ -1371,13 +1415,10 @@ async function markViewed(videoId) {
   if (viewedVideos.has(videoId)) return;
   viewedVideos.add(videoId);
   saveViewsLocal();
-
   const row = allRows.find(r => r.$id === videoId);
   if (!row) return;
-
   const newCount = (row.views_count || 0) + 1;
   row.views_count = newCount;
-
   try {
     await fetch(
       `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,
@@ -1411,12 +1452,9 @@ function openComments(videoId, title) {
 
 function canDeleteComment(comment) {
   if (!currentUser) return false;
-  // صاحب التعليق
   if (comment.user_id === currentUser.$id) return true;
-  // صاحب الفيديو
   const video = allRows.find(r => r.$id === comment.video_id);
   if (video && video.author_id === currentUser.$id) return true;
-  // المالك العام
   if (isAdmin()) return true;
   return false;
 }
@@ -1425,7 +1463,7 @@ async function loadComments(videoId) {
   const list = $('commentList');
   list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
   try {
-    const q = encodeURIComponent(`equal("video_id",["${videoId}"])`);
+    const q = encodeURIComponent(JSON.stringify({ method: 'equal', attribute: 'video_id', values: [videoId] }));
     const res = await fetch(
       `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows?queries[]=${q}`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } }
@@ -1436,7 +1474,6 @@ async function loadComments(videoId) {
     }
     const data = await res.json();
     let comments = (data.rows || []).filter(c => c.is_deleted !== true);
-
     comments.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
 
     if (!comments.length) {
@@ -1560,8 +1597,8 @@ function applySearch() {
 window.addEventListener('DOMContentLoaded', async () => {
   showWarningIfNeeded();
   currentUser = loadSession();
-  renderSidebar();
   await loadAllUsers();
+  renderSidebar();
   await loadContent();
 });
 </script>
