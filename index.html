@@ -163,13 +163,32 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 
 .section-head { padding: 20px 5% 12px; display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; }
 .section-head i { color: var(--orange); }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 10px 5% 30px; }
+
+/* ============ GRID: centered, responsive ============ */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 10px 4% 30px;
+}
+.grid > .card {
+  width: 100%;
+  max-width: 340px;
+  flex-shrink: 0;
+}
+.grid > .empty {
+  width: 100%;
+  max-width: 100%;
+}
 
 .home-tabs { display: flex; gap: 10px; padding: 0 5% 14px; justify-content: center; }
 .home-tab { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 8px 20px; border-radius: 22px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.25s; }
 .home-tab:hover { border-color: var(--orange); color: var(--orange); }
 .home-tab.active { background: var(--orange); color: #000; border-color: var(--orange); }
 
+/* ============ CARD ============ */
 .card {
   background: #101010;
   border: 1px solid rgba(255,255,255,0.05);
@@ -185,19 +204,25 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   box-shadow: 0 8px 40px rgba(0,0,0,0.7);
 }
 
+/* Media container: dynamic ratio, no cropping */
 .card-media-wrap {
   position: relative;
   width: 100%;
   aspect-ratio: 4/5;
+  max-height: 85vh;
   background: #000;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-media {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  background: #000;
   transition: filter 0.4s, opacity 0.4s;
   cursor: pointer;
 }
@@ -244,6 +269,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   font-size: 14px;
   pointer-events: auto;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 .mute-btn:hover { background: rgba(0,0,0,0.8); transform: scale(1.05); }
 
@@ -413,7 +439,7 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .user-action-btn.unverify { border-color: var(--danger); color: var(--danger); }
 .user-action-btn.unverify:hover { background: var(--danger); color: #fff; }
 
-.empty { grid-column: 1/-1; text-align: center; padding: 70px 24px; color: var(--muted); }
+.empty { text-align: center; padding: 70px 24px; color: var(--muted); }
 .empty i { font-size: 50px; color: #1c1c1c; margin-bottom: 16px; display: block; }
 .empty p { font-size: 15px; margin-bottom: 6px; font-weight: 700; color: #888; }
 .empty span { font-size: 12.5px; color: #4a4a54; }
@@ -429,6 +455,9 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
   100% { background-position: -200% 0; }
 }
 .skeleton-card {
+  width: 100%;
+  max-width: 340px;
+  flex-shrink: 0;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -539,7 +568,9 @@ html { background-color: #000; }
   .publish-btn-top span { display: none; }
   .user-chip-name { display: none; }
   .user-chip { padding: 5px; }
-  .grid { grid-template-columns: 1fr; gap: 16px; padding: 10px 4% 30px; }
+  .grid { gap: 16px; padding: 10px 3% 30px; }
+  .grid > .card { max-width: 100%; }
+  .skeleton-card { max-width: 100%; }
   .section-head { padding: 16px 4% 8px; font-size: 16px; }
   .modal-box { padding: 22px 18px; }
   .warning-box { padding: 24px 20px; }
@@ -1517,15 +1548,6 @@ function setHomeFilter(f) {
 
 function canDelete(row) { return currentUser && (row.author_id === currentUser.$id || isAdmin()); }
 
-function authorHTML(row) {
-  const id = esc(row.author_id || '');
-  const name = esc(row.author_name || 'مجهول');
-  const avatar = row.author_avatar ? `<img src="${esc(row.author_avatar)}" alt="">` : name.charAt(0).toUpperCase();
-  const clickable = row.author_id ? `onclick="switchSection('profile','${id}')"` : '';
-  const verified = verifiedBadgeHTML(row.author_id);
-  return `<div class="card-author" ${clickable}><div class="card-author-avatar">${avatar}</div><div class="card-author-name">${name}${verified}</div></div>`;
-}
-
 function cardHTML(v) {
   const url = esc(v.video_url);
   const mtype = getMediaType(v);
@@ -1542,7 +1564,7 @@ function cardHTML(v) {
   const authorClick = v.author_id ? `onclick="switchSection('profile','${esc(v.author_id)}')"` : '';
 
   const media = mtype === 'image'
-    ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy" onload="this.classList.add('loaded')">`
+    ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
     : `<video class="card-media autoplay-video" src="${url}" loop muted playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
 
   return `
@@ -1595,6 +1617,7 @@ function renderGrid(container, rows, type) {
   }
   container.innerHTML = rows.map(cardHTML).join('');
   setTimeout(setupAutoPlayVideos, 100);
+  setTimeout(setupBlurUp, 150);
 }
 
 function renderReels(rows) {
@@ -2071,11 +2094,29 @@ function applySearch() {
 }
 
 /* ============================================================
-   Autoplay + Sound + Controls
+   Autoplay + Sound + Controls + Dynamic Aspect Ratio
    ============================================================ */
 ['click','touchstart','keydown'].forEach(ev => {
   document.addEventListener(ev, () => { userInteracted = true; }, { once: true, passive: true });
 });
+
+function adjustMediaRatio(el) {
+  const wrap = el.closest('.card-media-wrap');
+  if (!wrap) return;
+  let w = 0, h = 0;
+  if (el.tagName === 'IMG') {
+    w = el.naturalWidth;
+    h = el.naturalHeight;
+  } else if (el.tagName === 'VIDEO') {
+    w = el.videoWidth;
+    h = el.videoHeight;
+  }
+  if (!w || !h) return;
+  let ratio = w / h;
+  if (ratio < 0.5) ratio = 0.5;
+  if (ratio > 1.2) ratio = 1.2;
+  wrap.style.aspectRatio = ratio;
+}
 
 function initVideoObserver() {
   if (videoObserver) return;
@@ -2133,8 +2174,15 @@ function setupAutoPlayVideos() {
       const playBtn = card ? card.querySelector('.play-big') : null;
       if (playBtn) playBtn.classList.remove('show');
     });
-    v.addEventListener('loadeddata', () => v.classList.add('loaded'));
-    if (v.readyState >= 2) v.classList.add('loaded');
+    v.addEventListener('loadeddata', () => {
+      v.classList.add('loaded');
+      adjustMediaRatio(v);
+    });
+    v.addEventListener('loadedmetadata', () => adjustMediaRatio(v));
+    if (v.readyState >= 2) {
+      v.classList.add('loaded');
+      adjustMediaRatio(v);
+    }
   });
 }
 
@@ -2167,16 +2215,27 @@ function seekVideo(e, barEl) {
 }
 
 /* ============================================================
-   Blur-up Images
+   Blur-up Images + Auto Ratio
    ============================================================ */
 function setupBlurUp() {
   document.querySelectorAll('.card-media').forEach(el => {
     if (el.tagName === 'IMG') {
-      if (el.complete && el.naturalHeight !== 0) el.classList.add('loaded');
-      else el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
+      const loaded = () => {
+        el.classList.add('loaded');
+        adjustMediaRatio(el);
+      };
+      if (el.complete && el.naturalHeight !== 0) loaded();
+      else el.addEventListener('load', loaded, { once: true });
     } else {
-      if (el.readyState >= 2) el.classList.add('loaded');
-      else el.addEventListener('loadeddata', () => el.classList.add('loaded'), { once: true });
+      if (el.readyState >= 2) {
+        el.classList.add('loaded');
+        adjustMediaRatio(el);
+      } else {
+        el.addEventListener('loadeddata', () => {
+          el.classList.add('loaded');
+          adjustMediaRatio(el);
+        }, { once: true });
+      }
     }
   });
 }
