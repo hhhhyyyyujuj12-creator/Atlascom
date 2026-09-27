@@ -702,46 +702,66 @@ async function saveProfileEdit() {
   btn.innerHTML = '<span class="spinner-border"></span> جاري الحفظ...';
 
   try {
-    // 1) تحقق من عدم وجود الاسم الجديد (إذا تغيّر)
     if (newUsername !== currentUser.username) {
       const existing = await queryUsersByField('username', newUsername);
       const other = existing.find(r => r.user_id !== currentUser.$id);
       if (other) throw new Error('اسم المستخدم الجديد محجوز');
     }
 
-    // 2) رفع الصورة الجديدة إن وُجدت
     let avatarUrl = currentUser.avatar_url || '';
     if (editAvatarFile) {
       const fid = await uploadFile(editAvatarFile, true);
       avatarUrl = `${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fid}/view?project=${APPWRITE_PROJECT_ID}`;
     }
 
-    // 3) ابحث عن السجل وعدّله
     const rows = await queryUsersByField('user_id', currentUser.$id);
-    if (!rows.length) throw new Error('لم يُعثر على سجل حسابك');
-    const row = rows[0];
 
-    const updRes = await fetch(
-      `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,
-      {
-        method: 'PATCH',
-        headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          data: {
-            username: newUsername,
-            display_name: newDisplayName,
-            avatar_url: avatarUrl
-          }
-        })
+    if (rows.length) {
+      const row = rows[0];
+      const updRes = await fetch(
+        `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,
+        {
+          method: 'PATCH',
+          headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            data: {
+              username: newUsername,
+              display_name: newDisplayName,
+              avatar_url: avatarUrl
+            }
+          })
+        }
+      );
+      if (!updRes.ok) {
+        const err = await updRes.json().catch(() => ({}));
+        throw new Error(err.message || 'فشل حفظ التعديلات');
       }
-    );
-    if (!updRes.ok) {
-      const err = await updRes.json().catch(() => ({}));
-      throw new Error(err.message || 'فشل حفظ التعديلات');
+    } else {
+      const createRes = await fetch(
+        `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows`,
+        {
+          method: 'POST',
+          headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            rowId: 'unique()',
+            data: {
+              user_id: currentUser.$id,
+              username: newUsername,
+              display_name: newDisplayName,
+              avatar_url: avatarUrl
+            },
+            permissions: ['read("any")']
+          })
+        }
+      );
+      if (!createRes.ok) {
+        const err = await createRes.json().catch(() => ({}));
+        throw new Error(err.message || 'فشل إنشاء سجل الحساب');
+      }
     }
 
-    // 4) حدّث localStorage
     currentUser.username = newUsername;
     currentUser.display_name = newDisplayName;
     currentUser.avatar_url = avatarUrl;
