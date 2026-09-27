@@ -163,59 +163,177 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 
 .section-head { padding: 20px 5% 12px; display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; }
 .section-head i { color: var(--orange); }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 10px 5% 30px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 10px 5% 30px; }
 
 .home-tabs { display: flex; gap: 10px; padding: 0 5% 14px; justify-content: center; }
 .home-tab { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 8px 20px; border-radius: 22px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.25s; }
 .home-tab:hover { border-color: var(--orange); color: var(--orange); }
 .home-tab.active { background: var(--orange); color: #000; border-color: var(--orange); }
 
-@property --atlas-rgb {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
 .card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-  overflow: hidden; display: flex; flex-direction: column;
-  transition: transform 0.35s cubic-bezier(0.2,0.8,0.3,1), box-shadow 0.35s;
-  position: relative;
+  background: #101010;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
-.card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 15px;
-  padding: 1px;
-  background: conic-gradient(from var(--atlas-rgb),
-    #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s;
-  animation: atlasRgbSpin 8s linear infinite;
-  pointer-events: none;
-  z-index: 1;
+.card:hover {
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
 }
-.card:hover::before { opacity: 0.85; }
-.card:hover { transform: translateY(-3px); }
-@keyframes atlasRgbSpin { to { --atlas-rgb: 360deg; } }
 
-.card-media { width: 100%; aspect-ratio: 16/10; background: #0a0a0a; display: block; object-fit: contain; transition: filter 0.5s, opacity 0.5s; }
+.card-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: #000;
+  overflow: hidden;
+}
+
+.card-media {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: filter 0.4s, opacity 0.4s;
+  cursor: pointer;
+}
 .card-media:not(.loaded) { filter: blur(8px); opacity: 0.6; }
 .card-media.loaded { filter: blur(0); opacity: 1; }
-.card-media.cover { object-fit: cover; }
-.card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
-.card-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; max-height: 38px; overflow: hidden; }
-.card-author { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 6px 0; cursor: pointer; transition: opacity 0.2s; }
-.card-author:hover { opacity: 0.75; }
+
+.card-overlay-author {
+  position: absolute;
+  top: 12px; right: 12px; left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 3;
+  pointer-events: none;
+}
+.card-author-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 25px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s;
+}
+.card-author-chip:hover { background: rgba(0,0,0,0.8); }
+.card-author-chip .card-author-avatar { width: 28px; height: 28px; font-size: 12px; }
+.card-author-chip .card-author-name { color: #fff; font-size: 12px; font-weight: 700; }
+
+.mute-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  pointer-events: auto;
+  transition: all 0.2s;
+}
+.mute-btn:hover { background: rgba(0,0,0,0.8); transform: scale(1.05); }
+
+.play-big {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: none;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 2;
+  pointer-events: none;
+}
+.play-big.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+.progress-bar-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 22px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 8px 0;
+  z-index: 3;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0 12px;
+  transition: height 0.2s;
+}
+.progress-bar-overlay:hover .progress-track { height: 6px; }
+.progress-fill-v {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff6b00, #ff8c33);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card-title {
+  font-size: 15px; font-weight: 800;
+  color: #fff; line-height: 1.4;
+  margin: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.5;
+  max-height: 40px; overflow: hidden;
+  margin: 0;
+}
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.card-author { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .card-author-avatar { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--orange), #ff00c8); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 11px; overflow: hidden; }
 .card-author-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .card-author-name { font-size: 12px; color: #aaa; font-weight: 700; display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
 .card-author:hover .card-author-name { color: var(--orange); }
-.card-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto; font-size: 11px; color: var(--muted); }
+
 .icon-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; height: 30px; min-width: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; gap: 5px; padding: 0 8px; transition: all 0.2s; }
 .icon-btn:hover { background: #1a1a1a; color: var(--orange); }
 .icon-btn.del:hover { background: rgba(255,51,85,0.15); color: var(--danger); }
@@ -273,16 +391,6 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .profile-btn.following:hover { border-color: var(--danger); color: var(--danger); }
 .profile-btn.verify { border-color: var(--verified); color: var(--verified); }
 .profile-btn.verify:hover { background: var(--verified); color: #fff; }
-.profile-btn.verify::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(29,155,240,0.35), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-.profile-btn.verify:hover::after { opacity: 1; }
 .profile-btn.unverify { border-color: var(--danger); color: var(--danger); }
 .profile-btn.unverify:hover { background: var(--danger); color: #fff; }
 .profile-stats { display: flex; gap: 20px; margin-top: 6px; padding: 12px 22px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); }
@@ -302,16 +410,6 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .user-action-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; position: relative; overflow: hidden; }
 .user-action-btn.verify { border-color: var(--verified); color: var(--verified); }
 .user-action-btn.verify:hover { background: var(--verified); color: #fff; }
-.user-action-btn.verify::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(29,155,240,0.35), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-.user-action-btn.verify:hover::after { opacity: 1; }
 .user-action-btn.unverify { border-color: var(--danger); color: var(--danger); }
 .user-action-btn.unverify:hover { background: var(--danger); color: #fff; }
 
@@ -333,11 +431,11 @@ main { padding-bottom: 40px; min-height: calc(100vh - 64px); }
 .skeleton-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 20px;
   overflow: hidden;
   display: flex; flex-direction: column;
 }
-.skeleton-media { width: 100%; aspect-ratio: 16/10; }
+.skeleton-media { width: 100%; aspect-ratio: 4/5; }
 .skeleton-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
 .skeleton-line { height: 12px; border-radius: 6px; }
 .skeleton-line.title { width: 70%; height: 14px; }
@@ -441,7 +539,7 @@ html { background-color: #000; }
   .publish-btn-top span { display: none; }
   .user-chip-name { display: none; }
   .user-chip { padding: 5px; }
-  .grid { grid-template-columns: 1fr; gap: 14px; padding: 10px 4% 30px; }
+  .grid { grid-template-columns: 1fr; gap: 16px; padding: 10px 4% 30px; }
   .section-head { padding: 16px 4% 8px; font-size: 16px; }
   .modal-box { padding: 22px 18px; }
   .warning-box { padding: 24px 20px; }
@@ -637,7 +735,6 @@ html { background-color: #000; }
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script>
 /* ============================================================
    إعدادات Appwrite
@@ -668,6 +765,8 @@ let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null;
 let homeFilter = 'all';
 let followingIds = new Set();
+let userInteracted = false;
+let videoObserver = null;
 
 let likedVideos = new Set();
 let viewedVideos = new Set();
@@ -725,6 +824,11 @@ function showWarningIfNeeded() {
 function acceptWarning() {
   localStorage.setItem('atlas_warn', '1');
   $('warningOverlay').classList.remove('active');
+  userInteracted = true;
+  document.querySelectorAll('.autoplay-video').forEach(v => {
+    v.muted = false;
+    v.play().catch(() => {});
+  });
 }
 
 function toggleSidebar() {
@@ -1343,6 +1447,7 @@ async function loadContent() {
     allRows = (data.rows || []).slice().reverse();
     renderAll();
     setTimeout(setupBlurUp, 100);
+    setTimeout(setupAutoPlayVideos, 150);
   } catch (err) { console.error(err); showErrorAll(err.message); }
 }
 
@@ -1359,7 +1464,8 @@ function setLoadingAll() {
   `).join('');
   gridHome.innerHTML = h; gridImages.innerHTML = h; reelsBox.innerHTML = h;
 }
-  function showErrorAll(msg) {
+
+function showErrorAll(msg) {
   const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`;
   gridHome.innerHTML = h; gridImages.innerHTML = h; reelsBox.innerHTML = h;
 }
@@ -1421,7 +1527,6 @@ function authorHTML(row) {
 }
 
 function cardHTML(v) {
-  const date = v.$createdAt ? new Date(v.$createdAt).toLocaleDateString('ar-EG') : '';
   const url = esc(v.video_url);
   const mtype = getMediaType(v);
   const title = esc(v.title);
@@ -1431,32 +1536,51 @@ function cardHTML(v) {
   const likesCount = v.likes_count || 0;
   const viewsCount = v.views_count || 0;
   const safeTitle = (v.title || '').replace(/'/g, '').replace(/"/g, '');
+  const authorName = esc(v.author_name || 'مجهول');
+  const authorAvatar = v.author_avatar ? `<img src="${esc(v.author_avatar)}" alt="">` : authorName.charAt(0).toUpperCase();
+  const verified = verifiedBadgeHTML(v.author_id);
+  const authorClick = v.author_id ? `onclick="switchSection('profile','${esc(v.author_id)}')"` : '';
 
   const media = mtype === 'image'
-    ? `<img class="card-media cover" src="${url}" alt="${title}" loading="lazy">`
-    : `<video class="card-media" controls preload="metadata" onplay="markViewed('${v.$id}')"><source src="${url}" type="video/mp4"></video>`;
+    ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy" onload="this.classList.add('loaded')">`
+    : `<video class="card-media autoplay-video" src="${url}" loop muted playsinline preload="metadata" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
 
   return `
-    <div class="card">${media}
+    <div class="card">
+      <div class="card-media-wrap">
+        ${media}
+        <div class="card-overlay-author">
+          <div class="card-author-chip" ${authorClick}>
+            <div class="card-author-avatar">${authorAvatar}</div>
+            <div class="card-author-name">${authorName}${verified}</div>
+          </div>
+          ${mtype === 'video' ? `<button class="mute-btn" onclick="event.stopPropagation(); toggleMute(this)" title="الصوت"><i class="fa-solid fa-volume-xmark"></i></button>` : ''}
+        </div>
+        ${mtype === 'video' ? `
+          <button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button>
+          <div class="progress-bar-overlay" onclick="seekVideo(event, this)">
+            <div class="progress-track"><div class="progress-fill-v"></div></div>
+          </div>
+        ` : ''}
+      </div>
       <div class="card-body">
         <div class="card-title">${title}</div>
         ${desc ? `<div class="card-desc">${desc}</div>` : ''}
-        ${authorHTML(v)}
         <div class="card-meta">
           <div class="actions-row">
-            <button class="icon-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${v.$id}', this)" title="إعجاب">
+            <button class="icon-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${v.$id}', this)">
               <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
               <span>${likesCount}</span>
             </button>
-            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}')" title="تعليقات">
+            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}')">
               <i class="fa-solid fa-comment"></i>
               <span>تعليقات</span>
             </button>
             <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
           </div>
           <div class="actions-row">
-            <button class="icon-btn" onclick="copyLink('${url}')" title="نسخ"><i class="fa-solid fa-link"></i></button>
-            ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.$id}', '${url}')" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+            <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
+            ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.$id}', '${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
         </div>
       </div>
@@ -1470,6 +1594,7 @@ function renderGrid(container, rows, type) {
     return;
   }
   container.innerHTML = rows.map(cardHTML).join('');
+  setTimeout(setupAutoPlayVideos, 100);
 }
 
 function renderReels(rows) {
@@ -1488,7 +1613,7 @@ function renderReels(rows) {
     const verified = verifiedBadgeHTML(v.author_id);
     return `
       <div class="reel-item">
-        <video src="${url}" controls preload="metadata" playsinline onplay="markViewed('${v.$id}')"></video>
+        <video src="${url}" controls preload="metadata" playsinline loop muted onplay="markViewed('${v.$id}')"></video>
         <div class="reel-actions">
           <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
           ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.$id}','${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
@@ -1576,6 +1701,7 @@ async function viewProfile(userId) {
   if (!userVideos.length) grid.innerHTML = `<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`;
   else grid.innerHTML = userVideos.map(cardHTML).join('');
   setTimeout(setupBlurUp, 100);
+  setTimeout(setupAutoPlayVideos, 150);
 }
 
 async function showFollowers(userId, handle) {
@@ -1945,7 +2071,118 @@ function applySearch() {
 }
 
 /* ============================================================
-   Ripple Effect on Buttons
+   Autoplay + Sound + Controls
+   ============================================================ */
+['click','touchstart','keydown'].forEach(ev => {
+  document.addEventListener(ev, () => { userInteracted = true; }, { once: true, passive: true });
+});
+
+function initVideoObserver() {
+  if (videoObserver) return;
+  videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      if (entry.intersectionRatio >= 0.6) {
+        video.muted = !userInteracted;
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+        const card = video.closest('.card');
+        const playBtn = card ? card.querySelector('.play-big') : null;
+        if (playBtn) playBtn.classList.remove('show');
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: [0, 0.6, 1], rootMargin: '0px 0px -20% 0px' });
+}
+
+function setupAutoPlayVideos() {
+  initVideoObserver();
+  document.querySelectorAll('.autoplay-video').forEach(v => {
+    if (v.dataset.observed) return;
+    v.dataset.observed = '1';
+    videoObserver.observe(v);
+
+    v.addEventListener('click', () => {
+      const card = v.closest('.card');
+      const playBtn = card ? card.querySelector('.play-big') : null;
+      if (v.paused) {
+        v.play().catch(() => {});
+        if (playBtn) playBtn.classList.remove('show');
+      } else {
+        v.pause();
+        if (playBtn) playBtn.classList.add('show');
+      }
+    });
+
+    v.addEventListener('timeupdate', () => {
+      const card = v.closest('.card');
+      const fill = card ? card.querySelector('.progress-fill-v') : null;
+      if (fill && v.duration) {
+        fill.style.width = ((v.currentTime / v.duration) * 100) + '%';
+      }
+    });
+
+    v.addEventListener('pause', () => {
+      const card = v.closest('.card');
+      const playBtn = card ? card.querySelector('.play-big') : null;
+      if (playBtn) playBtn.classList.add('show');
+    });
+    v.addEventListener('play', () => {
+      const card = v.closest('.card');
+      const playBtn = card ? card.querySelector('.play-big') : null;
+      if (playBtn) playBtn.classList.remove('show');
+    });
+    v.addEventListener('loadeddata', () => v.classList.add('loaded'));
+    if (v.readyState >= 2) v.classList.add('loaded');
+  });
+}
+
+function togglePlayPauseCard(btn) {
+  const card = btn.closest('.card');
+  const video = card ? card.querySelector('.autoplay-video') : null;
+  if (!video) return;
+  if (video.paused) video.play().catch(() => {});
+  else video.pause();
+}
+
+function toggleMute(btn) {
+  const card = btn.closest('.card');
+  const video = card ? card.querySelector('.autoplay-video') : null;
+  if (!video) return;
+  video.muted = !video.muted;
+  const icon = btn.querySelector('i');
+  if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+}
+
+function seekVideo(e, barEl) {
+  e.stopPropagation();
+  const card = barEl.closest('.card');
+  const video = card ? card.querySelector('.autoplay-video') : null;
+  if (!video || !video.duration) return;
+  const rect = barEl.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const pct = Math.max(0, Math.min(1, x / rect.width));
+  video.currentTime = pct * video.duration;
+}
+
+/* ============================================================
+   Blur-up Images
+   ============================================================ */
+function setupBlurUp() {
+  document.querySelectorAll('.card-media').forEach(el => {
+    if (el.tagName === 'IMG') {
+      if (el.complete && el.naturalHeight !== 0) el.classList.add('loaded');
+      else el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
+    } else {
+      if (el.readyState >= 2) el.classList.add('loaded');
+      else el.addEventListener('loadeddata', () => el.classList.add('loaded'), { once: true });
+    }
+  });
+}
+
+/* ============================================================
+   Ripple Effect
    ============================================================ */
 document.addEventListener('click', e => {
   const btn = e.target.closest('.btn-primary, .publish-btn-top, .profile-btn, .warning-accept');
@@ -1962,20 +2199,6 @@ document.addEventListener('click', e => {
   btn.appendChild(ripple);
   setTimeout(() => ripple.remove(), 600);
 });
-
-/* ============================================================
-   Blur-up Images
-   ============================================================ */
-function setupBlurUp() {
-  document.querySelectorAll('.card-media').forEach(el => {
-    if (el.tagName === 'IMG') {
-      if (el.complete && el.naturalHeight !== 0) el.classList.add('loaded');
-      else el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
-    } else {
-      el.classList.add('loaded');
-    }
-  });
-}
 
 /* ============================================================
    PWA — Service Worker
@@ -2003,4 +2226,4 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 </script>
 </body>
-</html>
+  </html>
