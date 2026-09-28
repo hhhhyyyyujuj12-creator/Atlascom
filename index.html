@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#000;--card:#101010;--border:#1c1c1c;--orange:#ff6b00;--text:#e8e8ee;--muted:#6b6b78;--danger:#ff3355;--verified:#1d9bf0;--admin:#22c55e}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
@@ -17,7 +17,6 @@ html,body{background:#000;color:var(--text);min-height:100vh;overflow-x:hidden;-
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:#050505}
 ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:var(--orange)}
 header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;font-weight:900;font-size:15px;user-select:none;flex-shrink:0}
 .logo-atlas{background:var(--orange);color:#000;padding:7px 10px}
@@ -26,8 +25,7 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .search-wrap input{width:100%;padding:9px 36px 9px 12px;background:#0a0a0a;border:1px solid var(--border);border-radius:22px;color:#fff;font-size:13px;outline:none}
 .search-wrap input:focus{border-color:var(--orange)}
 .search-wrap i{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
-.header-icon-btn{position:relative;background:#0a0a0a;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
-.header-icon-btn:hover{border-color:var(--orange);color:var(--orange)}
+.header-icon-btn{background:#0a0a0a;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
 .user-chip{display:none;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--border);padding:5px 10px 5px 5px;border-radius:22px;cursor:pointer;flex-shrink:0}
 .user-chip.active{display:flex}
 .user-chip-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;overflow:hidden}
@@ -91,8 +89,6 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .card-author-avatar img{width:100%;height:100%;object-fit:cover}
 .card-author-name{font-size:12px;color:#aaa;font-weight:700;display:flex;align-items:center;gap:4px}
 .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;height:30px;min-width:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;gap:5px;padding:0 8px}
-.icon-btn:hover{color:var(--orange)}
-.icon-btn.del:hover{color:var(--danger)}
 .icon-btn.liked{color:var(--danger)}
 .actions-row{display:flex;align-items:center;gap:6px}
 .meta-date{font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
@@ -120,7 +116,6 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .profile-handle{font-size:13px;color:var(--muted);margin-bottom:14px}
 .profile-actions{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;justify-content:center}
 .profile-btn{padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.profile-btn:hover{border-color:var(--orange);color:var(--orange)}
 .profile-btn.follow{background:var(--orange);color:#000;border-color:var(--orange)}
 .profile-btn.following{border-color:var(--orange);color:var(--orange)}
 .profile-btn.verify{border-color:var(--verified);color:var(--verified)}
@@ -154,7 +149,6 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .modal-overlay.active{display:flex}
 .modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto}
 .modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
-.modal-close:hover{color:var(--danger)}
 .modal-box h2{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
 .modal-box h2 i{color:var(--orange)}
 .modal-sub{color:var(--muted);font-size:13px;margin-bottom:20px}
@@ -207,7 +201,6 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .comment-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 6px;border-radius:6px}
 .comment-actions button.liked{color:var(--danger)}
 .comment-del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
-.comment-del-btn:hover{color:var(--danger)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
@@ -228,10 +221,10 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 body.modal-open{overflow:hidden!important;position:fixed;width:100%}
 body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(0,0,0,0.98);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;z-index:500;backdrop-filter:blur(12px)}
-.bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px;transition:color 0.2s}
+.bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px}
 .bottom-nav-item i{font-size:21px;line-height:1}
 .bottom-nav-item.active{color:var(--orange)}
-.bottom-nav-item .notif-count{position:absolute;top:2px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #000;line-height:1}
+.bottom-nav-item .notif-count{position:absolute;top:2px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #000}
 .bottom-nav-item .notif-count.hidden{display:none}
 .bottom-nav-plus{position:relative;width:48px;height:32px;border-radius:9px;background:var(--orange);border:none;color:#000;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin:0 4px;box-shadow:0 0 14px rgba(255,107,0,0.55)}
 .bottom-nav-plus::before,.bottom-nav-plus::after{content:'';position:absolute;top:3px;bottom:3px;width:6px;border-radius:3px;background:var(--orange);z-index:-1;filter:blur(1px);opacity:0.85}
@@ -263,33 +256,6 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
-  <div id="debugBox" style="display:none;position:fixed;top:0;left:0;right:0;max-height:50vh;overflow:auto;background:#300;color:#fff;padding:12px;font-family:monospace;font-size:11px;z-index:99999;direction:ltr;text-align:left;border-bottom:2px solid red;"></div>
-<script>
-window.addEventListener('error', function(e) {
-  var box = document.getElementById('debugBox');
-  box.style.display = 'block';
-  box.innerHTML += '<div style="border-bottom:1px solid #500;padding:4px 0;">❌ ' + (e.message || 'Error') + '<br>📍 ' + (e.filename || '').split('/').pop() + ':' + (e.lineno || '') + '</div>';
-});
-window.addEventListener('unhandledrejection', function(e) {
-  var box = document.getElementById('debugBox');
-  box.style.display = 'block';
-  box.innerHTML += '<div style="border-bottom:1px solid #500;padding:4px 0;">❌ Promise: ' + (e.reason && e.reason.message ? e.reason.message : e.reason) + '</div>';
-});
-// فحص تحميل مكتبة Supabase
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var box = document.getElementById('debugBox');
-    if (typeof window.supabase === 'undefined') {
-      box.style.display = 'block';
-      box.innerHTML += '<div style="background:#500;padding:6px;margin-top:4px;">⚠️ مكتبة Supabase لم تُحمّل!<br>السبب: CDN محجوب</div>';
-    } else {
-      box.style.display = 'block';
-      box.innerHTML += '<div style="background:#050;padding:6px;margin-top:4px;">✅ Supabase loaded OK</div>';
-      setTimeout(function() { box.style.display = 'none'; }, 2000);
-    }
-  }, 3000);
-});
-</script>
   
 <div class="warning-overlay" id="warningOverlay">
   <div class="warning-box">
@@ -397,8 +363,8 @@ window.addEventListener('load', function() {
     <i class="fa-solid fa-user"></i>
     <span>الملف</span>
   </div>
-</nav>
-
+  </nav>
+  
 <div class="modal-overlay" id="uploadModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -722,7 +688,6 @@ function timeAgoFrom(dateStr) {
   return new Date(dateStr).toLocaleDateString('ar-EG');
 }
 
-/* ============ التعامل مع المستخدمين ============ */
 function getUserById(userId) { return allUsers.find(u => u.id === userId) || null; }
 function isUserVerified(userId) { const u = getUserById(userId); return u && u.is_verified === true; }
 function verifiedBadgeHTML(userId, size = '') {
@@ -730,7 +695,6 @@ function verifiedBadgeHTML(userId, size = '') {
   return `<i class="fa-solid fa-circle-check verified-badge ${size}" title="موثّق"></i>`;
 }
 
-/* ============ رفع الملفات ============ */
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = file.name.split('.').pop() || 'bin';
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
@@ -742,6 +706,31 @@ async function uploadFileToStorage(file, folder = 'media') {
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   const { data: urlData } = supabase.storage.from('media').getPublicUrl(data.path);
   return urlData.publicUrl;
+}
+
+function renderSidebar() {
+  const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
+  if (currentProfile) {
+    ub.classList.add('active');
+    const initial = (currentProfile.display_name || currentProfile.username || '?').charAt(0).toUpperCase();
+    const setAvatar = (el) => {
+      if (currentProfile.avatar_url) el.innerHTML = `<img src="${esc(currentProfile.avatar_url)}" alt="">`;
+      else el.innerHTML = esc(initial);
+    };
+    setAvatar($('sidebarAvatar'));
+    const verified = currentProfile.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+    $('sidebarName').innerHTML = esc(currentProfile.display_name || currentProfile.username) + verified;
+    $('sidebarHandle').textContent = '@' + currentProfile.username;
+    chip.classList.add('active');
+    setAvatar($('userChipAvatar'));
+    $('userChipName').textContent = currentProfile.display_name || currentProfile.username;
+    const adminLink = isAdmin() ? `<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>` : '';
+    nav.innerHTML = `${adminLink}<a data-section="profile" onclick="switchSection('profile','${currentProfile.id}')"><i class="fa-solid fa-user"></i> حسابي</a><a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
+  } else {
+    ub.classList.remove('active');
+    chip.classList.remove('active');
+    nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
+  }
 }
 </script>
 <script>
