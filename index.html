@@ -112,8 +112,10 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .icon-btn:hover{color:var(--orange)}
 .icon-btn.del:hover{color:var(--danger)}
 .icon-btn.liked{color:var(--danger)}
+.icon-btn.boost{color:var(--verified)}
+.icon-btn.boost:hover{color:#4db8ff;background:rgba(29,155,240,0.1)}
 .actions-row{display:flex;align-items:center;gap:6px}
-.meta-date{font-size:11px;color:var(--muted)}
+.meta-date{font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
 .verified-badge{color:var(--verified);font-size:0.85em;margin-right:2px;filter:drop-shadow(0 0 5px rgba(29,155,240,0.8));animation:verifyGlow 2s ease-in-out infinite}
 @keyframes verifyGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(29,155,240,0.6))}50%{filter:drop-shadow(0 0 12px rgba(29,155,240,1))}}
 .verified-badge.lg{font-size:1em}
@@ -230,7 +232,6 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
-/* ✅ Creator Like Badge (بدون نجمة) */
 .creator-like-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,51,0.12));color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px 3px 3px;border-radius:14px;border:1px solid rgba(255,107,0,0.35);box-shadow:0 0 8px rgba(255,107,0,0.15)}
 .creator-like-badge .creator-like-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;overflow:hidden;flex-shrink:0;border:1px solid rgba(255,255,255,0.15)}
 .creator-like-badge .creator-like-avatar img{width:100%;height:100%;object-fit:cover}
@@ -244,6 +245,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .notif-item.unread{background:rgba(255,107,0,0.06);border-color:rgba(255,107,0,0.3)}
 .notif-item.broadcast{background:rgba(29,155,240,0.05);border-color:rgba(29,155,240,0.3)}
+.notif-item.direct{background:rgba(168,85,247,0.06);border-color:rgba(168,85,247,0.35)}
 .notif-avatar{width:40px;height:40px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:15px;overflow:hidden}
 .notif-avatar img{width:100%;height:100%;object-fit:cover}
 .notif-body{flex:1;min-width:0}
@@ -252,6 +254,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .notif-text .notif-type-icon{display:inline-block;margin-left:4px}
 .notif-time{font-size:10px;color:var(--muted);margin-top:4px}
 body.modal-open{overflow:hidden!important;position:fixed;width:100%}
+.dm-user-row:hover{background:rgba(255,107,0,0.08)!important}
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
   .logo{font-size:12px}
@@ -467,9 +470,10 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
     <button class="modal-close" onclick="closeModal('notificationsModal')"><i class="fa-solid fa-xmark"></i></button>
     <h2><i class="fa-solid fa-bell"></i> الإشعارات</h2>
     <p class="modal-sub" id="notifSubtitle">—</p>
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button class="profile-btn" onclick="markAllNotifsRead()" style="flex:1;justify-content:center;"><i class="fa-solid fa-check-double"></i> تحديد الكل كمقروء</button>
-      <button class="profile-btn" id="broadcastBtn" onclick="openBroadcast()" style="flex:1;justify-content:center;border-color:var(--verified);color:var(--verified);display:none;"><i class="fa-solid fa-tower-broadcast"></i> بث جماعي</button>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+      <button class="profile-btn" onclick="markAllNotifsRead()" style="flex:1;justify-content:center;min-width:140px;"><i class="fa-solid fa-check-double"></i> تحديد الكل كمقروء</button>
+      <button class="profile-btn" id="broadcastBtn" onclick="openBroadcast()" style="flex:1;justify-content:center;min-width:140px;border-color:var(--verified);color:var(--verified);display:none;"><i class="fa-solid fa-tower-broadcast"></i> بث جماعي</button>
+      <button class="profile-btn" id="directMsgBtn" onclick="openDirectMessage()" style="flex:1;justify-content:center;min-width:140px;border-color:#a855f7;color:#a855f7;display:none;"><i class="fa-solid fa-envelope"></i> رسالة لمستخدم</button>
     </div>
     <div class="notif-list" id="notifList">
       <div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
@@ -484,6 +488,38 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
     <p class="modal-sub">الرسالة ستُرسل لجميع المستخدمين باسمك وصورتك.</p>
     <textarea id="broadcastText" class="input-field" rows="4" maxlength="300" placeholder="اكتب رسالتك..."></textarea>
     <button class="btn btn-primary" id="broadcastSendBtn" onclick="sendBroadcast()"><i class="fa-solid fa-paper-plane"></i> إرسال للجميع</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="directMessageModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('directMessageModal')"><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-envelope"></i> رسالة لمستخدم محدد</h2>
+    <p class="modal-sub">اختر المستخدم من القائمة ثم اكتب رسالتك.</p>
+    <input type="text" id="dmSearchInput" class="input-field" placeholder="ابحث بالاسم أو اسم المستخدم..." oninput="renderDmUserList()">
+    <div id="dmUserList" style="max-height:220px;overflow-y:auto;background:#050505;border:1px solid var(--border);border-radius:10px;margin-bottom:12px;padding:6px;overscroll-behavior:contain;"></div>
+    <div id="dmSelectedDisplay" style="display:none;padding:10px 14px;background:rgba(168,85,247,0.1);border:1px solid #a855f7;border-radius:8px;font-size:13px;margin-bottom:10px;color:#fff;"></div>
+    <textarea id="dmTextInput" class="input-field" rows="3" maxlength="300" placeholder="اكتب رسالتك..."></textarea>
+    <button class="btn btn-primary" id="dmSendBtn" onclick="sendDirectMessage()" style="background:#a855f7;color:#fff;"><i class="fa-solid fa-paper-plane"></i> إرسال للمستخدم</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="boostModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('boostModal')"><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-rocket"></i> تعزيز المنشور (للمالك)</h2>
+    <p class="modal-sub">أضف لايكات ومشاهدات بلا حدود.</p>
+    <div id="boostInfo" style="padding:10px 14px;background:#050505;border:1px solid var(--border);border-radius:8px;font-size:13px;color:#ddd;margin-bottom:14px;line-height:1.6;"></div>
+    <label style="font-size:13px;color:var(--muted);display:block;margin-bottom:6px;"><i class="fa-solid fa-heart" style="color:var(--danger);"></i> إضافة لايكات</label>
+    <input type="number" id="boostLikesInput" class="input-field" placeholder="مثلاً: 1000" min="0" value="0">
+    <label style="font-size:13px;color:var(--muted);display:block;margin-bottom:6px;"><i class="fa-solid fa-eye" style="color:var(--orange);"></i> إضافة مشاهدات</label>
+    <input type="number" id="boostViewsInput" class="input-field" placeholder="مثلاً: 5000" min="0" value="0">
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+      <button class="profile-btn" onclick="quickBoost(100)" style="flex:1;justify-content:center;min-width:60px;">+100</button>
+      <button class="profile-btn" onclick="quickBoost(1000)" style="flex:1;justify-content:center;min-width:60px;">+1000</button>
+      <button class="profile-btn" onclick="quickBoost(10000)" style="flex:1;justify-content:center;min-width:60px;">+10000</button>
+    </div>
+    <button class="btn btn-primary" id="boostApplyBtn" onclick="applyBoost()" style="background:var(--verified);color:#fff;"><i class="fa-solid fa-bolt"></i> تطبيق التعزيز</button>
   </div>
 </div>
 
@@ -525,11 +561,14 @@ let likedVideos = new Set();
 let viewedVideos = new Set();
 let likedComments = new Set();
 let savedPostIds = new Set();
+let commentCounts = {};
 let notifPollTimer = null;
 let homeVideoObserver = null;
 let reelsObserver = null;
 let activeVideo = null;
 let savedScrollY = 0;
+let dmSelectedUser = null;
+let boostTargetId = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -570,6 +609,8 @@ function closeModal(id, force = false) {
     if (id === 'editModal' && $('editSaveBtn').disabled) return;
     if (id === 'commentsModal' && $('commentBtn').disabled) return;
     if (id === 'broadcastModal' && $('broadcastSendBtn').disabled) return;
+    if (id === 'directMessageModal' && $('dmSendBtn').disabled) return;
+    if (id === 'boostModal' && $('boostApplyBtn').disabled) return;
   }
   m.classList.remove('active');
   setTimeout(() => {
@@ -582,7 +623,7 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal'].forEach(id => {
+    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','directMessageModal','boostModal'].forEach(id => {
       if ($(id).classList.contains('active')) closeModal(id);
     });
   }
@@ -596,7 +637,6 @@ function acceptWarning() {
   $('warningOverlay').classList.remove('active');
 }
 
-/* ============ إيقاف كل الفيديوهات ============ */
 function pauseAllVideos() {
   document.querySelectorAll('video').forEach(v => {
     try { if (!v.paused) v.pause(); } catch(e) {}
@@ -654,16 +694,31 @@ async function loadAllUsers() {
   try {
     const res = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } });
-    if (!res.ok) return;
+    if (!res.ok) { allUsers = []; return; }
     const d = await res.json();
     allUsers = d.rows || [];
-  } catch (e) { console.warn(e); }
+  } catch (e) { console.warn(e); allUsers = []; }
 }
 function getUserById(userId) { return allUsers.find(u => u.user_id === userId) || null; }
 function isUserVerified(userId) { const u = getUserById(userId); return u && u.is_verified === true; }
 function verifiedBadgeHTML(userId, size = '') {
   if (!isUserVerified(userId)) return '';
   return `<i class="fa-solid fa-circle-check verified-badge ${size}" title="موثّق"></i>`;
+}
+
+/* ============ Comment counts ============ */
+async function loadCommentCounts() {
+  try {
+    const q = encodeURIComponent(JSON.stringify({ method: 'limit', values: [5000] }));
+    const res = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows?queries[]=${q}`,
+      { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } });
+    if (!res.ok) return;
+    const d = await res.json();
+    commentCounts = {};
+    (d.rows || []).filter(c => c.is_deleted !== true).forEach(c => {
+      if (c.video_id) commentCounts[c.video_id] = (commentCounts[c.video_id] || 0) + 1;
+    });
+  } catch(e) { console.warn(e); }
 }
 
 /* ============ Follows ============ */
@@ -799,7 +854,9 @@ function openNotifications() {
   if (!currentUser) { showToast('سجّل دخول لعرض الإشعارات', true); openModal('loginModal'); return; }
   openModal('notificationsModal');
   loadNotifications().then(renderNotifications);
-  $('broadcastBtn').style.display = isAdmin() ? 'flex' : 'none';
+  const admin = isAdmin();
+  $('broadcastBtn').style.display = admin ? 'flex' : 'none';
+  $('directMsgBtn').style.display = admin ? 'flex' : 'none';
 }
 
 function renderNotifications() {
@@ -821,11 +878,15 @@ function renderNotifications() {
     else if (n.type === 'follow') icon = 'fa-user-plus';
     else if (n.type === 'verify') icon = 'fa-circle-check';
     else if (n.type === 'broadcast') icon = 'fa-tower-broadcast';
+    else if (n.type === 'direct') icon = 'fa-envelope';
     const timeAgo = timeAgoFrom(n.$createdAt);
     const verifiedSender = n.sender_id ? verifiedBadgeHTML(n.sender_id) : '';
+    let extraClass = '';
+    if (n.is_broadcast) extraClass = 'broadcast';
+    if (n.type === 'direct') extraClass = 'direct';
     return `
-      <div class="notif-item ${n.is_read ? '' : 'unread'} ${n.is_broadcast ? 'broadcast' : ''}" onclick="markNotifRead('${n.$id}')">
-        <div class="notif-avatar">${n.is_broadcast && !n.sender_avatar ? '<i class="fa-solid fa-tower-broadcast" style="font-size:16px;color:#1d9bf0;"></i>' : avatar}</div>
+      <div class="notif-item ${n.is_read ? '' : 'unread'} ${extraClass}" onclick="markNotifRead('${n.$id}')">
+        <div class="notif-avatar">${n.is_broadcast && !n.sender_avatar ? '<i class="fa-solid fa-tower-broadcast" style="font-size:16px;color:#1d9bf0;"></i>' : (n.type === 'direct' && !n.sender_avatar ? '<i class="fa-solid fa-envelope" style="font-size:16px;color:#a855f7;"></i>' : avatar)}</div>
         <div class="notif-body">
           <div class="notif-text">
             <b>${esc(n.sender_name || 'النظام')}${verifiedSender}</b>
@@ -937,6 +998,157 @@ async function sendBroadcast() {
     loadNotifications();
   } catch(e) { console.error(e); showToast('فشل الإرسال', true); }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع'; }
+}
+
+/* ============ Direct message (admin → specific user) ============ */
+function openDirectMessage() {
+  if (!isAdmin()) return;
+  closeModal('notificationsModal');
+  dmSelectedUser = null;
+  $('dmSearchInput').value = '';
+  $('dmTextInput').value = '';
+  $('dmSelectedDisplay').style.display = 'none';
+  renderDmUserList();
+  openModal('directMessageModal');
+}
+
+function renderDmUserList() {
+  const search = $('dmSearchInput').value.trim().toLowerCase();
+  const list = $('dmUserList');
+  const users = allUsers.filter(u => {
+    if (!search) return true;
+    return (u.username || '').toLowerCase().includes(search) ||
+           (u.display_name || '').toLowerCase().includes(search);
+  }).slice(0, 100);
+  if (!users.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">لا نتائج</div>';
+    return;
+  }
+  list.innerHTML = users.map(u => {
+    const name = esc(u.display_name || u.username);
+    const initial = name.charAt(0).toUpperCase();
+    const avatar = u.avatar_url ? `<img src="${esc(u.avatar_url)}" style="width:100%;height:100%;object-fit:cover;">` : esc(initial);
+    const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+    const isSel = dmSelectedUser && dmSelectedUser.user_id === u.user_id;
+    return `<div class="dm-user-row" onclick="selectDmUser('${u.user_id}')" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;margin-bottom:4px;background:${isSel ? 'rgba(168,85,247,0.18)' : '#0a0a0a'};border:1px solid ${isSel ? '#a855f7' : 'transparent'};">
+      <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;overflow:hidden;flex-shrink:0;">${avatar}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:4px;">${name}${verified}</div>
+        <div style="font-size:11px;color:var(--muted);">@${esc(u.username)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectDmUser(userId) {
+  dmSelectedUser = allUsers.find(u => u.user_id === userId);
+  if (!dmSelectedUser) return;
+  const name = esc(dmSelectedUser.display_name || dmSelectedUser.username);
+  $('dmSelectedDisplay').style.display = 'block';
+  $('dmSelectedDisplay').innerHTML = `<i class="fa-solid fa-check-circle" style="color:#a855f7;"></i> المستخدم المحدد: <b>${name}</b> (@${esc(dmSelectedUser.username)})`;
+  renderDmUserList();
+}
+
+async function sendDirectMessage() {
+  if (!isAdmin()) return;
+  if (!dmSelectedUser) return showToast('اختر مستخدماً أولاً', true);
+  const text = $('dmTextInput').value.trim();
+  if (!text) return showToast('اكتب رسالة', true);
+  const btn = $('dmSendBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border"></span> جاري الإرسال...';
+  try {
+    const senderName = currentUser.display_name || currentUser.username;
+    const senderAvatar = currentUser.avatar_url || '';
+    const res = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows`, {
+      method: 'POST',
+      headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        rowId: 'unique()',
+        data: {
+          recipient_id: dmSelectedUser.user_id,
+          sender_id: currentUser.$id,
+          sender_name: senderName,
+          sender_avatar: senderAvatar,
+          type: 'direct',
+          content: text,
+          target_id: '',
+          is_read: false,
+          is_broadcast: true
+        },
+        permissions: ['read("any")', 'update("any")', 'delete("any")']
+      })
+    });
+    if (!res.ok) throw new Error('فشل');
+    showToast(`✓ تم الإرسال إلى ${dmSelectedUser.display_name || dmSelectedUser.username}`);
+    $('dmTextInput').value = '';
+    closeModal('directMessageModal', true);
+    loadNotifications();
+  } catch(e) {
+    showToast('فشل الإرسال', true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للمستخدم';
+  }
+}
+
+/* ============ Admin Boost (likes/views) ============ */
+function openBoost(videoId) {
+  if (!isAdmin()) return;
+  boostTargetId = videoId;
+  const row = allRows.find(r => r.$id === videoId);
+  if (!row) return;
+  $('boostLikesInput').value = '0';
+  $('boostViewsInput').value = '0';
+  $('boostInfo').innerHTML = `
+    <div><b>المنشور:</b> ${esc(row.title || 'بدون عنوان')}</div>
+    <div style="margin-top:6px;">
+      <span style="color:var(--danger);"><i class="fa-solid fa-heart"></i> ${row.likes_count || 0}</span>
+      &nbsp;·&nbsp;
+      <span style="color:var(--orange);"><i class="fa-solid fa-eye"></i> ${row.views_count || 0}</span>
+    </div>`;
+  openModal('boostModal');
+}
+
+function quickBoost(amount) {
+  $('boostLikesInput').value = amount;
+  $('boostViewsInput').value = amount;
+}
+
+async function applyBoost() {
+  if (!isAdmin() || !boostTargetId) return;
+  const likesAdd = Math.max(0, parseInt($('boostLikesInput').value) || 0);
+  const viewsAdd = Math.max(0, parseInt($('boostViewsInput').value) || 0);
+  if (likesAdd === 0 && viewsAdd === 0) return showToast('أدخل قيمة أكبر من صفر', true);
+  const row = allRows.find(r => r.$id === boostTargetId);
+  if (!row) return;
+  const btn = $('boostApplyBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border"></span> جاري التطبيق...';
+  try {
+    const newLikes = (row.likes_count || 0) + likesAdd;
+    const newViews = (row.views_count || 0) + viewsAdd;
+    row.likes_count = newLikes;
+    row.views_count = newViews;
+    document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = newLikes);
+    document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => {
+      el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newViews}`;
+    });
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${boostTargetId}`, {
+      method: 'PATCH',
+      headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID, 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ data: { likes_count: newLikes, views_count: newViews } })
+    });
+    showToast(`✓ تم التعزيز: +${likesAdd} لايك، +${viewsAdd} مشاهدة`);
+    closeModal('boostModal', true);
+  } catch(e) {
+    showToast('فشل التعزيز', true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-bolt"></i> تطبيق التعزيز';
+  }
 }
 
 /* ============ Saved posts ============ */
@@ -1092,6 +1304,12 @@ async function toggleCommentLike(commentId, btn) {
 }
 
 /* ============ Sidebar ============ */
+function renderSidebar() {
+  const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
+  if (currentUser) {
+    ub.classList.add('active');
+    const initial = (currentUser.display_name || currentUser
+                     /* ============ Sidebar ============ */
 function renderSidebar() {
   const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
   if (currentUser) {
@@ -1459,6 +1677,7 @@ async function loadContent() {
     if (!res.ok) throw new Error('فشل الاتصال');
     const data = await res.json();
     allRows = shuffleArray(data.rows || []);
+    await loadCommentCounts();
     renderAll();
     setTimeout(setupBlurUp, 100);
   } catch (err) { console.error(err); showErrorAll(err.message); }
@@ -1539,11 +1758,13 @@ function cardHTML(v) {
   const isSaved = savedPostIds.has(v.$id);
   const likesCount = v.likes_count || 0;
   const viewsCount = v.views_count || 0;
+  const commentsCount = commentCounts[v.$id] || 0;
   const safeTitle = (v.title || '').replace(/'/g, '').replace(/"/g, '');
   const authorName = esc(v.author_name || 'مجهول');
   const authorAvatar = v.author_avatar ? `<img src="${esc(v.author_avatar)}" alt="">` : authorName.charAt(0).toUpperCase();
   const verified = verifiedBadgeHTML(v.author_id);
   const authorClick = v.author_id ? `onclick="switchSection('profile','${esc(v.author_id)}')"` : '';
+  const boostBtn = isAdmin() ? `<button class="icon-btn boost" onclick="openBoost('${v.$id}')" title="تعزيز (للمالك)"><i class="fa-solid fa-rocket"></i></button>` : '';
 
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
@@ -1559,6 +1780,7 @@ function cardHTML(v) {
             <div class="card-author-name">${authorName}${verified}</div>
           </div>
           <div class="overlay-btns">
+            ${boostBtn}
             <button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.$id}', this)" title="حفظ">
               <i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i>
             </button>
@@ -1582,7 +1804,7 @@ function cardHTML(v) {
             </button>
             <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id || ''}')">
               <i class="fa-solid fa-comment"></i>
-              <span>تعليقات</span>
+              <span>${commentsCount}</span>
             </button>
             <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
           </div>
@@ -1621,12 +1843,15 @@ function renderReels(rows) {
     const safeTitle = (v.title || '').replace(/'/g, '').replace(/"/g, '');
     const isLiked = likedVideos.has(v.$id);
     const verified = verifiedBadgeHTML(v.author_id);
+    const commentsCount = commentCounts[v.$id] || 0;
+    const boostBtn = isAdmin() ? `<button class="icon-btn boost" onclick="openBoost('${v.$id}')" title="تعزيز (للمالك)"><i class="fa-solid fa-rocket"></i></button>` : '';
     return `
       <div class="reel-item" data-reel-id="${v.$id}">
         <video src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.$id}')"></video>
         <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
         <div class="reel-progress"><div class="reel-progress-fill"></div></div>
         <div class="reel-actions">
+          ${boostBtn}
           <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
           ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.$id}','${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
         </div>
@@ -1644,7 +1869,7 @@ function renderReels(rows) {
             </button>
             <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id || ''}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
               <i class="fa-solid fa-comment"></i>
-              <span>تعليقات</span>
+              <span>${commentsCount}</span>
             </button>
           </div>
         </div>
@@ -1680,7 +1905,6 @@ function setupReelsControls() {
   });
 }
 
-/* ✅ Observer جديد: يوقف الريل تلقائياً عند الخروج من الشاشة */
 function setupReelsObserver() {
   if (reelsObserver) reelsObserver.disconnect();
   reelsObserver = new IntersectionObserver((entries) => {
@@ -1689,7 +1913,6 @@ function setupReelsObserver() {
       const video = item.querySelector('video');
       const btn = item.querySelector('.reel-play-big');
       if (!video) return;
-      // إذا خرج العنصر عن الشاشة (أقل من 50% مرئي) → أوقف الفيديو
       if (entry.intersectionRatio < 0.5) {
         if (!video.paused) {
           video.pause();
@@ -1906,6 +2129,7 @@ async function deleteItem(rowId, videoUrl) {
     try { const m = videoUrl.match(/\/files\/([^/]+)\//); if (m && m[1]) await fetch(`${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${m[1]}`, { method: 'DELETE', headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID }, credentials: 'include' }); } catch(e){}
     showToast('✓ تم الحذف');
     allRows = allRows.filter(r => r.$id !== rowId);
+    delete commentCounts[rowId];
     renderAll();
     if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
     if (currentSection === 'saved') renderSaved();
@@ -1991,6 +2215,7 @@ async function loadComments(videoId) {
     allComments = (data.rows || []).filter(c => c.is_deleted !== true);
     const parents = allComments.filter(c => !c.parent_id).sort((a,b) => new Date(b.$createdAt) - new Date(a.$createdAt));
     const replies = allComments.filter(c => c.parent_id);
+    commentCounts[videoId] = allComments.length;
     if (!parents.length) {
       list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`;
       return;
@@ -2021,7 +2246,6 @@ function toggleReplies(commentId, btn) {
   }
 }
 
-/* ============ Creator Like Badge (بدون نجمة) ============ */
 function getCreatorLikeBadgeHTML(c) {
   const cName = c.creator_name || '';
   const cAvatar = c.creator_avatar || '';
@@ -2196,7 +2420,6 @@ function togglePlayPauseCard(btn) {
       }
     });
     video.muted = false;
-    // ✅ حل مشكلة الشاشة السوداء على الحاسوب
     video.style.visibility = 'hidden';
     requestAnimationFrame(() => {
       const p = video.play();
@@ -2223,7 +2446,6 @@ function seekVideo(e, barEl) {
   video.currentTime = pct * video.duration;
 }
 
-/* ============ Observer للرئيسية: يوقف الفيديو عند الخروج ============ */
 function setupHomeObserver() {
   if (homeVideoObserver) homeVideoObserver.disconnect();
   homeVideoObserver = new IntersectionObserver((entries) => {
@@ -2274,7 +2496,6 @@ function setupVideoControls() {
       const pb = card ? card.querySelector('.play-big') : null;
       if (pb) pb.style.display = 'none';
       activeVideo = el;
-      // ✅ حل الشاشة السوداء - إعادة رسم الفيديو
       try {
         el.style.willChange = 'transform';
         el.style.transform = 'translate3d(0,0,0)';
@@ -2293,7 +2514,6 @@ function setupVideoControls() {
     });
     el.addEventListener('loadeddata', () => el.classList.add('loaded'));
     el.addEventListener('waiting', () => {
-      // ✅ حل إضافي للشاشة السوداء
       try {
         el.style.opacity = '0.99';
         requestAnimationFrame(() => el.style.opacity = '1');
@@ -2361,7 +2581,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   showWarningIfNeeded();
   currentUser = loadSession();
   renderSidebar();
-  await Promise.all([loadAllUsers(), loadContent()]);
+  await loadAllUsers();
+  await loadContent();
   if (currentUser) {
     await Promise.all([loadFollowing(), loadSaved(), loadLikedComments(), loadNotifications()]);
     if (notifPollTimer) clearInterval(notifPollTimer);
@@ -2370,4 +2591,4 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 </script>
 </body>
-  </html>
+</html>
