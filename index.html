@@ -86,7 +86,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .home-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
 .card{background:#101010;border:1px solid rgba(255,255,255,0.05);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px rgba(0,0,0,0.5)}
 .card-media-wrap{position:relative;width:100%;background:#000;overflow:hidden;min-height:200px;font-size:0;line-height:0}
-.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
+.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .card-media:not(.loaded){opacity:0.5}
 .card-media.loaded{opacity:1}
 .card-overlay-author{position:absolute;top:12px;right:12px;left:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:3;pointer-events:none;line-height:1.5}
@@ -124,7 +124,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .reels-container{height:calc(100dvh - 64px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
 .reel-item{height:calc(100dvh - 64px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000}
 .reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .reel-item .reel-play-big.hidden{display:none}
 .reel-item .reel-progress{position:absolute;bottom:130px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
@@ -301,83 +301,81 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
   </div>
 </div>
 
-<div class="page-layer">
-  <header>
+<header>
+  <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">SITE</span></div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="ابحث..." oninput="applySearch()">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <button class="header-icon-btn" id="notifBtn" onclick="openNotifications()" title="الإشعارات">
+    <i class="fa-solid fa-bell"></i>
+    <span class="notif-count hidden" id="notifCount">0</span>
+  </button>
+  <div class="user-chip" id="userChip" onclick="goToMyProfile()">
+    <div class="user-chip-avatar" id="userChipAvatar"></div>
+    <div class="user-chip-name" id="userChipName"></div>
+  </div>
+  <button class="publish-btn-top" onclick="handleFabClick()">
+    <i class="fa-solid fa-plus"></i><span>نشر</span>
+  </button>
+  <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
     <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">SITE</span></div>
-    <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="ابحث..." oninput="applySearch()">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
-    <button class="header-icon-btn" id="notifBtn" onclick="openNotifications()" title="الإشعارات">
-      <i class="fa-solid fa-bell"></i>
-      <span class="notif-count hidden" id="notifCount">0</span>
-    </button>
-    <div class="user-chip" id="userChip" onclick="goToMyProfile()">
-      <div class="user-chip-avatar" id="userChipAvatar"></div>
-      <div class="user-chip-name" id="userChipName"></div>
-    </div>
-    <button class="publish-btn-top" onclick="handleFabClick()">
-      <i class="fa-solid fa-plus"></i><span>نشر</span>
-    </button>
-    <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-  </header>
-
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">SITE</span></div>
-    </div>
-    <div class="sidebar-user" id="sidebarUser">
-      <div class="sidebar-user-info">
-        <div class="sidebar-avatar" id="sidebarAvatar"></div>
-        <div style="min-width:0;flex:1;">
-          <div class="sidebar-user-name" id="sidebarName"></div>
-          <div class="sidebar-user-handle" id="sidebarHandle"></div>
-        </div>
+  </div>
+  <div class="sidebar-user" id="sidebarUser">
+    <div class="sidebar-user-info">
+      <div class="sidebar-avatar" id="sidebarAvatar"></div>
+      <div style="min-width:0;flex:1;">
+        <div class="sidebar-user-name" id="sidebarName"></div>
+        <div class="sidebar-user-handle" id="sidebarHandle"></div>
       </div>
     </div>
-    <nav class="sidebar-nav">
-      <a data-section="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i> الرئيسية <span class="count" id="count-home">0</span></a>
-      <a data-section="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i> ريلزات <span class="count" id="count-reels">0</span></a>
-      <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
-      <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
-      <div id="authNav"></div>
-    </nav>
-    <div class="sidebar-footer">
-      <i class="fa-brands fa-telegram"></i> للتواصل <b>@nhnhhnhn</b>
-      <div class="brand-txt">ATLAS SITE</div>
-    </div>
-  </aside>
+  </div>
+  <nav class="sidebar-nav">
+    <a data-section="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i> الرئيسية <span class="count" id="count-home">0</span></a>
+    <a data-section="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i> ريلزات <span class="count" id="count-reels">0</span></a>
+    <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
+    <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
+    <div id="authNav"></div>
+  </nav>
+  <div class="sidebar-footer">
+    <i class="fa-brands fa-telegram"></i> للتواصل <b>@nhnhhnhn</b>
+    <div class="brand-txt">ATLAS SITE</div>
+  </div>
+</aside>
 
-  <main>
-    <section id="section-home" class="section active">
-      <div class="section-head"><i class="fa-solid fa-house"></i> الرئيسية</div>
-      <div class="home-tabs">
-        <button class="home-tab active" data-filter="all" onclick="setHomeFilter('all')"><i class="fa-solid fa-layer-group"></i> الكل</button>
-        <button class="home-tab" data-filter="following" onclick="setHomeFilter('following')"><i class="fa-solid fa-user-check"></i> أتابعهم</button>
-      </div>
-      <div class="grid" id="grid-home"></div>
-    </section>
-    <section id="section-reels" class="section"><div class="reels-container" id="reelsContainer"></div></section>
-    <section id="section-images" class="section">
-      <div class="section-head"><i class="fa-solid fa-image"></i> الصور</div>
-      <div class="grid" id="grid-images"></div>
-    </section>
-    <section id="section-saved" class="section">
-      <div class="section-head"><i class="fa-solid fa-bookmark"></i> المحفوظات</div>
-      <div class="grid" id="grid-saved"></div>
-    </section>
-    <section id="section-profile" class="section"><div id="profileContent"></div></section>
-    <section id="section-users" class="section">
-      <div class="section-head"><i class="fa-solid fa-users"></i> المستخدمون (للمالك)</div>
-      <div style="padding: 0 5% 30px;" id="usersList"></div>
-    </section>
-    <section id="section-connections" class="section">
-      <div class="section-head" id="connectionsHead"><i class="fa-solid fa-users"></i> —</div>
-      <div style="padding: 0 5% 30px;" id="connectionsList"></div>
-    </section>
-  </main>
-</div>
+<main>
+  <section id="section-home" class="section active">
+    <div class="section-head"><i class="fa-solid fa-house"></i> الرئيسية</div>
+    <div class="home-tabs">
+      <button class="home-tab active" data-filter="all" onclick="setHomeFilter('all')"><i class="fa-solid fa-layer-group"></i> الكل</button>
+      <button class="home-tab" data-filter="following" onclick="setHomeFilter('following')"><i class="fa-solid fa-user-check"></i> أتابعهم</button>
+    </div>
+    <div class="grid" id="grid-home"></div>
+  </section>
+  <section id="section-reels" class="section"><div class="reels-container" id="reelsContainer"></div></section>
+  <section id="section-images" class="section">
+    <div class="section-head"><i class="fa-solid fa-image"></i> الصور</div>
+    <div class="grid" id="grid-images"></div>
+  </section>
+  <section id="section-saved" class="section">
+    <div class="section-head"><i class="fa-solid fa-bookmark"></i> المحفوظات</div>
+    <div class="grid" id="grid-saved"></div>
+  </section>
+  <section id="section-profile" class="section"><div id="profileContent"></div></section>
+  <section id="section-users" class="section">
+    <div class="section-head"><i class="fa-solid fa-users"></i> المستخدمون (للمالك)</div>
+    <div style="padding: 0 5% 30px;" id="usersList"></div>
+  </section>
+  <section id="section-connections" class="section">
+    <div class="section-head" id="connectionsHead"><i class="fa-solid fa-users"></i> —</div>
+    <div style="padding: 0 5% 30px;" id="connectionsList"></div>
+  </section>
+</main>
 
 <div class="modal-overlay" id="uploadModal">
   <div class="modal-box">
@@ -709,8 +707,7 @@ function verifiedBadgeHTML(userId, size = '') {
 /* ============ Comment counts ============ */
 async function loadCommentCounts() {
   try {
-    const q = encodeURIComponent(JSON.stringify({ method: 'limit', values: [5000] }));
-    const res = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows?queries[]=${q}`,
+    const res = await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows`,
       { headers: { 'X-Appwrite-Project': APPWRITE_PROJECT_ID } });
     if (!res.ok) return;
     const d = await res.json();
@@ -994,13 +991,13 @@ async function sendBroadcast() {
     }
     showToast(`✓ تم الإرسال لـ ${sent} مستخدم`);
     $('broadcastText').value = '';
-    closeModal('broadcastModal');
+    closeModal('broadcastModal', true);
     loadNotifications();
   } catch(e) { console.error(e); showToast('فشل الإرسال', true); }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع'; }
 }
 
-/* ============ Direct message (admin → specific user) ============ */
+/* ============ Direct message ============ */
 function openDirectMessage() {
   if (!isAdmin()) return;
   closeModal('notificationsModal');
@@ -1093,7 +1090,7 @@ async function sendDirectMessage() {
   }
 }
 
-/* ============ Admin Boost (likes/views) ============ */
+/* ============ Admin Boost ============ */
 function openBoost(videoId) {
   if (!isAdmin()) return;
   boostTargetId = videoId;
@@ -1304,12 +1301,6 @@ async function toggleCommentLike(commentId, btn) {
 }
 
 /* ============ Sidebar ============ */
-function renderSidebar() {
-  const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
-  if (currentUser) {
-    ub.classList.add('active');
-    const initial = (currentUser.display_name || currentUser
-                     /* ============ Sidebar ============ */
 function renderSidebar() {
   const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
   if (currentUser) {
@@ -1562,8 +1553,7 @@ function resetSignupForm() {
   $('signupAvatarPreview').innerHTML = '<i class="fa-solid fa-user"></i>';
   avatarFile = null;
 }
-
-/* ============ Upload ============ */
+  /* ============ Upload ============ */
 function handleFabClick() {
   if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; }
   openModal('uploadModal');
@@ -2405,7 +2395,7 @@ function applySearch() {
   searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 200);
 }
 
-/* ============ تشغيل/إيقاف يدوي (صوت تلقائي) ============ */
+/* ============ تشغيل/إيقاف يدوي ============ */
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card');
   const video = card ? card.querySelector('.card-media') : null;
