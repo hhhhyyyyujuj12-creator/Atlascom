@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATLAS — نقل البيانات</title>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{background:#000;color:#fff;font-family:system-ui;padding:14px;direction:rtl;margin:0}
+h1{color:#ff6b00;font-size:20px;margin:8px 0}
+.box{background:#111;border:1px solid #333;padding:12px;margin:10px 0;border-radius:10px}
+label{display:block;font-size:13px;color:#aaa;margin-top:10px;margin-bottom:4px}
+input[type=file]{width:100%;padding:8px;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#fff;font-size:12px}
+button{background:#ff6b00;color:#000;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;width:100%;margin-top:12px}
+button:disabled{opacity:0.5}
+.log{background:#000;color:#0f0;padding:10px;border-radius:8px;font-family:monospace;font-size:11px;max-height:60vh;overflow-y:auto;white-space:pre-wrap;direction:ltr;text-align:left;margin-top:12px;border:1px solid #222}
+.ok{color:#0f0}.err{color:#f44}.warn{color:#ff0}.info{color:#4af}
+</style>
+</head>
+<body>
+
+<h1>🚀 نقل بيانات ATLAS</h1>
+<p style="font-size:12px;color:#888;margin:4px 0">ارفع ملفات CSV بالترتيب ثم اضغط زر النقل</p>
+
+<div class="box">
+  <label>📹 ملف الفيديوهات/الصور (Videos)</label>
+  <input type="file" id="csvVideos" accept=".csv">
+  <label>👥 ملف المستخدمين (Users)</label>
+  <input type="file" id="csvUsers" accept=".csv">
+  <label>💬 ملف التعليقات (Comments)</label>
+  <input type="file" id="csvComments" accept=".csv">
+  <label>📬 ملف الإشعارات (Notifications)</label>
+  <input type="file" id="csvNotifs" accept=".csv">
+  <label>👥 ملف المتابعات (Follows)</label>
+  <input type="file" id="csvFollows" accept=".csv">
+</div>
+
+<button id="startBtn" onclick="startMigration()">🚀 بدء النقل</button>
+<div class="log" id="log">جاهز... ارفع الملفات واضغط بدء النقل</div>
+
+<script>
+const SUPABASE_URL = 'https://fygzmqamwslvqbszizlq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5Z3ptcWFtd3NsdnFic3ppemxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2MTQ5NzQsImV4cCI6MjEwNjE5MDk3NH0.Upe_pqy7FpmhLStsSlgNZFxEAp345fnpDtCd9FLwGKg';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const logEl = document.getElementById('log');
+
+function log(msg, cls='') {
+  const span = document.createElement('span');
+  if (cls) span.className = cls;
+  span.textContent = msg + '\n';
+  logEl.appendChild(span);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function readFile(input) {
+  return new Promise((resolve) => {
+    const file = input.files[0];
+    if (!file) { resolve(null); return; }
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => resolve(results.data),
+      error: (err) => { log('خطأ قراءة ملف: ' + err.message, 'err'); resolve(null); }
+    });
+  });
+}
+
+async function downloadAndUpload(appwriteUrl, path) {
+  try {
+    log('  ⬇️ تحميل من Appwrite...', 'info');
+    const res = await fetch(appwriteUrl);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    const ext = (appwriteUrl.split('.').pop() || 'bin').split('?')[0].split('/')[0];
+    const fileName = `${path}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+    log('  ⬆️ رفع على Supabase...', 'info');
+    const { data, error } = await supabase.storage.from('media').upload(fileName, blob, {
+      contentType: blob.type || 'application/octet-stream',
+      upsert: false
+    });
+    if (error) throw error;
+    const { data: urlData } = supabase.storage.from('media').getPublicUrl(data.path);
+    log('  ✅ تم', 'ok');
+    return urlData.publicUrl;
+  } catch (e) {
+    log('  ⚠️ فشل: ' + e.message + ' — سنستخدم الرابط القديم', 'warn');
+    return appwriteUrl;
+  }
+}
+
+async function startMigration() {
+  const btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  logEl.innerHTML = '';
+  log('🚀 بدء عملية النقل...', 'info');
+
+  try {
+    // 1. المستخدمين
+    log('\n👥 [1/5] نقل المستخدمين...', 'info');
+    const users = await readFile(document.getElementById('csvUsers'));
+    if (users && users.length) {
+      let ok = 0, fail = 0;
+      for (const u of users) {
+        const userId = u['$id'];
+        if (!userId) continue;
+        const { error } = await supabase.from('profiles').upsert({
+          id: userId,
+          username: u.username || ('user_' + userId.slice(0,6)),
+          display_name: u.display_name || u.username || 'مستخدم',
+          avatar_url: u.avatar_url || '',
+          is_verified: u.is_verified === 'true'
+        });
+        if (error) { log('  ❌ ' + (u.username||userId) + ': ' + error.message, 'err'); fail++; }
+        else ok++;
+      }
+      log('  ✅ نجح: ' + ok + ' | ❌ فشل: ' + fail, 'ok');
+    } else log('  ⚠️ لا يوجد ملف', 'warn');
+
+    // 2. المنشورات
+    log('\n📹 [2/5] نقل المنشورات... (قد يأخذ وقت)', 'info');
+    const videos = await readFile(document.getElementById('csvVideos'));
+    if (videos && videos.length) {
+      let ok = 0, fail = 0;
+      for (let i = 0; i < videos.length; i++) {
+        const v = videos[i];
+        const vid = v['$id'];
+        if (!vid) continue;
+        log(`  [${i+1}/${videos.length}] ${(v.title||'').slice(0,30)}...`, 'info');
+        
+        let newUrl = v.video_url;
+        if (v.video_url && v.video_url.includes('appwrite.io')) {
+          newUrl = await downloadAndUpload(v.video_url, 'posts');
+        }
+        
+        const { error } = await supabase.from('posts').upsert({
+          id: vid,
+          user_id: v.author_id,
+          title: v.title || 'بدون عنوان',
+          description: v.description || '',
+          media_url: newUrl,
+          media_type: v.media_type || 'video',
+          likes_count: parseInt(v.likes_count) || 0,
+          views_count: parseInt(v.views_count) || 0,
+          author_name: v.author_name || '',
+          author_avatar: v.author_avatar || '',
+          created_at: v['$createdAt'] || new Date().toISOString()
+        });
+        if (error) { log('    ❌ ' + error.message, 'err'); fail++; }
+        else { ok++; log('    ✅ تم', 'ok'); }
+      }
+      log('  ✅ نجح: ' + ok + ' | ❌ فشل: ' + fail, 'ok');
+    } else log('  ⚠️ لا يوجد ملف', 'warn');
+
+    // 3. التعليقات
+    log('\n💬 [3/5] نقل التعليقات...', 'info');
+    const comments = await readFile(document.getElementById('csvComments'));
+    if (comments && comments.length) {
+      let ok = 0, fail = 0;
+      for (const c of comments) {
+        const cid = c['$id'];
+        if (!cid) continue;
+        const { error } = await supabase.from('comments').upsert({
+          id: cid,
+          post_id: c.video_id,
+          user_id: c.user_id,
+          content: c.content || '',
+          parent_id: c.parent_id || null,
+          likes_count: parseInt(c.likes_count) || 0,
+          is_deleted: c.is_deleted === 'true',
+          author_name: c.author_name || '',
+          author_avatar: c.author_avatar || '',
+          created_at: c['$createdAt'] || new Date().toISOString()
+        });
+        if (error) fail++; else ok++;
+      }
+      log('  ✅ نجح: ' + ok + ' | ❌ فشل: ' + fail, 'ok');
+    } else log('  ⚠️ لا يوجد ملف', 'warn');
+
+    // 4. الإشعارات
+    log('\n📬 [4/5] نقل الإشعارات...', 'info');
+    const notifs = await readFile(document.getElementById('csvNotifs'));
+    if (notifs && notifs.length) {
+      let ok = 0, fail = 0;
+      for (const n of notifs) {
+        const nid = n['$id'];
+        if (!nid) continue;
+        const { error } = await supabase.from('notifications').upsert({
+          id: nid,
+          recipient_id: n.recipient_id,
+          sender_id: n.sender_id,
+          type: n.type || 'info',
+          content: n.content || '',
+          target_id: n.target_id || '',
+          is_read: n.is_read === 'true',
+          created_at: n['$createdAt'] || new Date().toISOString()
+        });
+        if (error) fail++; else ok++;
+      }
+      log('  ✅ نجح: ' + ok + ' | ❌ فشل: ' + fail, 'ok');
+    } else log('  ⚠️ لا يوجد ملف', 'warn');
+
+    // 5. المتابعات
+    log('\n👥 [5/5] نقل المتابعات...', 'info');
+    const follows = await readFile(document.getElementById('csvFollows'));
+    if (follows && follows.length) {
+      let ok = 0, fail = 0;
+      for (const f of follows) {
+        const fid = f['$id'];
+        if (!fid) continue;
+        const { error } = await supabase.from('follows').upsert({
+          id: fid,
+          follower_id: f.follower_id,
+          following_id: f.following_id,
+          created_at: f['$createdAt'] || new Date().toISOString()
+        });
+        if (error) fail++; else ok++;
+      }
+      log('  ✅ نجح: ' + ok + ' | ❌ فشل: ' + fail, 'ok');
+    } else log('  ⚠️ لا يوجد ملف', 'warn');
+
+    log('\n🎉 اكتمل النقل بنجاح!', 'ok');
+    log('افتح الموقع الآن: https://hhhhyyyyujuj12-creator.github.io/Atlascom/', 'ok');
+    log('ملاحظة: امسح كاش المتصفح بـ Ctrl+Shift+R', 'warn');
+
+  } catch(e) {
+    log('❌ خطأ عام: ' + e.message, 'err');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
