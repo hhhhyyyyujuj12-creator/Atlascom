@@ -263,6 +263,33 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
+  <div id="debugBox" style="display:none;position:fixed;top:0;left:0;right:0;max-height:50vh;overflow:auto;background:#300;color:#fff;padding:12px;font-family:monospace;font-size:11px;z-index:99999;direction:ltr;text-align:left;border-bottom:2px solid red;"></div>
+<script>
+window.addEventListener('error', function(e) {
+  var box = document.getElementById('debugBox');
+  box.style.display = 'block';
+  box.innerHTML += '<div style="border-bottom:1px solid #500;padding:4px 0;">❌ ' + (e.message || 'Error') + '<br>📍 ' + (e.filename || '').split('/').pop() + ':' + (e.lineno || '') + '</div>';
+});
+window.addEventListener('unhandledrejection', function(e) {
+  var box = document.getElementById('debugBox');
+  box.style.display = 'block';
+  box.innerHTML += '<div style="border-bottom:1px solid #500;padding:4px 0;">❌ Promise: ' + (e.reason && e.reason.message ? e.reason.message : e.reason) + '</div>';
+});
+// فحص تحميل مكتبة Supabase
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var box = document.getElementById('debugBox');
+    if (typeof window.supabase === 'undefined') {
+      box.style.display = 'block';
+      box.innerHTML += '<div style="background:#500;padding:6px;margin-top:4px;">⚠️ مكتبة Supabase لم تُحمّل!<br>السبب: CDN محجوب</div>';
+    } else {
+      box.style.display = 'block';
+      box.innerHTML += '<div style="background:#050;padding:6px;margin-top:4px;">✅ Supabase loaded OK</div>';
+      setTimeout(function() { box.style.display = 'none'; }, 2000);
+    }
+  }, 3000);
+});
+</script>
   
 <div class="warning-overlay" id="warningOverlay">
   <div class="warning-box">
