@@ -6,22 +6,13 @@
 <meta name="theme-color" content="#000000">
 <title>ATLAS SITE — منصة نشر حر</title>
 <meta name="description" content="ATLAS SITE — منصة نشر حر للفيديوهات والصور.">
-<meta name="author" content="ATLAS">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="ATLAS SITE">
-<meta property="og:description" content="شارك الفيديوهات والصور بحرية كاملة">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://hhhhyyyyujuj12-creator.github.io/Atlascom/">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-:root{--bg:#000;--card:#101010;--border:#1c1c1c;--orange:#ff6b00;--orange-2:#ff8c33;--text:#e8e8ee;--muted:#6b6b78;--danger:#ff3355;--verified:#1d9bf0;--admin:#22c55e}
+:root{--bg:#000;--card:#101010;--border:#1c1c1c;--orange:#ff6b00;--text:#e8e8ee;--muted:#6b6b78;--danger:#ff3355;--verified:#1d9bf0;--admin:#22c55e}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
 html,body{background:#000;color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:8px;height:8px}
@@ -38,11 +29,7 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .search-wrap i{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
 .header-icon-btn{position:relative;background:#0a0a0a;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
 .header-icon-btn:hover{border-color:var(--orange);color:var(--orange)}
-.header-icon-btn .notif-count{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #000}
-.header-icon-btn .notif-count.hidden{display:none}
-.publish-btn-top{background:var(--orange);color:#000;border:none;height:40px;padding:0 16px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-weight:900;font-size:13px;cursor:pointer;flex-shrink:0}
 .user-chip{display:none;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--border);padding:5px 10px 5px 5px;border-radius:22px;cursor:pointer;flex-shrink:0}
-.user-chip:hover{border-color:var(--orange)}
 .user-chip.active{display:flex}
 .user-chip-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;overflow:hidden}
 .user-chip-avatar img{width:100%;height:100%;object-fit:cover}
@@ -66,13 +53,11 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .sidebar-nav a i{width:22px;text-align:center;font-size:15px}
 .sidebar-nav a .count{margin-right:auto;background:rgba(255,107,0,0.15);color:var(--orange);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700}
 .sidebar-nav a.danger{color:#ff6677}
-.sidebar-nav a.danger:hover{background:rgba(255,51,85,0.1);color:var(--danger)}
 .sidebar-nav a.admin{color:var(--verified)}
-.sidebar-nav a.admin:hover{background:rgba(29,155,240,0.1)}
 .sidebar-footer{padding:16px 22px 4px;border-top:1px solid var(--border);margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
 .sidebar-footer b{color:var(--orange);font-weight:800}
 .sidebar-footer .brand-txt{font-size:10px;color:#3a3a44;margin-top:8px;letter-spacing:1px}
-main{padding-bottom:40px;min-height:calc(100vh - 64px)}
+main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .section{display:none}
 .section.active{display:block}
 .section-head{padding:20px 5% 12px;display:flex;align-items:center;gap:12px;font-size:18px;font-weight:800}
@@ -86,7 +71,7 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .home-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
 .card{background:#101010;border:1px solid rgba(255,255,255,0.05);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px rgba(0,0,0,0.5)}
 .card-media-wrap{position:relative;width:100%;background:#000;overflow:hidden;min-height:200px;font-size:0;line-height:0}
-.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
+.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer}
 .card-media:not(.loaded){opacity:0.5}
 .card-media.loaded{opacity:1}
 .card-overlay-author{position:absolute;top:12px;right:12px;left:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:3;pointer-events:none;line-height:1.5}
@@ -97,7 +82,6 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .save-btn.saved{color:var(--orange);background:rgba(255,107,0,0.2)}
 .admin-boost-btn{width:38px;height:38px;border-radius:50%;background:rgba(34,197,94,0.9);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.admin-boost-btn:hover{background:var(--admin);transform:scale(1.05)}
 .play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:auto}
 .progress-bar-overlay{position:absolute;bottom:0;left:0;right:0;height:22px;display:flex;align-items:flex-end;padding:0 0 8px 0;z-index:3;cursor:pointer;pointer-events:auto}
 .progress-track{width:100%;height:3px;background:rgba(255,255,255,0.25);border-radius:3px;overflow:hidden;margin:0 12px}
@@ -115,21 +99,18 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .icon-btn.del:hover{color:var(--danger)}
 .icon-btn.liked{color:var(--danger)}
 .actions-row{display:flex;align-items:center;gap:6px}
-.meta-date{font-size:11px;color:var(--muted)}
-.verified-badge{color:var(--verified);font-size:0.85em;margin-right:2px;filter:drop-shadow(0 0 5px rgba(29,155,240,0.8));animation:verifyGlow 2s ease-in-out infinite}
-@keyframes verifyGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(29,155,240,0.6))}50%{filter:drop-shadow(0 0 12px rgba(29,155,240,1))}}
+.meta-date{font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
+.verified-badge{color:var(--verified);font-size:0.85em;margin-right:2px}
 .verified-badge.lg{font-size:1em}
-.header-icon-btn.has-notif{border-color:var(--danger);color:var(--danger);animation:bellGlow 1.5s ease-in-out infinite}
-@keyframes bellGlow{0%,100%{box-shadow:0 0 4px rgba(255,51,85,0.4)}50%{box-shadow:0 0 16px rgba(255,51,85,0.9)}}
-.reels-container{height:calc(100dvh - 64px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
+.reels-container{height:calc(100dvh - 64px - 62px - env(safe-area-inset-bottom,0px));overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
-.reel-item{height:calc(100dvh - 64px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000;transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.reel-item{height:calc(100dvh - 64px - 62px - env(safe-area-inset-bottom,0px));scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000}
 .reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .reel-item .reel-play-big.hidden{display:none}
-.reel-item .reel-progress{position:absolute;bottom:130px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
+.reel-item .reel-progress{position:absolute;bottom:70px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
 .reel-item .reel-progress-fill{height:100%;width:0%;background:var(--orange);border-radius:2px}
-.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 60px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
+.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 30px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
 .reel-overlay .reel-author{display:flex;align-items:center;gap:8px;margin-bottom:10px;pointer-events:auto}
 .reel-overlay h3{font-size:16px;font-weight:800;margin-bottom:6px;color:#fff}
 .reel-overlay p{font-size:13px;color:#ddd;line-height:1.5;max-height:60px;overflow:hidden}
@@ -160,24 +141,22 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .user-card-handle{font-size:11px;color:var(--muted)}
 .user-card-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
 .user-action-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
-.user-action-btn:hover{border-color:var(--orange);color:var(--orange)}
 .user-action-btn.verify{border-color:var(--verified);color:var(--verified)}
 .user-action-btn.unverify{border-color:var(--danger);color:var(--danger)}
 .user-action-btn.send-msg{border-color:var(--admin);color:var(--admin)}
-.user-action-btn.send-msg:hover{background:var(--admin);color:#fff}
 .empty{text-align:center;padding:70px 24px;color:var(--muted)}
-.empty i{font-size:50px;color:#1c1c1c;margin-bottom:16px;display:block}
-.empty p{font-size:15px;margin-bottom:6px;font-weight:700;color:#888}
-.empty span{font-size:12.5px;color:#4a4a54}
+.empty i{font-size:50px;color:#2a2a2a;margin-bottom:16px;display:block}
+.empty p{font-size:15px;margin-bottom:6px;font-weight:700;color:#bbb}
+.empty span{font-size:12.5px;color:#666}
 .skeleton-card{width:100%;max-width:400px;flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
 .skeleton-media{width:100%;aspect-ratio:4/5;background:#151515}
 .skeleton-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
 .skeleton-line{height:12px;border-radius:6px;background:#1a1a1a}
 .skeleton-line.title{width:70%;height:14px}
 .skeleton-line.desc{width:100%}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .modal-overlay.active{display:flex}
-.modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+.modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto}
 .modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .modal-close:hover{color:var(--danger)}
 .modal-box h2{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
@@ -217,12 +196,12 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .warning-list{text-align:right;color:#aaa;font-size:13px;line-height:1.9;margin:14px 0 20px;padding:14px 18px;background:rgba(255,107,0,0.05);border-right:3px solid var(--orange);border-radius:8px}
 .warning-list i{color:var(--orange);margin-left:8px}
 .warning-accept{width:100%;padding:14px;background:var(--orange);color:#000;border:none;border-radius:10px;font-family:inherit;font-weight:900;font-size:16px;cursor:pointer}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(300%);opacity:0;pointer-events:none;visibility:hidden;background:#0e0e0e;border:1px solid var(--orange);color:var(--text);padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:20000;transition:transform 0.35s,opacity 0.25s,visibility 0.25s;max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(300%);opacity:0;pointer-events:none;visibility:hidden;background:#0e0e0e;border:1px solid var(--orange);color:var(--text);padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:20000;transition:transform 0.35s,opacity 0.25s,visibility 0.25s;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;visibility:visible}
 .toast.error{border-color:var(--danger)}
 .spinner-border{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.comment-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border);margin-bottom:12px;overscroll-behavior:contain;touch-action:pan-y}
+.comment-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border);margin-bottom:12px}
 .comment-item{padding:10px 12px;background:#0a0a0a;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
 .comment-item.reply{margin-right:20px;background:#080808;margin-top:6px}
 .comment-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
@@ -231,23 +210,20 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .comment-item-body{font-size:13px;color:#ddd;line-height:1.5;word-break:break-word}
 .comment-actions{display:flex;gap:12px;margin-top:6px;font-size:11px;align-items:center;flex-wrap:wrap}
 .comment-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 6px;border-radius:6px}
-.comment-actions button:hover{color:var(--orange)}
 .comment-actions button.liked{color:var(--danger)}
 .comment-del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
 .comment-del-btn:hover{color:var(--danger)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
-.creator-like-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,51,0.12));color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px 3px 3px;border-radius:14px;border:1px solid rgba(255,107,0,0.35);box-shadow:0 0 8px rgba(255,107,0,0.15)}
-.creator-like-badge .creator-like-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;overflow:hidden;flex-shrink:0;border:1px solid rgba(255,255,255,0.15)}
+.creator-like-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(255,140,51,0.12));color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px 3px 3px;border-radius:14px;border:1px solid rgba(255,107,0,0.35)}
+.creator-like-badge .creator-like-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;overflow:hidden;flex-shrink:0}
 .creator-like-badge .creator-like-avatar img{width:100%;height:100%;object-fit:cover}
 .creator-like-badge .creator-like-name{color:#fff;font-weight:800;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.creator-like-badge .creator-like-name .verified-badge{font-size:0.9em}
 .replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
-.replies-toggle-btn:hover{text-decoration:underline}
 .replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
 .replies-container.show{display:block}
-.notif-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border);overscroll-behavior:contain;touch-action:pan-y}
+.notif-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border)}
 .notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .notif-item.unread{background:rgba(255,107,0,0.06);border-color:rgba(255,107,0,0.3)}
 .notif-item.broadcast{background:rgba(29,155,240,0.05);border-color:rgba(29,155,240,0.3)}
@@ -257,16 +233,25 @@ main{padding-bottom:40px;min-height:calc(100vh - 64px)}
 .notif-body{flex:1;min-width:0}
 .notif-text{font-size:13px;line-height:1.5;color:#ddd}
 .notif-text b{color:#fff}
-.notif-text .notif-type-icon{display:inline-block;margin-left:4px}
 .notif-time{font-size:10px;color:var(--muted);margin-top:4px}
 body.modal-open{overflow:hidden!important;position:fixed;width:100%}
+body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(0,0,0,0.98);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;z-index:500;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px;transition:color 0.2s;-webkit-tap-highlight-color:transparent}
+.bottom-nav-item i{font-size:21px;line-height:1}
+.bottom-nav-item.active{color:var(--orange)}
+.bottom-nav-item .notif-count{position:absolute;top:2px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #000;line-height:1}
+.bottom-nav-item .notif-count.hidden{display:none}
+.bottom-nav-plus{position:relative;width:48px;height:32px;border-radius:9px;background:var(--orange);border:none;color:#000;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin:0 4px;box-shadow:0 0 14px rgba(255,107,0,0.55);transition:transform 0.15s,box-shadow 0.15s}
+.bottom-nav-plus::before,.bottom-nav-plus::after{content:'';position:absolute;top:3px;bottom:3px;width:6px;border-radius:3px;background:var(--orange);z-index:-1;filter:blur(1px);opacity:0.85}
+.bottom-nav-plus::before{left:-5px}
+.bottom-nav-plus::after{right:-5px}
+.bottom-nav-plus i{color:#000;font-size:22px;font-weight:900}
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
   .logo{font-size:12px}
   .logo-atlas,.logo-site{padding:5px 7px}
   .search-wrap input{padding:8px 32px 8px 10px;font-size:12px}
-  .publish-btn-top{width:38px;height:38px;padding:0;justify-content:center}
-  .publish-btn-top span{display:none}
   .user-chip-name{display:none}
   .user-chip{padding:5px}
   .header-icon-btn{width:38px;height:38px}
@@ -286,12 +271,14 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
   .card-media{max-height:70vh}
   .comment-item.reply{margin-right:12px}
   .reel-item .reel-play-big{width:60px;height:60px;font-size:22px}
+  .bottom-nav-item span{font-size:10px}
+  .bottom-nav-item i{font-size:19px}
+  .bottom-nav-plus{width:44px;height:30px}
 }
 </style>
 </head>
 <body>
-
-<div class="warning-overlay" id="warningOverlay">
+  <div class="warning-overlay" id="warningOverlay">
   <div class="warning-box">
     <div class="warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <h2>تنبيه مهم قبل الدخول</h2>
@@ -309,23 +296,16 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
 
 <div class="page-layer">
   <header>
+    <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">SITE</span></div>
     <div class="search-wrap">
       <input type="text" id="searchInput" placeholder="ابحث..." oninput="applySearch()">
       <i class="fa-solid fa-magnifying-glass"></i>
     </div>
-    <button class="header-icon-btn" id="notifBtn" onclick="openNotifications()" title="الإشعارات">
-      <i class="fa-solid fa-bell"></i>
-      <span class="notif-count hidden" id="notifCount">0</span>
-    </button>
     <div class="user-chip" id="userChip" onclick="goToMyProfile()">
       <div class="user-chip-avatar" id="userChipAvatar"></div>
       <div class="user-chip-name" id="userChipName"></div>
     </div>
-    <button class="publish-btn-top" onclick="handleFabClick()">
-      <i class="fa-solid fa-plus"></i><span>نشر</span>
-    </button>
-    <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
   </header>
 
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -384,6 +364,29 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
     </section>
   </main>
 </div>
+
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bottom-nav-item active" data-nav="home" onclick="switchSection('home')">
+    <i class="fa-solid fa-house"></i>
+    <span>الرئيسية</span>
+  </div>
+  <div class="bottom-nav-item" data-nav="reels" onclick="switchSection('reels')">
+    <i class="fa-solid fa-film"></i>
+    <span>ريلزات</span>
+  </div>
+  <button class="bottom-nav-plus" onclick="handleFabClick()" title="نشر">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+  <div class="bottom-nav-item" data-nav="inbox" onclick="openNotifications()">
+    <i class="fa-solid fa-comment-dots"></i>
+    <span>الوارد</span>
+    <span class="notif-count hidden" id="notifCount">0</span>
+  </div>
+  <div class="bottom-nav-item" data-nav="profile" onclick="goToMyProfile()">
+    <i class="fa-solid fa-user"></i>
+    <span>الملف</span>
+  </div>
+</nav>
 
 <div class="modal-overlay" id="uploadModal">
   <div class="modal-box">
@@ -496,7 +499,6 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
   </div>
 </div>
 
-<!-- ✅ نافذة البث الفردي -->
 <div class="modal-overlay" id="personalMsgModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('personalMsgModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -507,7 +509,6 @@ body.modal-open{overflow:hidden!important;position:fixed;width:100%}
   </div>
 </div>
 
-<!-- ✅ نافذة التحكم بالإعجابات والمشاهدات (للمالك فقط) -->
 <div class="modal-overlay" id="boostModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('boostModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -640,13 +641,44 @@ function switchSection(name,id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   const t=$('section-'+name);if(t)t.classList.add('active');
   document.querySelectorAll('.sidebar-nav a[data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===name));
+  document.querySelectorAll('.bottom-nav-item').forEach(b=>{
+    const nav=b.dataset.nav;
+    const active=(nav===name)||(nav==='inbox'&&name==='notifications');
+    b.classList.toggle('active',active);
+  });
   if(name==='profile'&&id){viewingProfileId=id;viewProfile(id);}
   if(name==='users')renderUsersList();
   if(name==='saved')renderSaved();
   if(window.innerWidth<=900&&$('sidebar').classList.contains('active'))toggleSidebar();
   window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='reels'){
+    setTimeout(()=>{
+      const container=$('reelsContainer');
+      if(!container)return;
+      const items=container.querySelectorAll('.reel-item');
+      items.forEach(item=>{
+        const rect=item.getBoundingClientRect();
+        const isVisible=rect.top>=-50&&rect.top<window.innerHeight-200;
+        if(isVisible){
+          const video=item.querySelector('video');
+          const btn=item.querySelector('.reel-play-big');
+          if(video&&video.paused){
+            video.muted=false;
+            try{video.currentTime=0;}catch(e){}
+            const p=video.play();
+            if(p&&p.catch)p.catch(()=>{});
+            if(btn)btn.classList.add('hidden');
+            activeVideo=video;
+          }
+        }
+      });
+    },180);
+  }
 }
-function goToMyProfile(){if(currentUser)switchSection('profile',currentUser.$id);}
+function goToMyProfile(){
+  if(!currentUser){showToast('سجّل دخول لعرض ملفك',true);openModal('loginModal');return;}
+  switchSection('profile',currentUser.$id);
+}
 
 function isAdmin(){
   if(!currentUser)return false;
@@ -791,17 +823,11 @@ async function loadNotifications(){
 }
 
 function updateNotifBadge(){
-  if(!currentUser){$('notifCount').classList.add('hidden');$('notifBtn').classList.remove('has-notif');return;}
+  if(!currentUser){$('notifCount').classList.add('hidden');return;}
   const unread=allNotifs.filter(n=>!n.is_read).length;
-  const badge=$('notifCount'),btn=$('notifBtn');
-  if(unread>0){
-    badge.textContent=unread>99?'99+':unread;
-    badge.classList.remove('hidden');
-    btn.classList.add('has-notif');
-  }else{
-    badge.classList.add('hidden');
-    btn.classList.remove('has-notif');
-  }
+  const badge=$('notifCount');
+  if(unread>0){badge.textContent=unread>99?'99+':unread;badge.classList.remove('hidden');}
+  else{badge.classList.add('hidden');}
 }
 
 function openNotifications(){
@@ -809,6 +835,7 @@ function openNotifications(){
   openModal('notificationsModal');
   loadNotifications().then(renderNotifications);
   $('broadcastBtn').style.display=isAdmin()?'flex':'none';
+  document.querySelectorAll('.bottom-nav-item').forEach(b=>{b.classList.toggle('active',b.dataset.nav==='inbox');});
 }
 
 function renderNotifications(){
@@ -842,7 +869,7 @@ function renderNotifications(){
         <div class="notif-body">
           <div class="notif-text">
             <b>${esc(n.sender_name||'النظام')}${verifiedSender}</b>
-            <i class="fa-solid ${icon} notif-type-icon" style="color:var(--orange);margin-right:4px;"></i>
+            <i class="fa-solid ${icon}" style="color:var(--orange);margin-right:4px;"></i>
             ${esc(n.content||'')}
           </div>
           <div class="notif-time">${timeAgo}</div>
@@ -868,12 +895,7 @@ async function markNotifRead(notifId){
   const n=allNotifs.find(x=>x.$id===notifId);
   if(!n||n.is_read)return;
   try{
-    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows/${notifId}`,{
-      method:'PATCH',
-      headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-      credentials:'include',
-      body:JSON.stringify({data:{is_read:true}})
-    });
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows/${notifId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{is_read:true}})});
     n.is_read=true;
     updateNotifBadge();
     renderNotifications();
@@ -885,12 +907,7 @@ async function markAllNotifsRead(){
   if(!unread.length)return showToast('لا يوجد جديد');
   try{
     await Promise.all(unread.map(n=>
-      fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows/${n.$id}`,{
-        method:'PATCH',
-        headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-        credentials:'include',
-        body:JSON.stringify({data:{is_read:true}})
-      })
+      fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows/${n.$id}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{is_read:true}})})
     ));
     allNotifs.forEach(n=>n.is_read=true);
     updateNotifBadge();
@@ -922,14 +939,8 @@ async function sendBroadcast(){
     for(const u of users){
       try{
         const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows`,{
-          method:'POST',
-          headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-          credentials:'include',
-          body:JSON.stringify({
-            rowId:'unique()',
-            data:{recipient_id:u.user_id,sender_id:currentUser.$id,sender_name:senderName,sender_avatar:senderAvatar,type:'broadcast',content:text,target_id:'',is_read:false,is_broadcast:true},
-            permissions:['read("any")','update("any")','delete("any")']
-          })
+          method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
+          body:JSON.stringify({rowId:'unique()',data:{recipient_id:u.user_id,sender_id:currentUser.$id,sender_name:senderName,sender_avatar:senderAvatar,type:'broadcast',content:text,target_id:'',is_read:false,is_broadcast:true},permissions:['read("any")','update("any")','delete("any")']})
         });
         if(res.ok)sent++;
       }catch(e){}
@@ -942,7 +953,6 @@ async function sendBroadcast(){
   finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> إرسال للجميع';}
 }
 
-/* ============ Personal Message (للمالك فقط) ============ */
 function openPersonalMsg(userId){
   if(!isAdmin())return showToast('غير مصرح',true);
   const u=getUserById(userId);
@@ -965,14 +975,8 @@ async function sendPersonalMsg(){
     const senderName=currentUser.display_name||currentUser.username;
     const senderAvatar=currentUser.avatar_url||'';
     const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_NOTIFICATIONS_TABLE}/rows`,{
-      method:'POST',
-      headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-      credentials:'include',
-      body:JSON.stringify({
-        rowId:'unique()',
-        data:{recipient_id:personalMsgTargetUser.user_id,sender_id:currentUser.$id,sender_name:senderName,sender_avatar:senderAvatar,type:'personal',content:text,target_id:'',is_read:false,is_broadcast:false},
-        permissions:['read("any")','update("any")','delete("any")']
-      })
+      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
+      body:JSON.stringify({rowId:'unique()',data:{recipient_id:personalMsgTargetUser.user_id,sender_id:currentUser.$id,sender_name:senderName,sender_avatar:senderAvatar,type:'personal',content:text,target_id:'',is_read:false,is_broadcast:false},permissions:['read("any")','update("any")','delete("any")']})
     });
     if(!res.ok)throw new Error('فشل');
     showToast(`✓ تم الإرسال إلى ${personalMsgTargetUser.display_name||personalMsgTargetUser.username}`);
@@ -983,7 +987,6 @@ async function sendPersonalMsg(){
   finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> إرسال للمستخدم';}
 }
 
-/* ============ Boost (للمالك فقط) ============ */
 function openBoost(videoId){
   if(!isAdmin())return;
   boostTargetId=videoId;
@@ -1020,22 +1023,14 @@ async function applyBoost(){
     row.likes_count=newLikes;
     row.views_count=newViews;
     document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s=>s.textContent=newLikes);
-    document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el=>{
-      el.innerHTML=`<i class="fa-solid fa-eye"></i> ${newViews}`;
-    });
-    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${boostTargetId}`,{
-      method:'PATCH',
-      headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-      credentials:'include',
-      body:JSON.stringify({data:{likes_count:newLikes,views_count:newViews}})
-    });
+    document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el=>{el.innerHTML=`<i class="fa-solid fa-eye"></i> ${newViews}`;});
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${boostTargetId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{likes_count:newLikes,views_count:newViews}})});
     showToast(`✓ تم التحديث: ${newLikes} إعجاب، ${newViews} مشاهدة`);
     closeModal('boostModal',true);
   }catch(e){showToast('فشل التحديث',true);}
   finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check"></i> تطبيق';}
 }
 
-/* ============ Saved ============ */
 async function loadSaved(){
   if(!currentUser){savedPostIds=new Set();return;}
   try{
@@ -1056,22 +1051,13 @@ async function toggleSave(videoId,btn){
       const q1=encodeURIComponent(JSON.stringify({method:'equal',attribute:'user_id',values:[currentUser.$id]}));
       const q2=encodeURIComponent(JSON.stringify({method:'equal',attribute:'post_id',values:[videoId]}));
       const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_SAVED_TABLE}/rows?queries[]=${q1}&queries[]=${q2}`,{headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});
-      if(res.ok){
-        const d=await res.json();
-        const row=(d.rows||[])[0];
-        if(row)await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_SAVED_TABLE}/rows/${row.$id}`,{method:'DELETE',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});
-      }
+      if(res.ok){const d=await res.json();const row=(d.rows||[])[0];if(row)await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_SAVED_TABLE}/rows/${row.$id}`,{method:'DELETE',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});}
       savedPostIds.delete(videoId);
       btn.classList.remove('saved');
       btn.querySelector('i').className='fa-regular fa-bookmark';
       showToast('تم إلغاء الحفظ');
     }else{
-      await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_SAVED_TABLE}/rows`,{
-        method:'POST',
-        headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},
-        credentials:'include',
-        body:JSON.stringify({rowId:'unique()',data:{user_id:currentUser.$id,post_id:videoId},permissions:['read("any")','delete("any")']})
-      });
+      await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_SAVED_TABLE}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:{user_id:currentUser.$id,post_id:videoId},permissions:['read("any")','delete("any")']})});
       savedPostIds.add(videoId);
       btn.classList.add('saved');
       btn.querySelector('i').className='fa-solid fa-bookmark';
@@ -1090,7 +1076,6 @@ function renderSaved(){
   setTimeout(setupBlurUp,150);
 }
 
-/* ============ Comment Likes ============ */
 async function loadLikedComments(){
   if(!currentUser){likedComments=new Set();return;}
   try{
@@ -1113,26 +1098,17 @@ async function toggleCommentLike(commentId,btn){
       const q1=encodeURIComponent(JSON.stringify({method:'equal',attribute:'user_id',values:[currentUser.$id]}));
       const q2=encodeURIComponent(JSON.stringify({method:'equal',attribute:'comment_id',values:[commentId]}));
       const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows?queries[]=${q1}&queries[]=${q2}`,{headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});
-      if(res.ok){
-        const d=await res.json();
-        const row=(d.rows||[])[0];
-        if(row)await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows/${row.$id}`,{method:'DELETE',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});
-      }
+      if(res.ok){const d=await res.json();const row=(d.rows||[])[0];if(row)await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows/${row.$id}`,{method:'DELETE',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID},credentials:'include'});}
       likedComments.delete(commentId);
       if(comment){
         const nc=Math.max(0,(comment.likes_count||0)-1);
         comment.likes_count=nc;
         const payload={likes_count:nc};
         if(amCreator){comment.creator_name='';comment.creator_avatar='';comment.creator_liked=false;payload.creator_name='';payload.creator_avatar='';payload.creator_liked=false;}
-        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{
-          method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:payload})
-        });
+        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:payload})});
       }
     }else{
-      await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows`,{
-        method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-        body:JSON.stringify({rowId:'unique()',data:{user_id:currentUser.$id,comment_id:commentId},permissions:['read("any")','delete("any")']})
-      });
+      await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENT_LIKES_TABLE}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:{user_id:currentUser.$id,comment_id:commentId},permissions:['read("any")','delete("any")']})});
       likedComments.add(commentId);
       if(comment){
         const nc=(comment.likes_count||0)+1;
@@ -1144,9 +1120,7 @@ async function toggleCommentLike(commentId,btn){
           comment.creator_name=cName;comment.creator_avatar=cAvatar;comment.creator_liked=true;
           payload.creator_name=cName;payload.creator_avatar=cAvatar;payload.creator_liked=true;
         }
-        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{
-          method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:payload})
-        });
+        await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:payload})});
         if(comment.user_id&&comment.user_id!==currentUser.$id){
           const notifType=amCreator?'creator_like':'comment_like';
           const notifContent=amCreator?'صاحب المنشور أعجب بتعليقك':'أعجب بتعليقك';
@@ -1159,7 +1133,6 @@ async function toggleCommentLike(commentId,btn){
   finally{btn.disabled=false;}
 }
 
-/* ============ Sidebar ============ */
 function renderSidebar(){
   const nav=$('authNav'),ub=$('sidebarUser'),chip=$('userChip');
   if(currentUser){
@@ -1177,19 +1150,14 @@ function renderSidebar(){
     setAvatar($('userChipAvatar'));
     $('userChipName').textContent=currentUser.display_name||currentUser.username;
     const adminLink=isAdmin()?`<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>`:'';
-    nav.innerHTML=`
-      ${adminLink}
-      <a data-section="profile" onclick="switchSection('profile','${currentUser.$id}')"><i class="fa-solid fa-user"></i> حسابي</a>
-      <a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
+    nav.innerHTML=`${adminLink}<a data-section="profile" onclick="switchSection('profile','${currentUser.$id}')"><i class="fa-solid fa-user"></i> حسابي</a><a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
   }else{
     ub.classList.remove('active');
     chip.classList.remove('active');
-    nav.innerHTML=`
-      <a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a>
-      <a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
+    nav.innerHTML=`<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
   }
 }
-
+  
 async function queryTable(tableId,queryObj){
   try{
     const q=encodeURIComponent(JSON.stringify(queryObj));
@@ -1201,7 +1169,6 @@ async function queryTable(tableId,queryObj){
 }
 function queryUsersByField(field,value){return queryTable(APPWRITE_USERS_TABLE,{method:'equal',attribute:field,values:[value]});}
 
-/* ============ Auth ============ */
 async function doSignup(){
   const username=$('signupUsername').value.trim();
   const displayName=$('signupDisplayName').value.trim();
@@ -1219,25 +1186,13 @@ async function doSignup(){
     const existing=await queryUsersByField('username',username);
     if(existing.length>0)throw new Error('اسم المستخدم محجوز');
     const authEmail=`${username.toLowerCase()}@${EMAIL_DOMAIN}`;
-    const signupRes=await fetch(`${APPWRITE_ENDPOINT}/account`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({userId:'unique()',email:authEmail,password:pass,name:finalName})
-    });
-    if(!signupRes.ok){
-      const err=await signupRes.json().catch(()=>({}));
-      throw new Error(err.message||'فشل إنشاء الحساب');
-    }
+    const signupRes=await fetch(`${APPWRITE_ENDPOINT}/account`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({userId:'unique()',email:authEmail,password:pass,name:finalName})});
+    if(!signupRes.ok){const err=await signupRes.json().catch(()=>({}));throw new Error(err.message||'فشل إنشاء الحساب');}
     const acc=await signupRes.json();
-    await fetch(`${APPWRITE_ENDPOINT}/account/sessions/email`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({email:authEmail,password:pass})
-    });
+    await fetch(`${APPWRITE_ENDPOINT}/account/sessions/email`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({email:authEmail,password:pass})});
     let avatarUrl='';
     if(avatarFile){try{const fid=await uploadFile(avatarFile,true);avatarUrl=`${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fid}/view?project=${APPWRITE_PROJECT_ID}`;}catch(e){}}
-    const rowRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({rowId:'unique()',data:{user_id:acc.$id,username,display_name:finalName,avatar_url:avatarUrl,is_verified:false},permissions:['read("any")','update("any")']})
-    });
+    const rowRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:{user_id:acc.$id,username,display_name:finalName,avatar_url:avatarUrl,is_verified:false},permissions:['read("any")','update("any")']})});
     if(!rowRes.ok)throw new Error('فشل حفظ بيانات الحساب');
     currentUser={$id:acc.$id,username,display_name:finalName,avatar_url:avatarUrl};
     saveSession(currentUser);
@@ -1267,10 +1222,7 @@ async function doLogin(){
     if(!rows.length)throw new Error('اسم المستخدم غير موجود');
     const userRow=rows[0];
     const authEmail=`${username.toLowerCase()}@${EMAIL_DOMAIN}`;
-    const res=await fetch(`${APPWRITE_ENDPOINT}/account/sessions/email`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({email:authEmail,password:pass})
-    });
+    const res=await fetch(`${APPWRITE_ENDPOINT}/account/sessions/email`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({email:authEmail,password:pass})});
     if(!res.ok)throw new Error('كلمة السر غير صحيحة');
     currentUser={$id:userRow.user_id,username:userRow.username,display_name:userRow.display_name||userRow.username,avatar_url:userRow.avatar_url||''};
     saveSession(currentUser);
@@ -1303,7 +1255,6 @@ async function doLogout(){
   switchSection('home');
 }
 
-/* ============ Edit Profile ============ */
 function openEditModal(){
   if(!currentUser)return;
   $('editUsername').value=currentUser.username;
@@ -1338,17 +1289,11 @@ async function saveProfileEdit(){
       if(other)throw new Error('اسم المستخدم الجديد محجوز');
     }
     let avatarUrl=currentUser.avatar_url||'';
-    if(editAvatarFile){
-      const fid=await uploadFile(editAvatarFile,true);
-      avatarUrl=`${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fid}/view?project=${APPWRITE_PROJECT_ID}`;
-    }
+    if(editAvatarFile){const fid=await uploadFile(editAvatarFile,true);avatarUrl=`${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fid}/view?project=${APPWRITE_PROJECT_ID}`;}
     const rows=await queryUsersByField('user_id',currentUser.$id);
     if(rows.length){
       const row=rows[0];
-      const updRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,{
-        method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-        body:JSON.stringify({data:{username:newUsername,display_name:newDisplayName,avatar_url:avatarUrl}})
-      });
+      const updRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{username:newUsername,display_name:newDisplayName,avatar_url:avatarUrl}})});
       if(!updRes.ok)throw new Error('فشل حفظ التعديلات');
     }
     currentUser.username=newUsername;
@@ -1383,7 +1328,6 @@ function resetSignupForm(){
   avatarFile=null;
 }
 
-/* ============ Upload ============ */
 function handleFabClick(){
   if(!currentUser){showToast('سجّل دخول للنشر',true);openModal('loginModal');return;}
   openModal('uploadModal');
@@ -1423,10 +1367,7 @@ async function uploadContent(){
     const fileUrl=`${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fileId}/view?project=${APPWRITE_PROJECT_ID}`;
     progressStat.textContent='جاري النشر...';
     const rowData={title,video_url:fileUrl,description:desc||'',media_type:currentFileType,author_id:currentUser.$id,author_name:currentUser.display_name||currentUser.username,author_avatar:currentUser.avatar_url||'',likes_count:0,views_count:0};
-    const saveRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({rowId:'unique()',data:rowData,permissions:['read("any")']})
-    });
+    const saveRes=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:rowData,permissions:['read("any")']})});
     if(!saveRes.ok)throw new Error('فشل حفظ البيانات');
     showToast('✓ تم النشر');
     resetUploadForm();
@@ -1456,9 +1397,8 @@ function uploadFile(file,isAvatar){
       });
     }
     xhr.onload=()=>{
-      if(xhr.status>=200&&xhr.status<300){
-        try{const res=JSON.parse(xhr.responseText);if(res.$id)return resolve(res.$id);reject(new Error('فشل'));}catch(e){reject(new Error('فشل'));}
-      }else reject(new Error('فشل الرفع'));
+      if(xhr.status>=200&&xhr.status<300){try{const res=JSON.parse(xhr.responseText);if(res.$id)return resolve(res.$id);reject(new Error('فشل'));}catch(e){reject(new Error('فشل'));}}
+      else reject(new Error('فشل الرفع'));
     };
     xhr.onerror=()=>reject(new Error('خطأ في الشبكة'));
     xhr.ontimeout=()=>reject(new Error('انتهت المهلة'));
@@ -1473,9 +1413,8 @@ function resetUploadForm(){
   currentFile=null;
   currentFileType=null;
   selectedFile.textContent='';
-}
-
-/* ============ Load Content ============ */
+  }
+  
 async function loadContent(){
   setLoadingAll();
   try{
@@ -1490,15 +1429,7 @@ async function loadContent(){
 }
 
 function setLoadingAll(){
-  const h=Array(4).fill(0).map(()=>`
-    <div class="skeleton-card">
-      <div class="skeleton skeleton-media"></div>
-      <div class="skeleton-body">
-        <div class="skeleton skeleton-line title"></div>
-        <div class="skeleton skeleton-line desc"></div>
-      </div>
-    </div>
-  `).join('');
+  const h=Array(4).fill(0).map(()=>`<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join('');
   gridHome.innerHTML=h;gridImages.innerHTML=h;if(gridSaved)gridSaved.innerHTML=h;
 }
 
@@ -1517,10 +1448,7 @@ function getFiltered(fn){
   let rows=allRows;
   if(fn)rows=rows.filter(fn);
   if(searchQuery){
-    rows=rows.filter(r=>
-      (r.title||'').toLowerCase().includes(searchQuery)||
-      (r.description||'').toLowerCase().includes(searchQuery)||
-      (r.author_name||'').toLowerCase().includes(searchQuery));
+    rows=rows.filter(r=>(r.title||'').toLowerCase().includes(searchQuery)||(r.description||'').toLowerCase().includes(searchQuery)||(r.author_name||'').toLowerCase().includes(searchQuery));
   }
   return rows;
 }
@@ -1536,9 +1464,7 @@ function renderAll(){
   }
   if(homeFilter==='following'&&homeRows.length===0){
     gridHome.innerHTML=`<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
-  }else{
-    renderGrid(gridHome,homeRows);
-  }
+  }else{renderGrid(gridHome,homeRows);}
   renderGrid(gridImages,getFiltered(r=>getMediaType(r)==='image'));
   renderReels(getFiltered(r=>getMediaType(r)==='video'));
 }
@@ -1568,54 +1494,8 @@ function cardHTML(v){
   const verified=verifiedBadgeHTML(v.author_id);
   const authorClick=v.author_id?`onclick="switchSection('profile','${esc(v.author_id)}')"`:'';
   const boostBtn=isAdmin()?`<button class="admin-boost-btn" onclick="openBoost('${v.$id}')" title="التحكم بالإحصائيات"><i class="fa-solid fa-bolt"></i></button>`:'';
-  const media=mtype==='image'
-    ?`<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
-    :`<video class="card-media" src="${url}" loop playsinline preload="auto" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
-  return `
-    <div class="card" data-row-id="${v.$id}">
-      <div class="card-media-wrap">
-        ${media}
-        <div class="card-overlay-author">
-          <div class="card-author-chip" ${authorClick}>
-            <div class="card-author-avatar">${authorAvatar}</div>
-            <div class="card-author-name">${authorName}${verified}</div>
-          </div>
-          <div class="overlay-btns">
-            ${boostBtn}
-            <button class="save-btn ${isSaved?'saved':''}" onclick="event.stopPropagation(); toggleSave('${v.$id}', this)" title="حفظ">
-              <i class="fa-${isSaved?'solid':'regular'} fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        ${mtype==='video'?`
-          <button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button>
-          <div class="progress-bar-overlay" onclick="seekVideo(event, this)">
-            <div class="progress-track"><div class="progress-fill-v"></div></div>
-          </div>
-        `:''}
-      </div>
-      <div class="card-body">
-        <div class="card-title">${title}</div>
-        ${desc?`<div class="card-desc">${desc}</div>`:''}
-        <div class="card-meta">
-          <div class="actions-row">
-            <button class="icon-btn ${isLiked?'liked':''}" data-like-id="${v.$id}" onclick="toggleLike('${v.$id}', this)">
-              <i class="fa-${isLiked?'solid':'regular'} fa-heart"></i>
-              <span>${likesCount}</span>
-            </button>
-            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id||''}')">
-              <i class="fa-solid fa-comment"></i>
-              <span>${commentsCount}</span>
-            </button>
-            <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
-          </div>
-          <div class="actions-row">
-            <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
-            ${canDel?`<button class="icon-btn del" onclick="deleteItem('${v.$id}', '${url}')"><i class="fa-solid fa-trash"></i></button>`:''}
-          </div>
-        </div>
-      </div>
-    </div>`;
+  const media=mtype==='image'?`<img class="card-media" src="${url}" alt="${title}" loading="lazy">`:`<video class="card-media" src="${url}" loop playsinline preload="auto" data-vid="${v.$id}" onplay="markViewed('${v.$id}')"></video>`;
+  return `<div class="card" data-row-id="${v.$id}"><div class="card-media-wrap">${media}<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved?'saved':''}" onclick="event.stopPropagation(); toggleSave('${v.$id}', this)" title="حفظ"><i class="fa-${isSaved?'solid':'regular'} fa-bookmark"></i></button></div></div>${mtype==='video'?`<button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button><div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>`:''}</div><div class="card-body"><div class="card-title">${title}</div>${desc?`<div class="card-desc">${desc}</div>`:''}<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked?'liked':''}" data-like-id="${v.$id}" onclick="toggleLike('${v.$id}', this)"><i class="fa-${isLiked?'solid':'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id||''}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row"><button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel?`<button class="icon-btn del" onclick="deleteItem('${v.$id}', '${url}')"><i class="fa-solid fa-trash"></i></button>`:''}</div></div></div></div>`;
 }
 
 function renderGrid(container,rows){
@@ -1629,7 +1509,6 @@ function renderGrid(container,rows){
   setTimeout(setupBlurUp,150);
 }
 
-/* ============ REELS ============ */
 function renderReels(rows){
   if(!rows.length){
     reelsBox.innerHTML=`<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>${searchQuery?'لا نتائج':'لا توجد ريلزات بعد'}</p></div>`;
@@ -1646,35 +1525,7 @@ function renderReels(rows){
     const verified=verifiedBadgeHTML(v.author_id);
     const commentsCount=commentCounts[v.$id]||0;
     const boostBtn=isAdmin()?`<button class="admin-boost-btn" onclick="openBoost('${v.$id}')" title="التحكم بالإحصائيات"><i class="fa-solid fa-bolt"></i></button>`:'';
-    return `
-      <div class="reel-item" data-reel-id="${v.$id}">
-        <video src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.$id}')"></video>
-        <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
-        <div class="reel-progress"><div class="reel-progress-fill"></div></div>
-        <div class="reel-actions">
-          ${boostBtn}
-          <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
-          ${canDel?`<button class="icon-btn del" onclick="deleteItem('${v.$id}','${url}')"><i class="fa-solid fa-trash"></i></button>`:''}
-        </div>
-        <div class="reel-overlay">
-          <div class="reel-author card-author" ${authorClick}>
-            <div class="card-author-avatar">${avatarImg}</div>
-            <div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div>
-          </div>
-          <h3>${title}</h3>
-          ${desc?`<p>${desc}</p>`:''}
-          <div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;">
-            <button class="icon-btn ${isLiked?'liked':''}" data-like-id="${v.$id}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
-              <i class="fa-${isLiked?'solid':'regular'} fa-heart"></i>
-              <span>${v.likes_count||0}</span>
-            </button>
-            <button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id||''}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;">
-              <i class="fa-solid fa-comment"></i>
-              <span>${commentsCount}</span>
-            </button>
-          </div>
-        </div>
-      </div>`;
+    return `<div class="reel-item" data-reel-id="${v.$id}"><video src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.$id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel?`<button class="icon-btn del" onclick="deleteItem('${v.$id}','${url}')"><i class="fa-solid fa-trash"></i></button>`:''}</div><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${desc?`<p>${desc}</p>`:''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked?'liked':''}" data-like-id="${v.$id}" onclick="toggleLike('${v.$id}', this)" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked?'solid':'regular'} fa-heart"></i><span>${v.likes_count||0}</span></button><button class="icon-btn" onclick="openComments('${v.$id}', '${safeTitle}', '${v.author_id||''}')" style="background:rgba(0,0,0,0.6);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls,100);
   setTimeout(setupReelsObserver,150);
@@ -1701,12 +1552,29 @@ function setupReelsObserver(){
       const video=item.querySelector('video');
       const btn=item.querySelector('.reel-play-big');
       if(!video)return;
-      if(entry.intersectionRatio<0.5){
+      if(currentSection!=='reels'){
+        if(!video.paused){video.pause();if(btn)btn.classList.remove('hidden');}
+        return;
+      }
+      if(entry.intersectionRatio>=0.7){
+        document.querySelectorAll('.reel-item video').forEach(v=>{
+          if(v!==video&&!v.paused){
+            v.pause();
+            const p=v.closest('.reel-item').querySelector('.reel-play-big');
+            if(p)p.classList.remove('hidden');
+          }
+        });
+        video.muted=false;
+        const p=video.play();
+        if(p&&p.catch)p.catch(()=>{});
+        if(btn)btn.classList.add('hidden');
+        activeVideo=video;
+      }else{
         if(!video.paused){video.pause();if(btn)btn.classList.remove('hidden');}
         try{video.currentTime=0;}catch(e){}
       }
     });
-  },{threshold:[0,0.25,0.5,0.75,1]});
+  },{threshold:[0,0.3,0.5,0.7,0.9,1],rootMargin:'0px'});
   document.querySelectorAll('.reel-item').forEach(el=>reelsObserver.observe(el));
 }
 
@@ -1732,9 +1600,8 @@ function toggleReelPlay(btn){
     btn.classList.remove('hidden');
     activeVideo=null;
   }
-}
-
-/* ============ Profile ============ */
+  }
+  
 async function viewProfile(userId){
   pauseAllVideos();
   const box=$('profileContent');
@@ -1750,10 +1617,7 @@ async function viewProfile(userId){
   const isMe=currentUser&&currentUser.$id===userId;
   const amAdmin=isAdmin();
   const isFollowing=followingIds.has(userId);
-  if(!profile){
-    box.innerHTML=`<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">حساب غير موجود</div></div>`;
-    return;
-  }
+  if(!profile){box.innerHTML=`<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">حساب غير موجود</div></div>`;return;}
   const name=esc(profile.display_name||profile.username);
   const handle=esc(profile.username);
   const avatar=profile.avatar_url?`<img src="${esc(profile.avatar_url)}" alt="">`:name.charAt(0).toUpperCase();
@@ -1762,29 +1626,13 @@ async function viewProfile(userId){
   let actions='';
   if(isMe)actions+=`<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل</button>`;
   else if(currentUser){
-    actions+=isFollowing
-      ?`<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>`
-      :`<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`;
+    actions+=isFollowing?`<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>`:`<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`;
   }
   if(amAdmin){
-    actions+=isVerified
-      ?`<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>`
-      :`<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
+    actions+=isVerified?`<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>`:`<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
     if(!isMe)actions+=`<button class="profile-btn" onclick="openPersonalMsg('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-paper-plane"></i> رسالة</button>`;
   }
-  box.innerHTML=`
-    <div class="profile-head">
-      <div class="profile-avatar">${avatar}</div>
-      <div class="profile-name">${name}${verifiedIcon}</div>
-      <div class="profile-handle">@${handle}</div>
-      ${actions?`<div class="profile-actions">${actions}</div>`:''}
-      <div class="profile-stats">
-        <div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div>
-        <div class="profile-stat" onclick="showFollowers('${userId}', '${handle}')"><b>${counts.followers}</b><span>متابع</span></div>
-        <div class="profile-stat" onclick="showFollowing('${userId}', '${handle}')"><b>${counts.following}</b><span>يتابع</span></div>
-      </div>
-    </div>
-    <div class="grid" id="profileGrid"></div>`;
+  box.innerHTML=`<div class="profile-head"><div class="profile-avatar">${avatar}</div><div class="profile-name">${name}${verifiedIcon}</div><div class="profile-handle">@${handle}</div>${actions?`<div class="profile-actions">${actions}</div>`:''}<div class="profile-stats"><div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div><div class="profile-stat" onclick="showFollowers('${userId}', '${handle}')"><b>${counts.followers}</b><span>متابع</span></div><div class="profile-stat" onclick="showFollowing('${userId}', '${handle}')"><b>${counts.following}</b><span>يتابع</span></div></div></div><div class="grid" id="profileGrid"></div>`;
   const grid=$('profileGrid');
   if(!userVideos.length)grid.innerHTML=`<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`;
   else grid.innerHTML=userVideos.map(cardHTML).join('');
@@ -1837,18 +1685,9 @@ function renderConnectionUser(userId){
     else if(isFollowing)followBtn=`<button class="user-action-btn unverify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء</button>`;
     else followBtn=`<button class="user-action-btn verify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`;
   }
-  return `
-    <div class="user-card">
-      <div class="user-card-avatar" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">${avatar}</div>
-      <div class="user-card-info" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">
-        <div class="user-card-name">${name}${isVerified?'<i class="fa-solid fa-circle-check verified-badge"></i>':''}</div>
-        <div class="user-card-handle">@${handle}</div>
-      </div>
-      <div class="user-card-actions">${followBtn}</div>
-    </div>`;
+  return `<div class="user-card"><div class="user-card-avatar" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">${avatar}</div><div class="user-card-info" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;"><div class="user-card-name">${name}${isVerified?'<i class="fa-solid fa-circle-check verified-badge"></i>':''}</div><div class="user-card-handle">@${handle}</div></div><div class="user-card-actions">${followBtn}</div></div>`;
 }
 
-/* ============ Admin ============ */
 function renderUsersList(){
   const box=$('usersList');
   if(!isAdmin()){box.innerHTML=`<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح</p></div>`;return;}
@@ -1860,49 +1699,29 @@ function renderUsersList(){
     const isVerified=u.is_verified===true;
     const isMe=currentUser&&u.user_id===currentUser.$id;
     const me=isMe?'<span style="color:var(--muted);font-size:11px;">(أنت)</span>':'';
-    const verifyBtn=isVerified
-      ?`<button class="user-action-btn unverify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>`
-      :`<button class="user-action-btn verify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
+    const verifyBtn=isVerified?`<button class="user-action-btn unverify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>`:`<button class="user-action-btn verify" onclick="toggleVerification('${u.user_id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
     const msgBtn=!isMe?`<button class="user-action-btn send-msg" onclick="openPersonalMsg('${u.user_id}')"><i class="fa-solid fa-paper-plane"></i> رسالة</button>`:'';
-    return `
-      <div class="user-card">
-        <div class="user-card-avatar" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">${avatar}</div>
-        <div class="user-card-info" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">
-          <div class="user-card-name">${name}${me}${isVerified?'<i class="fa-solid fa-circle-check verified-badge"></i>':''}</div>
-          <div class="user-card-handle">@${handle}</div>
-        </div>
-        <div class="user-card-actions">${msgBtn}${verifyBtn}</div>
-      </div>`;
+    return `<div class="user-card"><div class="user-card-avatar" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;">${avatar}</div><div class="user-card-info" onclick="switchSection('profile','${u.user_id}')" style="cursor:pointer;"><div class="user-card-name">${name}${me}${isVerified?'<i class="fa-solid fa-circle-check verified-badge"></i>':''}</div><div class="user-card-handle">@${handle}</div></div><div class="user-card-actions">${msgBtn}${verifyBtn}</div></div>`;
   }).join('');
 }
 
 async function toggleVerification(userId){
   if(!isAdmin())return showToast('لا تملك الصلاحية',true);
   let row=getUserById(userId);
-  if(!row){
-    const rows=await queryUsersByField('user_id',userId);
-    if(!rows.length)return showToast('المستخدم غير موجود',true);
-    row=rows[0];
-    allUsers.push(row);
-  }
+  if(!row){const rows=await queryUsersByField('user_id',userId);if(!rows.length)return showToast('المستخدم غير موجود',true);row=rows[0];allUsers.push(row);}
   const newValue=!(row.is_verified===true);
   try{
-    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,{
-      method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({data:{is_verified:newValue}})
-    });
+    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_USERS_TABLE}/rows/${row.$id}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{is_verified:newValue}})});
     if(!res.ok)throw new Error('فشل');
     row.is_verified=newValue;
     showToast(newValue?'✓ تم منح التوثيق':'✓ تم إزالة التوثيق');
     if(newValue)await createNotification(userId,'verify','تم توثيق حسابك ✓','');
-    renderUsersList();
-    renderSidebar();
+    renderUsersList();renderSidebar();
     if(currentSection==='profile'&&viewingProfileId)viewProfile(viewingProfileId);
     loadContent();
   }catch(err){showToast('فشل',true);}
 }
 
-/* ============ Delete / Like / View ============ */
 async function deleteItem(rowId,videoUrl){
   if(!currentUser)return showToast('سجّل دخول',true);
   if(!confirm('تأكيد الحذف؟'))return;
@@ -1938,12 +1757,8 @@ async function toggleLike(videoId,btn){
     if(span)span.textContent=newCount;
   });
   try{
-    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,{
-      method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{likes_count:newCount}})
-    });
-    if(!isLiked&&cardRow.author_id&&cardRow.author_id!==currentUser.$id){
-      await createNotification(cardRow.author_id,'like','أعجب بمنشورك',videoId);
-    }
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{likes_count:newCount}})});
+    if(!isLiked&&cardRow.author_id&&cardRow.author_id!==currentUser.$id){await createNotification(cardRow.author_id,'like','أعجب بمنشورك',videoId);}
   }catch(e){}
 }
 
@@ -1955,17 +1770,12 @@ async function markViewed(videoId){
   if(!row)return;
   const newCount=(row.views_count||0)+1;
   row.views_count=newCount;
-  document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el=>{
-    el.innerHTML=`<i class="fa-solid fa-eye"></i> ${newCount}`;
-  });
+  document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el=>{el.innerHTML=`<i class="fa-solid fa-eye"></i> ${newCount}`;});
   try{
-    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,{
-      method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{views_count:newCount}})
-    });
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_TABLE_ID}/rows/${videoId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{views_count:newCount}})});
   }catch(e){}
 }
 
-/* ============ Comments ============ */
 function openComments(videoId,title,ownerId){
   pauseAllVideos();
   currentCommentsVideoId=videoId;
@@ -1998,16 +1808,10 @@ async function loadComments(videoId){
     const parents=allComments.filter(c=>!c.parent_id).sort((a,b)=>new Date(b.$createdAt)-new Date(a.$createdAt));
     const replies=allComments.filter(c=>c.parent_id);
     commentCounts[videoId]=allComments.length;
-    if(!parents.length){
-      list.innerHTML=`<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`;
-      return;
-    }
+    if(!parents.length){list.innerHTML=`<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`;return;}
     list.innerHTML=parents.map(p=>{
       const childs=replies.filter(r=>r.parent_id===p.$id).sort((a,b)=>new Date(a.$createdAt)-new Date(b.$createdAt));
-      const repliesHTML=childs.length
-        ?`<button class="replies-toggle-btn" onclick="toggleReplies('${p.$id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button>
-           <div class="replies-container" id="replies-${p.$id}">${childs.map(r=>renderCommentItem(r,true)).join('')}</div>`
-        :'';
+      const repliesHTML=childs.length?`<button class="replies-toggle-btn" onclick="toggleReplies('${p.$id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.$id}">${childs.map(r=>renderCommentItem(r,true)).join('')}</div>`:'';
       return renderCommentItem(p)+repliesHTML;
     }).join('');
   }catch(err){console.error(err);list.innerHTML=`<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p></div>`;}
@@ -2029,10 +1833,7 @@ function getCreatorLikeBadgeHTML(c){
   const initial=cName.charAt(0).toUpperCase();
   const avatar=cAvatar?`<img src="${esc(cAvatar)}" alt="">`:initial;
   const verified=currentCommentsVideoOwnerId?verifiedBadgeHTML(currentCommentsVideoOwnerId):'';
-  return `<span class="creator-like-badge">
-    <span class="creator-like-avatar">${avatar}</span>
-    <span class="creator-like-name">${esc(cName)}${verified}</span>
-  </span>`;
+  return `<span class="creator-like-badge"><span class="creator-like-avatar">${avatar}</span><span class="creator-like-name">${esc(cName)}${verified}</span></span>`;
 }
 
 function renderCommentItem(c,isReply=false){
@@ -2044,27 +1845,7 @@ function renderCommentItem(c,isReply=false){
   const likeCount=c.likes_count||0;
   const showCreatorBadge=(c.creator_name&&c.creator_name.length>0)||c.creator_liked===true;
   const creatorBadge=showCreatorBadge?getCreatorLikeBadgeHTML(c):'';
-  return `
-    <div class="comment-item ${isReply?'reply':''}">
-      <div class="comment-item-head">
-        <div class="card-author-avatar" style="width:22px;height:22px;font-size:10px;">${avatar}</div>
-        <b>${esc(c.author_name||'زائر')}${verified}</b>
-        <span>${c.$createdAt?timeAgoFrom(c.$createdAt):''}</span>
-        ${canDel?`<button class="comment-del-btn" onclick="deleteComment('${c.$id}')"><i class="fa-solid fa-trash"></i></button>`:''}
-      </div>
-      <div class="comment-item-body">${esc(c.content)}</div>
-      <div class="comment-actions">
-        ${creatorBadge}
-        <button class="${isLiked?'liked':''}" onclick="toggleCommentLike('${c.$id}', this)">
-          <i class="fa-${isLiked?'solid':'regular'} fa-heart"></i> ${likeCount}
-        </button>
-        ${!isReply?`<button onclick="showReplyForm('${c.$id}')"><i class="fa-solid fa-reply"></i> رد</button>`:''}
-      </div>
-      <div id="reply-form-${c.$id}" style="display:none;" class="reply-form">
-        <input type="text" id="reply-input-${c.$id}" placeholder="اكتب ردك..." maxlength="300">
-        <button onclick="submitReply('${c.$id}')"><i class="fa-solid fa-paper-plane"></i></button>
-      </div>
-    </div>`;
+  return `<div class="comment-item ${isReply?'reply':''}"><div class="comment-item-head"><div class="card-author-avatar" style="width:22px;height:22px;font-size:10px;">${avatar}</div><b>${esc(c.author_name||'زائر')}${verified}</b><span>${c.$createdAt?timeAgoFrom(c.$createdAt):''}</span>${canDel?`<button class="comment-del-btn" onclick="deleteComment('${c.$id}')"><i class="fa-solid fa-trash"></i></button>`:''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked?'liked':''}" onclick="toggleCommentLike('${c.$id}', this)"><i class="fa-${isLiked?'solid':'regular'} fa-heart"></i> ${likeCount}</button>${!isReply?`<button onclick="showReplyForm('${c.$id}')"><i class="fa-solid fa-reply"></i> رد</button>`:''}</div><div id="reply-form-${c.$id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.$id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.$id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
 }
 
 function showReplyForm(commentId){
@@ -2082,20 +1863,11 @@ async function submitReply(parentId){
   if(!content)return showToast('اكتب ردك',true);
   const parent=allComments.find(c=>c.$id===parentId);
   try{
-    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({
-        rowId:'unique()',
-        data:{video_id:currentCommentsVideoId,user_id:currentUser.$id,author_name:currentUser.display_name||currentUser.username,author_avatar:currentUser.avatar_url||'',content:content,is_deleted:false,parent_id:parentId,likes_count:0,creator_liked:false,creator_name:'',creator_avatar:''},
-        permissions:['read("any")','update("any")']
-      })
-    });
+    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:{video_id:currentCommentsVideoId,user_id:currentUser.$id,author_name:currentUser.display_name||currentUser.username,author_avatar:currentUser.avatar_url||'',content:content,is_deleted:false,parent_id:parentId,likes_count:0,creator_liked:false,creator_name:'',creator_avatar:''},permissions:['read("any")','update("any")']})});
     if(!res.ok)throw new Error('فشل');
     input.value='';
     showToast('✓ تم الرد');
-    if(parent&&parent.user_id&&parent.user_id!==currentUser.$id){
-      await createNotification(parent.user_id,'reply','رد على تعليقك',currentCommentsVideoId);
-    }
+    if(parent&&parent.user_id&&parent.user_id!==currentUser.$id){await createNotification(parent.user_id,'reply','رد على تعليقك',currentCommentsVideoId);}
     loadComments(currentCommentsVideoId);
   }catch(err){showToast('فشل الرد',true);}
 }
@@ -2109,21 +1881,12 @@ async function addComment(){
   btn.disabled=true;
   btn.innerHTML='<span class="spinner-border"></span> جاري النشر...';
   try{
-    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows`,{
-      method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({
-        rowId:'unique()',
-        data:{video_id:currentCommentsVideoId,user_id:currentUser.$id,author_name:currentUser.display_name||currentUser.username,author_avatar:currentUser.avatar_url||'',content:content,is_deleted:false,parent_id:'',likes_count:0,creator_liked:false,creator_name:'',creator_avatar:''},
-        permissions:['read("any")','update("any")']
-      })
-    });
+    const res=await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows`,{method:'POST',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({rowId:'unique()',data:{video_id:currentCommentsVideoId,user_id:currentUser.$id,author_name:currentUser.display_name||currentUser.username,author_avatar:currentUser.avatar_url||'',content:content,is_deleted:false,parent_id:'',likes_count:0,creator_liked:false,creator_name:'',creator_avatar:''},permissions:['read("any")','update("any")']})});
     if(!res.ok)throw new Error('فشل');
     $('commentInput').value='';
     showToast('✓ تم النشر');
     const video=allRows.find(r=>r.$id===currentCommentsVideoId);
-    if(video&&video.author_id&&video.author_id!==currentUser.$id){
-      await createNotification(video.author_id,'comment','علّق على منشورك',currentCommentsVideoId);
-    }
+    if(video&&video.author_id&&video.author_id!==currentUser.$id){await createNotification(video.author_id,'comment','علّق على منشورك',currentCommentsVideoId);}
     loadComments(currentCommentsVideoId);
   }catch(err){showToast('فشل النشر',true);}
   finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> نشر التعليق';}
@@ -2132,9 +1895,7 @@ async function addComment(){
 async function deleteComment(commentId){
   if(!confirm('حذف التعليق؟'))return;
   try{
-    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{
-      method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{is_deleted:true}})
-    });
+    await fetch(`${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE_ID}/tables/${APPWRITE_COMMENTS_TABLE}/rows/${commentId}`,{method:'PATCH',headers:{'X-Appwrite-Project':APPWRITE_PROJECT_ID,'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({data:{is_deleted:true}})});
     showToast('✓ تم الحذف');
     loadComments(currentCommentsVideoId);
   }catch(err){showToast('فشل',true);}
@@ -2153,7 +1914,6 @@ function applySearch(){
   searchDebounce=setTimeout(()=>{searchQuery=searchInput.value.trim().toLowerCase();renderAll();},200);
 }
 
-/* ============ Video Controls ============ */
 function togglePlayPauseCard(btn){
   const card=btn.closest('.card');
   const video=card?card.querySelector('.card-media'):null;
@@ -2210,9 +1970,7 @@ function setupHomeObserver(){
       }
     });
   },{threshold:[0,0.3,0.5],rootMargin:'0px'});
-  document.querySelectorAll('.card-media').forEach(el=>{
-    if(el.tagName==='VIDEO')homeVideoObserver.observe(el);
-  });
+  document.querySelectorAll('.card-media').forEach(el=>{if(el.tagName==='VIDEO')homeVideoObserver.observe(el);});
 }
 
 function setupVideoControls(){
@@ -2225,9 +1983,7 @@ function setupVideoControls(){
         const vid=card?card.getAttribute('data-row-id'):null;
         if(vid&&typeof IntersectionObserver!=='undefined'){
           const obs=new IntersectionObserver((entries)=>{
-            entries.forEach(entry=>{
-              if(entry.isIntersecting){markViewed(vid);obs.disconnect();}
-            });
+            entries.forEach(entry=>{if(entry.isIntersecting){markViewed(vid);obs.disconnect();}});
           },{threshold:0.5});
           obs.observe(el);
         }
@@ -2240,7 +1996,6 @@ function setupVideoControls(){
       const pb=card?card.querySelector('.play-big'):null;
       if(pb)pb.style.display='none';
       activeVideo=el;
-      try{el.style.willChange='transform';el.style.transform='translate3d(0,0,0)';}catch(e){}
     });
     el.addEventListener('pause',()=>{
       const card=el.closest('.card');
@@ -2254,9 +2009,6 @@ function setupVideoControls(){
       if(fill&&el.duration)fill.style.width=((el.currentTime/el.duration)*100)+'%';
     });
     el.addEventListener('loadeddata',()=>el.classList.add('loaded'));
-    el.addEventListener('waiting',()=>{
-      try{el.style.opacity='0.99';requestAnimationFrame(()=>el.style.opacity='1');el.style.transform='translate3d(0,0,0)';}catch(e){}
-    });
     if(el.readyState>=2)el.classList.add('loaded');
     el.addEventListener('click',()=>{
       const card=el.closest('.card');
@@ -2300,19 +2052,13 @@ function setupBlurUp(){
   setupVideoControls();
 }
 
-document.addEventListener('visibilitychange',()=>{
-  if(document.hidden)pauseAllVideos();
-});
-
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseAllVideos();});
 window.addEventListener('beforeunload',pauseAllVideos);
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  });
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
 }
 
-/* ============ INIT ============ */
 window.addEventListener('DOMContentLoaded',async()=>{
   showWarningIfNeeded();
   currentUser=loadSession();
@@ -2327,4 +2073,4 @@ window.addEventListener('DOMContentLoaded',async()=>{
 });
 </script>
 </body>
-  </html>
+</html>
