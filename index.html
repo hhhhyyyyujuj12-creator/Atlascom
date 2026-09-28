@@ -11,22 +11,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#000;--card:#101010;--border:#1c1c1c;--orange:#ff6b00;--text:#e8e8ee;--muted:#6b6b78;--danger:#ff3355;--verified:#1d9bf0;--admin:#22c55e}
+:root{--bg:#000;--card:#101010;--border:#1c1c1c;--orange:#ff6b00;--text:#e8e8ee;--muted:#6b6b78;--danger:#ff3355;--verified:#1d9bf0;--admin:#22c55e;--purple:#a855f7}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
 html,body{background:#000;color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:#050505}
 ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--orange)}
 header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;font-weight:900;font-size:15px;user-select:none;flex-shrink:0}
 .logo-atlas{background:var(--orange);color:#000;padding:7px 10px}
 .logo-site{background:#000;color:#fff;padding:7px 10px;border:1px solid var(--border);border-right:none}
 .search-wrap{flex:1;position:relative;min-width:0}
-.search-wrap input{width:100%;padding:9px 36px 9px 12px;background:#0a0a0a;border:1px solid var(--border);border-radius:22px;color:#fff;font-size:13px;outline:none}
+.search-wrap input{width:100%;padding:9px 36px 9px 12px;background:#0a0a0a;border:1px solid var(--border);border-radius:22px;color:#fff;font-size:13px;outline:none;transition:border-color 0.2s}
 .search-wrap input:focus{border-color:var(--orange)}
 .search-wrap i{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
-.header-icon-btn{background:#0a0a0a;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
-.user-chip{display:none;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--border);padding:5px 10px 5px 5px;border-radius:22px;cursor:pointer;flex-shrink:0}
+.header-icon-btn{background:#0a0a0a;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;transition:all 0.2s}
+.header-icon-btn:hover{border-color:var(--orange);color:var(--orange)}
+.user-chip{display:none;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--border);padding:5px 10px 5px 5px;border-radius:22px;cursor:pointer;flex-shrink:0;transition:border-color 0.2s}
 .user-chip.active{display:flex}
 .user-chip-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;overflow:hidden}
 .user-chip-avatar img{width:100%;height:100%;object-fit:cover}
@@ -45,41 +47,57 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .sidebar-user-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px}
 .sidebar-user-handle{font-size:11px;color:var(--muted)}
 .sidebar-nav{flex:1;padding:0 12px}
-.sidebar-nav a{display:flex;align-items:center;gap:14px;padding:12px 16px;color:var(--text);text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:4px}
+.sidebar-nav a{display:flex;align-items:center;gap:14px;padding:12px 16px;color:var(--text);text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:4px;transition:all 0.2s}
 .sidebar-nav a:hover,.sidebar-nav a.active{background:#1a1a1a;color:var(--orange)}
 .sidebar-nav a i{width:22px;text-align:center;font-size:15px}
 .sidebar-nav a .count{margin-right:auto;background:rgba(255,107,0,0.15);color:var(--orange);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700}
 .sidebar-nav a.danger{color:#ff6677}
-.sidebar-nav a.admin{color:var(--verified)}
+.sidebar-nav a.admin{color:var(--admin)}
 .sidebar-footer{padding:16px 22px 4px;border-top:1px solid var(--border);margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
 .sidebar-footer b{color:var(--orange);font-weight:800}
-.sidebar-footer .brand-txt{font-size:10px;color:#3a3a44;margin-top:8px;letter-spacing:1px}
 main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .section{display:none}
-.section.active{display:block}
+.section.active{display:block;animation:fadeInUp 0.35s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .section-head{padding:20px 5% 12px;display:flex;align-items:center;gap:12px;font-size:18px;font-weight:800}
 .section-head i{color:var(--orange)}
 .grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:20px;padding:10px 4% 30px}
 .grid>.card{width:100%;max-width:400px;flex-shrink:0}
 .grid>.empty{width:100%}
 .home-tabs{display:flex;gap:10px;padding:0 5% 14px;justify-content:center;flex-wrap:wrap}
-.home-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:22px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.home-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:22px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s}
 .home-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
-.card{background:#101010;border:1px solid rgba(255,255,255,0.05);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px rgba(0,0,0,0.5)}
+.card{background:#101010;border:1px solid rgba(255,255,255,0.05);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px rgba(0,0,0,0.5);animation:fadeInUp 0.4s ease}
 .card-media-wrap{position:relative;width:100%;background:#000;overflow:hidden;min-height:200px;font-size:0;line-height:0}
-.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer}
+.card-media{width:100%;height:auto;max-height:80vh;display:block;object-fit:contain;background:#000;cursor:pointer;transition:opacity 0.3s}
 .card-overlay-author{position:absolute;top:12px;right:12px;left:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:3;pointer-events:none;line-height:1.5}
-.card-author-chip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;background:rgba(0,0,0,0.6);border-radius:25px;cursor:pointer;pointer-events:auto}
+.card-author-chip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;background:rgba(0,0,0,0.6);border-radius:25px;cursor:pointer;pointer-events:auto;transition:transform 0.15s}
+.card-author-chip:active{transform:scale(0.95)}
 .card-author-chip .card-author-avatar{width:28px;height:28px;font-size:12px}
 .card-author-chip .card-author-name{color:#fff;font-size:12px;font-weight:700}
 .overlay-btns{display:flex;gap:6px;pointer-events:auto}
-.save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.save-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all 0.2s}
 .save-btn.saved{color:var(--orange);background:rgba(255,107,0,0.2)}
 .admin-boost-btn{width:38px;height:38px;border-radius:50%;background:rgba(34,197,94,0.9);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:auto}
-.progress-bar-overlay{position:absolute;bottom:0;left:0;right:0;height:22px;display:flex;align-items:flex-end;padding:0 0 8px 0;z-index:3;cursor:pointer;pointer-events:auto}
-.progress-track{width:100%;height:3px;background:rgba(255,255,255,0.25);border-radius:3px;overflow:hidden;margin:0 12px}
-.progress-fill-v{height:100%;width:0%;background:var(--orange);border-radius:3px}
+.mute-btn{position:absolute;bottom:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;z-index:4;transition:transform 0.2s}
+.mute-btn:active{transform:scale(0.9)}
+.play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:auto;transition:transform 0.2s}
+/* ✅ شريط التقدم الذكي */
+.smart-progress{position:absolute;bottom:0;left:0;right:0;padding:0 12px 10px;z-index:3;pointer-events:auto}
+.smart-progress-track{width:100%;height:3px;background:rgba(255,255,255,0.25);border-radius:3px;overflow:hidden;position:relative;cursor:pointer;transition:height 0.15s}
+.smart-progress:hover .smart-progress-track{height:5px}
+.smart-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--orange),#ff8c33);border-radius:3px;transition:width 0.1s linear}
+.smart-time{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.75);margin-top:4px;font-weight:700;font-variant-numeric:tabular-nums}
+/* ✅ نافذة القلب للضغطة المزدوجة */
+.heart-burst{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:90px;color:var(--danger);z-index:10;pointer-events:none;opacity:0;filter:drop-shadow(0 0 20px rgba(255,51,85,0.8))}
+.heart-burst.show{animation:heartPop 0.9s cubic-bezier(0.175,0.885,0.32,1.275)}
+@keyframes heartPop{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:0}
+  20%{transform:translate(-50%,-50%) scale(1.3);opacity:1}
+  40%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  75%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  100%{transform:translate(-50%,-50%) scale(0.6);opacity:0}
+}
 .card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
 .card-title{font-size:15px;font-weight:800;color:#fff;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-desc{font-size:13px;color:var(--muted);line-height:1.5;max-height:40px;overflow:hidden}
@@ -88,79 +106,91 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .card-author-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:11px;overflow:hidden}
 .card-author-avatar img{width:100%;height:100%;object-fit:cover}
 .card-author-name{font-size:12px;color:#aaa;font-weight:700;display:flex;align-items:center;gap:4px}
-.icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;height:30px;min-width:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;gap:5px;padding:0 8px}
-.icon-btn.liked{color:var(--danger)}
+.icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;height:30px;min-width:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;gap:5px;padding:0 8px;transition:all 0.2s}
+.icon-btn:hover{color:var(--orange)}
+.icon-btn.liked{color:var(--danger);animation:likePulse 0.4s ease}
+@keyframes likePulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 .actions-row{display:flex;align-items:center;gap:6px}
 .meta-date{font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
 .verified-badge{color:var(--verified);font-size:0.85em;margin-right:2px}
-.verified-badge.lg{font-size:1em}
+.banned-badge{color:var(--danger);font-size:0.85em;margin-right:2px}
 .reels-container{height:calc(100dvh - 64px - 62px - env(safe-area-inset-bottom,0px));overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#000}
 .reels-container::-webkit-scrollbar{display:none}
 .reel-item{height:calc(100dvh - 64px - 62px - env(safe-area-inset-bottom,0px));scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .reel-item video{max-width:100%;max-height:100%;object-fit:contain;cursor:pointer;display:block;background:#000}
 .reel-item .reel-play-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .reel-item .reel-play-big.hidden{display:none}
-.reel-item .reel-progress{position:absolute;bottom:70px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
-.reel-item .reel-progress-fill{height:100%;width:0%;background:var(--orange);border-radius:2px}
+.reel-progress{position:absolute;bottom:70px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);margin:0 16px;border-radius:2px;overflow:hidden;z-index:3}
+.reel-progress-fill{height:100%;width:0%;background:var(--orange);border-radius:2px}
 .reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 30px;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);pointer-events:none}
 .reel-overlay .reel-author{display:flex;align-items:center;gap:8px;margin-bottom:10px;pointer-events:auto}
 .reel-overlay h3{font-size:16px;font-weight:800;margin-bottom:6px;color:#fff}
 .reel-overlay p{font-size:13px;color:#ddd;line-height:1.5;max-height:60px;overflow:hidden}
 .reel-actions{position:absolute;top:16px;left:16px;display:flex;gap:8px;z-index:2}
 .reel-actions .icon-btn{background:rgba(0,0,0,0.6);color:#fff;width:38px;height:38px;border-radius:50%}
-.reel-actions .admin-boost-btn{width:38px;height:38px;border-radius:50%}
 .profile-head{padding:30px 5% 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.profile-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:36px;overflow:hidden;margin-bottom:14px}
+.profile-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:36px;overflow:hidden;margin-bottom:14px;position:relative;border:3px solid var(--border)}
 .profile-avatar img{width:100%;height:100%;object-fit:cover}
 .profile-name{font-size:20px;font-weight:900;margin-bottom:4px;display:flex;align-items:center;gap:8px;justify-content:center}
 .profile-handle{font-size:13px;color:var(--muted);margin-bottom:14px}
 .profile-actions{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;justify-content:center}
-.profile-btn{padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.profile-btn{padding:8px 18px;border-radius:10px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s}
+.profile-btn:active{transform:scale(0.96)}
 .profile-btn.follow{background:var(--orange);color:#000;border-color:var(--orange)}
 .profile-btn.following{border-color:var(--orange);color:var(--orange)}
 .profile-btn.verify{border-color:var(--verified);color:var(--verified)}
 .profile-btn.unverify{border-color:var(--danger);color:var(--danger)}
+.profile-btn.ban{border-color:var(--danger);color:var(--danger)}
+.profile-btn.unban{border-color:var(--admin);color:var(--admin)}
 .profile-stats{display:flex;gap:20px;margin-top:6px;padding:12px 22px;border-radius:12px;background:var(--card);border:1px solid var(--border)}
 .profile-stat{text-align:center;min-width:60px;cursor:pointer}
 .profile-stat b{display:block;font-size:18px;color:var(--orange);font-weight:900}
 .profile-stat span{font-size:11px;color:var(--muted)}
-.user-card{display:flex;align-items:center;gap:12px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
+.user-card{display:flex;align-items:center;gap:12px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;animation:fadeInUp 0.3s ease}
 .user-card-avatar{width:50px;height:50px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;overflow:hidden}
 .user-card-avatar img{width:100%;height:100%;object-fit:cover}
 .user-card-info{flex:1;min-width:0}
-.user-card-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px}
+.user-card-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .user-card-handle{font-size:11px;color:var(--muted)}
 .user-card-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
-.user-action-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.user-action-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0a0a0a;color:#fff;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all 0.2s}
+.user-action-btn:active{transform:scale(0.95)}
 .user-action-btn.verify{border-color:var(--verified);color:var(--verified)}
 .user-action-btn.unverify{border-color:var(--danger);color:var(--danger)}
 .user-action-btn.send-msg{border-color:var(--admin);color:var(--admin)}
-.empty{text-align:center;padding:70px 24px;color:var(--muted)}
+.user-action-btn.ban-btn{border-color:var(--danger);color:var(--danger)}
+.user-action-btn.unban-btn{border-color:var(--admin);color:var(--admin)}
+.empty{text-align:center;padding:70px 24px;color:var(--muted);animation:fadeInUp 0.4s}
 .empty i{font-size:50px;color:#2a2a2a;margin-bottom:16px;display:block}
 .empty p{font-size:15px;margin-bottom:6px;font-weight:700;color:#bbb}
 .empty span{font-size:12.5px;color:#666}
+/* ✅ Skeleton متلألئ */
 .skeleton-card{width:100%;max-width:400px;flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
-.skeleton-media{width:100%;aspect-ratio:4/5;background:#151515}
+.skeleton-media{width:100%;aspect-ratio:4/5;background:linear-gradient(90deg,#151515 25%,#1f1f1f 50%,#151515 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
 .skeleton-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.skeleton-line{height:12px;border-radius:6px;background:#1a1a1a}
+.skeleton-line{height:12px;border-radius:6px;background:linear-gradient(90deg,#1a1a1a 25%,#252525 50%,#1a1a1a 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
 .skeleton-line.title{width:70%;height:14px}
 .skeleton-line.desc{width:100%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* Modals */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-.modal-overlay.active{display:flex}
-.modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto}
+.modal-overlay.active{display:flex;animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{background:#0e0e0e;border:1px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto;animation:scaleIn 0.3s cubic-bezier(0.175,0.885,0.32,1.275)}
+@keyframes scaleIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .modal-box h2{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
 .modal-box h2 i{color:var(--orange)}
 .modal-sub{color:var(--muted);font-size:13px;margin-bottom:20px}
-.input-field{width:100%;padding:12px 14px;background:#050505;border:1px solid var(--border);border-radius:10px;color:#fff;font-size:14px;margin-bottom:12px;outline:none;resize:vertical;font-family:inherit}
+.input-field{width:100%;padding:12px 14px;background:#050505;border:1px solid var(--border);border-radius:10px;color:#fff;font-size:14px;margin-bottom:12px;outline:none;resize:vertical;font-family:inherit;transition:border-color 0.2s}
 .input-field:focus{border-color:var(--orange)}
 .avatar-picker{display:flex;align-items:center;gap:16px;margin-bottom:16px}
 .avatar-preview{width:70px;height:70px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:24px;overflow:hidden;cursor:pointer;border:2px solid var(--border)}
 .avatar-preview img{width:100%;height:100%;object-fit:cover}
 .avatar-info{font-size:12px;color:var(--muted);line-height:1.6}
 .avatar-info b{color:#fff}
-.file-drop{border:2px dashed var(--border);border-radius:12px;padding:26px 20px;text-align:center;cursor:pointer;margin-bottom:14px;background:#050505}
-.file-drop:hover,.file-drop.dragover{border-color:var(--orange)}
+.file-drop{border:2px dashed var(--border);border-radius:12px;padding:26px 20px;text-align:center;cursor:pointer;margin-bottom:14px;background:#050505;transition:border-color 0.2s}
+.file-drop.dragover{border-color:var(--orange)}
 .file-drop i{font-size:28px;color:var(--orange);margin-bottom:8px;display:block}
 .file-drop p{font-size:13px;color:var(--muted)}
 .file-drop .selected-file{color:var(--orange);font-weight:700;margin-top:8px;font-size:13px;word-break:break-all}
@@ -168,47 +198,53 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .progress-wrap.active{display:block}
 .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
 .progress-bar{height:8px;background:#050505;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
-.progress-fill{height:100%;width:0%;background:var(--orange);border-radius:6px}
-.btn{padding:12px 24px;border:none;border-radius:10px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.progress-fill{height:100%;width:0%;background:var(--orange);border-radius:6px;transition:width 0.2s}
+.btn{padding:12px 24px;border:none;border-radius:10px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:all 0.2s}
+.btn:active{transform:scale(0.97)}
 .btn-primary{background:var(--orange);color:#000;width:100%}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);width:100%;margin-top:8px}
+.btn-danger{background:var(--danger);color:#fff;width:100%}
 .modal-switch{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
 .modal-switch a{color:var(--orange);cursor:pointer;font-weight:700}
 .warning-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px}
 .warning-overlay.active{display:flex}
-.warning-box{background:#0e0e0e;border:1.5px solid var(--orange);border-radius:18px;padding:30px 26px;max-width:460px;width:100%;text-align:center}
+.warning-box{background:#0e0e0e;border:1.5px solid var(--orange);border-radius:18px;padding:30px 26px;max-width:460px;width:100%;text-align:center;animation:scaleIn 0.4s}
 .warning-icon{font-size:46px;color:var(--orange);margin-bottom:14px}
 .warning-box h2{color:var(--orange);font-size:22px;font-weight:900;margin-bottom:16px}
 .warning-box p{color:#ccc;font-size:14px;line-height:1.75;margin-bottom:14px;text-align:right}
-.warning-box p b{color:#fff}
 .warning-list{text-align:right;color:#aaa;font-size:13px;line-height:1.9;margin:14px 0 20px;padding:14px 18px;background:rgba(255,107,0,0.05);border-right:3px solid var(--orange);border-radius:8px}
 .warning-list i{color:var(--orange);margin-left:8px}
 .warning-accept{width:100%;padding:14px;background:var(--orange);color:#000;border:none;border-radius:10px;font-family:inherit;font-weight:900;font-size:16px;cursor:pointer}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(300%);opacity:0;pointer-events:none;visibility:hidden;background:#0e0e0e;border:1px solid var(--orange);color:var(--text);padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:20000;transition:transform 0.35s,opacity 0.25s,visibility 0.25s;max-width:90vw;text-align:center}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;visibility:visible}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:visible;visibility:visible}
 .toast.error{border-color:var(--danger)}
 .spinner-border{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* Comments */
 .comment-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border);margin-bottom:12px}
-.comment-item{padding:10px 12px;background:#0a0a0a;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
-.comment-item.reply{margin-right:20px;background:#080808;margin-top:6px}
+.comment-item{padding:10px 12px;background:#0a0a0a;border-radius:10px;margin-bottom:8px;border:1px solid var(--border);animation:fadeInUp 0.3s}
+.comment-item.reply-1{margin-right:18px;background:#080808;margin-top:6px}
+.comment-item.reply-2{margin-right:36px;background:#050505;margin-top:6px}
+.comment-item.reply-3{margin-right:54px;background:#030303;margin-top:6px}
 .comment-item-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .comment-item-head b{font-size:12px;color:var(--orange);display:flex;align-items:center;gap:4px}
 .comment-item-head span{font-size:10px;color:var(--muted);margin-right:auto}
 .comment-item-body{font-size:13px;color:#ddd;line-height:1.5;word-break:break-word}
 .comment-actions{display:flex;gap:12px;margin-top:6px;font-size:11px;align-items:center;flex-wrap:wrap}
-.comment-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 6px;border-radius:6px}
+.comment-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 6px;border-radius:6px;transition:all 0.2s}
 .comment-actions button.liked{color:var(--danger)}
 .comment-del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.comment-del-btn:hover{color:var(--danger)}
 .reply-form{display:flex;gap:6px;margin-top:8px;padding-right:20px}
 .reply-form input{flex:1;padding:8px 12px;background:#050505;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-family:inherit;outline:none}
 .reply-form button{background:var(--orange);color:#000;border:none;padding:0 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
 .replies-toggle-btn{background:transparent;border:none;color:var(--orange);cursor:pointer;font-size:11.5px;font-weight:700;padding:4px 0;display:inline-flex;align-items:center;gap:5px;margin-top:4px}
-.replies-container{display:none;margin-top:6px;padding-right:8px;border-right:2px solid rgba(255,107,0,0.2)}
+.replies-container{display:none;margin-top:6px}
 .replies-container.show{display:block}
+/* Notifications */
 .notif-list{max-height:55vh;overflow-y:auto;padding:4px;background:#050505;border-radius:10px;border:1px solid var(--border)}
-.notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.notif-item{padding:12px 14px;border-radius:10px;margin-bottom:8px;background:#0a0a0a;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;cursor:pointer;transition:all 0.2s}
 .notif-item.unread{background:rgba(255,107,0,0.06);border-color:rgba(255,107,0,0.3)}
 .notif-item.broadcast{background:rgba(29,155,240,0.05);border-color:rgba(29,155,240,0.3)}
 .notif-item.personal{background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.3)}
@@ -219,18 +255,39 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .notif-text b{color:#fff}
 .notif-time{font-size:10px;color:var(--muted);margin-top:4px}
 body.modal-open{overflow:hidden!important;position:fixed;width:100%}
+/* Bottom Nav */
 body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(62px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(0,0,0,0.98);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;z-index:500;backdrop-filter:blur(12px)}
-.bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px}
+.bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px;transition:color 0.2s}
 .bottom-nav-item i{font-size:21px;line-height:1}
 .bottom-nav-item.active{color:var(--orange)}
+.bottom-nav-item.active i{animation:navBounce 0.4s}
+@keyframes navBounce{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 .bottom-nav-item .notif-count{position:absolute;top:2px;right:calc(50% - 22px);background:var(--danger);color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #000}
 .bottom-nav-item .notif-count.hidden{display:none}
-.bottom-nav-plus{position:relative;width:48px;height:32px;border-radius:9px;background:var(--orange);border:none;color:#000;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin:0 4px;box-shadow:0 0 14px rgba(255,107,0,0.55)}
+.bottom-nav-plus{position:relative;width:48px;height:32px;border-radius:9px;background:var(--orange);border:none;color:#000;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin:0 4px;box-shadow:0 0 14px rgba(255,107,0,0.55);transition:transform 0.15s}
 .bottom-nav-plus::before,.bottom-nav-plus::after{content:'';position:absolute;top:3px;bottom:3px;width:6px;border-radius:3px;background:var(--orange);z-index:-1;filter:blur(1px);opacity:0.85}
 .bottom-nav-plus::before{left:-5px}
 .bottom-nav-plus::after{right:-5px}
 .bottom-nav-plus i{color:#000;font-size:22px;font-weight:900}
+/* ✅ بحث متقدم */
+.search-tabs{display:flex;gap:8px;padding:10px 5% 14px;flex-wrap:wrap;justify-content:center}
+.search-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 16px;border-radius:20px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.search-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
+/* ✅ لوحة التحكم */
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:10px 5% 20px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:transform 0.2s}
+.dash-card:active{transform:scale(0.97)}
+.dash-card i{font-size:26px;color:var(--orange);margin-bottom:8px;display:block}
+.dash-card b{display:block;font-size:24px;font-weight:900;color:#fff;margin-bottom:4px}
+.dash-card span{font-size:11px;color:var(--muted)}
+.dash-section{padding:0 5% 30px}
+.dash-section h3{font-size:15px;font-weight:800;margin-bottom:10px;color:#fff;display:flex;align-items:center;gap:8px}
+.dash-section h3 i{color:var(--orange)}
+.dash-bar{height:32px;background:#050505;border-radius:8px;overflow:hidden;margin-bottom:8px;position:relative;border:1px solid var(--border)}
+.dash-bar-fill{height:100%;background:linear-gradient(90deg,var(--orange),#ff8c33);border-radius:8px;transition:width 0.6s ease}
+.dash-bar-label{position:absolute;top:50%;right:10px;transform:translateY(-50%);font-size:11px;font-weight:700;color:#fff;z-index:2}
+.dash-bar-name{position:absolute;top:50%;left:10px;transform:translateY(-50%);font-size:11px;font-weight:700;color:#000;z-index:2}
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
   .logo{font-size:12px}
@@ -244,14 +301,11 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   .skeleton-card{max-width:100%}
   .section-head{padding:16px 4% 8px;font-size:16px}
   .modal-box{padding:22px 18px}
-  .profile-avatar{width:78px;height:78px;font-size:30px}
-  .profile-stats{gap:12px;padding:10px 14px}
-  .user-card{padding:12px;flex-wrap:wrap}
-  .user-card-actions{width:100%;justify-content:flex-start;margin-top:8px}
   .card-media{max-height:70vh}
   .bottom-nav-item span{font-size:10px}
   .bottom-nav-item i{font-size:19px}
   .bottom-nav-plus{width:44px;height:30px}
+  .bottom-nav-plus i{font-size:20px}
 }
 </style>
 </head>
@@ -305,6 +359,7 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <a data-section="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i> ريلزات <span class="count" id="count-reels">0</span></a>
     <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
     <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
+    <a data-section="history" onclick="switchSection('history')"><i class="fa-solid fa-clock-rotate-left"></i> سجل المشاهدة</a>
     <div id="authNav"></div>
   </nav>
   <div class="sidebar-footer">
@@ -319,6 +374,7 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <div class="home-tabs">
       <button class="home-tab active" data-filter="all" onclick="setHomeFilter('all')"><i class="fa-solid fa-layer-group"></i> الكل</button>
       <button class="home-tab" data-filter="following" onclick="setHomeFilter('following')"><i class="fa-solid fa-user-check"></i> أتابعهم</button>
+      <button class="home-tab" data-filter="trending" onclick="setHomeFilter('trending')"><i class="fa-solid fa-fire"></i> الأكثر رواجاً</button>
     </div>
     <div class="grid" id="grid-home"></div>
   </section>
@@ -331,7 +387,25 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <div class="section-head"><i class="fa-solid fa-bookmark"></i> المحفوظات</div>
     <div class="grid" id="grid-saved"></div>
   </section>
+  <section id="section-history" class="section">
+    <div class="section-head"><i class="fa-solid fa-clock-rotate-left"></i> سجل المشاهدة</div>
+    <div class="grid" id="grid-history"></div>
+  </section>
   <section id="section-profile" class="section"><div id="profileContent"></div></section>
+  <section id="section-search" class="section">
+    <div class="section-head"><i class="fa-solid fa-magnifying-glass"></i> نتائج البحث</div>
+    <div class="search-tabs" id="searchTabs" style="display:none;">
+      <button class="search-tab active" data-tab="posts" onclick="setSearchTab('posts')"><i class="fa-solid fa-photo-film"></i> منشورات</button>
+      <button class="search-tab" data-tab="users" onclick="setSearchTab('users')"><i class="fa-solid fa-users"></i> مستخدمون</button>
+    </div>
+    <div id="searchResults"></div>
+  </section>
+  <section id="section-dashboard" class="section">
+    <div class="section-head"><i class="fa-solid fa-chart-line"></i> لوحة التحكم</div>
+    <div class="dashboard-grid" id="dashboardGrid"></div>
+    <div class="dash-section" id="dashboardTopPosts"></div>
+    <div class="dash-section" id="dashboardTopUsers"></div>
+  </section>
   <section id="section-users" class="section">
     <div class="section-head"><i class="fa-solid fa-users"></i> المستخدمون (للمالك)</div>
     <div style="padding: 0 5% 30px;" id="usersList"></div>
@@ -363,8 +437,8 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <i class="fa-solid fa-user"></i>
     <span>الملف</span>
   </div>
-  </nav>
-  
+    </nav>
+    
 <div class="modal-overlay" id="uploadModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -500,6 +574,19 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   </div>
 </div>
 
+<div class="modal-overlay" id="shareModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('shareModal')"><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-share-nodes"></i> مشاركة</h2>
+    <p class="modal-sub">شارك الرابط مع أصدقائك</p>
+    <div id="shareContent" style="background:#050505;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:12px;word-break:break-all;color:#aaa;margin-bottom:14px;max-height:80px;overflow:hidden;"></div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <button class="btn btn-primary" onclick="copyShareLink()" style="flex:1;"><i class="fa-solid fa-link"></i> نسخ</button>
+      <button class="btn btn-ghost" onclick="shareVia()" style="flex:1;margin:0;"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <script>
 /* ============================================================
@@ -516,26 +603,31 @@ const $ = id => document.getElementById(id);
 const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile');
 const progressWrap = $('progressWrap'), progressFill = $('progressFill'), progressPct = $('progressPct'), progressStat = $('progressStatus');
 const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images'), gridSaved = $('grid-saved');
-const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
+const gridHistory = $('grid-history'), reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 
 let currentUser = null;
 let currentProfile = null;
 let allRows = [], allUsers = [], allComments = [], allNotifs = [];
-let currentSection = 'home', searchQuery = '';
+let currentSection = 'home', searchQuery = '', searchTab = 'posts';
 let currentFile = null, currentFileType = null, avatarFile = null, editAvatarFile = null;
 let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null, currentCommentsVideoOwnerId = null;
 let homeFilter = 'all';
 let followingIds = new Set(), likedVideos = new Set(), viewedVideos = new Set(), likedComments = new Set(), savedPostIds = new Set();
+let blockedIds = new Set();
+let watchHistory = [];
 let commentCounts = {};
 let notifPollTimer = null, homeVideoObserver = null, reelsObserver = null, activeVideo = null, savedScrollY = 0;
-let boostTargetId = null;
+let boostTargetId = null, shareTargetUrl = null;
 let personalMsgTargetUser = null;
+let notifRealtimeChannel = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
+try { watchHistory = JSON.parse(localStorage.getItem('atlas_history') || '[]'); } catch(e){ watchHistory = []; }
 function saveLikesLocal() { try { localStorage.setItem('atlas_likes', JSON.stringify([...likedVideos])); } catch(e){} }
 function saveViewsLocal() { try { localStorage.setItem('atlas_views', JSON.stringify([...viewedVideos])); } catch(e){} }
+function saveHistoryLocal() { try { localStorage.setItem('atlas_history', JSON.stringify(watchHistory.slice(0, 100))); } catch(e){} }
 
 function esc(s) { return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
 
@@ -545,7 +637,7 @@ function showToast(msg, isError = false) {
   t.textContent = msg;
   t.className = 'toast show' + (isError ? ' error' : '');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 function lockBodyScroll() {
@@ -585,7 +677,7 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','boostModal'].forEach(id => {
+    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','boostModal','shareModal'].forEach(id => {
       if ($(id).classList.contains('active')) closeModal(id);
     });
   }
@@ -626,6 +718,9 @@ function switchSection(name, id) {
   if (name === 'profile' && id) { viewingProfileId = id; viewProfile(id); }
   if (name === 'users') renderUsersList();
   if (name === 'saved') renderSaved();
+  if (name === 'history') renderHistory();
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'search') renderSearchResults();
   if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (name === 'reels') {
@@ -688,11 +783,23 @@ function timeAgoFrom(dateStr) {
   return new Date(dateStr).toLocaleDateString('ar-EG');
 }
 
+function formatTime(seconds) {
+  if (!seconds || isNaN(seconds)) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ':' + (s < 10 ? '0' + s : s);
+}
+
 function getUserById(userId) { return allUsers.find(u => u.id === userId) || null; }
 function isUserVerified(userId) { const u = getUserById(userId); return u && u.is_verified === true; }
+function isUserBanned(userId) { const u = getUserById(userId); return u && u.is_banned === true; }
 function verifiedBadgeHTML(userId, size = '') {
   if (!isUserVerified(userId)) return '';
   return `<i class="fa-solid fa-circle-check verified-badge ${size}" title="موثّق"></i>`;
+}
+function bannedBadgeHTML(userId) {
+  if (!isUserBanned(userId)) return '';
+  return `<i class="fa-solid fa-ban banned-badge" title="محظور"></i>`;
 }
 
 async function uploadFileToStorage(file, folder = 'media') {
@@ -724,16 +831,47 @@ function renderSidebar() {
     chip.classList.add('active');
     setAvatar($('userChipAvatar'));
     $('userChipName').textContent = currentProfile.display_name || currentProfile.username;
-    const adminLink = isAdmin() ? `<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>` : '';
-    nav.innerHTML = `${adminLink}<a data-section="profile" onclick="switchSection('profile','${currentProfile.id}')"><i class="fa-solid fa-user"></i> حسابي</a><a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
+    const adminLinks = isAdmin() ? `
+      <a class="admin" data-section="dashboard" onclick="switchSection('dashboard')"><i class="fa-solid fa-chart-line"></i> لوحة التحكم</a>
+      <a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>
+    ` : '';
+    nav.innerHTML = `
+      ${adminLinks}
+      <a data-section="profile" onclick="switchSection('profile','${currentProfile.id}')"><i class="fa-solid fa-user"></i> حسابي</a>
+      <a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
   } else {
     ub.classList.remove('active');
     chip.classList.remove('active');
-    nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
+    nav.innerHTML = `
+      <a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a>
+      <a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
   }
 }
-</script>
-<script>
+
+/* ============ قائمة المشاركة ============ */
+function openShareModal(url) {
+  shareTargetUrl = url;
+  $('shareContent').textContent = url;
+  openModal('shareModal');
+}
+function copyShareLink() {
+  if (!shareTargetUrl) return;
+  navigator.clipboard.writeText(shareTargetUrl).then(() => showToast('✓ تم نسخ الرابط')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = shareTargetUrl; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('✓ تم نسخ الرابط');
+  });
+}
+function shareVia() {
+  if (!shareTargetUrl) return;
+  if (navigator.share) {
+    navigator.share({ title: 'ATLAS SITE', url: shareTargetUrl }).catch(() => {});
+  } else {
+    copyShareLink();
+  }
+}
+  </script>
+  <script>
 /* ============ Auth: تسجيل حساب جديد ============ */
 async function doSignup() {
   const username = $('signupUsername').value.trim().toLowerCase();
@@ -752,30 +890,36 @@ async function doSignup() {
     const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).maybeSingle();
     if (existing) throw new Error('اسم المستخدم محجوز');
     const authEmail = `${username}@atlasapp.io`;
-    const { data: signupData, error: signupErr } = await supabase.auth.signUp({ email: authEmail, password: pass });
+    const { data: signupData, error: signupErr } = await supabase.auth.signUp({
+      email: authEmail,
+      password: pass,
+      options: { data: { username: username, display_name: finalName } }
+    });
     if (signupErr) throw new Error(signupErr.message);
     const userId = signupData.user.id;
     let avatarUrl = '';
     if (avatarFile) {
       try { avatarUrl = await uploadFileToStorage(avatarFile, 'avatars'); } catch(e) {}
     }
-    const { error: profErr } = await supabase.from('profiles').insert({
-      id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false
+    const { error: profErr } = await supabase.from('profiles').upsert({
+      id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false
     });
-    if (profErr) throw new Error('فشل حفظ البيانات: ' + profErr.message);
+    if (profErr) console.warn('Profile upsert error:', profErr);
     currentUser = { id: userId, email: authEmail };
-    currentProfile = { id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false };
+    currentProfile = { id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false };
     saveSession(currentProfile);
     await loadAllUsers();
     await loadFollowing();
     await loadSaved();
     await loadLikedComments();
+    await loadBlocked();
     renderSidebar();
     showToast('✓ تم إنشاء الحساب');
     resetSignupForm();
     closeModal('signupModal', true);
     switchSection('home');
     loadContent();
+    setupNotifRealtime();
   } catch (err) {
     console.error(err);
     showToast(err.message || 'حدث خطأ', true);
@@ -796,16 +940,18 @@ async function doLogin() {
   try {
     const { data: prof, error: profErr } = await supabase.from('profiles').select('*').eq('username', username).maybeSingle();
     if (profErr || !prof) throw new Error('اسم المستخدم غير موجود');
+    if (prof.is_banned === true) throw new Error('حسابك محظور من الموقع');
     const authEmail = `${username}@atlasapp.io`;
     const { data: loginData, error: loginErr } = await supabase.auth.signInWithPassword({ email: authEmail, password: pass });
     if (loginErr) throw new Error('كلمة السر غير صحيحة');
     currentUser = { id: loginData.user.id, email: authEmail };
-    currentProfile = { id: prof.id, username: prof.username, display_name: prof.display_name || prof.username, avatar_url: prof.avatar_url || '', is_verified: prof.is_verified === true };
+    currentProfile = { id: prof.id, username: prof.username, display_name: prof.display_name || prof.username, avatar_url: prof.avatar_url || '', is_verified: prof.is_verified === true, is_banned: prof.is_banned === true };
     saveSession(currentProfile);
     await loadAllUsers();
     await loadFollowing();
     await loadSaved();
     await loadLikedComments();
+    await loadBlocked();
     renderSidebar();
     showToast('✓ تم تسجيل الدخول');
     $('loginUsername').value = '';
@@ -814,6 +960,7 @@ async function doLogin() {
     switchSection('home');
     loadContent();
     loadNotifications();
+    setupNotifRealtime();
   } catch (err) {
     console.error(err);
     showToast(err.message || 'فشل الدخول', true);
@@ -827,12 +974,17 @@ async function doLogin() {
 async function doLogout() {
   if (!confirm('هل تريد تسجيل الخروج؟')) return;
   pauseAllVideos();
+  if (notifRealtimeChannel) {
+    try { supabase.removeChannel(notifRealtimeChannel); } catch(e){}
+    notifRealtimeChannel = null;
+  }
   try { await supabase.auth.signOut(); } catch(e){}
   currentUser = null;
   currentProfile = null;
   followingIds = new Set();
   savedPostIds = new Set();
   likedComments = new Set();
+  blockedIds = new Set();
   allNotifs = [];
   clearSession();
   updateNotifBadge();
@@ -857,7 +1009,7 @@ async function loadFollowing() {
     const { data, error } = await supabase.from('follows').select('following_id').eq('follower_id', currentUser.id);
     if (error) return;
     followingIds = new Set((data || []).map(r => r.following_id));
-  } catch(e) { console.warn(e); }
+  } catch(e) {}
 }
 
 async function fetchFollowCounts(userId) {
@@ -889,13 +1041,11 @@ async function toggleFollow(userId, btn) {
   btn.disabled = true;
   try {
     if (isFollowing) {
-      const { error } = await supabase.from('follows').delete().eq('follower_id', currentUser.id).eq('following_id', userId);
-      if (error) throw error;
+      await supabase.from('follows').delete().eq('follower_id', currentUser.id).eq('following_id', userId);
       followingIds.delete(userId);
       showToast('✓ تم إلغاء المتابعة');
     } else {
-      const { error } = await supabase.from('follows').insert({ follower_id: currentUser.id, following_id: userId });
-      if (error) throw error;
+      await supabase.from('follows').insert({ follower_id: currentUser.id, following_id: userId });
       followingIds.add(userId);
       showToast('✓ تمت المتابعة');
       await createNotification(userId, 'follow', 'بدأ بمتابعتك', '');
@@ -904,6 +1054,35 @@ async function toggleFollow(userId, btn) {
     if (currentSection === 'home' && homeFilter === 'following') renderAll();
   } catch(e) { console.error(e); showToast('فشل العملية', true); }
   finally { btn.disabled = false; }
+}
+
+/* ============ الحظر ============ */
+async function loadBlocked() {
+  if (!currentUser) { blockedIds = new Set(); return; }
+  try {
+    const { data, error } = await supabase.from('blocks').select('blocked_id').eq('blocker_id', currentUser.id);
+    if (error) return;
+    blockedIds = new Set((data || []).map(r => r.blocked_id));
+  } catch(e) {}
+}
+
+async function toggleBlock(userId) {
+  if (!isAdmin()) return showToast('غير مصرح', true);
+  if (!currentUser) return;
+  if (userId === currentUser.id) return showToast('لا يمكنك حظر نفسك', true);
+  const u = getUserById(userId);
+  if (!u) return;
+  const wasBanned = u.is_banned === true;
+  if (!confirm(wasBanned ? `رفع الحظر عن @${u.username}؟` : `حظر @${u.username}؟ لن يستطيع استخدام الموقع.`)) return;
+  try {
+    const { error } = await supabase.from('profiles').update({ is_banned: !wasBanned }).eq('id', userId);
+    if (error) throw error;
+    u.is_banned = !wasBanned;
+    showToast(wasBanned ? '✓ تم رفع الحظر' : '✓ تم حظر المستخدم');
+    renderUsersList();
+    if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
+    loadContent();
+  } catch(e) { showToast('فشل', true); }
 }
 
 /* ============ الإشعارات ============ */
@@ -928,11 +1107,38 @@ async function loadNotifications() {
     const { data, error } = await supabase.from('notifications')
       .select('*')
       .eq('recipient_id', currentUser.id)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(100);
     if (error) return;
     allNotifs = data || [];
     updateNotifBadge();
-  } catch(e) { console.warn(e); }
+  } catch(e) {}
+}
+
+/* ✅ التحديث الفوري للإشعارات */
+function setupNotifRealtime() {
+  if (!currentUser) return;
+  if (notifRealtimeChannel) {
+    try { supabase.removeChannel(notifRealtimeChannel); } catch(e){}
+  }
+  try {
+    notifRealtimeChannel = supabase.channel('notif_' + currentUser.id)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'notifications',
+        filter: `recipient_id=eq.${currentUser.id}`
+      }, payload => {
+        const n = payload.new;
+        if (n) {
+          allNotifs.unshift(n);
+          updateNotifBadge();
+          showToast('🔔 إشعار جديد');
+          if ($('notificationsModal').classList.contains('active')) renderNotifications();
+        }
+      })
+      .subscribe();
+  } catch(e) { console.warn('realtime error', e); }
 }
 
 function updateNotifBadge() {
@@ -964,7 +1170,7 @@ function renderNotifications() {
   }
   list.innerHTML = allNotifs.map(n => {
     const sender = getUserById(n.sender_id);
-    const senderName = sender ? (sender.display_name || sender.username) : 'مجهول';
+    const senderName = sender ? (sender.display_name || sender.username) : 'النظام';
     const senderAvatar = sender && sender.avatar_url ? `<img src="${esc(sender.avatar_url)}" alt="">` : senderName.charAt(0).toUpperCase();
     let icon = 'fa-bell';
     if (n.type === 'like') icon = 'fa-heart';
@@ -1033,20 +1239,20 @@ async function sendBroadcast() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner-border"></span> جاري الإرسال...';
   try {
-    let sent = 0;
-    for (const u of allUsers) {
-      try {
-        await supabase.from('notifications').insert({
-          recipient_id: u.id, sender_id: currentUser.id, type: 'broadcast', content: text, target_id: '', is_read: false
-        });
-        sent++;
-      } catch(e) {}
-    }
-    showToast(`✓ تم الإرسال لـ ${sent} مستخدم`);
+    const notifications = allUsers.map(u => ({
+      recipient_id: u.id,
+      sender_id: currentUser.id,
+      type: 'broadcast',
+      content: text,
+      target_id: '',
+      is_read: false
+    }));
+    if (notifications.length) await supabase.from('notifications').insert(notifications);
+    showToast(`✓ تم الإرسال لـ ${notifications.length} مستخدم`);
     $('broadcastText').value = '';
     closeModal('broadcastModal', true);
     loadNotifications();
-  } catch(e) { console.error(e); showToast('فشل الإرسال', true); }
+  } catch(e) { showToast('فشل الإرسال', true); }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع'; }
 }
 
@@ -1134,10 +1340,9 @@ async function saveProfileEdit() {
     }
     let avatarUrl = currentProfile.avatar_url || '';
     if (editAvatarFile) avatarUrl = await uploadFileToStorage(editAvatarFile, 'avatars');
-    const { error } = await supabase.from('profiles').update({
+    await supabase.from('profiles').update({
       username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl
     }).eq('id', currentProfile.id);
-    if (error) throw new Error('فشل حفظ التعديلات');
     currentProfile.username = newUsername;
     currentProfile.display_name = newDisplayName;
     currentProfile.avatar_url = avatarUrl;
@@ -1148,13 +1353,8 @@ async function saveProfileEdit() {
     closeModal('editModal', true);
     if (currentSection === 'profile') viewProfile(currentProfile.id);
     loadContent();
-  } catch (err) {
-    console.error(err);
-    showToast(err.message || 'فشل الحفظ', true);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات';
-  }
+  } catch (err) { showToast(err.message || 'فشل الحفظ', true); }
+  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات'; }
 }
 
 $('signupAvatarInput').addEventListener('change', e => {
@@ -1174,11 +1374,12 @@ function resetSignupForm() {
   $('signupAvatarPreview').innerHTML = '<i class="fa-solid fa-user"></i>';
   avatarFile = null;
 }
-</script>
-<script>
+  </script>
+  <script>
 /* ============ رفع منشور جديد ============ */
 function handleFabClick() {
   if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; }
+  if (currentProfile && currentProfile.is_banned) return showToast('حسابك محظور', true);
   openModal('uploadModal');
 }
 
@@ -1220,7 +1421,9 @@ async function uploadContent() {
       user_id: currentUser.id,
       title, description: desc || '',
       media_url: fileUrl, media_type: currentFileType,
-      likes_count: 0, views_count: 0
+      likes_count: 0, views_count: 0,
+      author_name: currentProfile.display_name || currentProfile.username,
+      author_avatar: currentProfile.avatar_url || ''
     });
     if (error) throw new Error('فشل حفظ البيانات: ' + error.message);
     showToast('✓ تم النشر');
@@ -1272,7 +1475,9 @@ async function loadCommentCounts() {
 
 function setLoadingAll() {
   const h = Array(4).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join('');
-  gridHome.innerHTML = h; gridImages.innerHTML = h; if (gridSaved) gridSaved.innerHTML = h;
+  gridHome.innerHTML = h; gridImages.innerHTML = h;
+  if (gridSaved) gridSaved.innerHTML = h;
+  if (gridHistory) gridHistory.innerHTML = h;
 }
 
 function showErrorAll(msg) {
@@ -1289,7 +1494,7 @@ function getMediaType(r) {
 function getFiltered(fn) {
   let rows = allRows;
   if (fn) rows = rows.filter(fn);
-  if (searchQuery) {
+  if (searchQuery && currentSection === 'home') {
     rows = rows.filter(r => (r.title || '').toLowerCase().includes(searchQuery) || (r.description || '').toLowerCase().includes(searchQuery));
   }
   return rows;
@@ -1303,6 +1508,8 @@ function renderAll() {
   if (homeFilter === 'following') {
     if (!currentUser) homeRows = [];
     else homeRows = homeRows.filter(r => followingIds.has(r.user_id));
+  } else if (homeFilter === 'trending') {
+    homeRows = [...homeRows].sort((a, b) => ((b.likes_count||0) + (b.views_count||0)*0.1) - ((a.likes_count||0) + (a.views_count||0)*0.1));
   }
   if (homeFilter === 'following' && homeRows.length === 0) {
     gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
@@ -1319,6 +1526,7 @@ function setHomeFilter(f) {
 
 function canDelete(row) { return currentUser && (row.user_id === currentUser.id || isAdmin()); }
 
+/* ✅ شريط التقدم الذكي + الضغطة المزدوجة */
 function cardHTML(v) {
   const url = esc(v.media_url);
   const mtype = getMediaType(v);
@@ -1339,9 +1547,18 @@ function cardHTML(v) {
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
-    : `<video class="card-media" src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.id}')"></video>`;
+    : `<video class="card-media" src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video>`;
+  const smartProgress = mtype === 'video' ? `
+    <div class="smart-progress">
+      <div class="smart-progress-track" onclick="seekVideoSmart(event, this)">
+        <div class="smart-progress-fill"></div>
+      </div>
+      <div class="smart-time"><span class="st-current">0:00</span><span class="st-total">0:00</span></div>
+    </div>
+  ` : '';
+  const muteBtn = mtype === 'video' ? `<button class="mute-btn" onclick="event.stopPropagation(); toggleMuteCard(this)"><i class="fa-solid fa-volume-xmark"></i></button>` : '';
   return `<div class="card" data-row-id="${v.id}">
-    <div class="card-media-wrap">
+    <div class="card-media-wrap" ondblclick="handleCardDoubleTap(event, '${v.id}')">
       ${media}
       <div class="card-overlay-author">
         <div class="card-author-chip" ${authorClick}>
@@ -1357,8 +1574,10 @@ function cardHTML(v) {
       </div>
       ${mtype === 'video' ? `
         <button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button>
-        <div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>
+        ${muteBtn}
+        ${smartProgress}
       ` : ''}
+      <div class="heart-burst" id="heart-${v.id}"><i class="fa-solid fa-heart"></i></div>
     </div>
     <div class="card-body">
       <div class="card-title">${title}</div>
@@ -1374,7 +1593,7 @@ function cardHTML(v) {
           <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
         </div>
         <div class="actions-row">
-          <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
+          <button class="icon-btn" onclick="openShareModal('${url}')"><i class="fa-solid fa-share-nodes"></i></button>
           ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}', '${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
         </div>
       </div>
@@ -1386,13 +1605,14 @@ function renderGrid(container, rows) {
   if (!container) return;
   if (!rows.length) {
     const msg = searchQuery ? 'لا نتائج' : 'لا يوجد محتوى';
-    container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>${msg}</p><span>${searchQuery ? 'جرّب كلمات أخرى' : 'اضغط "نشر" بالأعلى'}</span></div>`;
+    container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>${msg}</p><span>${searchQuery ? 'جرّب كلمات أخرى' : 'اضغط زر + في الأسفل'}</span></div>`;
     return;
   }
   container.innerHTML = rows.map(cardHTML).join('');
   setTimeout(setupBlurUp, 150);
 }
 
+/* ============ الريلزات مع الضغطة المزدوجة ============ */
 function renderReels(rows) {
   if (!rows.length) {
     reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>${searchQuery ? 'لا نتائج' : 'لا توجد ريلزات بعد'}</p></div>`;
@@ -1411,12 +1631,12 @@ function renderReels(rows) {
     const commentsCount = commentCounts[v.id] || 0;
     const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
     return `<div class="reel-item" data-reel-id="${v.id}">
-      <video src="${url}" loop playsinline preload="auto" onplay="markViewed('${v.id}')"></video>
+      <video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video>
       <button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button>
       <div class="reel-progress"><div class="reel-progress-fill"></div></div>
       <div class="reel-actions">
         ${boostBtn}
-        <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
+        <button class="icon-btn" onclick="openShareModal('${url}')"><i class="fa-solid fa-share-nodes"></i></button>
         ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}','${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
       </div>
       <div class="reel-overlay">
@@ -1435,10 +1655,12 @@ function renderReels(rows) {
           </button>
         </div>
       </div>
+      <div class="heart-burst" id="heart-${v.id}" style="top:50%;left:50%;font-size:120px;"><i class="fa-solid fa-heart"></i></div>
     </div>`;
   }).join('');
   setTimeout(setupReelsControls, 100);
   setTimeout(setupReelsObserver, 150);
+  setTimeout(setupReelsDoubleTap, 200);
 }
 
 function setupReelsControls() {
@@ -1488,6 +1710,84 @@ function setupReelsObserver() {
   document.querySelectorAll('.reel-item').forEach(el => reelsObserver.observe(el));
 }
 
+/* ✅ الضغطة المزدوجة على الريلزات */
+function setupReelsDoubleTap() {
+  document.querySelectorAll('.reel-item').forEach(item => {
+    if (item.dataset.dblBound) return;
+    item.dataset.dblBound = '1';
+    let lastTap = 0;
+    item.addEventListener('click', (e) => {
+      if (e.target.closest('.icon-btn') || e.target.closest('.reel-author') || e.target.closest('.reel-actions')) return;
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        const id = item.dataset.reelId;
+        if (id) {
+          showHeartBurst(id);
+          if (!likedVideos.has(id)) {
+            const vid = allRows.find(r => r.id === id);
+            if (vid) toggleLikeReel(id);
+          }
+        }
+        lastTap = 0;
+      } else {
+        lastTap = now;
+      }
+    });
+  });
+}
+
+async function toggleLikeReel(id) {
+  const row = allRows.find(r => r.id === id);
+  if (!row) return;
+  if (likedVideos.has(id)) return;
+  likedVideos.add(id);
+  row.likes_count = (row.likes_count || 0) + 1;
+  saveLikesLocal();
+  document.querySelectorAll(`[data-like-id="${id}"]`).forEach(b => {
+    const icon = b.querySelector('i');
+    const span = b.querySelector('span');
+    if (icon) icon.className = 'fa-solid fa-heart';
+    b.classList.add('liked');
+    if (span) span.textContent = row.likes_count;
+  });
+  try {
+    await supabase.from('likes').insert({ user_id: currentUser.id, post_id: id });
+    await supabase.from('posts').update({ likes_count: row.likes_count }).eq('id', id);
+    if (row.user_id && row.user_id !== currentUser.id) {
+      await createNotification(row.user_id, 'like', 'أعجب بمنشورك', id);
+    }
+  } catch(e) {}
+}
+
+function showHeartBurst(id) {
+  const el = $('heart-' + id);
+  if (!el) return;
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1000);
+}
+
+/* ✅ الضغطة المزدوجة على البطاقات */
+let cardLastTap = 0;
+let cardLastTapId = null;
+function handleCardDoubleTap(e, id) {
+  if (!currentUser) return;
+  const now = Date.now();
+  if (now - cardLastTap < 300 && cardLastTapId === id) {
+    showHeartBurst(id);
+    if (!likedVideos.has(id)) {
+      const btn = document.querySelector(`[data-like-id="${id}"]`);
+      if (btn) toggleLike(id, btn);
+    }
+    cardLastTap = 0;
+    cardLastTapId = null;
+  } else {
+    cardLastTap = now;
+    cardLastTapId = id;
+  }
+}
+
 function toggleReelPlay(btn) {
   const item = btn.closest('.reel-item');
   const video = item.querySelector('video');
@@ -1512,6 +1812,26 @@ function toggleReelPlay(btn) {
   }
 }
 
+/* ✅ سجل المشاهدة */
+async function renderHistory() {
+  if (!gridHistory) return;
+  const rows = allRows.filter(r => watchHistory.includes(r.id));
+  if (!rows.length) {
+    gridHistory.innerHTML = `<div class="empty"><i class="fa-solid fa-clock-rotate-left"></i><p>لا يوجد سجل مشاهدة</p><span>الفيديوهات التي تشاهدها ستظهر هنا</span></div>`;
+    return;
+  }
+  gridHistory.innerHTML = rows.map(cardHTML).join('');
+  setTimeout(setupBlurUp, 150);
+}
+
+function addToHistory(videoId) {
+  watchHistory = watchHistory.filter(id => id !== videoId);
+  watchHistory.unshift(videoId);
+  if (watchHistory.length > 100) watchHistory = watchHistory.slice(0, 100);
+  saveHistoryLocal();
+}
+  </script>
+  <script>
 /* ============ الملف الشخصي ============ */
 async function viewProfile(userId) {
   pauseAllVideos();
@@ -1535,7 +1855,9 @@ async function viewProfile(userId) {
   const handle = esc(profile.username);
   const avatar = profile.avatar_url ? `<img src="${esc(profile.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
   const isVerified = profile.is_verified === true;
+  const isBanned = profile.is_banned === true;
   const verifiedIcon = isVerified ? '<i class="fa-solid fa-circle-check verified-badge lg"></i>' : '';
+  const bannedIcon = isBanned ? '<i class="fa-solid fa-ban banned-badge lg" title="محظور"></i>' : '';
   let actions = '';
   if (isMe) actions += `<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل</button>`;
   else if (currentUser) {
@@ -1543,15 +1865,18 @@ async function viewProfile(userId) {
       ? `<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>`
       : `<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`;
   }
-  if (amAdmin) {
+  if (amAdmin && !isMe) {
     actions += isVerified
       ? `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>`
       : `<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
-    if (!isMe) actions += `<button class="profile-btn" onclick="openPersonalMsg('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-paper-plane"></i> رسالة</button>`;
+    actions += isBanned
+      ? `<button class="profile-btn unban" onclick="toggleBlock('${userId}')"><i class="fa-solid fa-unlock"></i> رفع الحظر</button>`
+      : `<button class="profile-btn ban" onclick="toggleBlock('${userId}')"><i class="fa-solid fa-ban"></i> حظر</button>`;
+    actions += `<button class="profile-btn" onclick="openPersonalMsg('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-paper-plane"></i> رسالة</button>`;
   }
   box.innerHTML = `<div class="profile-head">
     <div class="profile-avatar">${avatar}</div>
-    <div class="profile-name">${name}${verifiedIcon}</div>
+    <div class="profile-name">${name}${verifiedIcon}${bannedIcon}</div>
     <div class="profile-handle">@${handle}</div>
     ${actions ? `<div class="profile-actions">${actions}</div>` : ''}
     <div class="profile-stats">
@@ -1604,6 +1929,7 @@ function renderConnectionUser(userId) {
   const handle = esc(u.username);
   const avatar = u.avatar_url ? `<img src="${esc(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
   const isVerified = u.is_verified === true;
+  const isBanned = u.is_banned === true;
   const isMe = currentUser && u.id === currentUser.id;
   const isFollowing = followingIds.has(userId);
   let followBtn = '';
@@ -1615,36 +1941,45 @@ function renderConnectionUser(userId) {
   return `<div class="user-card">
     <div class="user-card-avatar" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">${avatar}</div>
     <div class="user-card-info" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">
-      <div class="user-card-name">${name}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div>
+      <div class="user-card-name">${name}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}${isBanned ? '<i class="fa-solid fa-ban banned-badge"></i>' : ''}</div>
       <div class="user-card-handle">@${handle}</div>
     </div>
     <div class="user-card-actions">${followBtn}</div>
   </div>`;
 }
 
-/* ============ Admin ============ */
+/* ============ قائمة المستخدمين (للمالك) ============ */
 function renderUsersList() {
   const box = $('usersList');
   if (!isAdmin()) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح</p></div>`; return; }
   if (!allUsers.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون</p></div>`; return; }
-  box.innerHTML = allUsers.map(u => {
+  const sorted = [...allUsers].sort((a, b) => {
+    if (a.username === 'atlas') return -1;
+    if (b.username === 'atlas') return 1;
+    return (a.username || '').localeCompare(b.username || '');
+  });
+  box.innerHTML = sorted.map(u => {
     const name = esc(u.display_name || u.username);
     const handle = esc(u.username);
     const avatar = u.avatar_url ? `<img src="${esc(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
     const isVerified = u.is_verified === true;
+    const isBanned = u.is_banned === true;
     const isMe = currentUser && u.id === currentUser.id;
     const me = isMe ? '<span style="color:var(--muted);font-size:11px;">(أنت)</span>' : '';
     const verifyBtn = isVerified
       ? `<button class="user-action-btn unverify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>`
       : `<button class="user-action-btn verify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
+    const banBtn = !isMe ? (isBanned
+      ? `<button class="user-action-btn unban-btn" onclick="toggleBlock('${u.id}')"><i class="fa-solid fa-unlock"></i> رفع</button>`
+      : `<button class="user-action-btn ban-btn" onclick="toggleBlock('${u.id}')"><i class="fa-solid fa-ban"></i> حظر</button>`) : '';
     const msgBtn = !isMe ? `<button class="user-action-btn send-msg" onclick="openPersonalMsg('${u.id}')"><i class="fa-solid fa-paper-plane"></i> رسالة</button>` : '';
     return `<div class="user-card">
       <div class="user-card-avatar" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">${avatar}</div>
       <div class="user-card-info" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">
-        <div class="user-card-name">${name}${me}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div>
+        <div class="user-card-name">${name}${me}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}${isBanned ? '<i class="fa-solid fa-ban banned-badge"></i>' : ''}</div>
         <div class="user-card-handle">@${handle}</div>
       </div>
-      <div class="user-card-actions">${msgBtn}${verifyBtn}</div>
+      <div class="user-card-actions">${msgBtn}${verifyBtn}${banBtn}</div>
     </div>`;
   }).join('');
 }
@@ -1730,6 +2065,7 @@ async function deleteItem(rowId, videoUrl) {
     renderAll();
     if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
     if (currentSection === 'saved') renderSaved();
+    if (currentSection === 'history') renderHistory();
   } catch (err) { showToast('فشل الحذف', true); }
 }
 
@@ -1764,9 +2100,13 @@ async function toggleLike(videoId, btn) {
 }
 
 async function markViewed(videoId) {
-  if (viewedVideos.has(videoId)) return;
+  if (viewedVideos.has(videoId)) {
+    addToHistory(videoId);
+    return;
+  }
   viewedVideos.add(videoId);
   saveViewsLocal();
+  addToHistory(videoId);
   const row = allRows.find(r => r.id === videoId);
   if (!row) return;
   const newCount = (row.views_count || 0) + 1;
@@ -1808,8 +2148,9 @@ function renderSaved() {
   box.innerHTML = saved.map(cardHTML).join('');
   setTimeout(setupBlurUp, 150);
 }
-
-/* ============ التعليقات ============ */
+  </script>
+  <script>
+/* ============ التعليقات (ردود متعددة المستويات) ============ */
 function openComments(videoId, title, ownerId) {
   pauseAllVideos();
   currentCommentsVideoId = videoId;
@@ -1834,39 +2175,34 @@ async function loadComments(videoId) {
   const list = $('commentList');
   list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
-    const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false });
+    const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: true });
     if (error) throw error;
     allComments = data || [];
-    const parents = allComments.filter(c => !c.parent_id);
-    const replies = allComments.filter(c => c.parent_id);
     commentCounts[videoId] = allComments.length;
-    if (!parents.length) {
+    if (!allComments.length) {
       list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`;
       return;
     }
-    list.innerHTML = parents.map(p => {
-      const childs = replies.filter(r => r.parent_id === p.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-      const repliesHTML = childs.length
-        ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>`
-        : '';
-      return renderCommentItem(p) + repliesHTML;
-    }).join('');
+    const roots = allComments.filter(c => !c.parent_id);
+    list.innerHTML = roots.map(r => renderCommentTree(r, list, 0)).join('');
   } catch (err) {
     console.error(err);
     list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p></div>`;
   }
 }
 
-function toggleReplies(commentId, btn) {
-  const el = $('replies-' + commentId);
-  if (!el) return;
-  const isShown = el.classList.toggle('show');
-  const count = el.children.length;
-  if (isShown) btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`;
-  else btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`;
+function renderCommentTree(comment, container, depth) {
+  const replies = allComments.filter(c => c.parent_id === comment.id);
+  const replyLevel = Math.min(depth, 3);
+  const hasReplies = replies.length > 0;
+  const repliesHTML = hasReplies
+    ? `<button class="replies-toggle-btn" onclick="toggleRepliesTree('${comment.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${replies.length})</button>
+       <div class="replies-container" id="replies-${comment.id}">${replies.map(r => renderCommentTree(r, container, depth + 1)).join('')}</div>`
+    : '';
+  return renderCommentItem(comment, depth, replyLevel) + repliesHTML;
 }
 
-function renderCommentItem(c, isReply = false) {
+function renderCommentItem(c, depth, replyLevel) {
   const canDel = canDeleteComment(c);
   const isLiked = likedComments.has(c.id);
   const author = getUserById(c.user_id);
@@ -1874,7 +2210,7 @@ function renderCommentItem(c, isReply = false) {
   const authorAvatar = (author && author.avatar_url) ? `<img src="${esc(author.avatar_url)}" alt="">` : (c.author_avatar ? `<img src="${esc(c.author_avatar)}" alt="">` : esc(authorName.charAt(0).toUpperCase()));
   const verified = verifiedBadgeHTML(c.user_id);
   const likeCount = c.likes_count || 0;
-  return `<div class="comment-item ${isReply ? 'reply' : ''}">
+  return `<div class="comment-item ${depth > 0 ? 'reply-' + replyLevel : ''}">
     <div class="comment-item-head">
       <div class="card-author-avatar" style="width:22px;height:22px;font-size:10px;">${authorAvatar}</div>
       <b>${esc(authorName)}${verified}</b>
@@ -1884,9 +2220,9 @@ function renderCommentItem(c, isReply = false) {
     <div class="comment-item-body">${esc(c.content)}</div>
     <div class="comment-actions">
       <button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)">
-        <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> ${likeCount}
+        <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span class="cl-count">${likeCount}</span>
       </button>
-      ${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}
+      <button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>
     </div>
     <div id="reply-form-${c.id}" style="display:none;" class="reply-form">
       <input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300">
@@ -1895,17 +2231,29 @@ function renderCommentItem(c, isReply = false) {
   </div>`;
 }
 
+function toggleRepliesTree(commentId, btn) {
+  const el = $('replies-' + commentId);
+  if (!el) return;
+  const isShown = el.classList.toggle('show');
+  const count = allComments.filter(c => c.parent_id === commentId).length;
+  if (isShown) btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`;
+  else btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`;
+}
+
 function showReplyForm(commentId) {
   const el = $('reply-form-' + commentId);
   if (!el) return;
   if (!currentUser) { showToast('سجّل دخول للرد', true); openModal('loginModal'); return; }
-  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
-  if (el.style.display === 'flex') $('reply-input-' + commentId).focus();
+  const isOpen = el.style.display === 'flex';
+  document.querySelectorAll('.reply-form').forEach(f => { if (f.id !== 'reply-form-' + commentId) f.style.display = 'none'; });
+  el.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) $('reply-input-' + commentId).focus();
 }
 
 async function submitReply(parentId) {
   if (!currentUser) return showToast('سجّل دخول', true);
   const input = $('reply-input-' + parentId);
+  if (!input) return;
   const content = input.value.trim();
   if (!content) return showToast('اكتب ردك', true);
   const parent = allComments.find(c => c.id === parentId);
@@ -1976,6 +2324,7 @@ async function toggleCommentLike(commentId, btn) {
   btn.disabled = true;
   try {
     const comment = allComments.find(c => c.id === commentId);
+    const countSpan = btn.querySelector('.cl-count');
     if (isLiked) {
       await supabase.from('comment_likes').delete().eq('user_id', currentUser.id).eq('comment_id', commentId);
       likedComments.delete(commentId);
@@ -1983,7 +2332,10 @@ async function toggleCommentLike(commentId, btn) {
         const nc = Math.max(0, (comment.likes_count || 0) - 1);
         comment.likes_count = nc;
         await supabase.from('comments').update({ likes_count: nc }).eq('id', commentId);
+        if (countSpan) countSpan.textContent = nc;
       }
+      btn.classList.remove('liked');
+      btn.querySelector('i').className = 'fa-regular fa-heart';
     } else {
       await supabase.from('comment_likes').insert({ user_id: currentUser.id, comment_id: commentId });
       likedComments.add(commentId);
@@ -1991,31 +2343,125 @@ async function toggleCommentLike(commentId, btn) {
         const nc = (comment.likes_count || 0) + 1;
         comment.likes_count = nc;
         await supabase.from('comments').update({ likes_count: nc }).eq('id', commentId);
+        if (countSpan) countSpan.textContent = nc;
         if (comment.user_id && comment.user_id !== currentUser.id) {
           await createNotification(comment.user_id, 'comment_like', 'أعجب بتعليقك', comment.post_id);
         }
       }
+      btn.classList.add('liked');
+      btn.querySelector('i').className = 'fa-solid fa-heart';
     }
-    loadComments(currentCommentsVideoId);
   } catch(e) { console.warn(e); }
   finally { btn.disabled = false; }
 }
 
-/* ============ أدوات مساعدة ============ */
-function copyLink(url) {
-  navigator.clipboard.writeText(url).then(() => showToast('✓ تم النسخ')).catch(() => {
-    const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('✓ تم النسخ');
-  });
-}
-
+/* ============ البحث المتقدم ============ */
 function applySearch() {
   clearTimeout(searchDebounce);
-  searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 200);
+  searchDebounce = setTimeout(() => {
+    searchQuery = searchInput.value.trim().toLowerCase();
+    if (!searchQuery) {
+      if (currentSection === 'search') switchSection('home');
+      else renderAll();
+      return;
+    }
+    switchSection('search');
+  }, 300);
 }
 
-/* ============ تشغيل الفيديو في الرئيسية ============ */
+function setSearchTab(tab) {
+  searchTab = tab;
+  document.querySelectorAll('.search-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  renderSearchResults();
+}
+
+function renderSearchResults() {
+  const box = $('searchResults');
+  const tabs = $('searchTabs');
+  if (!searchQuery) {
+    tabs.style.display = 'none';
+    box.innerHTML = `<div class="empty"><i class="fa-solid fa-magnifying-glass"></i><p>اكتب شيئاً للبحث</p></div>`;
+    return;
+  }
+  tabs.style.display = 'flex';
+  if (searchTab === 'users') {
+    const users = allUsers.filter(u =>
+      (u.username || '').toLowerCase().includes(searchQuery) ||
+      (u.display_name || '').toLowerCase().includes(searchQuery)
+    );
+    if (!users.length) {
+      box.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون مطابقون</p></div>`;
+      return;
+    }
+    box.innerHTML = `<div style="padding:0 5% 30px;">${users.map(u => renderConnectionUser(u.id)).join('')}</div>`;
+  } else {
+    const rows = allRows.filter(r =>
+      (r.title || '').toLowerCase().includes(searchQuery) ||
+      (r.description || '').toLowerCase().includes(searchQuery)
+    );
+    if (!rows.length) {
+      box.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>لا توجد نتائج</p></div>`;
+      return;
+    }
+    box.innerHTML = `<div class="grid">${rows.map(cardHTML).join('')}</div>`;
+    setTimeout(setupBlurUp, 150);
+  }
+}
+
+/* ============ لوحة التحكم ============ */
+async function renderDashboard() {
+  if (!isAdmin()) {
+    $('dashboardGrid').innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح</p></div>`;
+    return;
+  }
+  const grid = $('dashboardGrid');
+  grid.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
+
+  try {
+    const totalUsers = allUsers.length;
+    const totalPosts = allRows.length;
+    const videoPosts = allRows.filter(r => getMediaType(r) === 'video').length;
+    const imagePosts = allRows.filter(r => getMediaType(r) === 'image').length;
+    const totalLikes = allRows.reduce((s, r) => s + (r.likes_count || 0), 0);
+    const totalViews = allRows.reduce((s, r) => s + (r.views_count || 0), 0);
+
+    const { count: commentsCount } = await supabase.from('comments').select('id', { count: 'exact', head: true }).eq('is_deleted', false);
+    const { count: notifCount } = await supabase.from('notifications').select('id', { count: 'exact', head: true });
+    const { count: verifiedCount } = await supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('is_verified', true);
+    const { count: bannedCount } = await supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('is_banned', true);
+
+    grid.innerHTML = `
+      <div class="dash-card"><i class="fa-solid fa-users"></i><b>${totalUsers}</b><span>مستخدم</span></div>
+      <div class="dash-card"><i class="fa-solid fa-photo-film"></i><b>${totalPosts}</b><span>منشور</span></div>
+      <div class="dash-card"><i class="fa-solid fa-heart"></i><b>${totalLikes}</b><span>إعجاب</span></div>
+      <div class="dash-card"><i class="fa-solid fa-eye"></i><b>${totalViews}</b><span>مشاهدة</span></div>
+      <div class="dash-card"><i class="fa-solid fa-comments"></i><b>${commentsCount || 0}</b><span>تعليق</span></div>
+      <div class="dash-card"><i class="fa-solid fa-film"></i><b>${videoPosts}</b><span>فيديو</span></div>
+      <div class="dash-card"><i class="fa-solid fa-image"></i><b>${imagePosts}</b><span>صورة</span></div>
+      <div class="dash-card"><i class="fa-solid fa-bell"></i><b>${notifCount || 0}</b><span>إشعار</span></div>
+      <div class="dash-card"><i class="fa-solid fa-circle-check"></i><b>${verifiedCount || 0}</b><span>موثّق</span></div>
+      <div class="dash-card"><i class="fa-solid fa-ban"></i><b>${bannedCount || 0}</b><span>محظور</span></div>
+    `;
+
+    const topPosts = [...allRows].sort((a, b) => ((b.likes_count||0) + (b.views_count||0)) - ((a.likes_count||0) + (a.views_count||0))).slice(0, 5);
+    const maxScore = topPosts.length ? ((topPosts[0].likes_count||0) + (topPosts[0].views_count||0)) : 1;
+    $('dashboardTopPosts').innerHTML = `<h3><i class="fa-solid fa-fire"></i> أكثر المنشورات تفاعلاً</h3>` +
+      (topPosts.length ? topPosts.map(p => {
+        const score = (p.likes_count||0) + (p.views_count||0);
+        const pct = Math.max(3, (score / maxScore) * 100);
+        return `<div class="dash-bar"><div class="dash-bar-fill" style="width:${pct}%"></div><span class="dash-bar-name">${esc((p.title||'').slice(0, 20))}</span><span class="dash-bar-label">${score}</span></div>`;
+      }).join('') : '<div class="empty" style="padding:20px;"><p>لا يوجد</p></div>');
+
+    const sortedUsers = [...allUsers].filter(u => u.username !== 'atlas').slice(0, 5);
+    $('dashboardTopUsers').innerHTML = `<h3><i class="fa-solid fa-user-check"></i> أحدث المستخدمين</h3>` +
+      (sortedUsers.length ? sortedUsers.map(u => renderConnectionUser(u.id)).join('') : '<div class="empty" style="padding:20px;"><p>لا يوجد</p></div>');
+  } catch(e) {
+    console.error(e);
+    grid.innerHTML = `<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><p>فشل التحميل</p></div>`;
+  }
+}
+
+/* ============ أدوات الفيديو ============ */
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card');
   const video = card ? card.querySelector('.card-media') : null;
@@ -2030,12 +2476,8 @@ function togglePlayPauseCard(btn) {
       }
     });
     video.muted = false;
-    video.style.visibility = 'hidden';
-    requestAnimationFrame(() => {
-      const p = video.play();
-      if (p && p.catch) p.catch(() => {});
-      video.style.visibility = 'visible';
-    });
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
     btn.style.display = 'none';
     activeVideo = video;
   } else {
@@ -2045,12 +2487,21 @@ function togglePlayPauseCard(btn) {
   }
 }
 
-function seekVideo(e, barEl) {
-  e.stopPropagation();
-  const card = barEl.closest('.card');
+function toggleMuteCard(btn) {
+  const card = btn.closest('.card');
   const video = card ? card.querySelector('.card-media') : null;
+  if (!video) return;
+  video.muted = !video.muted;
+  const icon = btn.querySelector('i');
+  if (icon) icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+}
+
+function seekVideoSmart(e, trackEl) {
+  e.stopPropagation();
+  const wrap = trackEl.closest('.card-media-wrap');
+  const video = wrap ? wrap.querySelector('.card-media') : null;
   if (!video || video.tagName !== 'VIDEO' || !video.duration) return;
-  const rect = barEl.getBoundingClientRect();
+  const rect = trackEl.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const pct = Math.max(0, Math.min(1, x / rect.width));
   video.currentTime = pct * video.duration;
@@ -2107,8 +2558,19 @@ function setupVideoControls() {
     });
     el.addEventListener('timeupdate', () => {
       const card = el.closest('.card');
-      const fill = card ? card.querySelector('.progress-fill-v') : null;
+      if (!card) return;
+      const fill = card.querySelector('.smart-progress-fill');
+      const cur = card.querySelector('.st-current');
+      const tot = card.querySelector('.st-total');
       if (fill && el.duration) fill.style.width = ((el.currentTime / el.duration) * 100) + '%';
+      if (cur) cur.textContent = formatTime(el.currentTime);
+      if (tot) tot.textContent = formatTime(el.duration);
+    });
+    el.addEventListener('loadedmetadata', () => {
+      const card = el.closest('.card');
+      if (!card) return;
+      const tot = card.querySelector('.st-total');
+      if (tot) tot.textContent = formatTime(el.duration);
     });
     el.addEventListener('click', () => {
       const card = el.closest('.card');
@@ -2139,10 +2601,8 @@ function setupBlurUp() {
   document.querySelectorAll('.card-media').forEach(el => {
     if (el.tagName === 'IMG') {
       if (el.complete && el.naturalHeight !== 0) el.classList.add('loaded');
-      else el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
     } else if (el.tagName === 'VIDEO') {
-      if (el.readyState >= 2) el.classList.add('loaded');
-      else el.addEventListener('loadeddata', () => el.classList.add('loaded'), { once: true });
+      if (el.readyState >= 1) el.classList.add('loaded');
     }
   });
   setupVideoControls();
@@ -2150,17 +2610,22 @@ function setupBlurUp() {
 
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseAllVideos(); });
 window.addEventListener('beforeunload', pauseAllVideos);
-
-/* ============ INIT ============ */
+  </script>
+  <script>
 window.addEventListener('DOMContentLoaded', async () => {
   showWarningIfNeeded();
   const saved = loadSession();
   if (saved) {
     currentProfile = saved;
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session && session.user) {
-      currentUser = { id: session.user.id };
-    } else {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        currentUser = { id: session.user.id };
+      } else {
+        currentProfile = null;
+        clearSession();
+      }
+    } catch(e) {
       currentProfile = null;
       clearSession();
     }
@@ -2169,9 +2634,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   await loadAllUsers();
   await loadContent();
   if (currentUser) {
-    await Promise.all([loadFollowing(), loadSaved(), loadLikedComments(), loadNotifications()]);
+    await Promise.all([loadFollowing(), loadSaved(), loadLikedComments(), loadBlocked(), loadNotifications()]);
     if (notifPollTimer) clearInterval(notifPollTimer);
     notifPollTimer = setInterval(loadNotifications, 60000);
+    setupNotifRealtime();
   }
 });
 </script>
