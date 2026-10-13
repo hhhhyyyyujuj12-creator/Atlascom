@@ -301,6 +301,42 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 .celebration{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
 .confetti{position:absolute;width:10px;height:10px;top:-20px;border-radius:2px;animation:confettiFall 2.5s linear forwards}
 @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ═══════════════════════════════════════════════════════════
+   إضافات جديدة: نصوص + صوتيات
+   ═══════════════════════════════════════════════════════════ */
+
+/* اختيار نوع المنشور في نافذة الرفع */
+.post-type-tabs{display:flex;gap:6px;margin-bottom:16px;background:#050505;padding:5px;border-radius:12px;border:1px solid var(--border)}
+.post-type-tab{flex:1;background:transparent;border:none;color:var(--muted);padding:9px 4px;border-radius:8px;font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all 0.2s}
+.post-type-tab i{font-size:15px}
+.post-type-tab.active{background:var(--orange);color:#000}
+.post-type-tab:active{transform:scale(0.96)}
+
+/* منشور نصي */
+.text-post-wrap{position:relative;padding:58px 22px 22px;background:linear-gradient(135deg,#150a00 0%,#0a0a0a 60%);border-bottom:1px solid rgba(255,255,255,0.04);min-height:140px}
+.text-post-heading{font-size:14px;font-weight:900;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.text-post-heading i{font-size:13px}
+.text-post-content{font-size:16px;line-height:1.85;color:#e8e8ee;white-space:pre-wrap;word-break:break-word;font-weight:500}
+.text-post-content.long{font-size:14.5px;line-height:1.8}
+.text-post-content.short{font-size:18px;line-height:1.7;font-weight:600}
+
+/* منشور صوتي */
+.card-media-wrap.audio-mode{font-size:initial;line-height:normal;padding-top:54px;background:linear-gradient(135deg,#150800 0%,#0a0a0a 100%);min-height:auto}
+.audio-post-wrap{padding:18px 18px 20px}
+.audio-post-label{font-size:11px;font-weight:800;color:var(--orange);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.audio-post-label i{font-size:13px}
+.audio-player-custom{display:flex;align-items:center;gap:14px}
+.audio-play-btn{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#ff8c33);border:none;color:#000;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 18px rgba(255,107,0,0.5);transition:transform 0.15s}
+.audio-play-btn:active{transform:scale(0.9)}
+.audio-play-btn i{margin-right:-1px}
+.audio-progress-wrap{flex:1;min-width:0}
+.audio-progress-track{height:5px;background:rgba(255,255,255,0.12);border-radius:3px;overflow:hidden;cursor:pointer;position:relative}
+.audio-progress-fill{height:100%;background:linear-gradient(90deg,var(--orange),#ffcc00);width:0%;transition:width 0.1s linear;border-radius:3px}
+.audio-time-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:8px;font-variant-numeric:tabular-nums}
+.audio-deco{width:40px;height:40px;border-radius:50%;background:rgba(255,107,0,0.12);display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:16px;flex-shrink:0}
+.card-desc.poem{white-space:pre-wrap;font-size:14px;line-height:1.85;color:#c8c8d0;font-style:italic;padding:10px 14px;background:rgba(255,107,0,0.04);border-right:3px solid rgba(255,107,0,0.4);border-radius:6px}
+
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
   .logo{font-size:12px}
@@ -315,6 +351,9 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   .bottom-nav-item i{font-size:19px}
   .bottom-nav-plus{width:44px;height:30px}
   .chat-item-avatar{width:46px;height:46px;font-size:18px}
+  .text-post-content{font-size:15px}
+  .text-post-content.short{font-size:17px}
+  .audio-play-btn{width:48px;height:48px;font-size:16px}
 }
 </style>
 </head>
@@ -380,6 +419,8 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <div class="home-tabs">
       <button class="home-tab active" data-filter="all" onclick="setHomeFilter('all')"><i class="fa-solid fa-layer-group"></i> الكل</button>
       <button class="home-tab" data-filter="following" onclick="setHomeFilter('following')"><i class="fa-solid fa-user-check"></i> أتابعهم</button>
+      <button class="home-tab" data-filter="text" onclick="setHomeFilter('text')"><i class="fa-solid fa-pen"></i> نصوص</button>
+      <button class="home-tab" data-filter="audio" onclick="setHomeFilter('audio')"><i class="fa-solid fa-microphone"></i> صوتيات</button>
     </div>
     <div class="grid" id="grid-home"></div>
   </section>
@@ -445,15 +486,24 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
     <h2><i class="fa-solid fa-cloud-arrow-up"></i> نشر جديد</h2>
-    <p class="modal-sub">سيظهر المحتوى لجميع الزوار.</p>
+    <p class="modal-sub">اختر نوع المنشور ثم املأ البيانات.</p>
+
+    <div class="post-type-tabs" id="postTypeTabs">
+      <button type="button" class="post-type-tab active" data-type="media" onclick="setPostType('media')"><i class="fa-solid fa-photo-film"></i>صورة / فيديو</button>
+      <button type="button" class="post-type-tab" data-type="audio" onclick="setPostType('audio')"><i class="fa-solid fa-microphone"></i>صوتي</button>
+      <button type="button" class="post-type-tab" data-type="text" onclick="setPostType('text')"><i class="fa-solid fa-pen-nib"></i>نصي</button>
+    </div>
+
     <input type="text" id="uploadTitle" class="input-field" placeholder="العنوان *" maxlength="80">
     <textarea id="uploadDesc" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="300"></textarea>
+
     <div class="file-drop" id="fileDrop">
       <i class="fa-solid fa-photo-film"></i>
       <p>اسحب الملف هنا أو انقر للاختيار</p>
       <div class="selected-file" id="selectedFile"></div>
       <input type="file" id="fileInput" accept="video/*,image/*" hidden>
     </div>
+
     <div class="progress-wrap" id="progressWrap">
       <div class="progress-label"><span id="progressStatus">جاري الرفع...</span><span id="progressPct">0%</span></div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -636,6 +686,7 @@ let currentProfile = null;
 let allRows = [], allUsers = [], allComments = [], allNotifs = [], allMessages = [];
 let currentSection = 'home', searchQuery = '';
 let currentFile = null, currentFileType = null, avatarFile = null, editAvatarFile = null;
+let currentPostType = 'media';
 let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null, currentCommentsVideoOwnerId = null;
 let homeFilter = 'all';
@@ -649,6 +700,7 @@ let realtimeChannel = null;
 let isSwitching = false;
 let chatPoller = null;
 let notifPoller = null;
+let currentAudioId = null;
 
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -882,6 +934,50 @@ function celebrate() {
 }
 
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
+
+/* ============ [جديد] اختيار نوع المنشور ============ */
+function setPostType(type) {
+  currentPostType = type;
+  document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+  const fd = $('fileDrop');
+  const fi = $('fileInput');
+  const fdIcon = fd.querySelector('i');
+  const fdText = fd.querySelector('p');
+  const titleInput = $('uploadTitle');
+  const descInput = $('uploadDesc');
+
+  // إعادة ضبط الملف المختار عند تبديل النوع
+  currentFile = null;
+  currentFileType = null;
+  selectedFile.textContent = '';
+  fileInput.value = '';
+
+  if (type === 'text') {
+    fd.style.display = 'none';
+    titleInput.placeholder = 'عنوان (اختياري)';
+    descInput.placeholder = 'اكتب نصك هنا... *';
+    descInput.rows = 5;
+    descInput.maxLength = 3000;
+  } else if (type === 'audio') {
+    fd.style.display = 'block';
+    fi.accept = 'audio/*';
+    fdIcon.className = 'fa-solid fa-microphone';
+    fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار';
+    titleInput.placeholder = 'العنوان * (مثل: اسم القصيدة)';
+    descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)';
+    descInput.rows = 5;
+    descInput.maxLength = 3000;
+  } else {
+    fd.style.display = 'block';
+    fi.accept = 'video/*,image/*';
+    fdIcon.className = 'fa-solid fa-photo-film';
+    fdText.textContent = 'اسحب الملف هنا أو انقر للاختيار';
+    titleInput.placeholder = 'العنوان *';
+    descInput.placeholder = 'وصف مختصر (اختياري)';
+    descInput.rows = 2;
+    descInput.maxLength = 300;
+  }
+}
 </script>
 <script>
 /* ============ Auth: تسجيل حساب جديد ============ */
@@ -1479,7 +1575,6 @@ async function sendChatMessage() {
       is_read: false
     }).select().single();
     if (error) throw error;
-    // ✅ إضافة الرسالة مباشرة بدون انتظار
     if (data) {
       const body = $('chatBody');
       const emptyEl = body.querySelector('.empty');
@@ -1569,10 +1664,9 @@ function setupRealtime() {
   } catch(e) {}
 }
 
-/* ============ ✅ Polling خلفي ذكي (احتياطي - يعمل حتى لو realtime فشل) ============ */
+/* ============ Polling خلفي ذكي (احتياطي) ============ */
 function startBackgroundPolling() {
   if (!currentUser) return;
-  // فحص الإشعارات كل 10 ثواني
   if (notifPoller) clearInterval(notifPoller);
   notifPoller = setInterval(async () => {
     if (!currentUser || document.hidden) return;
@@ -1591,11 +1685,9 @@ function startBackgroundPolling() {
     } catch(e) {}
   }, 10000);
 
-  // فحص الرسائل كل 2 ثانية
   if (chatPoller) clearInterval(chatPoller);
   chatPoller = setInterval(async () => {
     if (!currentUser || document.hidden) return;
-    // إذا المحادثة مفتوحة
     if ($('chatView').classList.contains('active') && currentChatUser) {
       try {
         const { data } = await supabase.from('messages')
@@ -1730,37 +1822,61 @@ fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFil
 fileDrop.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => { if (e.target.files.length) setFile(e.target.files[0]); });
 
+/* ============ [معدّل] setFile يدعم الصوت ============ */
 function setFile(file) {
   const isVideo = file.type.startsWith('video/');
   const isImage = file.type.startsWith('image/');
-  if (!isVideo && !isImage) return showToast('الملف ليس فيديو أو صورة', true);
+  const isAudio = file.type.startsWith('audio/');
+  if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
   if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
+
+  if (currentPostType === 'audio' && !isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true);
+  if (currentPostType === 'media' && isAudio) return showToast('في وضع الصورة/الفيديو، اختر صورة أو فيديو', true);
+
   currentFile = file;
-  currentFileType = isVideo ? 'video' : 'image';
+  currentFileType = isVideo ? 'video' : (isImage ? 'image' : 'audio');
   const mb = (file.size / 1024 / 1024).toFixed(2);
-  selectedFile.textContent = `✓ ${isVideo ? '🎬' : '🖼️'} ${file.name} — ${mb} MB`;
+  const icon = isVideo ? '🎬' : (isImage ? '🖼️' : '🎵');
+  selectedFile.textContent = `✓ ${icon} ${file.name} — ${mb} MB`;
 }
 
+/* ============ [معدّل] uploadContent يدعم النصوص والصوت ============ */
 async function uploadContent() {
   const title = $('uploadTitle').value.trim();
   const desc = $('uploadDesc').value.trim();
   if (!currentUser) return showToast('يجب تسجيل الدخول', true);
-  if (!title) return showToast('العنوان مطلوب', true);
-  if (!currentFile) return showToast('اختر ملف', true);
+
+  if (currentPostType === 'text') {
+    if (!desc) return showToast('اكتب نصك أولاً', true);
+  } else {
+    if (!title) return showToast('العنوان مطلوب', true);
+    if (!currentFile) return showToast('اختر ملفاً', true);
+  }
+
   uploadBtn.disabled = true;
   uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...';
   progressWrap.classList.add('active');
   progressFill.style.width = '0%';
   progressPct.textContent = '0%';
-  progressStat.textContent = 'جاري رفع الملف...';
+  progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
+
   try {
-    const fileUrl = await uploadFileToStorage(currentFile, 'posts');
+    let fileUrl = '';
+    let finalType = currentPostType;
+    if (currentPostType !== 'text') {
+      const folder = currentFileType === 'audio' ? 'audio' : 'posts';
+      fileUrl = await uploadFileToStorage(currentFile, folder);
+      finalType = currentFileType;
+    }
     progressStat.textContent = 'جاري النشر...';
     progressFill.style.width = '100%';
     progressPct.textContent = '100%';
     const { error } = await supabase.from('posts').insert({
-      user_id: currentUser.id, title, description: desc || '',
-      media_url: fileUrl, media_type: currentFileType,
+      user_id: currentUser.id,
+      title: title || '',
+      description: desc || '',
+      media_url: fileUrl,
+      media_type: finalType,
       likes_count: 0, views_count: 0,
       author_name: currentProfile.display_name || currentProfile.username,
       author_avatar: currentProfile.avatar_url || ''
@@ -1787,6 +1903,7 @@ function resetUploadForm() {
   currentFile = null;
   currentFileType = null;
   selectedFile.textContent = '';
+  setPostType('media');
 }
 
 async function loadContent() {
@@ -1821,9 +1938,13 @@ function showErrorAll(msg) {
   gridHome.innerHTML = h; gridImages.innerHTML = h;
 }
 
+/* ============ [معدّل] getMediaType يدعم الصوت والنصوص ============ */
 function getMediaType(r) {
-  if (r.media_type === 'image' || r.media_type === 'video') return r.media_type;
-  if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(r.media_url || '')) return 'image';
+  if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type;
+  const url = r.media_url || '';
+  if (!url) return 'text';
+  if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio';
+  if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image';
   return 'video';
 }
 
@@ -1833,18 +1954,32 @@ function getFiltered(fn) {
   return rows;
 }
 
+/* ============ [معدّل] renderAll يدعم فلاتر جديدة ============ */
 function renderAll() {
   $('count-home').textContent = allRows.length;
   $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length;
   $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
+
   let homeRows = getFiltered(null);
   if (homeFilter === 'following') {
     if (!currentUser) homeRows = [];
     else homeRows = homeRows.filter(r => followingIds.has(r.user_id));
+  } else if (homeFilter === 'text') {
+    homeRows = homeRows.filter(r => getMediaType(r) === 'text');
+  } else if (homeFilter === 'audio') {
+    homeRows = homeRows.filter(r => getMediaType(r) === 'audio');
   }
+
   if (homeFilter === 'following' && homeRows.length === 0) {
     gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
-  } else { renderGrid(gridHome, homeRows); }
+  } else if (homeFilter === 'text' && homeRows.length === 0) {
+    gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط زر + لنشر أول نص</span></div>`;
+  } else if (homeFilter === 'audio' && homeRows.length === 0) {
+    gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط زر + لنشر أول صوت</span></div>`;
+  } else {
+    renderGrid(gridHome, homeRows);
+  }
+
   renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image'));
   renderReels(getFiltered(r => getMediaType(r) === 'video'));
 }
@@ -1857,9 +1992,9 @@ function setHomeFilter(f) {
 
 function canDelete(row) { return currentUser && (row.user_id === currentUser.id || isAdmin()); }
 
-/* ✅ الفيديو يحمل thumbnail مباشرة (preload="metadata") */
+/* ============ [معدّل] cardHTML يدعم النص والصوت ============ */
 function cardHTML(v) {
-  const url = esc(v.media_url);
+  const url = esc(v.media_url || '');
   const mtype = getMediaType(v);
   const title = esc(v.title);
   const desc = esc(v.description);
@@ -1876,24 +2011,93 @@ function cardHTML(v) {
   const verified = verifiedBadgeHTML(v.user_id);
   const authorClick = v.user_id ? `onclick="switchSection('profile','${esc(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
+
+  const overlayAuthorHTML = `
+    <div class="card-overlay-author">
+      <div class="card-author-chip" ${authorClick}>
+        <div class="card-author-avatar">${authorAvatar}</div>
+        <div class="card-author-name">${authorName}${verified}</div>
+      </div>
+      <div class="overlay-btns">
+        ${boostBtn}
+        <button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ">
+          <i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i>
+        </button>
+      </div>
+    </div>`;
+
+  const actionsRowHTML = `
+    <div class="card-meta">
+      <div class="actions-row">
+        <button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)">
+          <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span>
+        </button>
+        <button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${v.user_id || ''}')">
+          <i class="fa-solid fa-comment"></i><span>${commentsCount}</span>
+        </button>
+        <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
+      </div>
+      <div class="actions-row">
+        ${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}
+        ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}', '${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+      </div>
+    </div>`;
+
+  /* منشور نصي */
+  if (mtype === 'text') {
+    const content = v.description || v.title || '';
+    const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : '');
+    return `<div class="card" data-row-id="${v.id}">
+      <div class="text-post-wrap">
+        ${overlayAuthorHTML}
+        ${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}
+        <div class="text-post-content ${lenClass}">${esc(content)}</div>
+      </div>
+      <div class="card-body">${actionsRowHTML}</div>
+    </div>`;
+  }
+
+  /* منشور صوتي */
+  if (mtype === 'audio') {
+    return `<div class="card" data-row-id="${v.id}">
+      <div class="card-media-wrap audio-mode">
+        ${overlayAuthorHTML}
+        <div class="audio-post-wrap">
+          <div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div>
+          <div class="audio-player-custom">
+            <button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <div class="audio-progress-wrap">
+              <div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')">
+                <div class="audio-progress-fill" id="apf-${v.id}"></div>
+              </div>
+              <div class="audio-time-row">
+                <span id="apt-${v.id}">0:00</span>
+                <span id="apd-${v.id}">0:00</span>
+              </div>
+            </div>
+            <div class="audio-deco"><i class="fa-solid fa-music"></i></div>
+          </div>
+          <audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio>
+        </div>
+      </div>
+      <div class="card-body">
+        ${title ? `<div class="card-title">${title}</div>` : ''}
+        ${desc ? `<div class="card-desc poem">${desc}</div>` : ''}
+        ${actionsRowHTML}
+      </div>
+    </div>`;
+  }
+
+  /* صورة أو فيديو */
   const media = mtype === 'image'
     ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">`
     : `<video class="card-media" src="${url}" loop playsinline preload="metadata" muted onplay="markViewed('${v.id}')"></video>`;
   return `<div class="card" data-row-id="${v.id}">
     <div class="card-media-wrap">
       ${media}
-      <div class="card-overlay-author">
-        <div class="card-author-chip" ${authorClick}>
-          <div class="card-author-avatar">${authorAvatar}</div>
-          <div class="card-author-name">${authorName}${verified}</div>
-        </div>
-        <div class="overlay-btns">
-          ${boostBtn}
-          <button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ">
-            <i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i>
-          </button>
-        </div>
-      </div>
+      ${overlayAuthorHTML}
       ${mtype === 'video' ? `
         <button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button>
         <div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>
@@ -1902,21 +2106,7 @@ function cardHTML(v) {
     <div class="card-body">
       <div class="card-title">${title}</div>
       ${desc ? `<div class="card-desc">${desc}</div>` : ''}
-      <div class="card-meta">
-        <div class="actions-row">
-          <button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)">
-            <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span>
-          </button>
-          <button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${v.user_id || ''}')">
-            <i class="fa-solid fa-comment"></i><span>${commentsCount}</span>
-          </button>
-          <span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
-        </div>
-        <div class="actions-row">
-          <button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>
-          ${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}', '${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}
-        </div>
-      </div>
+      ${actionsRowHTML}
     </div>
   </div>`;
 }
@@ -2287,7 +2477,7 @@ async function deleteItem(rowId, videoUrl) {
     const { error } = await supabase.from('posts').delete().eq('id', rowId);
     if (error) throw error;
     try {
-      const m = videoUrl.match(/\/media\/(.+)$/);
+      const m = (videoUrl || '').match(/\/media\/(.+)$/);
       if (m && m[1]) await supabase.storage.from('media').remove([decodeURIComponent(m[1])]);
     } catch(e) {}
     showToast('✓ تم الحذف');
@@ -2629,6 +2819,14 @@ function togglePlayPauseCard(btn) {
         if (pb) pb.style.display = 'flex';
       }
     });
+    document.querySelectorAll('audio').forEach(a => {
+      if (!a.paused) {
+        a.pause();
+        const ob = a.closest('.audio-player-custom');
+        const obtn = ob ? ob.querySelector('.audio-play-btn') : null;
+        if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      }
+    });
     video.muted = false;
     const p = video.play();
     if (p && p.catch) p.catch(() => {});
@@ -2650,6 +2848,84 @@ function seekVideo(e, barEl) {
   const x = e.clientX - rect.left;
   const pct = Math.max(0, Math.min(1, x / rect.width));
   video.currentTime = pct * video.duration;
+}
+
+/* ══════════ [جديد] مشغّل الصوت ══════════ */
+function toggleAudioPlay(id, btn) {
+  const audio = document.getElementById('aud-' + id);
+  if (!audio) return;
+
+  // إيقاف أي صوت آخر
+  document.querySelectorAll('audio').forEach(a => {
+    if (a.id !== 'aud-' + id && !a.paused) {
+      a.pause();
+      const otherBtn = a.closest('.audio-player-custom') ? a.closest('.audio-player-custom').querySelector('.audio-play-btn') : null;
+      if (otherBtn) otherBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+    }
+  });
+
+  // إيقاف أي فيديو شغّال
+  if (activeVideo && !activeVideo.paused) {
+    activeVideo.pause();
+    const pb = activeVideo.closest('.card') ? activeVideo.closest('.card').querySelector('.play-big') : null;
+    if (pb) pb.style.display = 'flex';
+    activeVideo = null;
+  }
+
+  if (audio.paused) {
+    const p = audio.play();
+    if (p && p.catch) p.catch(() => showToast('تعذّر تشغيل الملف', true));
+    btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+    currentAudioId = id;
+  } else {
+    audio.pause();
+    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+    currentAudioId = null;
+  }
+}
+
+function onAudioTime(id) {
+  const audio = document.getElementById('aud-' + id);
+  if (!audio || !audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  const fill = document.getElementById('apf-' + id);
+  if (fill) fill.style.width = pct + '%';
+  const time = document.getElementById('apt-' + id);
+  if (time) time.textContent = formatAudioTime(audio.currentTime);
+}
+
+function onAudioLoaded(id) {
+  const audio = document.getElementById('aud-' + id);
+  if (!audio) return;
+  const dur = document.getElementById('apd-' + id);
+  if (dur) dur.textContent = formatAudioTime(audio.duration);
+}
+
+function onAudioEnded(id) {
+  const audio = document.getElementById('aud-' + id);
+  if (!audio) return;
+  const btn = audio.closest('.audio-player-custom') ? audio.closest('.audio-player-custom').querySelector('.audio-play-btn') : null;
+  if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  const fill = document.getElementById('apf-' + id);
+  if (fill) fill.style.width = '0%';
+  if (currentAudioId === id) currentAudioId = null;
+}
+
+function seekAudio(e, id) {
+  e.stopPropagation();
+  const audio = document.getElementById('aud-' + id);
+  if (!audio || !audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const pct = Math.max(0, Math.min(1, x / rect.width));
+  audio.currentTime = pct * audio.duration;
+}
+
+function formatAudioTime(sec) {
+  if (!sec || isNaN(sec)) return '0:00';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return m + ':' + (s < 10 ? '0' + s : s);
 }
 
 function setupHomeObserver() {
@@ -2718,6 +2994,14 @@ function setupVideoControls() {
             if (p) p.style.display = 'flex';
           }
         });
+        document.querySelectorAll('audio').forEach(a => {
+          if (!a.paused) {
+            a.pause();
+            const ob = a.closest('.audio-player-custom');
+            const obtn = ob ? ob.querySelector('.audio-play-btn') : null;
+            if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          }
+        });
         el.muted = false;
         const p = el.play();
         if (p && p.catch) p.catch(() => {});
@@ -2745,7 +3029,7 @@ window.addEventListener('beforeunload', pauseActiveVideo);
 </script>
 <script>
 /* ============================================================
-   التهيئة النهائية — تحافظ على تسجيل الدخول دائماً
+   التهيئة النهائية
    ============================================================ */
 window.addEventListener('DOMContentLoaded', async () => {
   showWarningIfNeeded();
@@ -2794,9 +3078,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-/* ============================================================
-   مراقبة تغيير حالة الدخول
-   ============================================================ */
 supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_OUT') {
     currentUser = null;
@@ -2810,9 +3091,6 @@ supabase.auth.onAuthStateChange((event, session) => {
   }
 });
 
-/* ============================================================
-   تجديد الجلسة عند الرجوع للموقع
-   ============================================================ */
 window.addEventListener('focus', async () => {
   if (currentUser) {
     try {
@@ -2830,9 +3108,6 @@ window.addEventListener('focus', async () => {
   }
 });
 
-/* ============================================================
-   زر الرجوع في الأندرويد
-   ============================================================ */
 window.addEventListener('popstate', () => {
   if ($('chatView') && $('chatView').classList.contains('active')) {
     closeChatView();
@@ -2841,9 +3116,6 @@ window.addEventListener('popstate', () => {
 });
 history.pushState(null, '', location.href);
 
-/* ============================================================
-   ✅ Polling — نبدأه بعد التحميل مباشرة
-   ============================================================ */
 window.addEventListener('load', () => {
   setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500);
 });
