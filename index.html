@@ -53,8 +53,6 @@ header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(
 .sidebar-nav a .notif-badge.hidden{display:none}
 .sidebar-nav a.danger{color:#ff6677}
 .sidebar-nav a.admin{color:var(--admin)}
-.sidebar-nav a.group-link{color:#a855f7}
-.sidebar-nav a.group-link i{color:#a855f7}
 .sidebar-footer{padding:16px 22px 4px;border-top:1px solid var(--border);margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
 .sidebar-footer b{color:var(--orange);font-weight:800}
 main{padding-bottom:20px;min-height:calc(100vh - 64px)}
@@ -342,76 +340,15 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
 .voice-rec-cancel:hover{color:var(--danger)}
 .voice-rec-send{background:var(--danger);color:#fff;border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* الشعلة الأسطورية */
-.flame-legendary{position:absolute;top:14px;left:14px;z-index:6;padding:7px 14px;border-radius:22px;background:linear-gradient(135deg,#ffcc00,#ff6b00,#ff3355,#ffcc00);background-size:300% 100%;color:#fff;font-weight:900;font-size:11px;letter-spacing:0.8px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 30px rgba(255,107,0,0.8);animation:flameFlow 2s linear infinite;text-shadow:0 1px 6px rgba(0,0,0,0.7);font-family:'Cairo',sans-serif;pointer-events:none}
-.flame-legendary::before{content:'';position:absolute;inset:-4px;border-radius:26px;background:inherit;filter:blur(12px);opacity:0.7;z-index:-1;animation:flameGlow 1.5s ease-in-out infinite}
-@keyframes flameFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-@keyframes flameGlow{0%,100%{opacity:0.5;filter:blur(10px)}50%{opacity:1;filter:blur(18px)}}
-.flame-legendary i{font-size:13px;animation:flameBounce 0.8s ease-in-out infinite}
-@keyframes flameBounce{0%,100%{transform:scale(1) rotate(-8deg)}50%{transform:scale(1.35) rotate(8deg)}}
-
-/* المجموعات */
-.group-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer;transition:transform 0.15s,background 0.15s}
-.group-item:active{transform:scale(0.98)}
-.group-avatar{width:54px;height:54px;border-radius:16px;flex-shrink:0;background:linear-gradient(135deg,#ff6b00,#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;overflow:hidden}
-.group-avatar img{width:100%;height:100%;object-fit:cover}
-.group-info{flex:1;min-width:0}
-.group-name{font-size:14.5px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.group-handle{font-size:11px;color:#a855f7;font-weight:700;margin-bottom:3px}
-.group-desc{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.group-meta{font-size:11px;color:var(--muted);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.group-join-btn{padding:7px 14px;border-radius:10px;border:none;background:var(--orange);color:#000;font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;flex-shrink:0}
-.group-joined-tag{padding:6px 12px;border-radius:10px;background:rgba(34,197,94,0.15);color:#22c55e;font-weight:800;font-size:11px;flex-shrink:0;display:inline-flex;align-items:center;gap:4px}
-.group-chat-view{position:fixed;inset:0;background:#000;z-index:1550;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
-.group-chat-view.active{display:flex;animation:gcIn 0.3s cubic-bezier(0.22,1,0.36,1)}
-@keyframes gcIn{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
-.group-chat-header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:#0a0a0a;border-bottom:1px solid var(--border);flex-shrink:0}
-.group-chat-body{flex:1;overflow-y:auto;padding:14px 4% 20px;background:#050505;display:flex;flex-direction:column;gap:12px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.gmsg{display:flex;gap:10px;align-items:flex-start;max-width:88%;animation:gmsgIn 0.25s ease}
-@keyframes gmsgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.gmsg.mine{flex-direction:row-reverse;align-self:flex-start;margin-left:auto}
-.gmsg.other{align-self:flex-end}
-.gmsg-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;overflow:hidden;cursor:pointer}
-.gmsg-avatar img{width:100%;height:100%;object-fit:cover}
-.gmsg-bubble-wrap{display:flex;flex-direction:column;gap:4px;min-width:0}
-.gmsg.mine .gmsg-bubble-wrap{align-items:flex-end}
-.gmsg-sender{font-size:11.5px;font-weight:800;color:var(--orange);display:inline-flex;align-items:center;gap:5px;padding:0 4px}
-.gmsg.mine .gmsg-sender{color:#ff8c33}
-.gmsg-bubble{padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;word-break:break-word;max-width:100%}
-.gmsg.other .gmsg-bubble{background:#1a1a1a;color:#fff;border-top-right-radius:4px}
-.gmsg.mine .gmsg-bubble{background:linear-gradient(135deg,var(--orange),#ff8c33);color:#000;border-top-left-radius:4px}
-.gmsg-time{font-size:9.5px;opacity:0.7;padding:0 6px;color:var(--muted)}
-.gmsg.mine .gmsg-time{color:#888}
-.groups-empty{text-align:center;padding:60px 24px;color:var(--muted)}
-.groups-empty i{font-size:54px;color:#2a2a2a;display:block;margin-bottom:16px}
-.groups-empty p{font-size:15px;font-weight:700;color:#bbb;margin-bottom:6px}
-.group-members-count{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
-
-/* شارات الكروب */
-.role-badge{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:8px;letter-spacing:0.3px}
-.role-badge.owner{background:linear-gradient(135deg,#ffcc00,#ff6b00);color:#000}
-.role-badge.admin{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff}
-.role-badge.member{background:rgba(255,255,255,0.06);color:#888}
-
-/* قائمة الأعضاء */
-.member-row{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
-.member-avatar{width:46px;height:46px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),#ff00c8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;overflow:hidden;cursor:pointer}
-.member-avatar img{width:100%;height:100%;object-fit:cover}
-.member-info{flex:1;min-width:0}
-.member-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.member-handle{font-size:11px;color:var(--muted)}
-.member-actions{display:flex;gap:5px;flex-shrink:0}
-.member-btn{width:34px;height:34px;border-radius:50%;background:#0a0a0a;border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform 0.15s}
-.member-btn:active{transform:scale(0.9)}
-.member-btn.kick{border-color:var(--danger);color:var(--danger)}
-.member-btn.promote{border-color:var(--purple);color:var(--purple)}
-.member-btn.demote{border-color:var(--muted);color:var(--muted)}
-
-/* بحث المجموعات */
-.group-search-wrap{padding:0 5% 14px;position:relative}
-.group-search-wrap input{width:100%;padding:11px 40px 11px 14px;background:#0a0a0a;border:1px solid var(--border);border-radius:14px;color:#fff;font-size:13.5px;outline:none;font-family:inherit;transition:border-color 0.2s}
-.group-search-wrap input:focus{border-color:#a855f7}
-.group-search-wrap i{position:absolute;left:calc(5% + 14px);top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+/* شارة الإشارة (بدون نص) */
+.flame-legendary{position:absolute;top:14px;left:14px;z-index:6;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(255,107,0,0.35) 0%,rgba(255,107,0,0.06) 70%);border:1.5px solid rgba(255,107,0,0.55);box-shadow:0 0 22px rgba(255,107,0,0.55),inset 0 0 12px rgba(255,107,0,0.35);animation:legendPulse 1.8s ease-in-out infinite;pointer-events:none;backdrop-filter:blur(6px);overflow:hidden}
+.flame-legendary i{font-size:19px;line-height:1;background:linear-gradient(135deg,#ffcc00,#ff6b00,#ff3355);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 6px rgba(255,107,0,0.95));animation:legendFlame 1.1s ease-in-out infinite}
+.flame-legendary::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,0.5),transparent 70%);filter:blur(10px);z-index:-1;animation:legendGlow 1.6s ease-in-out infinite}
+.flame-legendary::after{content:'';position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(255,180,80,0.6);animation:legendRing 2s ease-out infinite}
+@keyframes legendPulse{0%,100%{transform:scale(1);box-shadow:0 0 18px rgba(255,107,0,0.5),inset 0 0 12px rgba(255,107,0,0.3)}50%{transform:scale(1.08);box-shadow:0 0 34px rgba(255,107,0,0.95),inset 0 0 18px rgba(255,107,0,0.5)}}
+@keyframes legendFlame{0%,100%{transform:scale(1) rotate(-6deg)}50%{transform:scale(1.22) rotate(6deg)}}
+@keyframes legendGlow{0%,100%{opacity:0.4;filter:blur(8px)}50%{opacity:1;filter:blur(16px)}}
+@keyframes legendRing{0%{transform:scale(0.9);opacity:1}100%{transform:scale(1.7);opacity:0}}
 
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
@@ -430,7 +367,8 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   .text-post-content{font-size:15px}
   .text-post-content.short{font-size:17px}
   .audio-play-btn{width:48px;height:48px;font-size:16px}
-  .flame-legendary{font-size:10px;padding:6px 11px}
+  .flame-legendary{width:38px;height:38px;top:10px;left:10px}
+  .flame-legendary i{font-size:16px}
 }
 </style>
 </head>
@@ -482,7 +420,6 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     <a data-section="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i> الرئيسية <span class="count" id="count-home">0</span></a>
     <a data-section="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i> ريلزات <span class="count" id="count-reels">0</span></a>
     <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
-    <a data-section="groups" onclick="showGroupsSection()" class="group-link"><i class="fa-solid fa-users-rays"></i> المجموعات</a>
     <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
     <a onclick="openNotifications()"><i class="fa-solid fa-bell"></i> الإشعارات <span class="notif-badge hidden" id="sidebarNotifCount">0</span></a>
     <div id="authNav"></div>
@@ -508,18 +445,6 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   <section id="section-images" class="section">
     <div class="section-head"><i class="fa-solid fa-image"></i> الصور</div>
     <div class="grid" id="grid-images"></div>
-  </section>
-
-  <section id="section-groups" class="section">
-    <div class="section-head" style="justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:12px;"><i class="fa-solid fa-users-rays" style="color:#a855f7"></i> المجموعات</div>
-      <button class="profile-btn" onclick="openCreateGroupModal()" style="padding:8px 14px;border-color:var(--orange);color:var(--orange);"><i class="fa-solid fa-plus"></i> جديدة</button>
-    </div>
-    <div class="group-search-wrap">
-      <input type="text" id="groupSearchInput" placeholder="ابحث بالاسم أو المعرّف (@...)" oninput="filterGroups()">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
-    <div style="padding:0 5% 40px;" id="groupsList"></div>
   </section>
 
   <section id="section-saved" class="section">
@@ -714,33 +639,6 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   </div>
 </div>
 
-<div class="modal-overlay" id="createGroupModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('createGroupModal')"><i class="fa-solid fa-xmark"></i></button>
-    <h2><i class="fa-solid fa-users-rays" style="color:#a855f7"></i> مجموعة جديدة</h2>
-    <p class="modal-sub">أنشئ غرفة دردشة جماعية.</p>
-    <div class="avatar-picker">
-      <div class="avatar-preview" id="groupAvatarPreview" onclick="document.getElementById('groupAvatarInput').click()" style="border-radius:18px"><i class="fa-solid fa-users"></i></div>
-      <div class="avatar-info"><b>صورة المجموعة</b> (اختياري)<br>انقر على المربع لاختيار صورة.</div>
-      <input type="file" id="groupAvatarInput" accept="image/*" hidden>
-    </div>
-    <input type="text" id="groupNameInput" class="input-field" placeholder="اسم المجموعة *" maxlength="60">
-    <input type="text" id="groupHandleInput" class="input-field" placeholder="المعرّف (بالإنجليزي) * مثال: poets" maxlength="30" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')">
-    <textarea id="groupDescInput" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="200"></textarea>
-    <button class="btn btn-primary" id="groupCreateBtn" onclick="createGroup()"><i class="fa-solid fa-check"></i> إنشاء المجموعة</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="groupMembersModal">
-  <div class="modal-box" style="max-width:560px;">
-    <button class="modal-close" onclick="closeModal('groupMembersModal')"><i class="fa-solid fa-xmark"></i></button>
-    <h2><i class="fa-solid fa-users"></i> الأعضاء</h2>
-    <p class="modal-sub" id="groupMembersSub">—</p>
-    <input type="text" id="groupMembersSearch" class="input-field" placeholder="ابحث عن عضو..." oninput="renderGroupMembers()">
-    <div id="groupMembersList" style="max-height:55vh;overflow-y:auto;"></div>
-  </div>
-</div>
-
 <div class="chat-view" id="chatView">
   <div class="chat-header">
     <button class="chat-header-back" onclick="closeChatView()"><i class="fa-solid fa-arrow-right"></i></button>
@@ -764,26 +662,6 @@ body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
     </div>
     <textarea id="chatInput" rows="1" placeholder="اكتب رسالة..." oninput="autoResizeTextarea(this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}"></textarea>
     <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-  </div>
-</div>
-
-<div class="group-chat-view" id="groupChatView">
-  <div class="group-chat-header">
-    <button class="chat-header-back" onclick="closeGroupChat()"><i class="fa-solid fa-arrow-right"></i></button>
-    <div class="chat-header-avatar" style="border-radius:14px;width:42px;height:42px;" id="gcHeaderAvatar"></div>
-    <div class="chat-header-info">
-      <div class="chat-header-name" id="gcHeaderName"></div>
-      <div class="group-members-count" onclick="openGroupMembers()" style="cursor:pointer;pointer-events:auto">
-        <i class="fa-solid fa-users"></i> <span id="gcMembersCount">0</span> عضو · <span style="color:#a855f7" id="gcHandle">@</span>
-      </div>
-    </div>
-    <button class="chat-header-back" onclick="openGroupMembers()" title="الأعضاء"><i class="fa-solid fa-users"></i></button>
-    <button class="chat-header-back" onclick="leaveCurrentGroup()" title="مغادرة"><i class="fa-solid fa-right-from-bracket" style="color:var(--danger)"></i></button>
-  </div>
-  <div class="group-chat-body" id="gcBody"></div>
-  <div class="msg-input-bar">
-    <textarea id="gcInput" rows="1" placeholder="اكتب رسالة..." oninput="autoResizeTextarea(this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendGroupMessage();}"></textarea>
-    <button onclick="sendGroupMessage()"><i class="fa-solid fa-paper-plane"></i></button>
   </div>
 </div>
 
@@ -867,7 +745,6 @@ function closeModal(id, force = false) {
     if (id === 'broadcastModal' && $('broadcastSendBtn').disabled) return;
     if (id === 'personalMsgModal' && $('personalMsgSendBtn').disabled) return;
     if (id === 'boostModal' && $('boostApplyBtn').disabled) return;
-    if (id === 'createGroupModal' && $('groupCreateBtn').disabled) return;
   }
   m.classList.remove('active');
   setTimeout(() => {
@@ -880,12 +757,11 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','newChatModal','createGroupModal','groupMembersModal'].forEach(id => {
+    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','newChatModal'].forEach(id => {
       const el = $(id);
       if (el && el.classList.contains('active')) closeModal(id);
     });
     if ($('chatView').classList.contains('active')) closeChatView();
-    if ($('groupChatView').classList.contains('active')) closeGroupChat();
   }
 });
 
@@ -919,7 +795,6 @@ function switchSection(name, id) {
   if (name === 'users') renderUsersList();
   if (name === 'saved') renderSaved();
   if (name === 'messages') loadConversations();
-  if (name === 'groups') showGroupsSection();
   if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
   window.scrollTo(0, 0);
   if (name === 'reels') {
@@ -2766,21 +2641,11 @@ window.addEventListener('beforeunload', pauseActiveVideo);
 </script>
 <script>
 /* ═══════════════════════════════════════════════════════
-   المجموعات + الشعلة الأسطورية
+   إشارة المنشور المنتشر (بدون نص - أيقونة متحركة فقط)
    ═══════════════════════════════════════════════════════ */
 (function(){
 'use strict';
 
-window.allGroups = [];
-let myGroupIds = new Set();
-let myGroupRoles = {};
-let currentGroup = null;
-let currentGroupMessages = [];
-let groupRealtimeChannel = null;
-let groupAvatarFile = null;
-let currentGroupMembers = [];
-
-/* ═══════ الشعلة الأسطورية ═══════ */
 window.applyLegendaryFlame = function(){
   if (!Array.isArray(allRows) || !allRows.length) return;
   let maxScore = 0, topId = null;
@@ -2800,7 +2665,7 @@ window.applyLegendaryFlame = function(){
   wrap.style.position = 'relative';
   const flame = document.createElement('div');
   flame.className = 'flame-legendary';
-  flame.innerHTML = '<i class="fa-solid fa-fire"></i> الأسطورة';
+  flame.innerHTML = '<i class="fa-solid fa-fire"></i>';
   wrap.appendChild(flame);
 };
 let flameTO = null;
@@ -2812,431 +2677,7 @@ setTimeout(() => window.applyLegendaryFlame(), 1200);
 setTimeout(() => window.applyLegendaryFlame(), 3000);
 setInterval(() => window.applyLegendaryFlame(), 15000);
 
-/* ═══════ عرض قسم المجموعات ═══════ */
-window.showGroupsSection = function(){
-  if (typeof pauseActiveVideo === 'function') pauseActiveVideo();
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  const sec = document.getElementById('section-groups');
-  if (sec) sec.classList.add('active');
-  window.currentSection = 'groups';
-  document.querySelectorAll('.sidebar-nav a[data-section]').forEach(a => {
-    a.classList.toggle('active', a.dataset.section === 'groups');
-  });
-  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
-  if (window.innerWidth <= 900 && document.getElementById('sidebar').classList.contains('active')) window.toggleSidebar();
-  window.loadGroups();
-  window.scrollTo(0, 0);
-};
-
-/* ═══════ تحميل المجموعات ═══════ */
-window.loadGroups = async function(){
-  const list = document.getElementById('groupsList');
-  list.innerHTML = '<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>';
-  try {
-    const { data, error } = await supabase.from('groups').select('*').order('created_at', {ascending:false});
-    if (error) throw error;
-    window.allGroups = data || [];
-    if (currentUser) {
-      const { data: mem } = await supabase.from('group_members').select('group_id, role').eq('user_id', currentUser.id);
-      myGroupIds = new Set((mem || []).map(m => m.group_id));
-      myGroupRoles = {};
-      (mem || []).forEach(m => { myGroupRoles[m.group_id] = m.role || 'member'; });
-    }
-    renderGroupsList();
-  } catch(e) {
-    list.innerHTML = '<div class="groups-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>فشل التحميل</p></div>';
-  }
-};
-
-function filterGroups(){
-  const q = document.getElementById('groupSearchInput').value.trim().toLowerCase();
-  renderGroupsList(q);
-}
-
-window.filterGroups = filterGroups;
-
-function renderGroupsList(query){
-  const list = document.getElementById('groupsList');
-  let groups = window.allGroups;
-  if (query) {
-    groups = groups.filter(g => 
-      (g.name || '').toLowerCase().includes(query) || 
-      (g.handle || '').toLowerCase().includes(query) ||
-      (g.description || '').toLowerCase().includes(query)
-    );
-  }
-  if (!groups.length) {
-    if (query) {
-      list.innerHTML = '<div class="groups-empty"><i class="fa-solid fa-search"></i><p>لا نتائج للبحث</p><span>جرب كلمة ثانية أو المعرّف</span></div>';
-    } else {
-      list.innerHTML = '<div class="groups-empty"><i class="fa-solid fa-users-rays"></i><p>لا توجد مجموعات بعد</p><span>كن أول من ينشئ مجموعة!</span></div>';
-    }
-    return;
-  }
-  list.innerHTML = groups.map(g => {
-    const joined = myGroupIds.has(g.id);
-    const photo = g.photo_url ? `<img src="${window.escAttr(g.photo_url)}" alt="">` : '<i class="fa-solid fa-users"></i>';
-    const creator = getUserById(g.creator_id);
-    const cName = creator ? (creator.display_name || creator.username) : 'مجهول';
-    const cVerified = creator && creator.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge" style="font-size:0.85em"></i>' : '';
-    const memberRole = myGroupRoles[g.id];
-    const roleTag = memberRole === 'owner' ? '<span class="role-badge owner"><i class="fa-solid fa-crown"></i> مالك</span>' : (memberRole === 'admin' ? '<span class="role-badge admin"><i class="fa-solid fa-star"></i> مشرف</span>' : '');
-    return `<div class="group-item" onclick="${joined ? `window.openGroupChat('${g.id}')` : `window.joinAndOpen('${g.id}')`}">
-      <div class="group-avatar">${photo}</div>
-      <div class="group-info">
-        <div class="group-name">${window.esc(g.name)} ${roleTag}</div>
-        ${g.handle ? `<div class="group-handle">@${window.esc(g.handle)}</div>` : ''}
-        <div class="group-desc">${window.esc(g.description || 'لا يوجد وصف')}</div>
-        <div class="group-meta"><i class="fa-solid fa-user"></i> ${window.esc(cName)}${cVerified}</div>
-      </div>
-      ${joined ? '<span class="group-joined-tag"><i class="fa-solid fa-check"></i> عضو</span>' : '<button class="group-join-btn">انضم</button>'}
-    </div>`;
-  }).join('');
-}
-
-/* ═══════ فتح غرفة المجموعة ═══════ */
-window.openGroupChat = async function(groupId){
-  const g = window.allGroups.find(x => x.id === groupId);
-  if (!g) return;
-  currentGroup = g;
-  const photo = g.photo_url ? `<img src="${window.escAttr(g.photo_url)}" alt="">` : '<i class="fa-solid fa-users"></i>';
-  document.getElementById('gcHeaderAvatar').innerHTML = photo;
-  document.getElementById('gcHeaderName').textContent = g.name;
-  document.getElementById('gcHandle').textContent = g.handle ? '@' + g.handle : '';
-  document.getElementById('groupChatView').classList.add('active');
-  await loadGroupMessages();
-  await updateGroupMembersCount();
-  setupGroupRealtime(groupId);
-  try { document.getElementById('gcInput').focus(); } catch(e){}
-};
-
-window.closeGroupChat = function(){
-  document.getElementById('groupChatView').classList.remove('active');
-  if (groupRealtimeChannel) {
-    try { supabase.removeChannel(groupRealtimeChannel); } catch(e){}
-    groupRealtimeChannel = null;
-  }
-  currentGroup = null;
-  currentGroupMessages = [];
-};
-
-async function updateGroupMembersCount(){
-  if (!currentGroup) return;
-  const { count } = await supabase.from('group_members').select('*', {count:'exact', head:true}).eq('group_id', currentGroup.id);
-  document.getElementById('gcMembersCount').textContent = count || 0;
-}
-
-async function loadGroupMessages(){
-  if (!currentGroup) return;
-  const body = document.getElementById('gcBody');
-  body.innerHTML = '<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>';
-  const { data } = await supabase.from('group_messages').select('*').eq('group_id', currentGroup.id).order('created_at', {ascending:true}).limit(500);
-  currentGroupMessages = data || [];
-  if (!currentGroupMessages.length) {
-    body.innerHTML = '<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا رسائل بعد</p><span>كن أول من يكتب</span></div>';
-  } else {
-    body.innerHTML = currentGroupMessages.map(renderGroupMessage).join('');
-    setTimeout(() => body.scrollTop = body.scrollHeight, 50);
-  }
-}
-
-function renderGroupMessage(m){
-  const isMine = currentUser && m.user_id === currentUser.id;
-  const sender = getUserById(m.user_id);
-  const sName = sender ? (sender.display_name || sender.username) : 'مجهول';
-  const sAvatar = sender && sender.avatar_url ? `<img src="${window.escAttr(sender.avatar_url)}" alt="">` : sName.charAt(0).toUpperCase();
-  const verified = sender && sender.is_verified === true ? '<i class="fa-solid fa-circle-check" style="color:var(--verified);font-size:10px;"></i>' : '';
-  const role = sender ? getUserGroupRole(m.user_id) : null;
-  let roleIcon = '';
-  if (role === 'owner') roleIcon = '<span class="role-badge owner" style="margin-right:4px;"><i class="fa-solid fa-crown"></i> مالك</span>';
-  else if (role === 'admin') roleIcon = '<span class="role-badge admin" style="margin-right:4px;"><i class="fa-solid fa-star"></i> مشرف</span>';
-  const time = new Date(m.created_at).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-  return `<div class="gmsg ${isMine ? 'mine' : 'other'}" data-gmsg-id="${m.id}">
-    <div class="gmsg-avatar" onclick="switchSection('profile','${m.user_id}'); window.closeGroupChat();">${sAvatar}</div>
-    <div class="gmsg-bubble-wrap">
-      <div class="gmsg-sender">${window.esc(sName)} ${verified} ${roleIcon}</div>
-      <div class="gmsg-bubble">${window.esc(m.content || '')}</div>
-      <div class="gmsg-time">${time}</div>
-    </div>
-  </div>`;
-}
-
-function getUserGroupRole(userId){
-  if (!currentGroup) return null;
-  if (userId === currentGroup.creator_id) return 'owner';
-  const cached = window.__groupMembersCache && window.__groupMembersCache[currentGroup.id];
-  if (cached) {
-    const m = cached.find(x => x.user_id === userId);
-    return m ? m.role : 'member';
-  }
-  return null;
-}
-
-window.sendGroupMessage = async function(){
-  if (!currentUser || !currentGroup) return;
-  const input = document.getElementById('gcInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
-  try {
-    const { data, error } = await supabase.from('group_messages').insert({
-      group_id: currentGroup.id, user_id: currentUser.id, content: text, message_type: 'text'
-    }).select().single();
-    if (error) throw error;
-    if (data && !document.querySelector(`[data-gmsg-id="${data.id}"]`)) {
-      const body = document.getElementById('gcBody');
-      const empty = body.querySelector('.empty');
-      if (empty) empty.remove();
-      const temp = document.createElement('div');
-      temp.innerHTML = renderGroupMessage(data);
-      body.appendChild(temp.firstElementChild);
-      body.scrollTop = body.scrollHeight;
-      currentGroupMessages.push(data);
-    }
-  } catch(e) { window.showToast('فشل الإرسال', true); }
-};
-
-function setupGroupRealtime(groupId){
-  if (groupRealtimeChannel) { try { supabase.removeChannel(groupRealtimeChannel); } catch(e){} }
-  groupRealtimeChannel = supabase.channel('group_' + groupId)
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'group_messages', filter: `group_id=eq.${groupId}` }, payload => {
-      const m = payload.new;
-      if (!m || currentGroupMessages.find(x => x.id === m.id)) return;
-      currentGroupMessages.push(m);
-      const body = document.getElementById('gcBody');
-      const empty = body.querySelector('.empty');
-      if (empty) empty.remove();
-      if (!body.querySelector(`[data-gmsg-id="${m.id}"]`)) {
-        const wasBottom = body.scrollHeight - body.scrollTop - body.clientHeight < 200;
-        const temp = document.createElement('div');
-        temp.innerHTML = renderGroupMessage(m);
-        body.appendChild(temp.firstElementChild);
-        if (wasBottom) body.scrollTop = body.scrollHeight;
-      }
-    })
-    .subscribe();
-}
-
-async function joinGroup(groupId){
-  if (!currentUser) { window.showToast('سجّل دخول للانضمام', true); window.openModal('loginModal'); return false; }
-  try {
-    const { error } = await supabase.from('group_members').insert({ group_id: groupId, user_id: currentUser.id, role: 'member' });
-    if (error && error.code !== '23505') throw error;
-    myGroupIds.add(groupId);
-    myGroupRoles[groupId] = 'member';
-    return true;
-  } catch(e) { window.showToast('فشل الانضمام', true); return false; }
-}
-
-window.joinAndOpen = async function(groupId){
-  const ok = await joinGroup(groupId);
-  if (ok) { renderGroupsList(); window.openGroupChat(groupId); }
-};
-
-window.leaveCurrentGroup = async function(){
-  if (!currentGroup || !currentUser) return;
-  if (currentGroup.creator_id === currentUser.id) return window.showToast('المالك لا يمكنه المغادرة', true);
-  if (!confirm('هل تريد مغادرة المجموعة؟')) return;
-  try {
-    await supabase.from('group_members').delete().eq('group_id', currentGroup.id).eq('user_id', currentUser.id);
-    myGroupIds.delete(currentGroup.id);
-    delete myGroupRoles[currentGroup.id];
-    window.showToast('✓ تمت المغادرة');
-    window.closeGroupChat();
-    renderGroupsList();
-  } catch(e) { window.showToast('فشل', true); }
-};
-
-/* ═══════ قائمة الأعضاء ═══════ */
-window.openGroupMembers = async function(){
-  if (!currentGroup) return;
-  document.getElementById('groupMembersSub').textContent = currentGroup.name + (currentGroup.handle ? ' · @' + currentGroup.handle : '');
-  document.getElementById('groupMembersSearch').value = '';
-  document.getElementById('groupMembersList').innerHTML = '<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i></div>';
-  window.openModal('groupMembersModal');
-  try {
-    const { data, error } = await supabase.from('group_members').select('*').eq('group_id', currentGroup.id).order('joined_at', {ascending:true});
-    if (error) throw error;
-    currentGroupMembers = data || [];
-    if (!window.__groupMembersCache) window.__groupMembersCache = {};
-    window.__groupMembersCache[currentGroup.id] = currentGroupMembers;
-    renderGroupMembers();
-  } catch(e) {
-    document.getElementById('groupMembersList').innerHTML = '<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p></div>';
-  }
-};
-
-window.renderGroupMembers = function(){
-  const list = document.getElementById('groupMembersList');
-  const q = document.getElementById('groupMembersSearch').value.trim().toLowerCase();
-  const amOwner = currentGroup && currentUser && currentGroup.creator_id === currentUser.id;
-  const amAdmin = currentUser && myGroupRoles[currentGroup.id] === 'admin';
-  const canManage = amOwner || amAdmin;
-  let members = currentGroupMembers.map(m => {
-    const u = getUserById(m.user_id);
-    return { member: m, user: u, role: m.user_id === currentGroup.creator_id ? 'owner' : (m.role || 'member') };
-  });
-  if (q) {
-    members = members.filter(x => x.user && ((x.user.username || '').toLowerCase().includes(q) || (x.user.display_name || '').toLowerCase().includes(q)));
-  }
-  members.sort((a, b) => {
-    const order = { owner: 0, admin: 1, member: 2 };
-    return order[a.role] - order[b.role];
-  });
-  if (!members.length) {
-    list.innerHTML = '<div class="empty" style="padding:30px;"><i class="fa-solid fa-users"></i><p>لا يوجد أعضاء</p></div>';
-    return;
-  }
-  list.innerHTML = members.map(({member, user, role}) => {
-    if (!user) return '';
-    const name = window.esc(user.display_name || user.username);
-    const handle = window.escAttr(user.username);
-    const avatar = user.avatar_url ? `<img src="${window.escAttr(user.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-    const verified = user.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
-    let roleBadge = '';
-    if (role === 'owner') roleBadge = '<span class="role-badge owner"><i class="fa-solid fa-crown"></i> مالك</span>';
-    else if (role === 'admin') roleBadge = '<span class="role-badge admin"><i class="fa-solid fa-star"></i> مشرف</span>';
-    else roleBadge = '<span class="role-badge member">عضو</span>';
-    const isMe = currentUser && user.id === currentUser.id;
-    let actionsHTML = '';
-    if (canManage && !isMe && role !== 'owner') {
-      // ترقية/تنزيل (المالك فقط يقدر)
-      if (amOwner) {
-        if (role === 'member') {
-          actionsHTML += `<button class="member-btn promote" onclick="promoteMember('${user.id}')" title="ترقية لمشرف"><i class="fa-solid fa-star"></i></button>`;
-        } else if (role === 'admin') {
-          actionsHTML += `<button class="member-btn demote" onclick="demoteMember('${user.id}')" title="تنزيل لعضو"><i class="fa-solid fa-arrow-down"></i></button>`;
-        }
-      }
-      // طرد
-      if (amOwner || (amAdmin && role === 'member')) {
-        actionsHTML += `<button class="member-btn kick" onclick="kickMember('${user.id}')" title="طرد من المجموعة"><i class="fa-solid fa-user-slash"></i></button>`;
-      }
-    }
-    return `<div class="member-row">
-      <div class="member-avatar" onclick="window.closeModal('groupMembersModal'); window.closeGroupChat(); switchSection('profile','${user.id}');">${avatar}</div>
-      <div class="member-info">
-        <div class="member-name">${name}${verified} ${roleBadge}</div>
-        <div class="member-handle">@${handle}</div>
-      </div>
-      ${actionsHTML ? `<div class="member-actions">${actionsHTML}</div>` : ''}
-    </div>`;
-  }).join('');
-};
-
-window.promoteMember = async function(userId){
-  if (!currentGroup || !currentUser) return;
-  if (currentGroup.creator_id !== currentUser.id) return window.showToast('المالك فقط', true);
-  if (!confirm('ترقية هذا العضو إلى مشرف؟')) return;
-  try {
-    const { error } = await supabase.from('group_members').update({ role: 'admin' }).eq('group_id', currentGroup.id).eq('user_id', userId);
-    if (error) throw error;
-    const m = currentGroupMembers.find(x => x.user_id === userId);
-    if (m) m.role = 'admin';
-    window.__groupMembersCache[currentGroup.id] = currentGroupMembers;
-    window.showToast('✓ تم الترقية لمشرف');
-    window.renderGroupMembers();
-    if (currentGroup.id === currentGroup.id) {
-      // تحديث عرض الرسائل ليظهر الشعار
-      const body = document.getElementById('gcBody');
-      if (body) {
-        body.innerHTML = currentGroupMessages.map(renderGroupMessage).join('');
-        body.scrollTop = body.scrollHeight;
-      }
-    }
-  } catch(e) { window.showToast('فشل', true); }
-};
-
-window.demoteMember = async function(userId){
-  if (!currentGroup || !currentUser) return;
-  if (currentGroup.creator_id !== currentUser.id) return window.showToast('المالك فقط', true);
-  if (!confirm('تنزيل هذا المشرف لعضو عادي؟')) return;
-  try {
-    const { error } = await supabase.from('group_members').update({ role: 'member' }).eq('group_id', currentGroup.id).eq('user_id', userId);
-    if (error) throw error;
-    const m = currentGroupMembers.find(x => x.user_id === userId);
-    if (m) m.role = 'member';
-    window.__groupMembersCache[currentGroup.id] = currentGroupMembers;
-    window.showToast('✓ تم التنزيل');
-    window.renderGroupMembers();
-    const body = document.getElementById('gcBody');
-    if (body) {
-      body.innerHTML = currentGroupMessages.map(renderGroupMessage).join('');
-      body.scrollTop = body.scrollHeight;
-    }
-  } catch(e) { window.showToast('فشل', true); }
-};
-
-window.kickMember = async function(userId){
-  if (!currentGroup || !currentUser) return;
-  if (userId === currentGroup.creator_id) return window.showToast('لا يمكن طرد المالك', true);
-  if (!confirm('طرد هذا العضو من المجموعة؟')) return;
-  try {
-    const { error } = await supabase.from('group_members').delete().eq('group_id', currentGroup.id).eq('user_id', userId);
-    if (error) throw error;
-    currentGroupMembers = currentGroupMembers.filter(m => m.user_id !== userId);
-    window.__groupMembersCache[currentGroup.id] = currentGroupMembers;
-    window.showToast('✓ تم الطرد');
-    window.renderGroupMembers();
-    updateGroupMembersCount();
-  } catch(e) { window.showToast('فشل الطرد', true); }
-};
-
-/* ═══════ إنشاء مجموعة ═══════ */
-document.getElementById('groupAvatarInput').addEventListener('change', e => {
-  if (!e.target.files.length) return;
-  groupAvatarFile = e.target.files[0];
-  const r = new FileReader();
-  r.onload = ev => { document.getElementById('groupAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="" style="border-radius:16px">`; };
-  r.readAsDataURL(groupAvatarFile);
-});
-
-window.openCreateGroupModal = function(){
-  if (!currentUser) { window.showToast('سجّل دخول', true); window.openModal('loginModal'); return; }
-  document.getElementById('groupNameInput').value = '';
-  document.getElementById('groupHandleInput').value = '';
-  document.getElementById('groupDescInput').value = '';
-  document.getElementById('groupAvatarPreview').innerHTML = '<i class="fa-solid fa-users"></i>';
-  groupAvatarFile = null;
-  window.openModal('createGroupModal');
-};
-
-window.createGroup = async function(){
-  if (!currentUser) return;
-  const name = document.getElementById('groupNameInput').value.trim();
-  const handle = document.getElementById('groupHandleInput').value.trim().toLowerCase();
-  const desc = document.getElementById('groupDescInput').value.trim();
-  if (!name) return window.showToast('اكتب اسم المجموعة', true);
-  if (!handle) return window.showToast('اكتب معرّف المجموعة', true);
-  if (!/^[a-z0-9_]{3,20}$/.test(handle)) return window.showToast('المعرّف: 3-20 حرف إنجليزي/رقم/_', true);
-  const btn = document.getElementById('groupCreateBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-border"></span> جاري الإنشاء...';
-  try {
-    // فحص إذا المعرّف محجوز
-    const { data: existing } = await supabase.from('groups').select('id').ilike('handle', handle).maybeSingle();
-    if (existing) throw new Error('المعرّف محجوز، جرب غيره');
-    let photoUrl = '';
-    if (groupAvatarFile) { try { photoUrl = await uploadFileToStorage(groupAvatarFile, 'avatars'); } catch(e){} }
-    const { data, error } = await supabase.from('groups').insert({
-      name, handle, description: desc, photo_url: photoUrl, creator_id: currentUser.id, is_public: true
-    }).select().single();
-    if (error) throw error;
-    await supabase.from('group_members').insert({ group_id: data.id, user_id: currentUser.id, role: 'owner' });
-    myGroupIds.add(data.id);
-    myGroupRoles[data.id] = 'owner';
-    window.allGroups.unshift(data);
-    window.showToast('✓ تم إنشاء المجموعة');
-    window.celebrate();
-    window.closeModal('createGroupModal', true);
-    renderGroupsList();
-    setTimeout(() => window.openGroupChat(data.id), 300);
-  } catch(e) { window.showToast('فشل الإنشاء: ' + e.message, true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> إنشاء المجموعة'; }
-};
-
-console.log('%c🔥 Groups + Legendary Flame Loaded','background:linear-gradient(90deg,#ff6b00,#a855f7);color:#fff;font-weight:900;padding:4px 10px;border-radius:6px;');
+console.log('%c🔥 Legendary Icon Loaded','background:linear-gradient(90deg,#ff6b00,#a855f7);color:#fff;font-weight:900;padding:4px 10px;border-radius:6px;');
 })();
 </script>
 <script>
@@ -3308,9 +2749,6 @@ window.addEventListener('popstate', () => {
   if ($('chatView') && $('chatView').classList.contains('active')) {
     closeChatView();
     history.pushState(null, '', location.href);
-  } else if ($('groupChatView') && $('groupChatView').classList.contains('active')) {
-    if (typeof window.closeGroupChat === 'function') window.closeGroupChat();
-    history.pushState(null, '', location.href);
   }
 });
 history.pushState(null, '', location.href);
@@ -3320,4 +2758,4 @@ window.addEventListener('load', () => {
 });
 </script>
 </body>
-</html>
+      </html>
