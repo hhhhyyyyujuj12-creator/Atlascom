@@ -1,5 +1,5 @@
 {
-  "name": "تيم الثار",
+  "name": "تيم الثار — منصة نشر حر",
   "short_name": "تيم الثار",
   "description": "منصة نشر حر",
   "start_url": "./index.html",
@@ -11,17 +11,8 @@
   "lang": "ar",
   "dir": "rtl",
   "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }
