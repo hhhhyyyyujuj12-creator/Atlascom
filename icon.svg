@@ -1,84 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <!-- خلفية التطبيق الداكنة -->
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#141414"/>
-      <stop offset="100%" stop-color="#050505"/>
+    <!-- خلفية سوداء عميقة جداً -->
+    <linearGradient id="bgBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0505"/>
+      <stop offset="100%" stop-color="#000000"/>
     </linearGradient>
 
-    <!-- تدرجات الجوهرة الزجاجية (أحمر دموي) -->
-    <linearGradient id="facetTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff4d4d"/>
-      <stop offset="100%" stop-color="#b91c1c"/>
-    </linearGradient>
-    <linearGradient id="facetTopRight" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#991b1b"/>
-    </linearGradient>
-    <linearGradient id="facetLeft" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#991b1b"/>
-      <stop offset="100%" stop-color="#450a0a"/>
-    </linearGradient>
-    <linearGradient id="facetRight" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#7f1d1d"/>
-      <stop offset="100%" stop-color="#2d0505"/>
-    </linearGradient>
-    <linearGradient id="facetCenter" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ff3333"/>
-      <stop offset="100%" stop-color="#dc2626"/>
+    <!-- موجة حمراء فخمة -->
+    <linearGradient id="waveRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="50%" stop-color="#7f1d1d"/>
+      <stop offset="100%" stop-color="#1a0505"/>
     </linearGradient>
 
-    <!-- انعكاس زجاجي علوي -->
-    <linearGradient id="gloss" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+    <!-- موجة سوداء عميقة (للتداخل) -->
+    <linearGradient id="waveDark" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#150a0c"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+
+    <!-- تدرج لمعان زجاجي من الأعلى -->
+    <linearGradient id="glassGlare" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.02"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- فلاتر الظل والتوهج -->
-    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="#dc2626" flood-opacity="0.4"/>
-      <feDropShadow dx="0" dy="25" stdDeviation="30" flood-color="#000000" flood-opacity="0.8"/>
-    </filter>
-    <filter id="innerGlow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    <!-- فلتر التوهج للخلفية -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="30" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
   </defs>
 
-  <!-- خلفية التطبيق -->
-  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
+  <!-- 1. قاعدة التطبيق -->
+  <rect width="512" height="512" rx="115" fill="url(#bgBase)"/>
+
+  <!-- 2. توهج خلفي خافت (يعطي عمق) -->
+  <circle cx="256" cy="256" r="200" fill="#e11d48" opacity="0.1" filter="url(#glow)"/>
+
+  <!-- 3. الموجة السوداء (الخلفية) -->
+  <path d="M 0 200 C 150 150, 300 350, 512 250 L 512 512 L 0 512 Z" fill="url(#waveDark)"/>
+
+  <!-- 4. الموجة الحمراء الفخمة (الأمامية) -->
+  <path d="M -50 250 C 150 100, 400 450, 550 200 L 550 550 L -50 550 Z" fill="url(#waveRed)"/>
   
-  <!-- إطار خفيف جداً يعطي إحساس بشاشة الزجاج -->
-  <rect x="4" y="4" width="504" height="504" rx="111" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.05"/>
-
-  <!-- الجوهرة (الألماسة) ثلاثية الأبعاد مع الظل -->
-  <g filter="url(#dropShadow)">
-    <!-- الوجه العلوي الأيسر -->
-    <polygon points="256,80 174,200 256,280" fill="url(#facetTopLeft)"/>
-    <!-- الوجه العلوي الأيمن -->
-    <polygon points="256,80 338,200 256,280" fill="url(#facetTopRight)"/>
-    <!-- الوجه السفلي الأيسر -->
-    <polygon points="92,200 174,200 256,280 256,440" fill="url(#facetLeft)"/>
-    <!-- الوجه السفلي الأيمن -->
-    <polygon points="420,200 338,200 256,280 256,440" fill="url(#facetRight)"/>
-    <!-- الوجه الأوسط -->
-    <polygon points="174,200 338,200 256,280" fill="url(#facetCenter)"/>
-  </g>
-
-  <!-- انعكاس الإضاءة الزجاجية (اللمعة) -->
-  <path d="M 92 200 L 174 200 L 256 80 L 338 200 L 420 200 L 256 280 Z" fill="url(#gloss)" opacity="0.6"/>
+  <!-- 5. خط ضوئي رفيع يحدد حواف الموجة (يعطي إحساس بالزجاج) -->
+  <path d="M -50 250 C 150 100, 400 450, 550 200" fill="none" stroke="#ff4d4d" stroke-width="4" opacity="0.4" filter="url(#glow)"/>
   
-  <!-- حواف الجوهرة اللامعة (تعطي واقعية 3D) -->
-  <g stroke="#ffffff" stroke-width="2" opacity="0.2" stroke-linejoin="round">
-    <line x1="256" y1="80" x2="174" y2="200" />
-    <line x1="256" y1="80" x2="338" y2="200" />
-    <line x1="174" y1="200" x2="92" y2="200" />
-    <line x1="338" y1="200" x2="420" y2="200" />
-    <line x1="92" y1="200" x2="256" y2="440" />
-    <line x1="420" y1="200" x2="256" y2="440" />
-  </g>
+  <!-- 6. انعكاس الإضاءة الزجاجية العلوي (Glossy effect) -->
+  <rect width="512" height="512" rx="115" fill="url(#glassGlare)"/>
 
-  <!-- لمعة ضوئية في مركز الجوهرة -->
-  <circle cx="256" cy="280" r="6" fill="#ffffff" opacity="0.8" filter="url(#innerGlow)"/>
-  <circle cx="256" cy="280" r="12" fill="#dc2626" opacity="0.6" filter="url(#innerGlow)"/>
+  <!-- 7. إطار خارجي خفيف جداً (مثل شاشات الآيفون) -->
+  <rect x="2" y="2" width="508" height="508" rx="113" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.08"/>
 </svg>
