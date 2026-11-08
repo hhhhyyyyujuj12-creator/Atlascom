@@ -194,7 +194,7 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @media (max-width:768px){
   .modal-overlay{align-items:flex-end;padding:0}
-  .modal-box{max-width:100%;border-radius:24px 24px 0 0;padding:36px 22px calc(24px + env(safe-area-inset-bottom,0px));max-height:92vh;animation:sheetUp 0.38s cubic-bezier(0.32,0.72,0,1)}
+  .modal-box{max-width:100%;border-radius:24px 24px 0 0;padding:36px 22px calc(24px + env(safe-area-inset-bottom,0px));max-height:92vh;margin:0 auto;animation:sheetUp 0.4s cubic-bezier(0.34,1.56,0.64,1)}
   .modal-box::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:4px;background:rgba(255,255,255,0.22);border-radius:2px;pointer-events:none}
 }
 .modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--muted);font-size:18px;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:background 0.15s}
@@ -236,7 +236,7 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .warning-list{text-align:right;color:#aaa;font-size:13px;line-height:1.9;margin:14px 0 20px;padding:14px 18px;background:rgba(220,38,38,0.05);border-right:3px solid var(--orange);border-radius:8px}
 .warning-list i{color:var(--orange);margin-left:8px}
 .warning-accept{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),var(--red-deep));color:#fff;border:none;border-radius:10px;font-family:inherit;font-weight:900;font-size:16px;cursor:pointer}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(300%);opacity:0;pointer-events:none;visibility:hidden;background:#0e0809;border:1px solid var(--orange);color:var(--text);padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:20000;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.25s,visibility 0.25s;max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(300%);opacity:0;pointer-events:none;visibility:hidden;background:#0e0809;border:1px solid var(--orange);color:var(--text);padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:20000;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.25s,visibility 0.25s;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:visible;visibility:visible}
 .toast.error{border-color:var(--danger)}
 .spinner-border{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
@@ -379,6 +379,27 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .voice-rec-cancel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .voice-rec-cancel:hover{color:var(--danger)}
 .voice-rec-send{background:var(--danger);color:#fff;border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-carousel{position:relative;width:100%;aspect-ratio:4/5;background:#000;overflow:hidden;touch-action:pan-y}
+.card-carousel-track{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;direction:ltr;overscroll-behavior-x:contain}
+.card-carousel-track::-webkit-scrollbar{display:none}
+.card-carousel-slide{flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;background:#000}
+.card-carousel-slide img{max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-user-drag:none;user-select:none;pointer-events:none}
+.card-carousel-counter{position:absolute;top:60px;left:12px;background:rgba(10,4,5,0.85);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:4;pointer-events:none;display:flex;align-items:center;gap:5px}
+.card-carousel-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:4;pointer-events:none;padding:6px 10px;background:rgba(0,0,0,0.35);border-radius:10px}
+.card-carousel-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);transition:width 0.25s,background 0.25s;flex-shrink:0}
+.card-carousel-dot.active{background:#fff;width:18px;border-radius:3px}
+.card-carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(10,4,5,0.75);border:1px solid rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:4;opacity:0;transition:opacity 0.2s;font-size:13px;pointer-events:auto}
+.card-carousel:hover .card-carousel-arrow{opacity:1}
+.card-carousel-arrow.prev{left:8px}
+.card-carousel-arrow.next{right:8px}
+.card-carousel-arrow:active{transform:translateY(-50%) scale(0.92)}
+@media (max-width:768px){.card-carousel-arrow{display:none}}
+.multi-preview{display:none;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px;margin-top:10px;padding:4px;max-height:200px;overflow-y:auto}
+.multi-preview.active{display:grid}
+.multi-preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#050303;border:1px solid var(--border)}
+.multi-preview-item img{width:100%;height:100%;object-fit:cover;display:block}
+.multi-preview-item .remove-btn{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.8);color:#fff;border:none;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.multi-preview-item .remove-btn:active{transform:scale(0.9)}
 @media (max-width:600px){
   header{padding:10px 3%;gap:6px}
   .logo{font-size:12px}
@@ -533,7 +554,8 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
       <i class="fa-solid fa-photo-film"></i>
       <p>اسحب الملف هنا أو انقر للاختيار</p>
       <div class="selected-file" id="selectedFile"></div>
-      <input type="file" id="fileInput" accept="video/*,image/*" hidden>
+      <div id="multiPreview" class="multi-preview"></div>
+      <input type="file" id="fileInput" accept="video/*,image/*" multiple hidden>
     </div>
     <div class="progress-wrap" id="progressWrap">
       <div class="progress-label"><span id="progressStatus">جاري الرفع...</span><span id="progressPct">0%</span></div>
@@ -709,14 +731,14 @@ const MAX_BOOST = 999999999;
 const PAGE_SIZE = 20;
 var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
-const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile');
+const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile'), multiPreview = $('multiPreview');
 const progressWrap = $('progressWrap'), progressFill = $('progressFill'), progressPct = $('progressPct'), progressStat = $('progressStatus');
 const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images'), gridSaved = $('grid-saved');
 const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 let currentUser = null, currentProfile = null;
 let allRows = [], allUsers = [], allComments = [], allNotifs = [], allMessages = [];
 let currentSection = 'home', searchQuery = '';
-let currentFile = null, currentFileType = null, avatarFile = null, editAvatarFile = null;
+let currentFiles = [], currentFileType = null, avatarFile = null, editAvatarFile = null;
 let currentPostType = 'media';
 let viewingProfileId = null, searchDebounce = null;
 let currentCommentsVideoId = null, currentCommentsVideoOwnerId = null;
@@ -874,10 +896,34 @@ function setPostType(type) {
   const fd = $('fileDrop'), fi = $('fileInput');
   const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p');
   const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
-  currentFile = null; currentFileType = null; selectedFile.textContent = ''; fileInput.value = '';
-  if (type === 'text') { fd.style.display = 'none'; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; }
-  else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; }
-  else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اسحب الملف هنا أو انقر للاختيار'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; }
+  currentFiles = []; currentFileType = null;
+  selectedFile.textContent = ''; fileInput.value = '';
+  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  if (type === 'text') {
+    fd.style.display = 'none';
+    fi.multiple = false;
+    titleInput.placeholder = 'عنوان (اختياري)';
+    descInput.placeholder = 'اكتب نصك هنا... *';
+    descInput.rows = 5; descInput.maxLength = 3000;
+  } else if (type === 'audio') {
+    fd.style.display = 'block';
+    fi.accept = 'audio/*';
+    fi.multiple = false;
+    fdIcon.className = 'fa-solid fa-microphone';
+    fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار';
+    titleInput.placeholder = 'العنوان *';
+    descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)';
+    descInput.rows = 5; descInput.maxLength = 3000;
+  } else {
+    fd.style.display = 'block';
+    fi.accept = 'video/*,image/*';
+    fi.multiple = true;
+    fdIcon.className = 'fa-solid fa-photo-film';
+    fdText.textContent = 'اسحب صورة أو فيديو أو عدة صور (حتى 10)';
+    titleInput.placeholder = 'العنوان *';
+    descInput.placeholder = 'وصف مختصر (اختياري)';
+    descInput.rows = 2; descInput.maxLength = 300;
+  }
 }
 </script>
 <script>
@@ -1291,40 +1337,185 @@ function handleFabClick() {
 }
 ['dragenter','dragover'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.add('dragover'); }));
 ['dragleave','drop'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.remove('dragover'); }));
-fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]); });
+fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFiles(e.dataTransfer.files); });
 fileDrop.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', e => { if (e.target.files.length) setFile(e.target.files[0]); });
-function setFile(file) {
-  const isVideo = file.type.startsWith('video/'), isImage = file.type.startsWith('image/'), isAudio = file.type.startsWith('audio/');
-  if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
-  if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
-  if (currentPostType === 'audio' && !isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true);
-  if (currentPostType === 'media' && isAudio) return showToast('في وضع الصورة/الفيديو، اختر صورة أو فيديو', true);
-  currentFile = file;
-  currentFileType = isVideo ? 'video' : (isImage ? 'image' : 'audio');
-  const mb = (file.size / 1024 / 1024).toFixed(2);
-  const icon = isVideo ? '🎬' : (isImage ? '🖼️' : '🎵');
-  selectedFile.textContent = `✓ ${icon} ${file.name} — ${mb} MB`;
+fileInput.addEventListener('change', e => { if (e.target.files.length) setFiles(e.target.files); });
+function setFiles(files) {
+  const arr = Array.from(files);
+  if (!arr.length) return;
+  currentFiles = []; currentFileType = null;
+  selectedFile.textContent = '';
+  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  if (arr.length === 1) {
+    const file = arr[0];
+    const isVideo = file.type.startsWith('video/');
+    const isImage = file.type.startsWith('image/');
+    const isAudio = file.type.startsWith('audio/');
+    if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
+    if (currentPostType === 'audio') {
+      if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true);
+      if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
+      currentFiles = [file]; currentFileType = 'audio';
+      selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
+      return;
+    }
+    if (isVideo) {
+      if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
+      currentFiles = [file]; currentFileType = 'video';
+      selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
+      return;
+    }
+    if (isImage) {
+      if (file.size > 20 * 1024 * 1024) return showToast('الحجم يتجاوز 20 ميجا', true);
+      currentFiles = [file]; currentFileType = 'image';
+      selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
+      return;
+    }
+    return showToast('نوع الملف غير مدعوم', true);
+  }
+  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true);
+  if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true);
+  const allImages = arr.every(f => f.type.startsWith('image/'));
+  if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true);
+  for (const f of arr) { if (f.size > 20 * 1024 * 1024) return showToast(`${f.name} كبير جداً (الحد 20 ميجا)`, true); }
+  currentFiles = arr; currentFileType = 'carousel';
+  selectedFile.textContent = `✓ ${arr.length} صورة مختارة`;
+  renderMultiPreview();
+}
+function renderMultiPreview() {
+  if (currentFiles.length <= 1) { multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); return; }
+  multiPreview.classList.add('active');
+  multiPreview.innerHTML = currentFiles.map((f, i) => {
+    const u = URL.createObjectURL(f);
+    return `<div class="multi-preview-item"><img src="${u}" alt=""><button type="button" class="remove-btn" onclick="removePreviewImage(${i})" aria-label="حذف"><i class="fa-solid fa-xmark"></i></button></div>`;
+  }).join('');
+}
+function removePreviewImage(idx) {
+  if (!currentFiles[idx]) return;
+  currentFiles.splice(idx, 1);
+  if (currentFiles.length === 0) { resetUploadForm(); return; }
+  if (currentFiles.length === 1) {
+    const f = currentFiles[0];
+    currentFileType = 'image';
+    selectedFile.textContent = `✓ 🖼️ ${f.name} — ${(f.size/1024/1024).toFixed(2)} MB`;
+    multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+    return;
+  }
+  selectedFile.textContent = `✓ ${currentFiles.length} صورة مختارة`;
+  renderMultiPreview();
+}
+function getPostImageUrls(v) {
+  if (!v) return [];
+  let urls = v.media_urls;
+  if (Array.isArray(urls) && urls.length) return urls.filter(Boolean);
+  if (typeof urls === 'string') {
+    try { const parsed = JSON.parse(urls); if (Array.isArray(parsed) && parsed.length) return parsed.filter(Boolean); } catch(e) {}
+  }
+  return v.media_url ? [v.media_url] : [];
+}
+function scrollCarousel(postId, dir) {
+  const track = document.querySelector(`.card-carousel-track[data-carousel-id="${postId}"]`);
+  if (!track) return;
+  const slideW = track.clientWidth;
+  track.scrollBy({ left: dir * slideW, behavior: 'smooth' });
+}
+function setupCarousels() {
+  document.querySelectorAll('.card-carousel-track').forEach(track => {
+    if (track.dataset.bound) return;
+    track.dataset.bound = '1';
+    const card = track.closest('.carousel-card');
+    if (!card) return;
+    const counter = card.querySelector('.card-carousel-counter');
+    const dots = card.querySelectorAll('.card-carousel-dot');
+    let rafPending = false;
+    track.addEventListener('scroll', () => {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const w = track.clientWidth;
+        if (!w) return;
+        const idx = Math.round(track.scrollLeft / w);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        if (counter) {
+          const total = dots.length;
+          counter.innerHTML = `<i class="fa-solid fa-images"></i> ${Math.min(idx + 1, total)}/${total}`;
+        }
+      });
+    }, { passive: true });
+  });
+}
+function setupCarouselViews() {
+  document.querySelectorAll('.carousel-card').forEach(card => {
+    if (card.dataset.viewBound) return;
+    card.dataset.viewBound = '1';
+    const postId = card.getAttribute('data-row-id');
+    if (!postId) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { markViewed(postId); obs.disconnect(); }
+      });
+    }, { threshold: 0.5 });
+    obs.observe(card);
+  });
 }
 async function uploadContent() {
-  const title = $('uploadTitle').value.trim(); const desc = $('uploadDesc').value.trim();
+  const title = $('uploadTitle').value.trim();
+  const desc = $('uploadDesc').value.trim();
   if (!currentUser) return showToast('يجب تسجيل الدخول', true);
   if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); }
-  else { if (!title) return showToast('العنوان مطلوب', true); if (!currentFile) return showToast('اختر ملفاً', true); }
+  else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
   uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...';
   progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%';
   progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
   try {
-    let fileUrl = '', finalType = currentPostType;
-    if (currentPostType !== 'text') { const folder = currentFileType === 'audio' ? 'audio' : 'media'; fileUrl = await uploadFileToStorage(currentFile, folder); finalType = currentFileType; }
-    progressStat.textContent = 'جاري النشر...'; progressFill.style.width = '100%'; progressPct.textContent = '100%';
-    const { error } = await supabase.from('posts').insert({ user_id: currentUser.id, title: title || '', description: desc || '', media_url: fileUrl, media_type: finalType, likes_count: 0, views_count: 0, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '' });
-    if (error) throw new Error('فشل حفظ البيانات: ' + error.message);
+    let mediaUrl = '', mediaUrls = null, finalType = currentPostType;
+    if (currentPostType !== 'text') {
+      if (currentFiles.length === 1) {
+        const file = currentFiles[0];
+        const folder = currentFileType === 'audio' ? 'audio' : 'media';
+        mediaUrl = await uploadFileToStorage(file, folder);
+        finalType = currentFileType;
+      } else {
+        mediaUrls = [];
+        for (let i = 0; i < currentFiles.length; i++) {
+          progressStat.textContent = `رفع الصور (${i+1}/${currentFiles.length})...`;
+          const url = await uploadFileToStorage(currentFiles[i], 'media');
+          mediaUrls.push(url);
+          progressFill.style.width = `${((i + 1) / currentFiles.length) * 100}%`;
+          progressPct.textContent = `${Math.round(((i + 1) / currentFiles.length) * 100)}%`;
+        }
+        mediaUrl = mediaUrls[0];
+        finalType = 'image';
+      }
+    }
+    progressStat.textContent = 'جاري النشر...';
+    progressFill.style.width = '100%'; progressPct.textContent = '100%';
+    const insertData = {
+      user_id: currentUser.id, title: title || '', description: desc || '',
+      media_url: mediaUrl, media_type: finalType,
+      likes_count: 0, views_count: 0,
+      author_name: currentProfile.display_name || currentProfile.username,
+      author_avatar: currentProfile.avatar_url || ''
+    };
+    if (mediaUrls) insertData.media_urls = mediaUrls;
+    const { error } = await supabase.from('posts').insert(insertData);
+    if (error) {
+      if (String(error.message).includes('media_urls')) throw new Error('يجب إضافة عمود media_urls إلى جدول posts. راجع الخطوة 1.');
+      throw new Error('فشل حفظ البيانات: ' + error.message);
+    }
     showToast('✓ تم النشر'); celebrate(); resetUploadForm(); closeModal('uploadModal', true); loadContent();
   } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); }
   finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
-function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; fileInput.value = ''; currentFile = null; currentFileType = null; selectedFile.textContent = ''; setPostType('media'); }
+function resetUploadForm() {
+  $('uploadTitle').value = ''; $('uploadDesc').value = '';
+  fileInput.value = '';
+  currentFiles = []; currentFileType = null;
+  selectedFile.textContent = '';
+  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  setPostType('media');
+}
 async function loadContent(reset = true) {
   if (isLoadingMore) return;
   if (!reset && !hasMore) return;
@@ -1455,7 +1646,7 @@ function cardHTML(v) {
   const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
-  const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}', '${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
+  const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') {
     const content = v.description || v.title || '';
     const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : '');
@@ -1463,6 +1654,24 @@ function cardHTML(v) {
   }
   if (mtype === 'audio') {
     return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc poem">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
+  }
+  if (mtype === 'image') {
+    const imageUrls = getPostImageUrls(v);
+    if (imageUrls.length > 1) {
+      const dotsHTML = imageUrls.map((_, i) => `<span class="card-carousel-dot ${i === 0 ? 'active' : ''}"></span>`).join('');
+      const slidesHTML = imageUrls.map((u, i) => `<div class="card-carousel-slide"><img src="${escAttr(u)}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}"></div>`).join('');
+      return `<div class="card carousel-card" data-row-id="${v.id}">
+        <div class="card-carousel">
+          ${overlayAuthorHTML}
+          <div class="card-carousel-counter"><i class="fa-solid fa-images"></i> 1/${imageUrls.length}</div>
+          <div class="card-carousel-track" data-carousel-id="${v.id}">${slidesHTML}</div>
+          <div class="card-carousel-dots">${dotsHTML}</div>
+          <button class="card-carousel-arrow prev" onclick="event.stopPropagation(); scrollCarousel('${v.id}', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="card-carousel-arrow next" onclick="event.stopPropagation(); scrollCarousel('${v.id}', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div>
+      </div>`;
+    }
   }
   const media = mtype === 'image' ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">` : `<video class="card-media" src="${url}" loop playsinline preload="metadata" muted onplay="markViewed('${v.id}')"></video>`;
   return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap">${media}${overlayAuthorHTML}${mtype === 'video' ? `<button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button><div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>` : ''}</div><div class="card-body"><div class="card-title">${title}</div>${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
@@ -1487,7 +1696,7 @@ function renderReels(rows) {
     const verified = verifiedBadgeHTML(v.user_id);
     const commentsCount = commentCounts[v.id] || 0;
     const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
-    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}','${url}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${desc ? `<p>${desc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
+    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${desc ? `<p>${desc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls, 100);
   setTimeout(setupReelsObserver, 150);
@@ -1646,10 +1855,31 @@ async function applyBoost() {
   try { let newLikes = Math.max(0, Math.min(MAX_BOOST, (row.likes_count || 0) + likesDelta)); let newViews = Math.max(0, Math.min(MAX_BOOST, (row.views_count || 0) + viewsDelta)); row.likes_count = newLikes; row.views_count = newViews; document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = newLikes); document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newViews}`; }); await supabase.from('posts').update({ likes_count: newLikes, views_count: newViews }).eq('id', boostTargetId); showToast(`✓ تم التحديث`); closeModal('boostModal', true); } catch(e) { showToast('فشل التحديث', true); }
   finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> تطبيق'; }
 }
-async function deleteItem(rowId, videoUrl) {
+async function deleteItem(rowId) {
   if (!currentUser) return showToast('سجّل دخول', true);
   if (!confirm('تأكيد الحذف؟')) return;
-  try { const { error } = await supabase.from('posts').delete().eq('id', rowId); if (error) throw error; try { const m = (videoUrl || '').match(/\/media\/(.+)$/); if (m && m[1]) await supabase.storage.from('media').remove([decodeURIComponent(m[1])]); } catch(e) {} showToast('✓ تم الحذف'); allRows = allRows.filter(r => r.id !== rowId); delete commentCounts[rowId]; renderAll(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); if (currentSection === 'saved') renderSaved(); } catch (err) { showToast('فشل الحذف', true); }
+  const row = allRows.find(r => r.id === rowId);
+  try {
+    const { error } = await supabase.from('posts').delete().eq('id', rowId);
+    if (error) throw error;
+    if (row) {
+      const urls = getPostImageUrls(row);
+      if (row.media_url && !urls.includes(row.media_url)) urls.push(row.media_url);
+      const unique = [...new Set(urls)];
+      for (const u of unique) {
+        try {
+          const m = (u || '').match(/\/media\/(.+)$/);
+          if (m && m[1]) await supabase.storage.from('media').remove([decodeURIComponent(m[1])]);
+        } catch(e) {}
+      }
+    }
+    showToast('✓ تم الحذف');
+    allRows = allRows.filter(r => r.id !== rowId);
+    delete commentCounts[rowId];
+    renderAll();
+    if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
+    if (currentSection === 'saved') renderSaved();
+  } catch (err) { showToast('فشل الحذف', true); }
 }
 async function toggleLike(videoId, btn) {
   if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; }
@@ -1833,6 +2063,8 @@ function setupVideoControls() {
 function setupBlurUp() {
   document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'IMG' && el.complete && el.naturalHeight !== 0) el.classList.add('loaded'); });
   setupVideoControls();
+  setupCarousels();
+  setupCarouselViews();
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseActiveVideo(); });
 window.addEventListener('beforeunload', pauseActiveVideo);
