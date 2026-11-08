@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0405">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="تيم الثار">
 <title>تيم الثار — منصة نشر حر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -478,6 +483,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
     <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
     <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
     <a onclick="openNotifications()"><i class="fa-solid fa-bell"></i> الإشعارات <span class="notif-badge hidden" id="sidebarNotifCount">0</span></a>
+    <a id="installAppBtn" onclick="installPWA()" style="border:1px solid var(--orange);color:var(--orange);"><i class="fa-solid fa-download"></i> تنزيل كتطبيق</a>
     <div id="authNav"></div>
   </nav>
   <div class="sidebar-footer">
@@ -759,7 +765,7 @@ function escAttr(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&am
 let toastTimer;
 function showToast(msg, isError = false) {
   const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (isError ? ' error' : '');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 function lockBodyScroll(){document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';document.body.classList.add('modal-open')}
 function unlockBodyScroll(){document.documentElement.style.overflow='';document.body.style.overflow='';document.body.classList.remove('modal-open')}
@@ -1961,7 +1967,7 @@ function renderCommentItem(c, isReply = false) {
   const likeCount = c.likes_count || 0;
   const showCreatorBadge = (c.creator_name && c.creator_name.length > 0) || c.creator_liked === true;
   const creatorBadge = showCreatorBadge ? getCreatorLikeBadgeHTML(c) : '';
-  return `<div class="comment-item ${isReply ? 'reply' : ''}"><div class="comment-item-head"><div class="comment-avatar">${authorAvatar}</div><b>${esc(authorName)}${verified}</b><span>${c.created_at ? timeAgoFrom(c.created_at) : ''}</span>${canDel ? `<button class="comment-del-btn" onclick="deleteComment('${c.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> ${likeCount}</button>${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}</div><div id="reply-form-${c.id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
+  return `<div class="comment-item ${isReply ? 'reply' : ''}"><div class="comment-item-head"><div class="comment-avatar">${authorAvatar}</div><b>${esc(authorName)}${verified}</b><span>${c.created_at ? timeAgoFrom(c.created_at) : ''}</span>${canDel ? `<button class="comment-del-btn" onclick="deleteComment('${c.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${likeCount}</span></button>${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}</div><div id="reply-form-${c.id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
 }
 function showReplyForm(commentId) {
   const el = $('reply-form-' + commentId); if (!el) return;
@@ -1991,17 +1997,57 @@ async function deleteComment(commentId) {
 }
 async function toggleCommentLike(commentId, btn) {
   if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; }
-  const isLiked = likedComments.has(commentId); btn.disabled = true;
+  const isLiked = likedComments.has(commentId);
+  btn.disabled = true;
   try {
     const comment = allComments.find(c => c.id === commentId);
+    if (!comment) { btn.disabled = false; return; }
     const amCreator = currentCommentsVideoOwnerId === currentUser.id;
-    if (isLiked) { await supabase.from('comment_likes').delete().eq('user_id', currentUser.id).eq('comment_id', commentId); likedComments.delete(commentId); if (comment && amCreator) { comment.creator_name = ''; comment.creator_avatar = ''; comment.creator_liked = false; await supabase.from('comments').update({ creator_name: '', creator_avatar: '', creator_liked: false }).eq('id', commentId); } }
-    else {
-      await supabase.from('comment_likes').insert({ user_id: currentUser.id, comment_id: commentId }); likedComments.add(commentId);
-      if (comment) { if (amCreator) { const cName = currentProfile.display_name || currentProfile.username; const cAvatar = currentProfile.avatar_url || ''; comment.creator_name = cName; comment.creator_avatar = cAvatar; comment.creator_liked = true; await supabase.from('comments').update({ creator_name: cName, creator_avatar: cAvatar, creator_liked: true }).eq('id', commentId); } if (comment.user_id && comment.user_id !== currentUser.id) { const notifType = amCreator ? 'creator_like' : 'comment_like'; const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك' : 'أعجب بتعليقك'; await createNotification(comment.user_id, notifType, notifContent, comment.post_id); } }
+    const delta = isLiked ? -1 : 1;
+    if (isLiked) {
+      const { error } = await supabase.from('comment_likes').delete().eq('user_id', currentUser.id).eq('comment_id', commentId);
+      if (error) throw error;
+      likedComments.delete(commentId);
+    } else {
+      const { error } = await supabase.from('comment_likes').insert({ user_id: currentUser.id, comment_id: commentId });
+      if (error) throw error;
+      likedComments.add(commentId);
     }
+    if (amCreator) {
+      const upd = isLiked
+        ? { creator_name: '', creator_avatar: '', creator_liked: false }
+        : { creator_name: currentProfile.display_name || currentProfile.username, creator_avatar: currentProfile.avatar_url || '', creator_liked: true };
+      const { error: upErr } = await supabase.from('comments').update(upd).eq('id', commentId);
+      if (upErr) console.warn('creator update failed:', upErr.message);
+    }
+    const newCount = Math.max(0, (parseInt(comment.likes_count) || 0) + delta);
+    comment.likes_count = newCount;
+    if (amCreator) {
+      if (isLiked) { comment.creator_name = ''; comment.creator_avatar = ''; comment.creator_liked = false; }
+      else {
+        comment.creator_name = currentProfile.display_name || currentProfile.username;
+        comment.creator_avatar = currentProfile.avatar_url || '';
+        comment.creator_liked = true;
+      }
+    }
+    btn.classList.toggle('liked', !isLiked);
+    const icon = btn.querySelector('i');
+    if (icon) icon.className = !isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+    const span = btn.querySelector('span');
+    if (span) span.textContent = newCount;
+    if (!isLiked && comment.user_id && comment.user_id !== currentUser.id) {
+      const notifType = amCreator ? 'creator_like' : 'comment_like';
+      const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك' : 'أعجب بتعليقك';
+      await createNotification(comment.user_id, notifType, notifContent, comment.post_id);
+    }
+    setTimeout(() => loadComments(currentCommentsVideoId), 300);
+  } catch(e) {
+    console.error('toggleCommentLike error:', e);
+    showToast('فشل الإعجاب: ' + (e.message || ''), true);
+    if (isLiked) likedComments.add(commentId);
+    else likedComments.delete(commentId);
     loadComments(currentCommentsVideoId);
-  } catch(e) {}
+  }
   finally { btn.disabled = false; }
 }
 function copyLink(url) {
@@ -2110,6 +2156,32 @@ window.addEventListener('focus', async () => {
 window.addEventListener('popstate', () => { if ($('chatView') && $('chatView').classList.contains('active')) { closeChatView(); history.pushState(null, '', location.href); } });
 history.pushState(null, '', location.href);
 window.addEventListener('load', () => { setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500); });
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+async function installPWA() {
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) { showToast('✓ التطبيق مثبت بالفعل'); return; }
+  if (deferredPrompt) {
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') showToast('✓ جاري التثبيت...');
+      else showToast('تم الإلغاء');
+      deferredPrompt = null;
+    } catch(e) { showToast('تعذّر التثبيت', true); }
+    return;
+  }
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/.test(ua)) showToast('من Safari: زر المشاركة ↥ ← "إضافة إلى الشاشة الرئيسية"');
+  else if (/Android/.test(ua)) showToast('من قائمة المتصفح ⋮ ← "تثبيت التطبيق"');
+  else showToast('من أيقونة التثبيت في شريط العنوان، أو قائمة المتصفح');
+}
+window.addEventListener('appinstalled', () => { deferredPrompt = null; showToast('✓ تم التثبيت بنجاح'); });
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch((err) => console.warn('SW registration failed:', err));
+  });
+}
 </script>
 </body>
 </html>
