@@ -1,5 +1,5 @@
-const CACHE_NAME = 'atlas-site-v2';
-const CORE_ASSETS = ['./', './index.html', './manifest.json', './icon.svg'];
+const CACHE_NAME = 'atlas-site-final-v1';
+const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -17,6 +17,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// هذا الجزء ضروري لكي يسمح كروم بتثبيت التطبيق
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
