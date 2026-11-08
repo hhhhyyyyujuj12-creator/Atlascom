@@ -428,7 +428,6 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
     <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
     <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
     <a onclick="openNotifications()"><i class="fa-solid fa-bell"></i> الإشعارات <span class="notif-badge hidden" id="sidebarNotifCount">0</span></a>
-    <a id="installAppBtn" onclick="installPWA()" style="border:1px solid var(--orange);color:var(--orange);"><i class="fa-solid fa-download"></i> تنزيل كتطبيق</a>
     <div id="authNav"></div>
   </nav>
   <div class="sidebar-footer">
@@ -1288,15 +1287,6 @@ window.addEventListener('focus', async () => { if (currentUser) { try { const { 
 window.addEventListener('popstate', () => { if ($('chatView') && $('chatView').classList.contains('active')) { closeChatView(); history.pushState(null, '', location.href); } });
 history.pushState(null, '', location.href);
 window.addEventListener('load', () => { setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500); });
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-async function installPWA() {
-  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) { showToast('✓ التطبيق مثبت بالفعل'); return; }
-  if (deferredPrompt) { try { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') showToast('✓ جاري التثبيت...'); else showToast('تم الإلغاء'); deferredPrompt = null; } catch(e) { showToast('تعذّر التثبيت', true); } return; }
-  const ua = navigator.userAgent; if (/iPhone|iPad|iPod/.test(ua)) showToast('من Safari: زر المشاركة ↥ ← "إضافة إلى الشاشة الرئيسية"'); else if (/Android/.test(ua)) showToast('من قائمة المتصفح ⋮ ← "تثبيت التطبيق"'); else showToast('من أيقونة التثبيت في شريط العنوان، أو قائمة المتصفح');
-}
-window.addEventListener('appinstalled', () => { deferredPrompt = null; showToast('✓ تم التثبيت بنجاح'); });
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./service-worker.js').catch((err) => console.warn('SW registration failed:', err)); }); }
 </script>
 </body>
 </html>
