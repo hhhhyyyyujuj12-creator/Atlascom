@@ -1,7 +1,7 @@
 {
-  "name": "تيم الثار — منصة نشر حر",
+  "name": "تيم الثار",
   "short_name": "تيم الثار",
-  "description": "منصة نشر حر — صور، فيديو، صوتيات، نصوص",
+  "description": "منصة نشر حر",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
