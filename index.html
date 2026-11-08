@@ -16,20 +16,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --bg:#0a0405;
-  --card:#150a0c;
-  --border:#2a1216;
-  --orange:#dc2626;
-  --red-deep:#7f1d1d;
-  --red-mid:#991b1b;
-  --text:#f5e6e8;
-  --muted:#7a6b6e;
-  --danger:#ff3355;
-  --verified:#3b82f6;
-  --admin:#22c55e;
-  --purple:#a855f7;
-}
+:root{--bg:#0a0405;--card:#150a0c;--border:#2a1216;--orange:#dc2626;--red-deep:#7f1d1d;--red-mid:#991b1b;--text:#f5e6e8;--muted:#7a6b6e;--danger:#ff3355;--verified:#3b82f6;--admin:#22c55e;--purple:#a855f7}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
 html,body{color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 html{background:#000}
@@ -38,9 +25,7 @@ body{background:radial-gradient(circle at 20% 0%,rgba(220,38,38,0.08),transparen
 ::-webkit-scrollbar-track{background:#050505}
 ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
 header{display:flex;align-items:center;gap:10px;padding:12px 4%;background:rgba(10,4,5,0.97);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-@supports ((-webkit-backdrop-filter:blur(20px)) or (backdrop-filter:blur(20px))){
-  header{background:rgba(10,4,5,0.82);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%)}
-}
+@supports ((-webkit-backdrop-filter:blur(20px)) or (backdrop-filter:blur(20px))){header{background:rgba(10,4,5,0.82);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%)}}
 .logo{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;font-weight:900;font-size:15px;user-select:none;flex-shrink:0}
 .logo-atlas{background:linear-gradient(135deg,var(--orange),var(--red-deep));color:#fff;padding:7px 10px}
 .logo-site{background:#000;color:#fff;padding:7px 10px;border:1px solid var(--border);border-right:none}
@@ -93,17 +78,7 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .home-tabs{display:flex;gap:10px;padding:0 5% 14px;justify-content:center;flex-wrap:wrap}
 .home-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:22px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s}
 .home-tab.active{background:var(--orange);color:#fff;border-color:var(--orange)}
-.card{
-  background:
-    linear-gradient(var(--card),var(--card)) padding-box,
-    linear-gradient(135deg,rgba(220,38,38,0.4) 0%,rgba(127,29,29,0.15) 50%,rgba(42,18,22,0.4) 100%) border-box;
-  border:1px solid transparent;
-  border-radius:20px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  box-shadow:0 1px 3px rgba(0,0,0,0.4);
-}
+.card{background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,rgba(220,38,38,0.4) 0%,rgba(127,29,29,0.15) 50%,rgba(42,18,22,0.4) 100%) border-box;border:1px solid transparent;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,0.4)}
 .card-media-wrap{position:relative;width:100%;background:#000;overflow:hidden;font-size:0;line-height:0}
 .card-media{width:100%;height:auto;display:block;object-fit:contain;background:#000;cursor:pointer;min-height:180px}
 .card-overlay-author{position:absolute;top:12px;right:12px;left:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:3;pointer-events:none;line-height:1.5}
@@ -197,11 +172,7 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 .modal-box{background:#0e0809;border:1px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:460px;position:relative;margin:auto;max-height:90vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;animation:modalIn 0.42s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes modalIn{from{opacity:0;transform:scale(0.9) translateY(24px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@media (max-width:768px){
-  .modal-overlay{align-items:flex-end;padding:0}
-  .modal-box{max-width:100%;border-radius:24px 24px 0 0;padding:36px 22px calc(24px + env(safe-area-inset-bottom,0px));max-height:92vh;margin:0 auto;animation:sheetUp 0.4s cubic-bezier(0.34,1.56,0.64,1)}
-  .modal-box::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:4px;background:rgba(255,255,255,0.22);border-radius:2px;pointer-events:none}
-}
+@media (max-width:768px){.modal-overlay{align-items:flex-end;padding:0}.modal-box{max-width:100%;border-radius:24px 24px 0 0;padding:36px 22px calc(24px + env(safe-area-inset-bottom,0px));max-height:92vh;margin:0 auto;animation:sheetUp 0.4s cubic-bezier(0.34,1.56,0.64,1)}.modal-box::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:4px;background:rgba(255,255,255,0.22);border-radius:2px;pointer-events:none}}
 .modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--muted);font-size:18px;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:background 0.15s}
 .modal-close:hover{background:rgba(220,38,38,0.1)}
 .modal-box h2{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
@@ -288,9 +259,7 @@ main{padding-bottom:20px;min-height:calc(100vh - 64px)}
 body.modal-open{overflow:hidden!important}
 body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:linear-gradient(to top,#080304 0%,#0f0608 100%);border-top:1px solid rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:space-around;z-index:500}
-@supports ((-webkit-backdrop-filter:blur(20px)) or (backdrop-filter:blur(20px))){
-  .bottom-nav{background:rgba(10,4,5,0.82);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%)}
-}
+@supports ((-webkit-backdrop-filter:blur(20px)) or (backdrop-filter:blur(20px))){.bottom-nav{background:rgba(10,4,5,0.82);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%)}}
 .bottom-nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#777;font-size:10.5px;font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px;flex:1;max-width:80px;transition:color 0.2s,transform 0.15s}
 .bottom-nav-item:active{transform:scale(0.94)}
 .bottom-nav-item i{font-size:21px;line-height:1;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1)}
@@ -405,32 +374,8 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .multi-preview-item img{width:100%;height:100%;object-fit:cover;display:block}
 .multi-preview-item .remove-btn{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.8);color:#fff;border:none;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .multi-preview-item .remove-btn:active{transform:scale(0.9)}
-@media (max-width:600px){
-  header{padding:10px 3%;gap:6px}
-  .logo{font-size:12px}
-  .logo-atlas,.logo-site{padding:5px 7px}
-  .search-wrap input{padding:8px 32px 8px 10px;font-size:12px}
-  .header-icon-btn{width:38px;height:38px}
-  .grid{gap:14px;padding:10px 3% 30px}
-  .grid>.card{max-width:100%}
-  .section-head{padding:16px 4% 8px;font-size:16px}
-  .modal-box{padding:36px 18px calc(24px + env(safe-area-inset-bottom,0px))}
-  .bottom-nav-item span{font-size:10px}
-  .bottom-nav-item i{font-size:19px}
-  .bottom-nav-plus{width:44px;height:30px}
-  .chat-item-avatar{width:46px;height:46px;font-size:18px}
-  .text-post-content{font-size:15px}
-  .text-post-content.short{font-size:17px}
-  .audio-play-btn{width:48px;height:48px;font-size:16px}
-  .comment-item{padding:14px}
-  .comment-item.reply{margin-right:24px}
-  .comment-item.reply::before{right:-14px}
-  .comment-avatar{width:32px;height:32px;font-size:13px}
-  .comment-item-body{font-size:14.5px}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
-}
+@media (max-width:600px){header{padding:10px 3%;gap:6px}.logo{font-size:12px}.logo-atlas,.logo-site{padding:5px 7px}.search-wrap input{padding:8px 32px 8px 10px;font-size:12px}.header-icon-btn{width:38px;height:38px}.grid{gap:14px;padding:10px 3% 30px}.grid>.card{max-width:100%}.section-head{padding:16px 4% 8px;font-size:16px}.modal-box{padding:36px 18px calc(24px + env(safe-area-inset-bottom,0px))}.bottom-nav-item span{font-size:10px}.bottom-nav-item i{font-size:19px}.bottom-nav-plus{width:44px;height:30px}.chat-item-avatar{width:46px;height:46px;font-size:18px}.text-post-content{font-size:15px}.text-post-content.short{font-size:17px}.audio-play-btn{width:48px;height:48px;font-size:16px}.comment-item{padding:14px}.comment-item.reply{margin-right:24px}.comment-item.reply::before{right:-14px}.comment-avatar{width:32px;height:32px;font-size:13px}.comment-item-body{font-size:14.5px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 </style>
 </head>
 <body>
@@ -763,10 +708,7 @@ function saveViewsLocal() { try { localStorage.setItem('atlas_views', JSON.strin
 function esc(s) { return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
 function escAttr(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 let toastTimer;
-function showToast(msg, isError = false) {
-  const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (isError ? ' error' : '');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
-}
+function showToast(msg, isError = false) { const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (isError ? ' error' : ''); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3500); }
 function lockBodyScroll(){document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';document.body.classList.add('modal-open')}
 function unlockBodyScroll(){document.documentElement.style.overflow='';document.body.style.overflow='';document.body.classList.remove('modal-open')}
 function openModal(id) { $(id).classList.add('active'); lockBodyScroll(); }
@@ -786,23 +728,16 @@ function closeModal(id, force = false) {
   setTimeout(() => { if (!document.querySelector('.modal-overlay.active')) unlockBodyScroll(); }, 50);
 }
 document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }));
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','newChatModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); });
-    if ($('chatView').classList.contains('active')) closeChatView();
-  }
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','newChatModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); if ($('chatView').classList.contains('active')) closeChatView(); } });
 function switchAuthModal(id) { ['loginModal','signupModal'].forEach(x => $(x).classList.remove('active')); openModal(id); }
 function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('warningOverlay').classList.add('active'); }
 function acceptWarning() { localStorage.setItem('atlas_warn', '1'); $('warningOverlay').classList.remove('active'); }
 function pauseActiveVideo() { if (activeVideo) { try { activeVideo.pause(); } catch(e) {} activeVideo = null; } if (currentVoiceAudio) { try { currentVoiceAudio.pause(); } catch(e) {} currentVoiceAudio = null; } }
 function switchSection(name, id) {
   if (isSwitching && currentSection === name && !id) return;
-  isSwitching = true; setTimeout(() => { isSwitching = false; }, 350);
-  pauseActiveVideo();
+  isSwitching = true; setTimeout(() => { isSwitching = false; }, 350); pauseActiveVideo();
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  const t = $('section-' + name); if (t) t.classList.add('active');
-  currentSection = name;
+  const t = $('section-' + name); if (t) t.classList.add('active'); currentSection = name;
   document.querySelectorAll('.sidebar-nav a[data-section]').forEach(a => { if (a.dataset.section === name) a.classList.add('active'); else a.classList.remove('active'); });
   document.querySelectorAll('.bottom-nav-item').forEach(b => { if (b.dataset.nav === name) b.classList.add('active'); else b.classList.remove('active'); });
   if (name === 'profile' && id) { viewingProfileId = id; viewProfile(id); }
@@ -812,42 +747,14 @@ function switchSection(name, id) {
   if (name === 'home' && !allRows.length) loadContent();
   if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
   window.scrollTo(0, 0);
-  if (name === 'reels') {
-    setTimeout(() => {
-      const c = $('reelsContainer'); if (!c) return;
-      c.querySelectorAll('.reel-item').forEach(item => {
-        const r = item.getBoundingClientRect();
-        if (r.top >= -50 && r.top < window.innerHeight - 150) {
-          const v = item.querySelector('video'); const b = item.querySelector('.reel-play-big'); const mb = item.querySelector('.reel-mute-btn');
-          if (v && v.paused) {
-            try { v.currentTime = 0; } catch(e) {}
-            v.muted = false;
-            const p = v.play();
-            if (p && p.catch) p.catch(() => { v.muted = true; if (mb) mb.classList.remove('hidden'); v.play().catch(() => {}); });
-            if (b) b.classList.add('hidden'); activeVideo = v;
-          }
-        }
-      });
-    }, 250);
-  }
+  if (name === 'reels') { setTimeout(() => { const c = $('reelsContainer'); if (!c) return; c.querySelectorAll('.reel-item').forEach(item => { const r = item.getBoundingClientRect(); if (r.top >= -50 && r.top < window.innerHeight - 150) { const v = item.querySelector('video'); const b = item.querySelector('.reel-play-big'); const mb = item.querySelector('.reel-mute-btn'); if (v && v.paused) { try { v.currentTime = 0; } catch(e) {} v.muted = false; const p = v.play(); if (p && p.catch) p.catch(() => { v.muted = true; if (mb) mb.classList.remove('hidden'); v.play().catch(() => {}); }); if (b) b.classList.add('hidden'); activeVideo = v; } } }); }, 250); }
 }
 function goToMyProfile() { if (!currentUser) { showToast('سجّل دخول لعرض ملفك', true); openModal('loginModal'); return; } switchSection('profile', currentUser.id); }
 function isAdmin() { if (!currentProfile) return false; return currentProfile.is_admin === true; }
 function saveSession(p) { try { localStorage.setItem('atlas_me', JSON.stringify(p)); } catch(e){} }
 function loadSession() { try { return JSON.parse(localStorage.getItem('atlas_me') || 'null'); } catch(e) { return null; } }
 function clearSession() { try { localStorage.removeItem('atlas_me'); } catch(e){} }
-function timeAgoFrom(dateStr) {
-  if (!dateStr) return '';
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const min = Math.floor(diff / 60000);
-  if (min < 1) return 'الآن';
-  if (min < 60) return `قبل ${min} دقيقة`;
-  const hrs = Math.floor(min / 60);
-  if (hrs < 24) return `قبل ${hrs} ساعة`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `قبل ${days} يوم`;
-  return new Date(dateStr).toLocaleDateString('ar-EG');
-}
+function timeAgoFrom(dateStr) { if (!dateStr) return ''; const diff = Date.now() - new Date(dateStr).getTime(); const min = Math.floor(diff / 60000); if (min < 1) return 'الآن'; if (min < 60) return `قبل ${min} دقيقة`; const hrs = Math.floor(min / 60); if (hrs < 24) return `قبل ${hrs} ساعة`; const days = Math.floor(hrs / 24); if (days < 7) return `قبل ${days} يوم`; return new Date(dateStr).toLocaleDateString('ar-EG'); }
 function getUserById(userId) { return allUsers.find(u => u.id === userId) || null; }
 function isUserVerified(userId) { const u = getUserById(userId); return u && u.is_verified === true; }
 function isUserBanned(userId) { const u = getUserById(userId); return u && u.is_banned === true; }
@@ -866,241 +773,108 @@ async function uploadFileToStorage(file, folder = 'media') {
 function renderSidebar() {
   const nav = $('authNav'), ub = $('sidebarUser'), chip = $('userChip');
   if (currentProfile) {
-    ub.classList.add('active');
-    const initial = (currentProfile.display_name || currentProfile.username || '?').charAt(0).toUpperCase();
+    ub.classList.add('active'); const initial = (currentProfile.display_name || currentProfile.username || '?').charAt(0).toUpperCase();
     const setAvatar = (el) => { if (currentProfile.avatar_url) el.innerHTML = `<img src="${escAttr(currentProfile.avatar_url)}" alt="">`; else el.innerHTML = esc(initial); };
-    setAvatar($('sidebarAvatar'));
-    const verified = currentProfile.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
-    $('sidebarName').innerHTML = esc(currentProfile.display_name || currentProfile.username) + verified;
-    $('sidebarHandle').textContent = '@' + currentProfile.username;
+    setAvatar($('sidebarAvatar')); const verified = currentProfile.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
+    $('sidebarName').innerHTML = esc(currentProfile.display_name || currentProfile.username) + verified; $('sidebarHandle').textContent = '@' + currentProfile.username;
     chip.classList.add('active'); setAvatar($('userChipAvatar'));
     const adminLinks = isAdmin() ? `<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>` : '';
     nav.innerHTML = `${adminLinks}<a data-section="profile" onclick="switchSection('profile','${currentProfile.id}')"><i class="fa-solid fa-user"></i> حسابي</a><a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
-  } else {
-    ub.classList.remove('active'); chip.classList.remove('active');
-    nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`;
-  }
+  } else { ub.classList.remove('active'); chip.classList.remove('active'); nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`; }
 }
-function celebrate() {
-  const box = $('celebration'); if (!box) return;
-  const colors = ['#dc2626', '#991b1b', '#7f1d1d', '#ef4444', '#b91c1c', '#ff3355'];
-  const count = window.innerWidth < 600 ? 10 : 15;
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div'); el.className = 'confetti';
-    el.style.left = Math.random() * 100 + '%';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.animationDelay = (Math.random() * 0.4) + 's';
-    el.style.animationDuration = (1.8 + Math.random() * 1) + 's';
-    if (Math.random() > 0.5) el.style.borderRadius = '50%';
-    box.appendChild(el); setTimeout(() => el.remove(), 3000);
-  }
-}
+function celebrate() { const box = $('celebration'); if (!box) return; const colors = ['#dc2626', '#991b1b', '#7f1d1d', '#ef4444', '#b91c1c', '#ff3355']; const count = window.innerWidth < 600 ? 10 : 15; for (let i = 0; i < count; i++) { const el = document.createElement('div'); el.className = 'confetti'; el.style.left = Math.random() * 100 + '%'; el.style.background = colors[Math.floor(Math.random() * colors.length)]; el.style.animationDelay = (Math.random() * 0.4) + 's'; el.style.animationDuration = (1.8 + Math.random() * 1) + 's'; if (Math.random() > 0.5) el.style.borderRadius = '50%'; box.appendChild(el); setTimeout(() => el.remove(), 3000); } }
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
 function setPostType(type) {
-  currentPostType = type;
-  document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
-  const fd = $('fileDrop'), fi = $('fileInput');
-  const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p');
-  const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
-  currentFiles = []; currentFileType = null;
-  selectedFile.textContent = ''; fileInput.value = '';
-  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
-  if (type === 'text') {
-    fd.style.display = 'none';
-    fi.multiple = false;
-    titleInput.placeholder = 'عنوان (اختياري)';
-    descInput.placeholder = 'اكتب نصك هنا... *';
-    descInput.rows = 5; descInput.maxLength = 3000;
-  } else if (type === 'audio') {
-    fd.style.display = 'block';
-    fi.accept = 'audio/*';
-    fi.multiple = false;
-    fdIcon.className = 'fa-solid fa-microphone';
-    fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار';
-    titleInput.placeholder = 'العنوان *';
-    descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)';
-    descInput.rows = 5; descInput.maxLength = 3000;
-  } else {
-    fd.style.display = 'block';
-    fi.accept = 'video/*,image/*';
-    fi.multiple = true;
-    fdIcon.className = 'fa-solid fa-photo-film';
-    fdText.textContent = 'اسحب صورة أو فيديو أو عدة صور (حتى 10)';
-    titleInput.placeholder = 'العنوان *';
-    descInput.placeholder = 'وصف مختصر (اختياري)';
-    descInput.rows = 2; descInput.maxLength = 300;
-  }
+  currentPostType = type; document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+  const fd = $('fileDrop'), fi = $('fileInput'); const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p'); const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
+  currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  if (type === 'text') { fd.style.display = 'none'; fi.multiple = false; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; }
+  else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fi.multiple = false; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; }
+  else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fi.multiple = true; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اسحب صورة أو فيديو أو عدة صور (حتى 10)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; }
 }
 </script>
 <script>
 async function doSignup() {
-  const username = $('signupUsername').value.trim().toLowerCase();
-  const displayName = $('signupDisplayName').value.trim();
-  const pass = $('signupPassword').value, pass2 = $('signupPassword2').value;
-  if (!username || !pass) return showToast('يرجى إدخال البيانات', true);
-  if (!/^[a-z0-9_]{3,20}$/.test(username)) return showToast('اسم المستخدم: 3-20 حرف إنجليزي/رقم/_', true);
-  if (pass.length < 6) return showToast('كلمة السر 6 أحرف على الأقل', true);
-  if (pass !== pass2) return showToast('كلمتا السر غير متطابقتين', true);
-  const btn = $('signupBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الإنشاء...';
-  const finalName = displayName || username;
+  const username = $('signupUsername').value.trim().toLowerCase(); const displayName = $('signupDisplayName').value.trim(); const pass = $('signupPassword').value, pass2 = $('signupPassword2').value;
+  if (!username || !pass) return showToast('يرجى إدخال البيانات', true); if (!/^[a-z0-9_]{3,20}$/.test(username)) return showToast('اسم المستخدم: 3-20 حرف إنجليزي/رقم/_', true); if (pass.length < 6) return showToast('كلمة السر 6 أحرف على الأقل', true); if (pass !== pass2) return showToast('كلمتا السر غير متطابقتين', true);
+  const btn = $('signupBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الإنشاء...'; const finalName = displayName || username;
   try {
-    const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).maybeSingle();
-    if (existing) throw new Error('اسم المستخدم محجوز');
-    const authEmail = `${username}@atlasapp.io`;
-    const { data: signupData, error: signupErr } = await supabase.auth.signUp({ email: authEmail, password: pass, options: { data: { username, display_name: finalName } } });
-    if (signupErr) throw new Error(signupErr.message);
-    const userId = signupData.user.id;
-    let avatarUrl = '';
-    if (avatarFile) { try { avatarUrl = await uploadFileToStorage(avatarFile, 'avatars'); } catch(e) {} }
+    const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).maybeSingle(); if (existing) throw new Error('اسم المستخدم محجوز');
+    const authEmail = `${username}@atlasapp.io`; const { data: signupData, error: signupErr } = await supabase.auth.signUp({ email: authEmail, password: pass, options: { data: { username, display_name: finalName } } }); if (signupErr) throw new Error(signupErr.message);
+    const userId = signupData.user.id; let avatarUrl = ''; if (avatarFile) { try { avatarUrl = await uploadFileToStorage(avatarFile, 'avatars'); } catch(e) {} }
     await supabase.from('profiles').upsert({ id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false });
-    currentUser = { id: userId, email: authEmail };
-    currentProfile = { id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false, is_admin: false };
-    saveSession(currentProfile);
-    await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments();
-    renderSidebar(); showToast('✓ تم إنشاء الحساب'); resetSignupForm();
-    closeModal('signupModal', true); switchSection('home'); loadContent(); setupRealtime(); startBackgroundPolling();
-  } catch (err) { showToast(err.message || 'حدث خطأ', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> إنشاء الحساب'; }
+    currentUser = { id: userId, email: authEmail }; currentProfile = { id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false, is_admin: false };
+    saveSession(currentProfile); await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments(); renderSidebar(); showToast('✓ تم إنشاء الحساب'); resetSignupForm(); closeModal('signupModal', true); switchSection('home'); loadContent(); setupRealtime(); startBackgroundPolling();
+  } catch (err) { showToast(err.message || 'حدث خطأ', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> إنشاء الحساب'; }
 }
 async function doLogin() {
-  const username = $('loginUsername').value.trim().toLowerCase();
-  const pass = $('loginPassword').value;
-  if (!username || !pass) return showToast('يرجى إدخال البيانات', true);
+  const username = $('loginUsername').value.trim().toLowerCase(); const pass = $('loginPassword').value; if (!username || !pass) return showToast('يرجى إدخال البيانات', true);
   const btn = $('loginBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الدخول...';
   try {
-    const { data: prof, error: profErr } = await supabase.from('profiles').select('*').eq('username', username).maybeSingle();
-    if (profErr || !prof) throw new Error('اسم المستخدم غير موجود');
-    if (prof.is_banned === true) throw new Error('حسابك محظور من الموقع');
-    const authEmail = `${username}@atlasapp.io`;
-    const { data: loginData, error: loginErr } = await supabase.auth.signInWithPassword({ email: authEmail, password: pass });
-    if (loginErr) throw new Error('كلمة السر غير صحيحة');
-    currentUser = { id: loginData.user.id, email: authEmail };
-    currentProfile = { id: prof.id, username: prof.username, display_name: prof.display_name || prof.username, avatar_url: prof.avatar_url || '', is_verified: prof.is_verified === true, is_banned: prof.is_banned === true, is_admin: prof.is_admin === true };
-    saveSession(currentProfile);
-    await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments();
-    renderSidebar(); showToast('✓ تم تسجيل الدخول');
-    $('loginUsername').value = ''; $('loginPassword').value = '';
-    closeModal('loginModal', true); switchSection('home'); loadContent(); loadNotifications(); setupRealtime(); startBackgroundPolling();
-  } catch (err) { showToast(err.message || 'فشل الدخول', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> دخول'; }
+    const { data: prof, error: profErr } = await supabase.from('profiles').select('*').eq('username', username).maybeSingle(); if (profErr || !prof) throw new Error('اسم المستخدم غير موجود'); if (prof.is_banned === true) throw new Error('حسابك محظور من الموقع');
+    const authEmail = `${username}@atlasapp.io`; const { data: loginData, error: loginErr } = await supabase.auth.signInWithPassword({ email: authEmail, password: pass }); if (loginErr) throw new Error('كلمة السر غير صحيحة');
+    currentUser = { id: loginData.user.id, email: authEmail }; currentProfile = { id: prof.id, username: prof.username, display_name: prof.display_name || prof.username, avatar_url: prof.avatar_url || '', is_verified: prof.is_verified === true, is_banned: prof.is_banned === true, is_admin: prof.is_admin === true };
+    saveSession(currentProfile); await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments(); renderSidebar(); showToast('✓ تم تسجيل الدخول');
+    $('loginUsername').value = ''; $('loginPassword').value = ''; closeModal('loginModal', true); switchSection('home'); loadContent(); loadNotifications(); setupRealtime(); startBackgroundPolling();
+  } catch (err) { showToast(err.message || 'فشل الدخول', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> دخول'; }
 }
 async function doLogout() {
-  if (!confirm('هل تريد تسجيل الخروج؟')) return;
-  pauseActiveVideo();
+  if (!confirm('هل تريد تسجيل الخروج؟')) return; pauseActiveVideo();
   if (realtimeChannel) { try { supabase.removeChannel(realtimeChannel); } catch(e){} realtimeChannel = null; }
-  if (chatPollFallback) { clearInterval(chatPollFallback); chatPollFallback = null; }
-  if (notifPoller) { clearInterval(notifPoller); notifPoller = null; }
-  try { await supabase.auth.signOut(); } catch(e){}
-  currentUser = null; currentProfile = null;
-  followingIds = new Set(); savedPostIds = new Set(); likedComments = new Set();
-  allNotifs = []; allMessages = []; clearSession();
-  updateNotifBadge(); updateMsgBadge(); renderSidebar();
-  showToast('✓ تم الخروج'); switchSection('home');
+  if (chatPollFallback) { clearInterval(chatPollFallback); chatPollFallback = null; } if (notifPoller) { clearInterval(notifPoller); notifPoller = null; }
+  try { await supabase.auth.signOut(); } catch(e){} currentUser = null; currentProfile = null; followingIds = new Set(); savedPostIds = new Set(); likedComments = new Set(); allNotifs = []; allMessages = []; clearSession(); updateNotifBadge(); updateMsgBadge(); renderSidebar(); showToast('✓ تم الخروج'); switchSection('home');
 }
 async function loadAllUsers() { try { const { data, error } = await supabase.from('profiles').select('*'); if (error) { allUsers = []; return; } allUsers = data || []; } catch(e) { allUsers = []; } }
 async function loadFollowing() { if (!currentUser) { followingIds = new Set(); return; } try { const { data } = await supabase.from('follows').select('following_id').eq('follower_id', currentUser.id); followingIds = new Set((data || []).map(r => r.following_id)); } catch(e) {} }
-async function fetchFollowCounts(userId) {
-  try { const [fRes, gRes] = await Promise.all([supabase.from('follows').select('id', { count: 'exact', head: true }).eq('following_id', userId), supabase.from('follows').select('id', { count: 'exact', head: true }).eq('follower_id', userId)]); return { followers: fRes.count || 0, following: gRes.count || 0 }; } catch(e) { return { followers: 0, following: 0 }; }
-}
+async function fetchFollowCounts(userId) { try { const [fRes, gRes] = await Promise.all([supabase.from('follows').select('id', { count: 'exact', head: true }).eq('following_id', userId), supabase.from('follows').select('id', { count: 'exact', head: true }).eq('follower_id', userId)]); return { followers: fRes.count || 0, following: gRes.count || 0 }; } catch(e) { return { followers: 0, following: 0 }; } }
 async function fetchFollowersList(userId) { const { data } = await supabase.from('follows').select('follower_id').eq('following_id', userId); return (data || []).map(r => r.follower_id); }
 async function fetchFollowingList(userId) { const { data } = await supabase.from('follows').select('following_id').eq('follower_id', userId); return (data || []).map(r => r.following_id); }
 async function toggleFollow(userId, btn) {
-  if (!currentUser) { showToast('سجّل دخول للمتابعة', true); openModal('loginModal'); return; }
-  if (userId === currentUser.id) return;
-  const isFollowing = followingIds.has(userId);
-  btn.disabled = true;
+  if (!currentUser) { showToast('سجّل دخول للمتابعة', true); openModal('loginModal'); return; } if (userId === currentUser.id) return;
+  const isFollowing = followingIds.has(userId); btn.disabled = true;
   try {
     if (isFollowing) { await supabase.from('follows').delete().eq('follower_id', currentUser.id).eq('following_id', userId); followingIds.delete(userId); showToast('✓ تم إلغاء المتابعة'); }
     else { await supabase.from('follows').insert({ follower_id: currentUser.id, following_id: userId }); followingIds.add(userId); showToast('✓ تمت المتابعة'); await createNotification(userId, 'follow', 'بدأ بمتابعتك', ''); }
-    if (currentSection === 'profile' && viewingProfileId === userId) viewProfile(userId);
-    if (currentSection === 'home' && homeFilter === 'following') renderAll();
-  } catch(e) { showToast('فشل العملية', true); }
-  finally { btn.disabled = false; }
+    if (currentSection === 'profile' && viewingProfileId === userId) viewProfile(userId); if (currentSection === 'home' && homeFilter === 'following') renderAll();
+  } catch(e) { showToast('فشل العملية', true); } finally { btn.disabled = false; }
 }
 async function createNotification(recipientId, type, content, targetId = '') {
-  if (!recipientId || !currentUser) return;
-  if (recipientId === currentUser.id) return;
+  if (!recipientId || !currentUser) return; if (recipientId === currentUser.id) return;
   try { await supabase.from('notifications').insert({ recipient_id: recipientId, sender_id: currentUser.id, sender_name: currentProfile ? (currentProfile.display_name || currentProfile.username) : '', sender_avatar: currentProfile ? (currentProfile.avatar_url || '') : '', sender_verified: currentProfile ? (currentProfile.is_verified === true) : false, type, content, target_id: targetId || '', is_read: false }); } catch(e) {}
 }
 async function loadNotifications() { if (!currentUser) return; try { const { data } = await supabase.from('notifications').select('*').eq('recipient_id', currentUser.id).order('created_at', { ascending: false }).limit(100); allNotifs = data || []; updateNotifBadge(); } catch(e) {} }
-function updateNotifBadge() {
-  const badge = $('notifCount'), sidebarBadge = $('sidebarNotifCount');
-  const unread = currentUser ? allNotifs.filter(n => !n.is_read).length : 0;
-  [badge, sidebarBadge].forEach(b => { if (!b) return; if (unread > 0) { b.textContent = unread > 99 ? '99+' : unread; b.classList.remove('hidden'); } else b.classList.add('hidden'); });
-}
-function openNotifications() {
-  if (!currentUser) { showToast('سجّل دخول لعرض الإشعارات', true); openModal('loginModal'); return; }
-  openModal('notificationsModal'); loadNotifications().then(renderNotifications);
-  const admin = isAdmin();
-  const bBtn = $('broadcastBtn'), pBtn = $('personalMsgBtn');
-  if (bBtn) bBtn.style.display = admin ? 'flex' : 'none';
-  if (pBtn) pBtn.style.display = admin ? 'flex' : 'none';
-  if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
-}
+function updateNotifBadge() { const badge = $('notifCount'), sidebarBadge = $('sidebarNotifCount'); const unread = currentUser ? allNotifs.filter(n => !n.is_read).length : 0; [badge, sidebarBadge].forEach(b => { if (!b) return; if (unread > 0) { b.textContent = unread > 99 ? '99+' : unread; b.classList.remove('hidden'); } else b.classList.add('hidden'); }); }
+function openNotifications() { if (!currentUser) { showToast('سجّل دخول لعرض الإشعارات', true); openModal('loginModal'); return; } openModal('notificationsModal'); loadNotifications().then(renderNotifications); const admin = isAdmin(); const bBtn = $('broadcastBtn'), pBtn = $('personalMsgBtn'); if (bBtn) bBtn.style.display = admin ? 'flex' : 'none'; if (pBtn) pBtn.style.display = admin ? 'flex' : 'none'; if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar(); }
 function renderNotifications() {
-  const list = $('notifList');
-  $('notifSubtitle').textContent = `${allNotifs.length} إشعار · ${allNotifs.filter(n => !n.is_read).length} غير مقروء`;
+  const list = $('notifList'); $('notifSubtitle').textContent = `${allNotifs.length} إشعار · ${allNotifs.filter(n => !n.is_read).length} غير مقروء`;
   if (!allNotifs.length) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-bell-slash"></i><p>لا إشعارات بعد</p></div>`; return; }
   list.innerHTML = allNotifs.map(n => {
-    const sender = getUserById(n.sender_id);
-    const senderName = n.sender_name || (sender ? (sender.display_name || sender.username) : 'النظام');
-    const senderAvatar = n.sender_avatar || (sender && sender.avatar_url) || '';
-    const senderVerified = n.sender_verified || (sender && sender.is_verified === true);
+    const sender = getUserById(n.sender_id); const senderName = n.sender_name || (sender ? (sender.display_name || sender.username) : 'النظام'); const senderAvatar = n.sender_avatar || (sender && sender.avatar_url) || ''; const senderVerified = n.sender_verified || (sender && sender.is_verified === true);
     const avatarHTML = senderAvatar ? `<img src="${escAttr(senderAvatar)}" alt="">` : senderName.charAt(0).toUpperCase();
-    let icon = 'fa-bell';
-    if (n.type === 'like') icon = 'fa-heart'; else if (n.type === 'comment') icon = 'fa-comment'; else if (n.type === 'reply') icon = 'fa-reply'; else if (n.type === 'comment_like') icon = 'fa-heart'; else if (n.type === 'creator_like') icon = 'fa-star'; else if (n.type === 'follow') icon = 'fa-user-plus'; else if (n.type === 'verify') icon = 'fa-circle-check'; else if (n.type === 'broadcast') icon = 'fa-tower-broadcast'; else if (n.type === 'personal') icon = 'fa-paper-plane';
-    const verifiedHTML = senderVerified ? '<i class="fa-solid fa-circle-check verified-badge" style="font-size:0.85em;"></i>' : '';
-    let extraClass = ''; if (n.type === 'broadcast') extraClass = 'broadcast'; if (n.type === 'personal') extraClass = 'personal';
+    let icon = 'fa-bell'; if (n.type === 'like') icon = 'fa-heart'; else if (n.type === 'comment') icon = 'fa-comment'; else if (n.type === 'reply') icon = 'fa-reply'; else if (n.type === 'comment_like') icon = 'fa-heart'; else if (n.type === 'creator_like') icon = 'fa-star'; else if (n.type === 'follow') icon = 'fa-user-plus'; else if (n.type === 'verify') icon = 'fa-circle-check'; else if (n.type === 'broadcast') icon = 'fa-tower-broadcast'; else if (n.type === 'personal') icon = 'fa-paper-plane';
+    const verifiedHTML = senderVerified ? '<i class="fa-solid fa-circle-check verified-badge" style="font-size:0.85em;"></i>' : ''; let extraClass = ''; if (n.type === 'broadcast') extraClass = 'broadcast'; if (n.type === 'personal') extraClass = 'personal';
     return `<div class="notif-item ${n.is_read ? '' : 'unread'} ${extraClass}" onclick="markNotifRead('${n.id}')"><div class="notif-avatar">${n.type === 'broadcast' ? '<i class="fa-solid fa-tower-broadcast" style="font-size:16px;color:#3b82f6;"></i>' : (n.type === 'personal' ? '<i class="fa-solid fa-paper-plane" style="font-size:16px;color:#22c55e;"></i>' : avatarHTML)}</div><div class="notif-body"><div class="notif-text"><b>${esc(senderName)}${verifiedHTML}</b> <i class="fa-solid ${icon}" style="color:var(--orange);margin-right:4px;"></i> ${esc(n.content || '')}</div><div class="notif-time">${timeAgoFrom(n.created_at)}</div></div></div>`;
   }).join('');
 }
 async function markNotifRead(notifId) { const n = allNotifs.find(x => x.id === notifId); if (!n || n.is_read) return; try { await supabase.from('notifications').update({ is_read: true }).eq('id', notifId); n.is_read = true; updateNotifBadge(); renderNotifications(); } catch(e) {} }
-async function markAllNotifsRead() {
-  if (!currentUser) return;
-  if (!allNotifs.filter(n => !n.is_read).length) return showToast('لا يوجد جديد');
-  try { await supabase.from('notifications').update({ is_read: true }).eq('recipient_id', currentUser.id).eq('is_read', false); allNotifs.forEach(n => n.is_read = true); updateNotifBadge(); renderNotifications(); showToast('✓ تم تحديد الكل كمقروء'); } catch(e) { showToast('فشل', true); }
-}
+async function markAllNotifsRead() { if (!currentUser) return; if (!allNotifs.filter(n => !n.is_read).length) return showToast('لا يوجد جديد'); try { await supabase.from('notifications').update({ is_read: true }).eq('recipient_id', currentUser.id).eq('is_read', false); allNotifs.forEach(n => n.is_read = true); updateNotifBadge(); renderNotifications(); showToast('✓ تم تحديد الكل كمقروء'); } catch(e) { showToast('فشل', true); } }
 function openBroadcast() { if (!isAdmin()) return showToast('غير مصرح', true); closeModal('notificationsModal'); openModal('broadcastModal'); }
 async function sendBroadcast() {
-  if (!isAdmin()) return;
-  const text = $('broadcastText').value.trim();
-  if (!text) return showToast('اكتب رسالة', true);
+  if (!isAdmin()) return; const text = $('broadcastText').value.trim(); if (!text) return showToast('اكتب رسالة', true);
   const btn = $('broadcastSendBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الإرسال...';
-  try {
-    const rows = allUsers.map(u => ({ recipient_id: u.id, sender_id: currentUser.id, sender_name: currentProfile.display_name || currentProfile.username, sender_avatar: currentProfile.avatar_url || '', sender_verified: currentProfile.is_verified === true, type: 'broadcast', content: text, target_id: '', is_read: false }));
-    if (rows.length) await supabase.from('notifications').insert(rows);
-    showToast(`✓ تم الإرسال لـ ${rows.length} مستخدم`);
-    $('broadcastText').value = ''; closeModal('broadcastModal', true); loadNotifications();
-  } catch(e) { showToast('فشل الإرسال', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع'; }
+  try { const rows = allUsers.map(u => ({ recipient_id: u.id, sender_id: currentUser.id, sender_name: currentProfile.display_name || currentProfile.username, sender_avatar: currentProfile.avatar_url || '', sender_verified: currentProfile.is_verified === true, type: 'broadcast', content: text, target_id: '', is_read: false })); if (rows.length) await supabase.from('notifications').insert(rows); showToast(`✓ تم الإرسال لـ ${rows.length} مستخدم`); $('broadcastText').value = ''; closeModal('broadcastModal', true); loadNotifications(); } catch(e) { showToast('فشل الإرسال', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع'; }
 }
 function openPersonalMsgPicker() { if (!isAdmin()) return; closeModal('notificationsModal'); $('personalPickerSearch').value = ''; renderPersonalPicker(); openModal('personalPickerModal'); }
 function renderPersonalPicker() {
-  const list = $('personalPickerList');
-  const search = $('personalPickerSearch').value.trim().toLowerCase();
-  let users = allUsers;
-  if (search) users = users.filter(u => (u.username || '').toLowerCase().includes(search) || (u.display_name || '').toLowerCase().includes(search));
+  const list = $('personalPickerList'); const search = $('personalPickerSearch').value.trim().toLowerCase(); let users = allUsers; if (search) users = users.filter(u => (u.username || '').toLowerCase().includes(search) || (u.display_name || '').toLowerCase().includes(search));
   if (!users.length) { list.innerHTML = `<div class="empty" style="padding:20px;"><i class="fa-solid fa-users"></i><p>لا يوجد</p></div>`; return; }
-  list.innerHTML = users.map(u => {
-    const name = esc(u.display_name || u.username);
-    const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-    const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
-    return `<div class="chat-item" onclick="selectPersonalTarget('${u.id}')"><div class="chat-item-avatar">${avatar}</div><div class="chat-item-info"><div class="chat-item-name">${name}${verified}</div><div class="chat-item-last">@${esc(u.username)}</div></div></div>`;
-  }).join('');
+  list.innerHTML = users.map(u => { const name = esc(u.display_name || u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase(); const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''; return `<div class="chat-item" onclick="selectPersonalTarget('${u.id}')"><div class="chat-item-avatar">${avatar}</div><div class="chat-item-info"><div class="chat-item-name">${name}${verified}</div><div class="chat-item-last">@${esc(u.username)}</div></div></div>`; }).join('');
 }
-function selectPersonalTarget(userId) {
-  const u = getUserById(userId); if (!u) return;
-  personalMsgTargetUser = u; closeModal('personalPickerModal', true);
-  $('personalMsgSub').textContent = `إلى: ${u.display_name || u.username} (@${u.username})`;
-  $('personalMsgText').value = ''; openModal('personalMsgModal');
-}
+function selectPersonalTarget(userId) { const u = getUserById(userId); if (!u) return; personalMsgTargetUser = u; closeModal('personalPickerModal', true); $('personalMsgSub').textContent = `إلى: ${u.display_name || u.username} (@${u.username})`; $('personalMsgText').value = ''; openModal('personalMsgModal'); }
 async function sendPersonalMsg() {
-  if (!isAdmin()) return;
-  if (!personalMsgTargetUser) return showToast('لم يتم تحديد المستخدم', true);
-  const text = $('personalMsgText').value.trim(); if (!text) return showToast('اكتب رسالة', true);
+  if (!isAdmin()) return; if (!personalMsgTargetUser) return showToast('لم يتم تحديد المستخدم', true); const text = $('personalMsgText').value.trim(); if (!text) return showToast('اكتب رسالة', true);
   const btn = $('personalMsgSendBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الإرسال...';
-  try { await supabase.from('notifications').insert({ recipient_id: personalMsgTargetUser.id, sender_id: currentUser.id, sender_name: currentProfile.display_name || currentProfile.username, sender_avatar: currentProfile.avatar_url || '', sender_verified: currentProfile.is_verified === true, type: 'personal', content: text, target_id: '', is_read: false }); showToast(`✓ تم الإرسال`); $('personalMsgText').value = ''; personalMsgTargetUser = null; closeModal('personalMsgModal', true); } catch(e) { showToast('فشل الإرسال', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال'; }
+  try { await supabase.from('notifications').insert({ recipient_id: personalMsgTargetUser.id, sender_id: currentUser.id, sender_name: currentProfile.display_name || currentProfile.username, sender_avatar: currentProfile.avatar_url || '', sender_verified: currentProfile.is_verified === true, type: 'personal', content: text, target_id: '', is_read: false }); showToast(`✓ تم الإرسال`); $('personalMsgText').value = ''; personalMsgTargetUser = null; closeModal('personalMsgModal', true); } catch(e) { showToast('فشل الإرسال', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال'; }
 }
 </script>
 <script>
@@ -1109,79 +883,50 @@ async function loadConversations() {
   const list = $('chatList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
     const { data } = await supabase.from('messages').select('*').or(`sender_id.eq.${currentUser.id},recipient_id.eq.${currentUser.id}`).order('created_at', { ascending: false }).limit(200);
-    const all = data || [];
-    const convMap = {};
+    const all = data || []; const convMap = {};
     all.forEach(m => { const otherId = m.sender_id === currentUser.id ? m.recipient_id : m.sender_id; if (!otherId) return; if (!convMap[otherId] || new Date(m.created_at) > new Date(convMap[otherId].created_at)) convMap[otherId] = m; });
     const otherIds = Object.keys(convMap);
     if (!otherIds.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-comments"></i><p>لا محادثات بعد</p><span>اضغط + لبدء محادثة جديدة</span></div>`; return; }
     const unreadCounts = {}; all.forEach(m => { if (m.recipient_id === currentUser.id && !m.is_read) unreadCounts[m.sender_id] = (unreadCounts[m.sender_id] || 0) + 1; });
     list.innerHTML = otherIds.map(uid => {
-      const u = getUserById(uid); if (!u) return '';
-      const lastMsg = convMap[uid]; const name = esc(u.display_name || u.username);
-      const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
+      const u = getUserById(uid); if (!u) return ''; const lastMsg = convMap[uid]; const name = esc(u.display_name || u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
       let preview; if (lastMsg.message_type === 'image') preview = '📷 صورة'; else if (lastMsg.message_type === 'voice') preview = '🎤 رسالة صوتية'; else preview = esc((lastMsg.content || '').slice(0, 40));
       const unread = unreadCounts[uid] || 0; const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
       return `<div class="chat-item" onclick="openChat('${uid}')"><div class="chat-item-avatar">${avatar}</div><div class="chat-item-info"><div class="chat-item-name">${name}${verified}</div><div class="chat-item-last">${preview}</div></div>${unread > 0 ? `<span class="chat-unread">${unread}</span>` : ''}<span class="chat-item-time">${timeAgoFrom(lastMsg.created_at)}</span></div>`;
-    }).join('');
-    updateMsgBadge();
+    }).join(''); updateMsgBadge();
   } catch(e) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><p>فشل التحميل</p></div>`; }
 }
-function updateMsgBadge() {
-  const badge = $('msgCount'); if (!badge) return;
-  if (!currentUser) { badge.classList.add('hidden'); return; }
-  const unread = allMessages.filter(m => m.recipient_id === currentUser.id && !m.is_read).length;
-  if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.classList.remove('hidden'); } else badge.classList.add('hidden');
-}
+function updateMsgBadge() { const badge = $('msgCount'); if (!badge) return; if (!currentUser) { badge.classList.add('hidden'); return; } const unread = allMessages.filter(m => m.recipient_id === currentUser.id && !m.is_read).length; if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.classList.remove('hidden'); } else badge.classList.add('hidden'); }
 function openNewChatModal() { if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } $('newChatSearch').value = ''; renderNewChatList(); openModal('newChatModal'); }
 function renderNewChatList() {
-  const search = $('newChatSearch').value.trim().toLowerCase();
-  const list = $('newChatList');
-  let users = allUsers.filter(u => u.id !== currentUser.id);
+  const search = $('newChatSearch').value.trim().toLowerCase(); const list = $('newChatList'); let users = allUsers.filter(u => u.id !== currentUser.id);
   if (search) users = users.filter(u => (u.username || '').toLowerCase().includes(search) || (u.display_name || '').toLowerCase().includes(search));
   if (!users.length) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون</p></div>`; return; }
-  list.innerHTML = users.map(u => {
-    const name = esc(u.display_name || u.username);
-    const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-    const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : '';
-    return `<div class="chat-item" onclick="startChat('${u.id}')"><div class="chat-item-avatar">${avatar}</div><div class="chat-item-info"><div class="chat-item-name">${name}${verified}</div><div class="chat-item-last">@${esc(u.username)}</div></div></div>`;
-  }).join('');
+  list.innerHTML = users.map(u => { const name = esc(u.display_name || u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase(); const verified = u.is_verified === true ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''; return `<div class="chat-item" onclick="startChat('${u.id}')"><div class="chat-item-avatar">${avatar}</div><div class="chat-item-info"><div class="chat-item-name">${name}${verified}</div><div class="chat-item-last">@${esc(u.username)}</div></div></div>`; }).join('');
 }
 function startChat(userId) { closeModal('newChatModal', true); openChat(userId); }
 async function openChat(userId) {
   const u = getUserById(userId); if (!u) return showToast('المستخدم غير موجود', true);
-  currentChatUser = u; const name = esc(u.display_name || u.username);
-  const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-  $('chatHeaderAvatar').innerHTML = avatar;
-  $('chatHeaderName').innerHTML = name + (u.is_verified === true ? ' <i class="fa-solid fa-circle-check verified-badge"></i>' : '');
-  $('chatHeaderStatus').textContent = '@' + u.username;
-  $('chatView').classList.add('active');
-  await loadChatMessages();
-  try { $('chatInput').focus(); } catch(e) {}
+  currentChatUser = u; const name = esc(u.display_name || u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
+  $('chatHeaderAvatar').innerHTML = avatar; $('chatHeaderName').innerHTML = name + (u.is_verified === true ? ' <i class="fa-solid fa-circle-check verified-badge"></i>' : ''); $('chatHeaderStatus').textContent = '@' + u.username;
+  $('chatView').classList.add('active'); await loadChatMessages(); try { $('chatInput').focus(); } catch(e) {}
 }
 function closeChatView() { $('chatView').classList.remove('active'); currentChatUser = null; if (currentSection === 'messages') loadConversations(); }
 function viewChatUserProfile() { if (!currentChatUser) return; const uid = currentChatUser.id; closeChatView(); switchSection('profile', uid); }
 async function loadChatMessages() {
-  if (!currentUser || !currentChatUser) return;
-  const body = $('chatBody'); body.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
+  if (!currentUser || !currentChatUser) return; const body = $('chatBody'); body.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
     const { data } = await supabase.from('messages').select('*').or(`and(sender_id.eq.${currentUser.id},recipient_id.eq.${currentChatUser.id}),and(sender_id.eq.${currentChatUser.id},recipient_id.eq.${currentUser.id})`).order('created_at', { ascending: true }).limit(500);
     const msgs = data || []; allMessages = msgs;
-    if (!msgs.length) { body.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا رسائل بعد</p><span>ابدأ المحادثة الآن</span></div>`; }
-    else { body.innerHTML = msgs.map(m => renderMessage(m)).join(''); setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50); }
-    const unread = msgs.filter(m => m.recipient_id === currentUser.id && !m.is_read);
-    if (unread.length) await supabase.from('messages').update({ is_read: true }).in('id', unread.map(m => m.id));
-    updateMsgBadge();
+    if (!msgs.length) { body.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا رسائل بعد</p><span>ابدأ المحادثة الآن</span></div>`; } else { body.innerHTML = msgs.map(m => renderMessage(m)).join(''); setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50); }
+    const unread = msgs.filter(m => m.recipient_id === currentUser.id && !m.is_read); if (unread.length) await supabase.from('messages').update({ is_read: true }).in('id', unread.map(m => m.id)); updateMsgBadge();
   } catch(e) { body.innerHTML = `<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><p>فشل التحميل</p></div>`; }
 }
 function renderMessage(m) {
-  const isOut = m.sender_id === currentUser.id; const cls = isOut ? 'out' : 'in';
-  const time = new Date(m.created_at).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-  let contentHTML = '';
+  const isOut = m.sender_id === currentUser.id; const cls = isOut ? 'out' : 'in'; const time = new Date(m.created_at).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }); let contentHTML = '';
   if (m.message_type === 'image' && m.media_url) { contentHTML = `<img src="${escAttr(m.media_url)}" alt="" onclick="window.open('${escAttr(m.media_url)}','_blank')">`; if (m.content) contentHTML += `<div style="margin-top:6px;">${esc(m.content)}</div>`; }
-  else if (m.message_type === 'voice' && m.media_url) {
-    const dur = m.content || '0:00';
-    contentHTML = `<div class="voice-msg" data-voice-id="${m.id}"><button class="voice-play" onclick="playVoiceMessage('${m.id}', this)"><i class="fa-solid fa-play"></i></button><div class="voice-track" onclick="seekVoiceMessage(event, '${m.id}')"><div class="voice-fill" id="vf-${m.id}"></div></div><span class="voice-dur" id="vd-${m.id}">${esc(dur)}</span><audio id="va-${m.id}" src="${escAttr(m.media_url)}" preload="metadata"></audio></div>`;
-  } else { contentHTML = esc(m.content || ''); }
+  else if (m.message_type === 'voice' && m.media_url) { const dur = m.content || '0:00'; contentHTML = `<div class="voice-msg" data-voice-id="${m.id}"><button class="voice-play" onclick="playVoiceMessage('${m.id}', this)"><i class="fa-solid fa-play"></i></button><div class="voice-track" onclick="seekVoiceMessage(event, '${m.id}')"><div class="voice-fill" id="vf-${m.id}"></div></div><span class="voice-dur" id="vd-${m.id}">${esc(dur)}</span><audio id="va-${m.id}" src="${escAttr(m.media_url)}" preload="metadata"></audio></div>`; }
+  else { contentHTML = esc(m.content || ''); }
   return `<div class="msg-row ${cls}" data-msg-id="${m.id}"><div class="msg-bubble">${contentHTML}<span class="msg-time">${time}</span></div></div>`;
 }
 function playVoiceMessage(msgId, btn) {
@@ -1191,539 +936,187 @@ function playVoiceMessage(msgId, btn) {
   else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; currentVoiceAudio = null; }
 }
 function seekVoiceMessage(e, msgId) { const audio = document.getElementById('va-' + msgId); if (!audio || !audio.duration) return; const rect = e.currentTarget.getBoundingClientRect(); const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); audio.currentTime = pct * audio.duration; }
-document.addEventListener('timeupdate', e => {
-  if (e.target.tagName === 'AUDIO' && e.target.id.startsWith('va-')) { const id = e.target.id.slice(3); const fill = document.getElementById('vf-' + id); const dur = document.getElementById('vd-' + id); if (fill && e.target.duration) fill.style.width = ((e.target.currentTime / e.target.duration) * 100) + '%'; if (dur) dur.textContent = formatDur(e.target.currentTime); }
-}, true);
-document.addEventListener('ended', e => {
-  if (e.target.tagName === 'AUDIO' && e.target.id.startsWith('va-')) { const id = e.target.id.slice(3); const fill = document.getElementById('vf-' + id); const row = document.querySelector(`[data-voice-id="${id}"]`); if (row) { const b = row.querySelector('.voice-play'); if (b) b.innerHTML = '<i class="fa-solid fa-play"></i>'; } if (fill) fill.style.width = '0%'; if (currentVoiceAudio === e.target) currentVoiceAudio = null; }
-}, true);
+document.addEventListener('timeupdate', e => { if (e.target.tagName === 'AUDIO' && e.target.id.startsWith('va-')) { const id = e.target.id.slice(3); const fill = document.getElementById('vf-' + id); const dur = document.getElementById('vd-' + id); if (fill && e.target.duration) fill.style.width = ((e.target.currentTime / e.target.duration) * 100) + '%'; if (dur) dur.textContent = formatDur(e.target.currentTime); } }, true);
+document.addEventListener('ended', e => { if (e.target.tagName === 'AUDIO' && e.target.id.startsWith('va-')) { const id = e.target.id.slice(3); const fill = document.getElementById('vf-' + id); const row = document.querySelector(`[data-voice-id="${id}"]`); if (row) { const b = row.querySelector('.voice-play'); if (b) b.innerHTML = '<i class="fa-solid fa-play"></i>'; } if (fill) fill.style.width = '0%'; if (currentVoiceAudio === e.target) currentVoiceAudio = null; } }, true);
 document.addEventListener('loadedmetadata', e => { if (e.target.tagName === 'AUDIO' && e.target.id.startsWith('va-')) { const id = e.target.id.slice(3); const dur = document.getElementById('vd-' + id); if (dur && e.target.duration) dur.textContent = formatDur(e.target.duration); } }, true);
 function formatDur(s) { if (!s || isNaN(s)) return '0:00'; const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' + sec : sec); }
 function autoResizeTextarea(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 100) + 'px'; }
 async function sendChatMessage() {
-  if (!currentUser) return showToast('سجّل دخول', true);
-  if (!currentChatUser) return;
-  const input = $('chatInput'); const text = input.value.trim(); if (!text) return;
-  input.value = ''; input.style.height = 'auto';
-  const tempId = 'tmp-' + Date.now();
-  appendMsgToBody({ id: tempId, sender_id: currentUser.id, recipient_id: currentChatUser.id, content: text, message_type: 'text', is_read: false, created_at: new Date().toISOString() });
-  try { const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: text, message_type: 'text', is_read: false }).select().single(); if (error) throw error; if (data) { const tmp = document.querySelector(`[data-msg-id="${tempId}"]`); if (tmp) tmp.dataset.msgId = data.id; allMessages.push(data); } }
-  catch(e) { showToast('فشل الإرسال', true); const tmp = document.querySelector(`[data-msg-id="${tempId}"]`); if (tmp) tmp.remove(); }
+  if (!currentUser) return showToast('سجّل دخول', true); if (!currentChatUser) return; const input = $('chatInput'); const text = input.value.trim(); if (!text) return; input.value = ''; input.style.height = 'auto';
+  const tempId = 'tmp-' + Date.now(); appendMsgToBody({ id: tempId, sender_id: currentUser.id, recipient_id: currentChatUser.id, content: text, message_type: 'text', is_read: false, created_at: new Date().toISOString() });
+  try { const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: text, message_type: 'text', is_read: false }).select().single(); if (error) throw error; if (data) { const tmp = document.querySelector(`[data-msg-id="${tempId}"]`); if (tmp) tmp.dataset.msgId = data.id; allMessages.push(data); } } catch(e) { showToast('فشل الإرسال', true); const tmp = document.querySelector(`[data-msg-id="${tempId}"]`); if (tmp) tmp.remove(); }
 }
 function appendMsgToBody(m) {
-  const body = $('chatBody'); const emptyEl = body.querySelector('.empty'); if (emptyEl) emptyEl.remove();
-  if (body.querySelector(`[data-msg-id="${m.id}"]`)) return;
-  const wasAtBottom = body.scrollHeight - body.scrollTop - body.clientHeight < 150;
-  const temp = document.createElement('div'); temp.innerHTML = renderMessage(m); body.appendChild(temp.firstElementChild);
-  if (wasAtBottom) body.scrollTop = body.scrollHeight;
+  const body = $('chatBody'); const emptyEl = body.querySelector('.empty'); if (emptyEl) emptyEl.remove(); if (body.querySelector(`[data-msg-id="${m.id}"]`)) return; const wasAtBottom = body.scrollHeight - body.scrollTop - body.clientHeight < 150; const temp = document.createElement('div'); temp.innerHTML = renderMessage(m); body.appendChild(temp.firstElementChild); if (wasAtBottom) body.scrollTop = body.scrollHeight;
 }
 async function sendChatImage(input) {
-  if (!input.files.length || !currentChatUser) return;
-  const file = input.files[0]; if (file.size > 10 * 1024 * 1024) return showToast('الحجم يتجاوز 10 ميجا', true);
+  if (!input.files.length || !currentChatUser) return; const file = input.files[0]; if (file.size > 10 * 1024 * 1024) return showToast('الحجم يتجاوز 10 ميجا', true);
   try { showToast('جاري رفع الصورة...'); const url = await uploadFileToStorage(file, 'chat'); const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: '', message_type: 'image', media_url: url, is_read: false }).select().single(); if (error) throw error; input.value = ''; if (data) { appendMsgToBody(data); allMessages.push(data); } } catch(e) { showToast('فشل الإرسال: ' + e.message, true); }
 }
 async function toggleVoiceRecord() {
-  if (!currentUser || !currentChatUser) return;
-  if (isRecordingVoice) { await sendVoiceMessage(); return; }
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showToast('جهازك لا يدعم التسجيل الصوتي', true); return; }
+  if (!currentUser || !currentChatUser) return; if (isRecordingVoice) { await sendVoiceMessage(); return; } if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showToast('جهازك لا يدعم التسجيل الصوتي', true); return; }
   try {
-    voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    let mimeType = ''; const candidates = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4'];
-    for (const c of candidates) { if (MediaRecorder.isTypeSupported(c)) { mimeType = c; break; } }
-    mediaRecorder = new MediaRecorder(voiceStream, mimeType ? { mimeType } : {});
-    recordedChunks = []; mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
-    mediaRecorder.start(); isRecordingVoice = true; voiceRecordStart = Date.now();
-    $('micBtn').classList.add('mic-active'); $('voiceRecUI').classList.add('active');
-    $('msgInputBar').querySelector('textarea').style.display = 'none';
-    $('msgInputBar').querySelectorAll('.attach-btn').forEach(b => b.style.display = 'none');
-    updateVoiceTimer(); voiceRecTimerInterval = setInterval(updateVoiceTimer, 200);
+    voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true }); let mimeType = ''; const candidates = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4']; for (const c of candidates) { if (MediaRecorder.isTypeSupported(c)) { mimeType = c; break; } }
+    mediaRecorder = new MediaRecorder(voiceStream, mimeType ? { mimeType } : {}); recordedChunks = []; mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.start(); isRecordingVoice = true; voiceRecordStart = Date.now(); $('micBtn').classList.add('mic-active'); $('voiceRecUI').classList.add('active'); $('msgInputBar').querySelector('textarea').style.display = 'none'; $('msgInputBar').querySelectorAll('.attach-btn').forEach(b => b.style.display = 'none'); updateVoiceTimer(); voiceRecTimerInterval = setInterval(updateVoiceTimer, 200);
   } catch(e) { showToast('لم يتم السماح بالتسجيل', true); isRecordingVoice = false; }
 }
 function updateVoiceTimer() { const sec = Math.floor((Date.now() - voiceRecordStart) / 1000); $('voiceRecTimer').textContent = Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); if (sec >= 120) sendVoiceMessage(); }
 function cancelVoiceRecord() { if (!isRecordingVoice) return; try { if (mediaRecorder && mediaRecorder.state !== 'inactive') { mediaRecorder.onstop = null; mediaRecorder.stop(); } } catch(e) {} cleanupVoiceRecording(); showToast('تم إلغاء التسجيل'); }
 async function sendVoiceMessage() {
-  if (!isRecordingVoice || !mediaRecorder) return;
-  const durationSec = Math.floor((Date.now() - voiceRecordStart) / 1000);
-  if (durationSec < 1) { cancelVoiceRecord(); return showToast('التسجيل قصير جداً', true); }
-  return new Promise((resolve) => {
-    mediaRecorder.onstop = async () => {
-      try {
-        const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-        const ext = (blob.type.includes('webm') ? 'webm' : blob.type.includes('ogg') ? 'ogg' : 'mp4');
-        const file = new File([blob], `voice_${Date.now()}.${ext}`, { type: blob.type });
-        cleanupVoiceRecording(); showToast('جاري إرسال التسجيل...');
-        const url = await uploadFileToStorage(file, 'voice'); const durStr = formatDur(durationSec);
-        const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: durStr, message_type: 'voice', media_url: url, is_read: false }).select().single();
-        if (error) throw error;
-        if (data) { appendMsgToBody(data); allMessages.push(data); }
-      } catch(e) { showToast('فشل الإرسال: ' + e.message, true); }
-      resolve();
-    };
-    try { mediaRecorder.stop(); } catch(e) { cleanupVoiceRecording(); resolve(); }
-  });
+  if (!isRecordingVoice || !mediaRecorder) return; const durationSec = Math.floor((Date.now() - voiceRecordStart) / 1000); if (durationSec < 1) { cancelVoiceRecord(); return showToast('التسجيل قصير جداً', true); }
+  return new Promise((resolve) => { mediaRecorder.onstop = async () => { try { const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' }); const ext = (blob.type.includes('webm') ? 'webm' : blob.type.includes('ogg') ? 'ogg' : 'mp4'); const file = new File([blob], `voice_${Date.now()}.${ext}`, { type: blob.type }); cleanupVoiceRecording(); showToast('جاري إرسال التسجيل...'); const url = await uploadFileToStorage(file, 'voice'); const durStr = formatDur(durationSec); const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: durStr, message_type: 'voice', media_url: url, is_read: false }).select().single(); if (error) throw error; if (data) { appendMsgToBody(data); allMessages.push(data); } } catch(e) { showToast('فشل الإرسال: ' + e.message, true); } resolve(); }; try { mediaRecorder.stop(); } catch(e) { cleanupVoiceRecording(); resolve(); } });
 }
-function cleanupVoiceRecording() {
-  isRecordingVoice = false;
-  if (voiceRecTimerInterval) { clearInterval(voiceRecTimerInterval); voiceRecTimerInterval = null; }
-  if (voiceStream) { voiceStream.getTracks().forEach(t => t.stop()); voiceStream = null; }
-  mediaRecorder = null; recordedChunks = [];
-  $('micBtn').classList.remove('mic-active'); $('voiceRecUI').classList.remove('active');
-  const bar = $('msgInputBar'); bar.querySelector('textarea').style.display = ''; bar.querySelectorAll('.attach-btn').forEach(b => b.style.display = '');
-}
+function cleanupVoiceRecording() { isRecordingVoice = false; if (voiceRecTimerInterval) { clearInterval(voiceRecTimerInterval); voiceRecTimerInterval = null; } if (voiceStream) { voiceStream.getTracks().forEach(t => t.stop()); voiceStream = null; } mediaRecorder = null; recordedChunks = []; $('micBtn').classList.remove('mic-active'); $('voiceRecUI').classList.remove('active'); const bar = $('msgInputBar'); bar.querySelector('textarea').style.display = ''; bar.querySelectorAll('.attach-btn').forEach(b => b.style.display = ''); }
 </script>
 <script>
 function setupRealtime() {
-  if (!currentUser) return;
-  if (realtimeChannel) { try { supabase.removeChannel(realtimeChannel); } catch(e){} }
+  if (!currentUser) return; if (realtimeChannel) { try { supabase.removeChannel(realtimeChannel); } catch(e){} }
   try {
     realtimeChannel = supabase.channel('user_' + currentUser.id)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const n = payload.new; if (n) { if (!allNotifs.find(x => x.id === n.id)) allNotifs.unshift(n); updateNotifBadge(); showToast('🔔 إشعار جديد'); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } })
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => {
-        const m = payload.new; if (!m) return;
-        if (allMessages.find(x => x.id === m.id)) return;
-        allMessages.push(m);
-        const chatOpen = $('chatView').classList.contains('active');
-        if (chatOpen && currentChatUser && m.sender_id === currentChatUser.id) { appendMsgToBody(m); supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); }
-        else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); }
-      }).subscribe();
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const m = payload.new; if (!m) return; if (allMessages.find(x => x.id === m.id)) return; allMessages.push(m); const chatOpen = $('chatView').classList.contains('active'); if (chatOpen && currentChatUser && m.sender_id === currentChatUser.id) { appendMsgToBody(m); supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); } else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); } }).subscribe();
   } catch(e) {}
 }
 function startBackgroundPolling() {
-  if (!currentUser) return;
-  if (notifPoller) clearInterval(notifPoller);
-  notifPoller = setInterval(async () => {
-    if (!currentUser || document.hidden) return;
-    try { const { data } = await supabase.from('notifications').select('*').eq('recipient_id', currentUser.id).order('created_at', { ascending: false }).limit(100); const oldUnread = allNotifs.filter(n => !n.is_read).length; allNotifs = data || []; const newUnread = allNotifs.filter(n => !n.is_read).length; if (newUnread !== oldUnread) { updateNotifBadge(); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } } catch(e) {}
-  }, 60000);
+  if (!currentUser) return; if (notifPoller) clearInterval(notifPoller);
+  notifPoller = setInterval(async () => { if (!currentUser || document.hidden) return; try { const { data } = await supabase.from('notifications').select('*').eq('recipient_id', currentUser.id).order('created_at', { ascending: false }).limit(100); const oldUnread = allNotifs.filter(n => !n.is_read).length; allNotifs = data || []; const newUnread = allNotifs.filter(n => !n.is_read).length; if (newUnread !== oldUnread) { updateNotifBadge(); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } } catch(e) {} }, 60000);
   if (chatPollFallback) clearInterval(chatPollFallback);
-  chatPollFallback = setInterval(async () => {
-    if (!currentUser || document.hidden) return;
-    if (!$('chatView').classList.contains('active') || !currentChatUser) return;
-    try { const { data } = await supabase.from('messages').select('*').or(`and(sender_id.eq.${currentUser.id},recipient_id.eq.${currentChatUser.id}),and(sender_id.eq.${currentChatUser.id},recipient_id.eq.${currentUser.id})`).order('created_at', { ascending: true }).limit(500); const msgs = data || []; const newMsgs = msgs.filter(m => !allMessages.find(x => x.id === m.id)); if (newMsgs.length > 0) { allMessages = msgs; newMsgs.forEach(m => appendMsgToBody(m)); const unreadIds = newMsgs.filter(m => m.recipient_id === currentUser.id && !m.is_read).map(m => m.id); if (unreadIds.length) await supabase.from('messages').update({ is_read: true }).in('id', unreadIds); updateMsgBadge(); } } catch(e) {}
-  }, 60000);
+  chatPollFallback = setInterval(async () => { if (!currentUser || document.hidden) return; if (!$('chatView').classList.contains('active') || !currentChatUser) return; try { const { data } = await supabase.from('messages').select('*').or(`and(sender_id.eq.${currentUser.id},recipient_id.eq.${currentChatUser.id}),and(sender_id.eq.${currentChatUser.id},recipient_id.eq.${currentUser.id})`).order('created_at', { ascending: true }).limit(500); const msgs = data || []; const newMsgs = msgs.filter(m => !allMessages.find(x => x.id === m.id)); if (newMsgs.length > 0) { allMessages = msgs; newMsgs.forEach(m => appendMsgToBody(m)); const unreadIds = newMsgs.filter(m => m.recipient_id === currentUser.id && !m.is_read).map(m => m.id); if (unreadIds.length) await supabase.from('messages').update({ is_read: true }).in('id', unreadIds); updateMsgBadge(); } } catch(e) {} }, 60000);
 }
 async function loadSaved() { if (!currentUser) { savedPostIds = new Set(); return; } try { const { data } = await supabase.from('saves').select('post_id').eq('user_id', currentUser.id); savedPostIds = new Set((data || []).map(r => r.post_id)); } catch(e) {} }
 async function loadLikedComments() { if (!currentUser) { likedComments = new Set(); return; } try { const { data } = await supabase.from('comment_likes').select('comment_id').eq('user_id', currentUser.id); likedComments = new Set((data || []).map(r => r.comment_id)); } catch(e) {} }
-function openEditModal() {
-  if (!currentProfile) return;
-  $('editUsername').value = currentProfile.username;
-  $('editDisplayName').value = currentProfile.display_name || currentProfile.username;
-  const prev = $('editAvatarPreview');
-  if (currentProfile.avatar_url) prev.innerHTML = `<img src="${escAttr(currentProfile.avatar_url)}" alt="">`;
-  else prev.innerHTML = (currentProfile.display_name || currentProfile.username).charAt(0).toUpperCase();
-  editAvatarFile = null; openModal('editModal');
-}
+function openEditModal() { if (!currentProfile) return; $('editUsername').value = currentProfile.username; $('editDisplayName').value = currentProfile.display_name || currentProfile.username; const prev = $('editAvatarPreview'); if (currentProfile.avatar_url) prev.innerHTML = `<img src="${escAttr(currentProfile.avatar_url)}" alt="">`; else prev.innerHTML = (currentProfile.display_name || currentProfile.username).charAt(0).toUpperCase(); editAvatarFile = null; openModal('editModal'); }
 $('editAvatarInput').addEventListener('change', e => { if (!e.target.files.length) return; editAvatarFile = e.target.files[0]; const r = new FileReader(); r.onload = ev => { $('editAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="">`; }; r.readAsDataURL(editAvatarFile); });
 async function saveProfileEdit() {
-  const newUsername = $('editUsername').value.trim().toLowerCase();
-  const newDisplayName = $('editDisplayName').value.trim();
-  if (!newUsername || !newDisplayName) return showToast('املأ الحقول', true);
-  if (!/^[a-z0-9_]{3,20}$/.test(newUsername)) return showToast('اسم المستخدم غير صالح', true);
+  const newUsername = $('editUsername').value.trim().toLowerCase(); const newDisplayName = $('editDisplayName').value.trim(); if (!newUsername || !newDisplayName) return showToast('املأ الحقول', true); if (!/^[a-z0-9_]{3,20}$/.test(newUsername)) return showToast('اسم المستخدم غير صالح', true);
   const btn = $('editSaveBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الحفظ...';
   try {
     if (newUsername !== currentProfile.username) { const { data: existing } = await supabase.from('profiles').select('id').eq('username', newUsername).maybeSingle(); if (existing && existing.id !== currentProfile.id) throw new Error('اسم المستخدم الجديد محجوز'); }
-    let avatarUrl = currentProfile.avatar_url || ''; if (editAvatarFile) avatarUrl = await uploadFileToStorage(editAvatarFile, 'avatars');
-    await supabase.from('profiles').update({ username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }).eq('id', currentProfile.id);
-    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl;
-    saveSession(currentProfile); await loadAllUsers(); renderSidebar();
-    showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true);
-    if (currentSection === 'profile') viewProfile(currentProfile.id);
-    loadContent();
-  } catch (err) { showToast(err.message || 'فشل الحفظ', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات'; }
+    let avatarUrl = currentProfile.avatar_url || ''; if (editAvatarFile) avatarUrl = await uploadFileToStorage(editAvatarFile, 'avatars'); await supabase.from('profiles').update({ username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }).eq('id', currentProfile.id);
+    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl; saveSession(currentProfile); await loadAllUsers(); renderSidebar(); showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true); if (currentSection === 'profile') viewProfile(currentProfile.id); loadContent();
+  } catch (err) { showToast(err.message || 'فشل الحفظ', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات'; }
 }
 $('signupAvatarInput').addEventListener('change', e => { if (!e.target.files.length) return; avatarFile = e.target.files[0]; const r = new FileReader(); r.onload = ev => { $('signupAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="">`; }; r.readAsDataURL(avatarFile); });
 function resetSignupForm() { $('signupUsername').value = ''; $('signupDisplayName').value = ''; $('signupPassword').value = ''; $('signupPassword2').value = ''; $('signupAvatarInput').value = ''; $('signupAvatarPreview').innerHTML = '<i class="fa-solid fa-user"></i>'; avatarFile = null; }
 </script>
 <script>
-function handleFabClick() {
-  if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; }
-  if (currentProfile && currentProfile.is_banned) return showToast('حسابك محظور', true);
-  openModal('uploadModal');
-}
+function handleFabClick() { if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; } if (currentProfile && currentProfile.is_banned) return showToast('حسابك محظور', true); openModal('uploadModal'); }
 ['dragenter','dragover'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.add('dragover'); }));
 ['dragleave','drop'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.remove('dragover'); }));
 fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFiles(e.dataTransfer.files); });
 fileDrop.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => { if (e.target.files.length) setFiles(e.target.files); });
 function setFiles(files) {
-  const arr = Array.from(files);
-  if (!arr.length) return;
-  currentFiles = []; currentFileType = null;
-  selectedFile.textContent = '';
-  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  const arr = Array.from(files); if (!arr.length) return; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
   if (arr.length === 1) {
-    const file = arr[0];
-    const isVideo = file.type.startsWith('video/');
-    const isImage = file.type.startsWith('image/');
-    const isAudio = file.type.startsWith('audio/');
-    if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
-    if (currentPostType === 'audio') {
-      if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true);
-      if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
-      currentFiles = [file]; currentFileType = 'audio';
-      selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
-      return;
-    }
-    if (isVideo) {
-      if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true);
-      currentFiles = [file]; currentFileType = 'video';
-      selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
-      return;
-    }
-    if (isImage) {
-      if (file.size > 20 * 1024 * 1024) return showToast('الحجم يتجاوز 20 ميجا', true);
-      currentFiles = [file]; currentFileType = 'image';
-      selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`;
-      return;
-    }
+    const file = arr[0]; const isVideo = file.type.startsWith('video/'); const isImage = file.type.startsWith('image/'); const isAudio = file.type.startsWith('audio/'); if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
+    if (currentPostType === 'audio') { if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true); if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true); currentFiles = [file]; currentFileType = 'audio'; selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
+    if (isVideo) { if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true); currentFiles = [file]; currentFileType = 'video'; selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
+    if (isImage) { if (file.size > 20 * 1024 * 1024) return showToast('الحجم يتجاوز 20 ميجا', true); currentFiles = [file]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     return showToast('نوع الملف غير مدعوم', true);
   }
-  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true);
-  if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true);
-  const allImages = arr.every(f => f.type.startsWith('image/'));
-  if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true);
-  for (const f of arr) { if (f.size > 20 * 1024 * 1024) return showToast(`${f.name} كبير جداً (الحد 20 ميجا)`, true); }
-  currentFiles = arr; currentFileType = 'carousel';
-  selectedFile.textContent = `✓ ${arr.length} صورة مختارة`;
-  renderMultiPreview();
+  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true); if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true); const allImages = arr.every(f => f.type.startsWith('image/')); if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true); for (const f of arr) { if (f.size > 20 * 1024 * 1024) return showToast(`${f.name} كبير جداً (الحد 20 ميجا)`, true); }
+  currentFiles = arr; currentFileType = 'carousel'; selectedFile.textContent = `✓ ${arr.length} صورة مختارة`; renderMultiPreview();
 }
 function renderMultiPreview() {
-  if (currentFiles.length <= 1) { multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); return; }
-  multiPreview.classList.add('active');
-  multiPreview.innerHTML = currentFiles.map((f, i) => {
-    const u = URL.createObjectURL(f);
-    return `<div class="multi-preview-item"><img src="${u}" alt=""><button type="button" class="remove-btn" onclick="removePreviewImage(${i})" aria-label="حذف"><i class="fa-solid fa-xmark"></i></button></div>`;
-  }).join('');
+  if (currentFiles.length <= 1) { multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); return; } multiPreview.classList.add('active');
+  multiPreview.innerHTML = currentFiles.map((f, i) => { const u = URL.createObjectURL(f); return `<div class="multi-preview-item"><img src="${u}" alt=""><button type="button" class="remove-btn" onclick="removePreviewImage(${i})" aria-label="حذف"><i class="fa-solid fa-xmark"></i></button></div>`; }).join('');
 }
-function removePreviewImage(idx) {
-  if (!currentFiles[idx]) return;
-  currentFiles.splice(idx, 1);
-  if (currentFiles.length === 0) { resetUploadForm(); return; }
-  if (currentFiles.length === 1) {
-    const f = currentFiles[0];
-    currentFileType = 'image';
-    selectedFile.textContent = `✓ 🖼️ ${f.name} — ${(f.size/1024/1024).toFixed(2)} MB`;
-    multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
-    return;
-  }
-  selectedFile.textContent = `✓ ${currentFiles.length} صورة مختارة`;
-  renderMultiPreview();
-}
-function getPostImageUrls(v) {
-  if (!v) return [];
-  let urls = v.media_urls;
-  if (Array.isArray(urls) && urls.length) return urls.filter(Boolean);
-  if (typeof urls === 'string') {
-    try { const parsed = JSON.parse(urls); if (Array.isArray(parsed) && parsed.length) return parsed.filter(Boolean); } catch(e) {}
-  }
-  return v.media_url ? [v.media_url] : [];
-}
-function scrollCarousel(postId, dir) {
-  const track = document.querySelector(`.card-carousel-track[data-carousel-id="${postId}"]`);
-  if (!track) return;
-  const slideW = track.clientWidth;
-  track.scrollBy({ left: dir * slideW, behavior: 'smooth' });
-}
-function setupCarousels() {
-  document.querySelectorAll('.card-carousel-track').forEach(track => {
-    if (track.dataset.bound) return;
-    track.dataset.bound = '1';
-    const card = track.closest('.carousel-card');
-    if (!card) return;
-    const counter = card.querySelector('.card-carousel-counter');
-    const dots = card.querySelectorAll('.card-carousel-dot');
-    let rafPending = false;
-    track.addEventListener('scroll', () => {
-      if (rafPending) return;
-      rafPending = true;
-      requestAnimationFrame(() => {
-        rafPending = false;
-        const w = track.clientWidth;
-        if (!w) return;
-        const idx = Math.round(track.scrollLeft / w);
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        if (counter) {
-          const total = dots.length;
-          counter.innerHTML = `<i class="fa-solid fa-images"></i> ${Math.min(idx + 1, total)}/${total}`;
-        }
-      });
-    }, { passive: true });
-  });
-}
-function setupCarouselViews() {
-  document.querySelectorAll('.carousel-card').forEach(card => {
-    if (card.dataset.viewBound) return;
-    card.dataset.viewBound = '1';
-    const postId = card.getAttribute('data-row-id');
-    if (!postId) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { markViewed(postId); obs.disconnect(); }
-      });
-    }, { threshold: 0.5 });
-    obs.observe(card);
-  });
-}
+function removePreviewImage(idx) { if (!currentFiles[idx]) return; currentFiles.splice(idx, 1); if (currentFiles.length === 0) { resetUploadForm(); return; } if (currentFiles.length === 1) { const f = currentFiles[0]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${f.name} — ${(f.size/1024/1024).toFixed(2)} MB`; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); return; } selectedFile.textContent = `✓ ${currentFiles.length} صورة مختارة`; renderMultiPreview(); }
+function getPostImageUrls(v) { if (!v) return []; let urls = v.media_urls; if (Array.isArray(urls) && urls.length) return urls.filter(Boolean); if (typeof urls === 'string') { try { const parsed = JSON.parse(urls); if (Array.isArray(parsed) && parsed.length) return parsed.filter(Boolean); } catch(e) {} } return v.media_url ? [v.media_url] : []; }
+function scrollCarousel(postId, dir) { const track = document.querySelector(`.card-carousel-track[data-carousel-id="${postId}"]`); if (!track) return; const slideW = track.clientWidth; track.scrollBy({ left: dir * slideW, behavior: 'smooth' }); }
+function setupCarousels() { document.querySelectorAll('.card-carousel-track').forEach(track => { if (track.dataset.bound) return; track.dataset.bound = '1'; const card = track.closest('.carousel-card'); if (!card) return; const counter = card.querySelector('.card-carousel-counter'); const dots = card.querySelectorAll('.card-carousel-dot'); let rafPending = false; track.addEventListener('scroll', () => { if (rafPending) return; rafPending = true; requestAnimationFrame(() => { rafPending = false; const w = track.clientWidth; if (!w) return; const idx = Math.round(track.scrollLeft / w); dots.forEach((d, i) => d.classList.toggle('active', i === idx)); if (counter) { const total = dots.length; counter.innerHTML = `<i class="fa-solid fa-images"></i> ${Math.min(idx + 1, total)}/${total}`; } }); }, { passive: true }); }); }
+function setupCarouselViews() { document.querySelectorAll('.carousel-card').forEach(card => { if (card.dataset.viewBound) return; card.dataset.viewBound = '1'; const postId = card.getAttribute('data-row-id'); if (!postId) return; const obs = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { markViewed(postId); obs.disconnect(); } }); }, { threshold: 0.5 }); obs.observe(card); }); }
 async function uploadContent() {
-  const title = $('uploadTitle').value.trim();
-  const desc = $('uploadDesc').value.trim();
-  if (!currentUser) return showToast('يجب تسجيل الدخول', true);
-  if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); }
-  else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
-  uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...';
-  progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%';
-  progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
+  const title = $('uploadTitle').value.trim(); const desc = $('uploadDesc').value.trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
+  if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); } else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
+  uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...'; progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%'; progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
   try {
     let mediaUrl = '', mediaUrls = null, finalType = currentPostType;
     if (currentPostType !== 'text') {
-      if (currentFiles.length === 1) {
-        const file = currentFiles[0];
-        const folder = currentFileType === 'audio' ? 'audio' : 'media';
-        mediaUrl = await uploadFileToStorage(file, folder);
-        finalType = currentFileType;
-      } else {
-        mediaUrls = [];
-        for (let i = 0; i < currentFiles.length; i++) {
-          progressStat.textContent = `رفع الصور (${i+1}/${currentFiles.length})...`;
-          const url = await uploadFileToStorage(currentFiles[i], 'media');
-          mediaUrls.push(url);
-          progressFill.style.width = `${((i + 1) / currentFiles.length) * 100}%`;
-          progressPct.textContent = `${Math.round(((i + 1) / currentFiles.length) * 100)}%`;
-        }
-        mediaUrl = mediaUrls[0];
-        finalType = 'image';
-      }
+      if (currentFiles.length === 1) { const file = currentFiles[0]; const folder = currentFileType === 'audio' ? 'audio' : 'media'; mediaUrl = await uploadFileToStorage(file, folder); finalType = currentFileType; }
+      else { mediaUrls = []; for (let i = 0; i < currentFiles.length; i++) { progressStat.textContent = `رفع الصور (${i+1}/${currentFiles.length})...`; const url = await uploadFileToStorage(currentFiles[i], 'media'); mediaUrls.push(url); progressFill.style.width = `${((i + 1) / currentFiles.length) * 100}%`; progressPct.textContent = `${Math.round(((i + 1) / currentFiles.length) * 100)}%`; } mediaUrl = mediaUrls[0]; finalType = 'image'; }
     }
-    progressStat.textContent = 'جاري النشر...';
-    progressFill.style.width = '100%'; progressPct.textContent = '100%';
-    const insertData = {
-      user_id: currentUser.id, title: title || '', description: desc || '',
-      media_url: mediaUrl, media_type: finalType,
-      likes_count: 0, views_count: 0,
-      author_name: currentProfile.display_name || currentProfile.username,
-      author_avatar: currentProfile.avatar_url || ''
-    };
+    progressStat.textContent = 'جاري النشر...'; progressFill.style.width = '100%'; progressPct.textContent = '100%';
+    const insertData = { user_id: currentUser.id, title: title || '', description: desc || '', media_url: mediaUrl, media_type: finalType, likes_count: 0, views_count: 0, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '' };
     if (mediaUrls) insertData.media_urls = mediaUrls;
-    const { error } = await supabase.from('posts').insert(insertData);
-    if (error) {
-      if (String(error.message).includes('media_urls')) throw new Error('يجب إضافة عمود media_urls إلى جدول posts. راجع الخطوة 1.');
-      throw new Error('فشل حفظ البيانات: ' + error.message);
-    }
+    const { error } = await supabase.from('posts').insert(insertData); if (error) throw new Error('فشل حفظ البيانات: ' + error.message);
     showToast('✓ تم النشر'); celebrate(); resetUploadForm(); closeModal('uploadModal', true); loadContent();
-  } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); }
-  finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
+  } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); } finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
-function resetUploadForm() {
-  $('uploadTitle').value = ''; $('uploadDesc').value = '';
-  fileInput.value = '';
-  currentFiles = []; currentFileType = null;
-  selectedFile.textContent = '';
-  multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
-  setPostType('media');
-}
+function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
 async function loadContent(reset = true) {
-  if (isLoadingMore) return;
-  if (!reset && !hasMore) return;
-  if (reset) {
-    currentPage = 0; hasMore = true; allRows = [];
-    setLoadingAll();
-  }
-  isLoadingMore = true;
+  if (isLoadingMore) return; if (!reset && !hasMore) return; if (reset) { currentPage = 0; hasMore = true; allRows = []; setLoadingAll(); } isLoadingMore = true;
   try {
-    const from = currentPage * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
-    const { data: posts, error: pErr } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(from, to);
-    if (pErr) throw pErr;
-    const newPosts = posts || [];
-    if (reset) {
-      allRows = newPosts;
-      if (newPosts.length < PAGE_SIZE) hasMore = false;
-      currentPage = 1;
-      await loadCommentCounts();
-      renderAll();
-      setTimeout(setupBlurUp, 100);
-    } else {
-      if (newPosts.length === 0) { hasMore = false; }
-      else {
-        await loadCommentCountsForPostIds(newPosts.map(p => p.id));
-        allRows = [...allRows, ...newPosts];
-        if (homeFilter === 'all' && !searchQuery) {
-          const html = newPosts.map(cardHTML).join('');
-          gridHome.insertAdjacentHTML('beforeend', html);
-        } else {
-          renderGrid(gridHome, getFilteredHome());
-        }
-        renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image'));
-        renderReels(getFiltered(r => getMediaType(r) === 'video'));
-        $('count-home').textContent = allRows.length;
-        $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length;
-        $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
-        if (newPosts.length < PAGE_SIZE) hasMore = false;
-        currentPage++;
-        setTimeout(setupBlurUp, 100);
+    const from = currentPage * PAGE_SIZE; const to = from + PAGE_SIZE - 1; const { data: posts, error: pErr } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(from, to); if (pErr) throw pErr; const newPosts = posts || [];
+    if (reset) { allRows = newPosts; if (newPosts.length < PAGE_SIZE) hasMore = false; currentPage = 1; await loadCommentCounts(); renderAll(); setTimeout(setupBlurUp, 100); }
+    else {
+      if (newPosts.length === 0) { hasMore = false; } else {
+        await loadCommentCountsForPostIds(newPosts.map(p => p.id)); allRows = [...allRows, ...newPosts];
+        if (homeFilter === 'all' && !searchQuery) { const html = newPosts.map(cardHTML).join(''); gridHome.insertAdjacentHTML('beforeend', html); } else { renderGrid(gridHome, getFilteredHome()); }
+        renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image')); renderReels(getFiltered(r => getMediaType(r) === 'video'));
+        $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
+        if (newPosts.length < PAGE_SIZE) hasMore = false; currentPage++; setTimeout(setupBlurUp, 100);
       }
     }
-  } catch (err) {
-    if (reset) showErrorAll(err.message);
-  } finally {
-    isLoadingMore = false;
-  }
+  } catch (err) { if (reset) showErrorAll(err.message); } finally { isLoadingMore = false; }
 }
-async function loadCommentCounts() {
-  try { const { data } = await supabase.from('comments').select('post_id').eq('is_deleted', false); commentCounts = {}; (data || []).forEach(c => { if (c.post_id) commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; }); } catch(e) {}
-}
-async function loadCommentCountsForPostIds(postIds) {
-  if (!postIds.length) return;
-  try {
-    const { data } = await supabase.from('comments').select('post_id').in('post_id', postIds).eq('is_deleted', false);
-    const counts = {};
-    (data || []).forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; });
-    Object.keys(counts).forEach(id => { commentCounts[id] = counts[id]; });
-  } catch(e) {}
-}
+async function loadCommentCounts() { try { const { data } = await supabase.from('comments').select('post_id').eq('is_deleted', false); commentCounts = {}; (data || []).forEach(c => { if (c.post_id) commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; }); } catch(e) {} }
+async function loadCommentCountsForPostIds(postIds) { if (!postIds.length) return; try { const { data } = await supabase.from('comments').select('post_id').in('post_id', postIds).eq('is_deleted', false); const counts = {}; (data || []).forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; }); Object.keys(counts).forEach(id => { commentCounts[id] = counts[id]; }); } catch(e) {} }
 function setupInfiniteScroll() {
-  if (window._infiniteObserver) window._infiniteObserver.disconnect();
-  let sentinel = document.getElementById('infinite-sentinel');
-  if (!sentinel) {
-    sentinel = document.createElement('div');
-    sentinel.id = 'infinite-sentinel';
-    sentinel.style.cssText = 'height:1px;width:100%;pointer-events:none;';
-    const homeSection = document.getElementById('section-home');
-    if (homeSection) homeSection.appendChild(sentinel);
-  }
-  window._infiniteObserver = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !isLoadingMore && hasMore && currentSection === 'home' && !searchQuery && homeFilter === 'all') loadContent(false);
-  }, { rootMargin: '600px' });
-  window._infiniteObserver.observe(sentinel);
+  if (window._infiniteObserver) window._infiniteObserver.disconnect(); let sentinel = document.getElementById('infinite-sentinel');
+  if (!sentinel) { sentinel = document.createElement('div'); sentinel.id = 'infinite-sentinel'; sentinel.style.cssText = 'height:1px;width:100%;pointer-events:none;'; const homeSection = document.getElementById('section-home'); if (homeSection) homeSection.appendChild(sentinel); }
+  window._infiniteObserver = new IntersectionObserver((entries) => { if (entries[0].isIntersecting && !isLoadingMore && hasMore && currentSection === 'home' && !searchQuery && homeFilter === 'all') loadContent(false); }, { rootMargin: '600px' }); window._infiniteObserver.observe(sentinel);
 }
-function setLoadingAll() {
-  const h = Array(3).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join('');
-  gridHome.innerHTML = h; gridImages.innerHTML = h;
-  if (gridSaved) gridSaved.innerHTML = h;
-}
-function showErrorAll(msg) {
-  const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`;
-  gridHome.innerHTML = h; gridImages.innerHTML = h;
-}
-function getMediaType(r) {
-  if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type;
-  const url = r.media_url || '';
-  if (!url) return 'text';
-  if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio';
-  if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image';
-  return 'video';
-}
+function setLoadingAll() { const h = Array(3).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join(''); gridHome.innerHTML = h; gridImages.innerHTML = h; if (gridSaved) gridSaved.innerHTML = h; }
+function showErrorAll(msg) { const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`; gridHome.innerHTML = h; gridImages.innerHTML = h; }
+function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
 function getFiltered(fn) { let rows = allRows; if (fn) rows = rows.filter(fn); return rows; }
-function getFilteredHome() {
-  let rows = allRows;
-  if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : [];
-  else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text');
-  else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio');
-  return rows;
-}
+function getFilteredHome() { let rows = allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
 function renderAll() {
-  $('count-home').textContent = allRows.length;
-  $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length;
-  $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
+  $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
   const homeRows = getFilteredHome();
-  if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
-  else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`;
-  else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`;
-  else renderGrid(gridHome, homeRows);
-  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image'));
-  renderReels(getFiltered(r => getMediaType(r) === 'video'));
+  if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`; else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`; else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`; else renderGrid(gridHome, homeRows);
+  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image')); renderReels(getFiltered(r => getMediaType(r) === 'video'));
 }
 function setHomeFilter(f) { homeFilter = f; document.querySelectorAll('.home-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); renderAll(); }
 function canDelete(row) { return currentUser && (row.user_id === currentUser.id || isAdmin()); }
 function cardHTML(v) {
-  const url = escAttr(v.media_url || '');
-  const mtype = getMediaType(v);
-  const title = esc(v.title); const desc = esc(v.description);
-  const canDel = canDelete(v);
-  const isLiked = likedVideos.has(v.id); const isSaved = savedPostIds.has(v.id);
-  const likesCount = v.likes_count || 0; const viewsCount = v.views_count || 0;
-  const commentsCount = commentCounts[v.id] || 0;
-  const safeTitle = escAttr(v.title);
-  const author = getUserById(v.user_id);
-  const authorName = esc(author ? (author.display_name || author.username) : 'مجهول');
-  const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase();
-  const verified = verifiedBadgeHTML(v.user_id);
-  const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
+  const url = escAttr(v.media_url || ''); const mtype = getMediaType(v); const title = esc(v.title); const desc = esc(v.description); const canDel = canDelete(v); const isLiked = likedVideos.has(v.id); const isSaved = savedPostIds.has(v.id);
+  const likesCount = v.likes_count || 0; const viewsCount = v.views_count || 0; const commentsCount = commentCounts[v.id] || 0; const safeTitle = escAttr(v.title);
+  const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const verified = verifiedBadgeHTML(v.user_id); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
   const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
-  if (mtype === 'text') {
-    const content = v.description || v.title || '';
-    const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : '');
-    return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${esc(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`;
-  }
-  if (mtype === 'audio') {
-    return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc poem">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
-  }
+  if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${esc(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
+  if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc poem">${desc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
       const dotsHTML = imageUrls.map((_, i) => `<span class="card-carousel-dot ${i === 0 ? 'active' : ''}"></span>`).join('');
       const slidesHTML = imageUrls.map((u, i) => `<div class="card-carousel-slide"><img src="${escAttr(u)}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}"></div>`).join('');
-      return `<div class="card carousel-card" data-row-id="${v.id}">
-        <div class="card-carousel">
-          ${overlayAuthorHTML}
-          <div class="card-carousel-counter"><i class="fa-solid fa-images"></i> 1/${imageUrls.length}</div>
-          <div class="card-carousel-track" data-carousel-id="${v.id}">${slidesHTML}</div>
-          <div class="card-carousel-dots">${dotsHTML}</div>
-          <button class="card-carousel-arrow prev" onclick="event.stopPropagation(); scrollCarousel('${v.id}', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-left"></i></button>
-          <button class="card-carousel-arrow next" onclick="event.stopPropagation(); scrollCarousel('${v.id}', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-        <div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div>
-      </div>`;
+      return `<div class="card carousel-card" data-row-id="${v.id}"><div class="card-carousel">${overlayAuthorHTML}<div class="card-carousel-counter"><i class="fa-solid fa-images"></i> 1/${imageUrls.length}</div><div class="card-carousel-track" data-carousel-id="${v.id}">${slidesHTML}</div><div class="card-carousel-dots">${dotsHTML}</div><button class="card-carousel-arrow prev" onclick="event.stopPropagation(); scrollCarousel('${v.id}', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-left"></i></button><button class="card-carousel-arrow next" onclick="event.stopPropagation(); scrollCarousel('${v.id}', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-right"></i></button></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
     }
   }
   const media = mtype === 'image' ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">` : `<video class="card-media" src="${url}" loop playsinline preload="metadata" muted onplay="markViewed('${v.id}')"></video>`;
   return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap">${media}${overlayAuthorHTML}${mtype === 'video' ? `<button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button><div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>` : ''}</div><div class="card-body"><div class="card-title">${title}</div>${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
 }
-function renderGrid(container, rows) {
-  if (!container) return;
-  if (!rows.length) { container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>لا يوجد محتوى</p><span>اضغط زر + في الأسفل</span></div>`; return; }
-  container.innerHTML = rows.map(cardHTML).join('');
-  setTimeout(setupBlurUp, 150);
-}
+function renderGrid(container, rows) { if (!container) return; if (!rows.length) { container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>لا يوجد محتوى</p><span>اضغط زر + في الأسفل</span></div>`; return; } container.innerHTML = rows.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
 function renderReels(rows) {
   if (!rows.length) { reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>لا توجد ريلزات بعد</p></div>`; return; }
   reelsBox.innerHTML = rows.map(v => {
-    const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description);
-    const canDel = canDelete(v);
-    const author = getUserById(v.user_id);
-    const authorName = esc(author ? (author.display_name || author.username) : 'مجهول');
-    const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase();
-    const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
-    const safeTitle = escAttr(v.title);
-    const isLiked = likedVideos.has(v.id);
-    const verified = verifiedBadgeHTML(v.user_id);
-    const commentsCount = commentCounts[v.id] || 0;
-    const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
+    const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
     return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${desc ? `<p>${desc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
   }).join('');
-  setTimeout(setupReelsControls, 100);
-  setTimeout(setupReelsObserver, 150);
+  setTimeout(setupReelsControls, 100); setTimeout(setupReelsObserver, 150);
 }
-function setupReelsControls() {
-  document.querySelectorAll('.reel-item').forEach(item => {
-    const video = item.querySelector('video'); const fill = item.querySelector('.reel-progress-fill');
-    if (!video || video.dataset.rBound) return;
-    video.dataset.rBound = '1';
-    video.addEventListener('timeupdate', () => { if (fill && video.duration) fill.style.width = ((video.currentTime / video.duration) * 100) + '%'; });
-    video.addEventListener('click', () => { const btn = item.querySelector('.reel-play-big'); if (btn) toggleReelPlay(btn); });
-    video.addEventListener('play', () => { const btn = item.querySelector('.reel-play-big'); if (btn) btn.classList.add('hidden'); activeVideo = video; });
-    video.addEventListener('pause', () => { const btn = item.querySelector('.reel-play-big'); if (btn) btn.classList.remove('hidden'); if (activeVideo === video) activeVideo = null; });
-  });
-}
+function setupReelsControls() { document.querySelectorAll('.reel-item').forEach(item => { const video = item.querySelector('video'); const fill = item.querySelector('.reel-progress-fill'); if (!video || video.dataset.rBound) return; video.dataset.rBound = '1'; video.addEventListener('timeupdate', () => { if (fill && video.duration) fill.style.width = ((video.currentTime / video.duration) * 100) + '%'; }); video.addEventListener('click', () => { const btn = item.querySelector('.reel-play-big'); if (btn) toggleReelPlay(btn); }); video.addEventListener('play', () => { const btn = item.querySelector('.reel-play-big'); if (btn) btn.classList.add('hidden'); activeVideo = video; }); video.addEventListener('pause', () => { const btn = item.querySelector('.reel-play-big'); if (btn) btn.classList.remove('hidden'); if (activeVideo === video) activeVideo = null; }); }); }
 function setupReelsObserver() {
   if (reelsObserver) reelsObserver.disconnect();
   reelsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const item = entry.target; const video = item.querySelector('video'); const btn = item.querySelector('.reel-play-big'); const muteBtn = item.querySelector('.reel-mute-btn');
-      if (!video) return;
+      const item = entry.target; const video = item.querySelector('video'); const btn = item.querySelector('.reel-play-big'); const muteBtn = item.querySelector('.reel-mute-btn'); if (!video) return;
       if (currentSection !== 'reels') { if (!video.paused) { video.pause(); if (btn) btn.classList.remove('hidden'); } return; }
       if (entry.intersectionRatio >= 0.6) {
         document.querySelectorAll('.reel-item video').forEach(v => { if (v !== video && !v.paused) { v.pause(); const p = v.closest('.reel-item').querySelector('.reel-play-big'); if (p) p.classList.remove('hidden'); } });
@@ -1737,359 +1130,125 @@ function toggleReelPlay(btn) {
   const item = btn.closest('.reel-item'); const video = item.querySelector('video'); if (!video) return;
   if (video.paused) {
     document.querySelectorAll('.reel-item video').forEach(v => { if (v !== video && !v.paused) { v.pause(); const p = v.closest('.reel-item').querySelector('.reel-play-big'); if (p) p.classList.remove('hidden'); } });
-    video.muted = false;
-    const p = video.play(); if (p && p.catch) p.catch(() => { video.muted = true; const mb = item.querySelector('.reel-mute-btn'); if (mb) mb.classList.remove('hidden'); video.play().catch(() => {}); });
-    btn.classList.add('hidden'); activeVideo = video;
+    video.muted = false; const p = video.play(); if (p && p.catch) p.catch(() => { video.muted = true; const mb = item.querySelector('.reel-mute-btn'); if (mb) mb.classList.remove('hidden'); video.play().catch(() => {}); }); btn.classList.add('hidden'); activeVideo = video;
   } else { video.pause(); btn.classList.remove('hidden'); activeVideo = null; }
 }
 function toggleReelMute(btn) {
   const item = btn.closest('.reel-item'); const video = item.querySelector('video'); if (!video) return;
-  video.muted = !video.muted;
-  btn.querySelector('i').className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+  video.muted = !video.muted; btn.querySelector('i').className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
   if (!video.muted) { if (video.paused) video.play().catch(() => {}); setTimeout(() => { if (!video.muted) btn.classList.add('hidden'); }, 100); }
 }
 async function viewProfile(userId) {
-  pauseActiveVideo();
-  const box = $('profileContent');
-  box.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
-  let profile = getUserById(userId);
-  if (!profile) { const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle(); profile = data; }
+  pauseActiveVideo(); const box = $('profileContent'); box.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
+  let profile = getUserById(userId); if (!profile) { const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle(); profile = data; }
   if (!profile) { box.innerHTML = `<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">حساب غير موجود</div></div>`; return; }
-  const counts = await fetchFollowCounts(userId);
-  const userVideos = allRows.filter(r => r.user_id === userId);
-  const isMe = currentUser && currentUser.id === userId;
-  const amAdmin = isAdmin(); const isFollowing = followingIds.has(userId);
-  const name = esc(profile.display_name || profile.username);
-  const handle = escAttr(profile.username);
-  const avatar = profile.avatar_url ? `<img src="${escAttr(profile.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-  const isVerified = profile.is_verified === true; const isBanned = profile.is_banned === true;
-  const verifiedIcon = isVerified ? '<i class="fa-solid fa-circle-check verified-badge" style="font-size:1em;"></i>' : '';
-  const bannedIcon = isBanned ? '<i class="fa-solid fa-ban banned-badge" style="font-size:1em;"></i>' : '';
+  const counts = await fetchFollowCounts(userId); const userVideos = allRows.filter(r => r.user_id === userId); const isMe = currentUser && currentUser.id === userId; const amAdmin = isAdmin(); const isFollowing = followingIds.has(userId);
+  const name = esc(profile.display_name || profile.username); const handle = escAttr(profile.username); const avatar = profile.avatar_url ? `<img src="${escAttr(profile.avatar_url)}" alt="">` : name.charAt(0).toUpperCase(); const isVerified = profile.is_verified === true; const isBanned = profile.is_banned === true;
+  const verifiedIcon = isVerified ? '<i class="fa-solid fa-circle-check verified-badge" style="font-size:1em;"></i>' : ''; const bannedIcon = isBanned ? '<i class="fa-solid fa-ban banned-badge" style="font-size:1em;"></i>' : '';
   let actions = '';
   if (isMe) actions += `<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل</button>`;
-  else if (currentUser) {
-    actions += isFollowing ? `<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>` : `<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`;
-    actions += `<button class="profile-btn msg-btn" onclick="openChat('${userId}')"><i class="fa-solid fa-comments"></i> مراسلة</button>`;
-  }
-  if (amAdmin && !isMe) {
-    actions += isVerified ? `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>` : `<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
-    actions += isBanned ? `<button class="profile-btn" onclick="toggleBlock('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-unlock"></i> رفع الحظر</button>` : `<button class="profile-btn ban" onclick="toggleBlock('${userId}')"><i class="fa-solid fa-ban"></i> حظر</button>`;
-  }
+  else if (currentUser) { actions += isFollowing ? `<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>` : `<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`; actions += `<button class="profile-btn msg-btn" onclick="openChat('${userId}')"><i class="fa-solid fa-comments"></i> مراسلة</button>`; }
+  if (amAdmin && !isMe) { actions += isVerified ? `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>` : `<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`; actions += isBanned ? `<button class="profile-btn" onclick="toggleBlock('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-unlock"></i> رفع الحظر</button>` : `<button class="profile-btn ban" onclick="toggleBlock('${userId}')"><i class="fa-solid fa-ban"></i> حظر</button>`; }
   box.innerHTML = `<div class="profile-head"><div class="profile-avatar">${avatar}</div><div class="profile-name">${name}${verifiedIcon}${bannedIcon}</div><div class="profile-handle">@${handle}</div>${actions ? `<div class="profile-actions">${actions}</div>` : ''}<div class="profile-stats"><div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div><div class="profile-stat" onclick="showFollowers('${userId}', '${handle}')"><b>${counts.followers}</b><span>متابع</span></div><div class="profile-stat" onclick="showFollowing('${userId}', '${handle}')"><b>${counts.following}</b><span>يتابع</span></div></div></div><div class="grid" id="profileGrid"></div>`;
-  const grid = $('profileGrid');
-  if (!userVideos.length) grid.innerHTML = `<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`;
-  else grid.innerHTML = userVideos.map(cardHTML).join('');
-  setTimeout(setupBlurUp, 150);
+  const grid = $('profileGrid'); if (!userVideos.length) grid.innerHTML = `<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`; else grid.innerHTML = userVideos.map(cardHTML).join(''); setTimeout(setupBlurUp, 150);
 }
-async function showFollowers(userId, handle) {
-  pauseActiveVideo(); currentSection = 'connections';
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  $('section-connections').classList.add('active');
-  $('connectionsHead').innerHTML = `<i class="fa-solid fa-users"></i> متابعو @${esc(handle)}`;
-  const list = $('connectionsList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
-  const ids = await fetchFollowersList(userId);
-  if (!ids.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد متابعون</p></div>`; return; }
-  list.innerHTML = ids.map(uid => renderConnectionUser(uid)).join('');
-  if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
-  window.scrollTo(0, 0);
-}
-async function showFollowing(userId, handle) {
-  pauseActiveVideo(); currentSection = 'connections';
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  $('section-connections').classList.add('active');
-  $('connectionsHead').innerHTML = `<i class="fa-solid fa-user-check"></i> يتابعهم @${esc(handle)}`;
-  const list = $('connectionsList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
-  const ids = await fetchFollowingList(userId);
-  if (!ids.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-user-check"></i><p>لا يتابع أحداً</p></div>`; return; }
-  list.innerHTML = ids.map(uid => renderConnectionUser(uid)).join('');
-  if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
-  window.scrollTo(0, 0);
-}
-function renderConnectionUser(userId) {
-  const u = getUserById(userId); if (!u) return '';
-  const name = esc(u.display_name || u.username); const handle = escAttr(u.username);
-  const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-  const isVerified = u.is_verified === true; const isMe = currentUser && u.id === currentUser.id;
-  const isFollowing = followingIds.has(userId);
-  let followBtn = '';
-  if (!isMe) { if (!currentUser) followBtn = `<button class="user-action-btn" onclick="openModal('loginModal')"><i class="fa-solid fa-plus"></i> متابعة</button>`; else if (isFollowing) followBtn = `<button class="user-action-btn unverify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء</button>`; else followBtn = `<button class="user-action-btn verify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`; }
-  return `<div class="user-card"><div class="user-card-avatar" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">${avatar}</div><div class="user-card-info" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;"><div class="user-card-name">${name}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div><div class="user-card-handle">@${handle}</div></div><div class="user-card-actions">${followBtn}</div></div>`;
-}
+async function showFollowers(userId, handle) { pauseActiveVideo(); currentSection = 'connections'; document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); $('section-connections').classList.add('active'); $('connectionsHead').innerHTML = `<i class="fa-solid fa-users"></i> متابعو @${esc(handle)}`; const list = $('connectionsList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`; const ids = await fetchFollowersList(userId); if (!ids.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد متابعون</p></div>`; return; } list.innerHTML = ids.map(uid => renderConnectionUser(uid)).join(''); if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar(); window.scrollTo(0, 0); }
+async function showFollowing(userId, handle) { pauseActiveVideo(); currentSection = 'connections'; document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); $('section-connections').classList.add('active'); $('connectionsHead').innerHTML = `<i class="fa-solid fa-user-check"></i> يتابعهم @${esc(handle)}`; const list = $('connectionsList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`; const ids = await fetchFollowingList(userId); if (!ids.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-user-check"></i><p>لا يتابع أحداً</p></div>`; return; } list.innerHTML = ids.map(uid => renderConnectionUser(uid)).join(''); if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar(); window.scrollTo(0, 0); }
+function renderConnectionUser(userId) { const u = getUserById(userId); if (!u) return ''; const name = esc(u.display_name || u.username); const handle = escAttr(u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase(); const isVerified = u.is_verified === true; const isMe = currentUser && u.id === currentUser.id; const isFollowing = followingIds.has(userId); let followBtn = ''; if (!isMe) { if (!currentUser) followBtn = `<button class="user-action-btn" onclick="openModal('loginModal')"><i class="fa-solid fa-plus"></i> متابعة</button>`; else if (isFollowing) followBtn = `<button class="user-action-btn unverify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء</button>`; else followBtn = `<button class="user-action-btn verify" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`; } return `<div class="user-card"><div class="user-card-avatar" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">${avatar}</div><div class="user-card-info" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;"><div class="user-card-name">${name}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div><div class="user-card-handle">@${handle}</div></div><div class="user-card-actions">${followBtn}</div></div>`; }
 function renderUsersList() {
-  const box = $('usersList');
-  if (!isAdmin()) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح</p></div>`; return; }
-  if (!allUsers.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون</p></div>`; return; }
+  const box = $('usersList'); if (!isAdmin()) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>غير مصرح</p></div>`; return; } if (!allUsers.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد مستخدمون</p></div>`; return; }
   const sorted = [...allUsers].sort((a, b) => { if (a.username === 'atlas') return -1; if (b.username === 'atlas') return 1; return (a.username || '').localeCompare(b.username || ''); });
   box.innerHTML = sorted.map(u => {
-    const name = esc(u.display_name || u.username); const handle = escAttr(u.username);
-    const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase();
-    const isVerified = u.is_verified === true; const isBanned = u.is_banned === true;
-    const isMe = currentUser && u.id === currentUser.id;
-    const me = isMe ? '<span style="color:var(--muted);font-size:11px;">(أنت)</span>' : '';
-    const verifyBtn = isVerified ? `<button class="user-action-btn unverify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>` : `<button class="user-action-btn verify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`;
-    const banBtn = !isMe ? (isBanned ? `<button class="user-action-btn" onclick="toggleBlock('${u.id}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-unlock"></i> رفع</button>` : `<button class="user-action-btn ban-btn" onclick="toggleBlock('${u.id}')"><i class="fa-solid fa-ban"></i> حظر</button>`) : '';
-    const msgBtn = !isMe ? `<button class="user-action-btn send-msg" onclick="openChat('${u.id}')"><i class="fa-solid fa-comments"></i> محادثة</button>` : '';
+    const name = esc(u.display_name || u.username); const handle = escAttr(u.username); const avatar = u.avatar_url ? `<img src="${escAttr(u.avatar_url)}" alt="">` : name.charAt(0).toUpperCase(); const isVerified = u.is_verified === true; const isBanned = u.is_banned === true; const isMe = currentUser && u.id === currentUser.id;
+    const me = isMe ? '<span style="color:var(--muted);font-size:11px;">(أنت)</span>' : ''; const verifyBtn = isVerified ? `<button class="user-action-btn unverify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-xmark"></i> إزالة</button>` : `<button class="user-action-btn verify" onclick="toggleVerification('${u.id}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`; const banBtn = !isMe ? (isBanned ? `<button class="user-action-btn" onclick="toggleBlock('${u.id}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-unlock"></i> رفع</button>` : `<button class="user-action-btn ban-btn" onclick="toggleBlock('${u.id}')"><i class="fa-solid fa-ban"></i> حظر</button>`) : ''; const msgBtn = !isMe ? `<button class="user-action-btn send-msg" onclick="openChat('${u.id}')"><i class="fa-solid fa-comments"></i> محادثة</button>` : '';
     return `<div class="user-card"><div class="user-card-avatar" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;">${avatar}</div><div class="user-card-info" onclick="switchSection('profile','${u.id}')" style="cursor:pointer;"><div class="user-card-name">${name}${me}${isVerified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}${isBanned ? '<i class="fa-solid fa-ban banned-badge"></i>' : ''}</div><div class="user-card-handle">@${handle}</div></div><div class="user-card-actions">${msgBtn}${verifyBtn}${banBtn}</div></div>`;
   }).join('');
 }
-async function toggleVerification(userId) {
-  if (!isAdmin()) return showToast('لا تملك الصلاحية', true);
-  const u = getUserById(userId); if (!u) return showToast('المستخدم غير موجود', true);
-  const newValue = !(u.is_verified === true);
-  try { const { error } = await supabase.from('profiles').update({ is_verified: newValue }).eq('id', userId); if (error) throw error; u.is_verified = newValue; showToast(newValue ? '✓ تم منح التوثيق' : '✓ تم إزالة التوثيق'); if (newValue) await createNotification(userId, 'verify', 'تم توثيق حسابك ✓', ''); renderUsersList(); renderSidebar(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); loadContent(); } catch (err) { showToast('فشل', true); }
-}
-async function toggleBlock(userId) {
-  if (!isAdmin()) return showToast('غير مصرح', true);
-  const u = getUserById(userId); if (!u) return;
-  const wasBanned = u.is_banned === true;
-  if (!confirm(wasBanned ? `رفع الحظر عن @${u.username}؟` : `حظر @${u.username}؟`)) return;
-  try { const { error } = await supabase.from('profiles').update({ is_banned: !wasBanned }).eq('id', userId); if (error) throw error; u.is_banned = !wasBanned; showToast(wasBanned ? '✓ تم رفع الحظر' : '✓ تم حظر المستخدم'); renderUsersList(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); loadContent(); } catch(e) { showToast('فشل', true); }
-}
-function openBoost(videoId) {
-  if (!isAdmin()) return;
-  boostTargetId = videoId; const row = allRows.find(r => r.id === videoId); if (!row) return;
-  $('boostSub').innerHTML = `المنشور: <b>${esc(row.title || 'بدون عنوان')}</b><br><span style="color:var(--danger);"><i class="fa-solid fa-heart"></i> ${row.likes_count || 0}</span> · <span style="color:var(--orange);"><i class="fa-solid fa-eye"></i> ${row.views_count || 0}</span>`;
-  $('boostLikes').value = '0'; $('boostViews').value = '0'; openModal('boostModal');
-}
+async function toggleVerification(userId) { if (!isAdmin()) return showToast('لا تملك الصلاحية', true); const u = getUserById(userId); if (!u) return showToast('المستخدم غير موجود', true); const newValue = !(u.is_verified === true); try { const { error } = await supabase.from('profiles').update({ is_verified: newValue }).eq('id', userId); if (error) throw error; u.is_verified = newValue; showToast(newValue ? '✓ تم منح التوثيق' : '✓ تم إزالة التوثيق'); if (newValue) await createNotification(userId, 'verify', 'تم توثيق حسابك ✓', ''); renderUsersList(); renderSidebar(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); loadContent(); } catch (err) { showToast('فشل', true); } }
+async function toggleBlock(userId) { if (!isAdmin()) return showToast('غير مصرح', true); const u = getUserById(userId); if (!u) return; const wasBanned = u.is_banned === true; if (!confirm(wasBanned ? `رفع الحظر عن @${u.username}؟` : `حظر @${u.username}؟`)) return; try { const { error } = await supabase.from('profiles').update({ is_banned: !wasBanned }).eq('id', userId); if (error) throw error; u.is_banned = !wasBanned; showToast(wasBanned ? '✓ تم رفع الحظر' : '✓ تم حظر المستخدم'); renderUsersList(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); loadContent(); } catch(e) { showToast('فشل', true); } }
+function openBoost(videoId) { if (!isAdmin()) return; boostTargetId = videoId; const row = allRows.find(r => r.id === videoId); if (!row) return; $('boostSub').innerHTML = `المنشور: <b>${esc(row.title || 'بدون عنوان')}</b><br><span style="color:var(--danger);"><i class="fa-solid fa-heart"></i> ${row.likes_count || 0}</span> · <span style="color:var(--orange);"><i class="fa-solid fa-eye"></i> ${row.views_count || 0}</span>`; $('boostLikes').value = '0'; $('boostViews').value = '0'; openModal('boostModal'); }
 function setBoostToMax() { $('boostLikes').value = MAX_BOOST; $('boostViews').value = MAX_BOOST; }
 async function applyBoost() {
-  if (!isAdmin() || !boostTargetId) return;
-  const likesDelta = parseInt($('boostLikes').value) || 0; const viewsDelta = parseInt($('boostViews').value) || 0;
-  if (likesDelta === 0 && viewsDelta === 0) return showToast('أدخل قيمة مختلفة عن صفر', true);
-  const row = allRows.find(r => r.id === boostTargetId); if (!row) return;
+  if (!isAdmin() || !boostTargetId) return; const likesDelta = parseInt($('boostLikes').value) || 0; const viewsDelta = parseInt($('boostViews').value) || 0; if (likesDelta === 0 && viewsDelta === 0) return showToast('أدخل قيمة مختلفة عن صفر', true); const row = allRows.find(r => r.id === boostTargetId); if (!row) return;
   const btn = $('boostApplyBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري التطبيق...';
-  try { let newLikes = Math.max(0, Math.min(MAX_BOOST, (row.likes_count || 0) + likesDelta)); let newViews = Math.max(0, Math.min(MAX_BOOST, (row.views_count || 0) + viewsDelta)); row.likes_count = newLikes; row.views_count = newViews; document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = newLikes); document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newViews}`; }); await supabase.from('posts').update({ likes_count: newLikes, views_count: newViews }).eq('id', boostTargetId); showToast(`✓ تم التحديث`); closeModal('boostModal', true); } catch(e) { showToast('فشل التحديث', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> تطبيق'; }
+  try { let newLikes = Math.max(0, Math.min(MAX_BOOST, (row.likes_count || 0) + likesDelta)); let newViews = Math.max(0, Math.min(MAX_BOOST, (row.views_count || 0) + viewsDelta)); row.likes_count = newLikes; row.views_count = newViews; document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = newLikes); document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newViews}`; }); await supabase.from('posts').update({ likes_count: newLikes, views_count: newViews }).eq('id', boostTargetId); showToast(`✓ تم التحديث`); closeModal('boostModal', true); } catch(e) { showToast('فشل التحديث', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> تطبيق'; }
 }
 async function deleteItem(rowId) {
-  if (!currentUser) return showToast('سجّل دخول', true);
-  if (!confirm('تأكيد الحذف؟')) return;
-  const row = allRows.find(r => r.id === rowId);
-  try {
-    const { error } = await supabase.from('posts').delete().eq('id', rowId);
-    if (error) throw error;
-    if (row) {
-      const urls = getPostImageUrls(row);
-      if (row.media_url && !urls.includes(row.media_url)) urls.push(row.media_url);
-      const unique = [...new Set(urls)];
-      for (const u of unique) {
-        try {
-          const m = (u || '').match(/\/media\/(.+)$/);
-          if (m && m[1]) await supabase.storage.from('media').remove([decodeURIComponent(m[1])]);
-        } catch(e) {}
-      }
-    }
-    showToast('✓ تم الحذف');
-    allRows = allRows.filter(r => r.id !== rowId);
-    delete commentCounts[rowId];
-    renderAll();
-    if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId);
-    if (currentSection === 'saved') renderSaved();
-  } catch (err) { showToast('فشل الحذف', true); }
+  if (!currentUser) return showToast('سجّل دخول', true); if (!confirm('تأكيد الحذف؟')) return; const row = allRows.find(r => r.id === rowId);
+  try { const { error } = await supabase.from('posts').delete().eq('id', rowId); if (error) throw error; if (row) { const urls = getPostImageUrls(row); if (row.media_url && !urls.includes(row.media_url)) urls.push(row.media_url); const unique = [...new Set(urls)]; for (const u of unique) { try { const m = (u || '').match(/\/media\/(.+)$/); if (m && m[1]) await supabase.storage.from('media').remove([decodeURIComponent(m[1])]); } catch(e) {} } } showToast('✓ تم الحذف'); allRows = allRows.filter(r => r.id !== rowId); delete commentCounts[rowId]; renderAll(); if (currentSection === 'profile' && viewingProfileId) viewProfile(viewingProfileId); if (currentSection === 'saved') renderSaved(); } catch (err) { showToast('فشل الحذف', true); }
 }
 async function toggleLike(videoId, btn) {
-  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; }
-  const isLiked = likedVideos.has(videoId);
-  const cardRow = allRows.find(r => r.id === videoId); if (!cardRow) return;
-  let newCount = cardRow.likes_count || 0;
-  if (isLiked) { likedVideos.delete(videoId); newCount = Math.max(0, newCount - 1); } else { likedVideos.add(videoId); newCount++; }
-  cardRow.likes_count = newCount; saveLikesLocal();
+  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } const isLiked = likedVideos.has(videoId); const cardRow = allRows.find(r => r.id === videoId); if (!cardRow) return; let newCount = cardRow.likes_count || 0; if (isLiked) { likedVideos.delete(videoId); newCount = Math.max(0, newCount - 1); } else { likedVideos.add(videoId); newCount++; } cardRow.likes_count = newCount; saveLikesLocal();
   document.querySelectorAll(`[data-like-id="${videoId}"]`).forEach(b => { const icon = b.querySelector('i'); const span = b.querySelector('span'); if (isLiked) { b.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; } else { b.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; } if (span) span.textContent = newCount; });
   try { if (isLiked) { await supabase.from('likes').delete().eq('user_id', currentUser.id).eq('post_id', videoId); } else { await supabase.from('likes').insert({ user_id: currentUser.id, post_id: videoId }); if (cardRow.user_id && cardRow.user_id !== currentUser.id) await createNotification(cardRow.user_id, 'like', 'أعجب بمنشورك', videoId); } } catch(e) {}
 }
-async function markViewed(videoId) {
-  if (viewedVideos.has(videoId)) return;
-  viewedVideos.add(videoId); saveViewsLocal();
-  const row = allRows.find(r => r.id === videoId); if (!row) return;
-  const newCount = (row.views_count || 0) + 1; row.views_count = newCount;
-  document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newCount}`; });
-  try { await supabase.rpc('increment_views', { p_post_id: videoId }); } catch(e) {}
-}
+async function markViewed(videoId) { if (viewedVideos.has(videoId)) return; viewedVideos.add(videoId); saveViewsLocal(); const row = allRows.find(r => r.id === videoId); if (!row) return; const newCount = (row.views_count || 0) + 1; row.views_count = newCount; document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${newCount}`; }); try { await supabase.rpc('increment_views', { p_post_id: videoId }); } catch(e) {} }
 async function toggleSave(videoId, btn) {
-  if (!currentUser) { showToast('سجّل دخول للحفظ', true); openModal('loginModal'); return; }
-  const isSaved = savedPostIds.has(videoId); btn.disabled = true;
-  try { if (isSaved) { await supabase.from('saves').delete().eq('user_id', currentUser.id).eq('post_id', videoId); savedPostIds.delete(videoId); btn.classList.remove('saved'); btn.querySelector('i').className = 'fa-regular fa-bookmark'; showToast('تم إلغاء الحفظ'); } else { await supabase.from('saves').insert({ user_id: currentUser.id, post_id: videoId }); savedPostIds.add(videoId); btn.classList.add('saved'); btn.querySelector('i').className = 'fa-solid fa-bookmark'; showToast('✓ تم الحفظ'); } } catch(e) { showToast('فشل', true); }
-  finally { btn.disabled = false; }
+  if (!currentUser) { showToast('سجّل دخول للحفظ', true); openModal('loginModal'); return; } const isSaved = savedPostIds.has(videoId); btn.disabled = true;
+  try { if (isSaved) { await supabase.from('saves').delete().eq('user_id', currentUser.id).eq('post_id', videoId); savedPostIds.delete(videoId); btn.classList.remove('saved'); btn.querySelector('i').className = 'fa-regular fa-bookmark'; showToast('تم إلغاء الحفظ'); } else { await supabase.from('saves').insert({ user_id: currentUser.id, post_id: videoId }); savedPostIds.add(videoId); btn.classList.add('saved'); btn.querySelector('i').className = 'fa-solid fa-bookmark'; showToast('✓ تم الحفظ'); } } catch(e) { showToast('فشل', true); } finally { btn.disabled = false; }
 }
-function renderSaved() {
-  const box = $('grid-saved');
-  if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; }
-  const saved = allRows.filter(r => savedPostIds.has(r.id));
-  if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; }
-  box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150);
-}
-function openComments(videoId, title, ownerId) {
-  pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null;
-  $('commentsTitle').textContent = title ? `على: ${title}` : '—';
-  openModal('commentsModal'); loadComments(videoId);
-  if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; }
-  else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; }
-}
-function canDeleteComment(c) {
-  if (!currentUser) return false;
-  if (c.user_id === currentUser.id) return true;
-  const video = allRows.find(r => r.id === c.post_id);
-  if (video && video.user_id === currentUser.id) return true;
-  if (isAdmin()) return true;
-  return false;
-}
+function renderSaved() { const box = $('grid-saved'); if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; } const saved = allRows.filter(r => savedPostIds.has(r.id)); if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; } box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
+function openComments(videoId, title, ownerId) { pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; $('commentsTitle').textContent = title ? `على: ${title}` : '—'; openModal('commentsModal'); loadComments(videoId); if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } }
+function canDeleteComment(c) { if (!currentUser) return false; if (c.user_id === currentUser.id) return true; const video = allRows.find(r => r.id === c.post_id); if (video && video.user_id === currentUser.id) return true; if (isAdmin()) return true; return false; }
 async function loadComments(videoId) {
   const list = $('commentList'); list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
-    const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false });
-    if (error) throw error;
-    allComments = data || [];
-    const parents = allComments.filter(c => !c.parent_id); const replies = allComments.filter(c => c.parent_id);
-    commentCounts[videoId] = allComments.length;
+    const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false }); if (error) throw error;
+    allComments = data || []; const parents = allComments.filter(c => !c.parent_id); const replies = allComments.filter(c => c.parent_id); commentCounts[videoId] = allComments.length;
     if (!parents.length) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`; return; }
     list.innerHTML = parents.map(p => { const childs = replies.filter(r => r.parent_id === p.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); const repliesHTML = childs.length ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>` : ''; return renderCommentItem(p) + repliesHTML; }).join('');
   } catch (err) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p></div>`; }
 }
-function toggleReplies(commentId, btn) {
-  const el = $('replies-' + commentId); if (!el) return;
-  const isShown = el.classList.toggle('show'); const count = el.children.length;
-  if (isShown) btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`;
-  else btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`;
-}
-function getCreatorLikeBadgeHTML(c) {
-  const cName = c.creator_name || ''; const cAvatar = c.creator_avatar || ''; if (!cName) return '';
-  const initial = cName.charAt(0).toUpperCase();
-  const avatar = cAvatar ? `<img src="${escAttr(cAvatar)}" alt="">` : initial;
-  const verified = currentCommentsVideoOwnerId ? verifiedBadgeHTML(currentCommentsVideoOwnerId) : '';
-  return `<span class="creator-like-badge"><span class="creator-like-avatar">${avatar}</span><span class="creator-like-name">${esc(cName)}${verified}</span></span>`;
-}
+function toggleReplies(commentId, btn) { const el = $('replies-' + commentId); if (!el) return; const isShown = el.classList.toggle('show'); const count = el.children.length; if (isShown) btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`; else btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`; }
+function getCreatorLikeBadgeHTML(c) { const cName = c.creator_name || ''; const cAvatar = c.creator_avatar || ''; if (!cName) return ''; const initial = cName.charAt(0).toUpperCase(); const avatar = cAvatar ? `<img src="${escAttr(cAvatar)}" alt="">` : initial; const verified = currentCommentsVideoOwnerId ? verifiedBadgeHTML(currentCommentsVideoOwnerId) : ''; return `<span class="creator-like-badge"><span class="creator-like-avatar">${avatar}</span><span class="creator-like-name">${esc(cName)}${verified}</span></span>`; }
 function renderCommentItem(c, isReply = false) {
-  const canDel = canDeleteComment(c); const isLiked = likedComments.has(c.id);
-  const author = getUserById(c.user_id);
-  const authorName = author ? (author.display_name || author.username) : (c.author_name || 'زائر');
-  const authorAvatar = (author && author.avatar_url) ? `<img src="${escAttr(author.avatar_url)}" alt="">` : (c.author_avatar ? `<img src="${escAttr(c.author_avatar)}" alt="">` : esc(authorName.charAt(0).toUpperCase()));
-  const verified = verifiedBadgeHTML(c.user_id);
-  const likeCount = c.likes_count || 0;
-  const showCreatorBadge = (c.creator_name && c.creator_name.length > 0) || c.creator_liked === true;
-  const creatorBadge = showCreatorBadge ? getCreatorLikeBadgeHTML(c) : '';
+  const canDel = canDeleteComment(c); const isLiked = likedComments.has(c.id); const author = getUserById(c.user_id); const authorName = author ? (author.display_name || author.username) : (c.author_name || 'زائر'); const authorAvatar = (author && author.avatar_url) ? `<img src="${escAttr(author.avatar_url)}" alt="">` : (c.author_avatar ? `<img src="${escAttr(c.author_avatar)}" alt="">` : esc(authorName.charAt(0).toUpperCase())); const verified = verifiedBadgeHTML(c.user_id); const likeCount = c.likes_count || 0;
+  const showCreatorBadge = (c.creator_name && c.creator_name.length > 0) || c.creator_liked === true; const creatorBadge = showCreatorBadge ? getCreatorLikeBadgeHTML(c) : '';
   return `<div class="comment-item ${isReply ? 'reply' : ''}"><div class="comment-item-head"><div class="comment-avatar">${authorAvatar}</div><b>${esc(authorName)}${verified}</b><span>${c.created_at ? timeAgoFrom(c.created_at) : ''}</span>${canDel ? `<button class="comment-del-btn" onclick="deleteComment('${c.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${likeCount}</span></button>${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}</div><div id="reply-form-${c.id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
 }
-function showReplyForm(commentId) {
-  const el = $('reply-form-' + commentId); if (!el) return;
-  if (!currentUser) { showToast('سجّل دخول للرد', true); openModal('loginModal'); return; }
-  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
-  if (el.style.display === 'flex') $('reply-input-' + commentId).focus();
-}
+function showReplyForm(commentId) { const el = $('reply-form-' + commentId); if (!el) return; if (!currentUser) { showToast('سجّل دخول للرد', true); openModal('loginModal'); return; } el.style.display = el.style.display === 'none' ? 'flex' : 'none'; if (el.style.display === 'flex') $('reply-input-' + commentId).focus(); }
 async function submitReply(parentId) {
-  if (!currentUser) return showToast('سجّل دخول', true);
-  const input = $('reply-input-' + parentId); const content = input.value.trim();
-  if (!content) return showToast('اكتب ردك', true);
-  const parent = allComments.find(c => c.id === parentId);
+  if (!currentUser) return showToast('سجّل دخول', true); const input = $('reply-input-' + parentId); const content = input.value.trim(); if (!content) return showToast('اكتب ردك', true); const parent = allComments.find(c => c.id === parentId);
   try { const { error } = await supabase.from('comments').insert({ post_id: currentCommentsVideoId, user_id: currentUser.id, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', content, is_deleted: false, parent_id: parentId, likes_count: 0, creator_liked: false, creator_name: '', creator_avatar: '' }); if (error) throw error; input.value = ''; showToast('✓ تم الرد'); if (parent && parent.user_id && parent.user_id !== currentUser.id) await createNotification(parent.user_id, 'reply', 'رد على تعليقك', currentCommentsVideoId); loadComments(currentCommentsVideoId); } catch(err) { showToast('فشل الرد', true); }
 }
 async function addComment() {
-  if (!currentUser) return showToast('سجّل دخول', true);
-  const input = $('commentInput'); const content = input.value.trim();
-  if (!content) return showToast('اكتب تعليقاً', true);
-  if (!currentCommentsVideoId) return;
-  const btn = $('commentBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري النشر...';
-  try { const { error } = await supabase.from('comments').insert({ post_id: currentCommentsVideoId, user_id: currentUser.id, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', content, is_deleted: false, parent_id: null, likes_count: 0, creator_liked: false, creator_name: '', creator_avatar: '' }); if (error) throw error; input.value = ''; showToast('✓ تم النشر'); const video = allRows.find(r => r.id === currentCommentsVideoId); if (video && video.user_id && video.user_id !== currentUser.id) await createNotification(video.user_id, 'comment', 'علّق على منشورك', currentCommentsVideoId); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل النشر', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> نشر التعليق'; }
+  if (!currentUser) return showToast('سجّل دخول', true); const input = $('commentInput'); const content = input.value.trim(); if (!content) return showToast('اكتب تعليقاً', true); if (!currentCommentsVideoId) return; const btn = $('commentBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري النشر...';
+  try { const { error } = await supabase.from('comments').insert({ post_id: currentCommentsVideoId, user_id: currentUser.id, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', content, is_deleted: false, parent_id: null, likes_count: 0, creator_liked: false, creator_name: '', creator_avatar: '' }); if (error) throw error; input.value = ''; showToast('✓ تم النشر'); const video = allRows.find(r => r.id === currentCommentsVideoId); if (video && video.user_id && video.user_id !== currentUser.id) await createNotification(video.user_id, 'comment', 'علّق على منشورك', currentCommentsVideoId); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل النشر', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> نشر التعليق'; }
 }
-async function deleteComment(commentId) {
-  if (!confirm('حذف التعليق؟')) return;
-  try { await supabase.from('comments').update({ is_deleted: true }).eq('id', commentId); showToast('✓ تم الحذف'); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل', true); }
-}
+async function deleteComment(commentId) { if (!confirm('حذف التعليق؟')) return; try { await supabase.from('comments').update({ is_deleted: true }).eq('id', commentId); showToast('✓ تم الحذف'); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل', true); } }
 async function toggleCommentLike(commentId, btn) {
-  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; }
-  const isLiked = likedComments.has(commentId);
-  btn.disabled = true;
+  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } const isLiked = likedComments.has(commentId); btn.disabled = true;
   try {
-    const comment = allComments.find(c => c.id === commentId);
-    if (!comment) { btn.disabled = false; return; }
-    const amCreator = currentCommentsVideoOwnerId === currentUser.id;
-    const delta = isLiked ? -1 : 1;
-    if (isLiked) {
-      const { error } = await supabase.from('comment_likes').delete().eq('user_id', currentUser.id).eq('comment_id', commentId);
-      if (error) throw error;
-      likedComments.delete(commentId);
-    } else {
-      const { error } = await supabase.from('comment_likes').insert({ user_id: currentUser.id, comment_id: commentId });
-      if (error) throw error;
-      likedComments.add(commentId);
-    }
-    if (amCreator) {
-      const upd = isLiked
-        ? { creator_name: '', creator_avatar: '', creator_liked: false }
-        : { creator_name: currentProfile.display_name || currentProfile.username, creator_avatar: currentProfile.avatar_url || '', creator_liked: true };
-      const { error: upErr } = await supabase.from('comments').update(upd).eq('id', commentId);
-      if (upErr) console.warn('creator update failed:', upErr.message);
-    }
-    const newCount = Math.max(0, (parseInt(comment.likes_count) || 0) + delta);
-    comment.likes_count = newCount;
-    if (amCreator) {
-      if (isLiked) { comment.creator_name = ''; comment.creator_avatar = ''; comment.creator_liked = false; }
-      else {
-        comment.creator_name = currentProfile.display_name || currentProfile.username;
-        comment.creator_avatar = currentProfile.avatar_url || '';
-        comment.creator_liked = true;
-      }
-    }
-    btn.classList.toggle('liked', !isLiked);
-    const icon = btn.querySelector('i');
-    if (icon) icon.className = !isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-    const span = btn.querySelector('span');
-    if (span) span.textContent = newCount;
-    if (!isLiked && comment.user_id && comment.user_id !== currentUser.id) {
-      const notifType = amCreator ? 'creator_like' : 'comment_like';
-      const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك' : 'أعجب بتعليقك';
-      await createNotification(comment.user_id, notifType, notifContent, comment.post_id);
-    }
+    const comment = allComments.find(c => c.id === commentId); if (!comment) { btn.disabled = false; return; } const amCreator = currentCommentsVideoOwnerId === currentUser.id; const delta = isLiked ? -1 : 1;
+    if (isLiked) { const { error } = await supabase.from('comment_likes').delete().eq('user_id', currentUser.id).eq('comment_id', commentId); if (error) throw error; likedComments.delete(commentId); }
+    else { const { error } = await supabase.from('comment_likes').insert({ user_id: currentUser.id, comment_id: commentId }); if (error) throw error; likedComments.add(commentId); }
+    if (amCreator) { const upd = isLiked ? { creator_name: '', creator_avatar: '', creator_liked: false } : { creator_name: currentProfile.display_name || currentProfile.username, creator_avatar: currentProfile.avatar_url || '', creator_liked: true }; const { error: upErr } = await supabase.from('comments').update(upd).eq('id', commentId); if (upErr) console.warn('creator update failed:', upErr.message); }
+    const newCount = Math.max(0, (parseInt(comment.likes_count) || 0) + delta); comment.likes_count = newCount;
+    if (amCreator) { if (isLiked) { comment.creator_name = ''; comment.creator_avatar = ''; comment.creator_liked = false; } else { comment.creator_name = currentProfile.display_name || currentProfile.username; comment.creator_avatar = currentProfile.avatar_url || ''; comment.creator_liked = true; } }
+    btn.classList.toggle('liked', !isLiked); const icon = btn.querySelector('i'); if (icon) icon.className = !isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'; const span = btn.querySelector('span'); if (span) span.textContent = newCount;
+    if (!isLiked && comment.user_id && comment.user_id !== currentUser.id) { const notifType = amCreator ? 'creator_like' : 'comment_like'; const notifContent = amCreator ? 'صاحب المنشور أعجب بتعليقك' : 'أعجب بتعليقك'; await createNotification(comment.user_id, notifType, notifContent, comment.post_id); }
     setTimeout(() => loadComments(currentCommentsVideoId), 300);
-  } catch(e) {
-    console.error('toggleCommentLike error:', e);
-    showToast('فشل الإعجاب: ' + (e.message || ''), true);
-    if (isLiked) likedComments.add(commentId);
-    else likedComments.delete(commentId);
-    loadComments(currentCommentsVideoId);
-  }
-  finally { btn.disabled = false; }
+  } catch(e) { console.error('toggleCommentLike error:', e); showToast('فشل الإعجاب: ' + (e.message || ''), true); if (isLiked) likedComments.add(commentId); else likedComments.delete(commentId); loadComments(currentCommentsVideoId); } finally { btn.disabled = false; }
 }
-function copyLink(url) {
-  navigator.clipboard.writeText(url).then(() => showToast('✓ تم النسخ')).catch(() => { const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✓ تم النسخ'); });
-}
-function applySearch() {
-  clearTimeout(searchDebounce);
-  searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 250);
-}
+function copyLink(url) { navigator.clipboard.writeText(url).then(() => showToast('✓ تم النسخ')).catch(() => { const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✓ تم النسخ'); }); }
+function applySearch() { clearTimeout(searchDebounce); searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 250); }
 function togglePlayPauseCard(btn) {
-  const card = btn.closest('.card'); const video = card ? card.querySelector('.card-media') : null;
-  if (!video || video.tagName !== 'VIDEO') return;
-  if (video.paused) {
-    document.querySelectorAll('.card-media').forEach(v => { if (v !== video && v.tagName === 'VIDEO' && !v.paused) { v.pause(); const c = v.closest('.card'); const pb = c ? c.querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; } });
-    document.querySelectorAll('audio').forEach(a => { if (!a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } });
-    video.muted = false; const p = video.play(); if (p && p.catch) p.catch(() => {});
-    btn.style.display = 'none'; activeVideo = video;
-  } else { video.pause(); btn.style.display = 'flex'; activeVideo = null; }
+  const card = btn.closest('.card'); const video = card ? card.querySelector('.card-media') : null; if (!video || video.tagName !== 'VIDEO') return;
+  if (video.paused) { document.querySelectorAll('.card-media').forEach(v => { if (v !== video && v.tagName === 'VIDEO' && !v.paused) { v.pause(); const c = v.closest('.card'); const pb = c ? c.querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; } }); document.querySelectorAll('audio').forEach(a => { if (!a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } }); video.muted = false; const p = video.play(); if (p && p.catch) p.catch(() => {}); btn.style.display = 'none'; activeVideo = video; }
+  else { video.pause(); btn.style.display = 'flex'; activeVideo = null; }
 }
-function seekVideo(e, barEl) {
-  e.stopPropagation();
-  const card = barEl.closest('.card'); const video = card ? card.querySelector('.card-media') : null;
-  if (!video || video.tagName !== 'VIDEO' || !video.duration) return;
-  const rect = barEl.getBoundingClientRect();
-  video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration;
-}
+function seekVideo(e, barEl) { e.stopPropagation(); const card = barEl.closest('.card'); const video = card ? card.querySelector('.card-media') : null; if (!video || video.tagName !== 'VIDEO' || !video.duration) return; const rect = barEl.getBoundingClientRect(); video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration; }
 function toggleAudioPlay(id, btn) {
   const audio = document.getElementById('aud-' + id); if (!audio) return;
   document.querySelectorAll('audio').forEach(a => { if (a.id !== 'aud-' + id && !a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } });
   if (activeVideo && !activeVideo.paused) { activeVideo.pause(); const pb = activeVideo.closest('.card') ? activeVideo.closest('.card').querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; activeVideo = null; }
-  if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => showToast('تعذّر تشغيل الملف', true)); btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; currentAudioId = id; }
-  else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; currentAudioId = null; }
+  if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => showToast('تعذّر تشغيل الملف', true)); btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; currentAudioId = id; } else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; currentAudioId = null; }
 }
 function onAudioTime(id) { const audio = document.getElementById('aud-' + id); if (!audio || !audio.duration) return; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = ((audio.currentTime / audio.duration) * 100) + '%'; const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.currentTime); }
 function onAudioLoaded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const dur = document.getElementById('apd-' + id); if (dur) dur.textContent = formatDur(audio.duration); }
 function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const btn = audio.closest('.audio-player-custom') ? audio.closest('.audio-player-custom').querySelector('.audio-play-btn') : null; if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = '0%'; if (currentAudioId === id) currentAudioId = null; }
 function seekAudio(e, id) { e.stopPropagation(); const audio = document.getElementById('aud-' + id); if (!audio || !audio.duration) return; const rect = e.currentTarget.getBoundingClientRect(); audio.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * audio.duration; }
-function setupHomeObserver() {
-  if (homeVideoObserver) homeVideoObserver.disconnect();
-  homeVideoObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const video = entry.target; const card = video.closest('.card'); const pb = card ? card.querySelector('.play-big') : null; if (entry.intersectionRatio < 0.3) { if (!video.paused) { video.pause(); if (pb) pb.style.display = 'flex'; if (activeVideo === video) activeVideo = null; } } }); }, { threshold: [0, 0.3, 0.5] });
-  document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'VIDEO') homeVideoObserver.observe(el); });
-}
+function setupHomeObserver() { if (homeVideoObserver) homeVideoObserver.disconnect(); homeVideoObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const video = entry.target; const card = video.closest('.card'); const pb = card ? card.querySelector('.play-big') : null; if (entry.intersectionRatio < 0.3) { if (!video.paused) { video.pause(); if (pb) pb.style.display = 'flex'; if (activeVideo === video) activeVideo = null; } } }); }, { threshold: [0, 0.3, 0.5] }); document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'VIDEO') homeVideoObserver.observe(el); }); }
 function setupVideoControls() {
   document.querySelectorAll('.card-media').forEach(el => {
     if (el.dataset.vcBound) return;
@@ -2106,82 +1265,38 @@ function setupVideoControls() {
   });
   setupHomeObserver();
 }
-function setupBlurUp() {
-  document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'IMG' && el.complete && el.naturalHeight !== 0) el.classList.add('loaded'); });
-  setupVideoControls();
-  setupCarousels();
-  setupCarouselViews();
-}
+function setupBlurUp() { document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'IMG' && el.complete && el.naturalHeight !== 0) el.classList.add('loaded'); }); setupVideoControls(); setupCarousels(); setupCarouselViews(); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseActiveVideo(); });
 window.addEventListener('beforeunload', pauseActiveVideo);
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', async () => {
-  showWarningIfNeeded();
-  const saved = loadSession();
+  showWarningIfNeeded(); const saved = loadSession();
   if (saved) {
     currentProfile = saved;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session && session.user) {
-        currentUser = { id: session.user.id };
-        try {
-          const { data: freshProf } = await supabase.from('profiles').select('*').eq('id', session.user.id).maybeSingle();
-          if (freshProf) { currentProfile = { id: freshProf.id, username: freshProf.username, display_name: freshProf.display_name || freshProf.username, avatar_url: freshProf.avatar_url || '', is_verified: freshProf.is_verified === true, is_banned: freshProf.is_banned === true, is_admin: freshProf.is_admin === true }; saveSession(currentProfile); }
-        } catch(e) {}
-      } else { currentUser = null; currentProfile = null; clearSession(); }
+      if (session && session.user) { currentUser = { id: session.user.id }; try { const { data: freshProf } = await supabase.from('profiles').select('*').eq('id', session.user.id).maybeSingle(); if (freshProf) { currentProfile = { id: freshProf.id, username: freshProf.username, display_name: freshProf.display_name || freshProf.username, avatar_url: freshProf.avatar_url || '', is_verified: freshProf.is_verified === true, is_banned: freshProf.is_banned === true, is_admin: freshProf.is_admin === true }; saveSession(currentProfile); } } catch(e) {} }
+      else { currentUser = null; currentProfile = null; clearSession(); }
     } catch(e) { currentUser = null; currentProfile = null; clearSession(); }
   }
-  renderSidebar();
-  await loadAllUsers();
-  await loadContent();
-  setupInfiniteScroll();
+  renderSidebar(); await loadAllUsers(); await loadContent(); setupInfiniteScroll();
   if (currentUser) { await Promise.all([loadFollowing(), loadSaved(), loadLikedComments(), loadNotifications()]); setupRealtime(); startBackgroundPolling(); }
 });
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_OUT') { currentUser = null; currentProfile = null; clearSession(); renderSidebar(); if (chatPollFallback) { clearInterval(chatPollFallback); chatPollFallback = null; } if (notifPoller) { clearInterval(notifPoller); notifPoller = null; } }
-  else if (event === 'SIGNED_IN' && session && session.user) { if (!currentUser) currentUser = { id: session.user.id }; }
-});
-window.addEventListener('focus', async () => {
-  if (currentUser) {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        const { data: refreshData } = await supabase.auth.refreshSession();
-        if (!refreshData || !refreshData.session) { currentUser = null; currentProfile = null; clearSession(); renderSidebar(); }
-      }
-    } catch(e) {}
-  }
-});
+supabase.auth.onAuthStateChange((event, session) => { if (event === 'SIGNED_OUT') { currentUser = null; currentProfile = null; clearSession(); renderSidebar(); if (chatPollFallback) { clearInterval(chatPollFallback); chatPollFallback = null; } if (notifPoller) { clearInterval(notifPoller); notifPoller = null; } } else if (event === 'SIGNED_IN' && session && session.user) { if (!currentUser) currentUser = { id: session.user.id }; } });
+window.addEventListener('focus', async () => { if (currentUser) { try { const { data: { session } } = await supabase.auth.getSession(); if (!session) { const { data: refreshData } = await supabase.auth.refreshSession(); if (!refreshData || !refreshData.session) { currentUser = null; currentProfile = null; clearSession(); renderSidebar(); } } } catch(e) {} } });
 window.addEventListener('popstate', () => { if ($('chatView') && $('chatView').classList.contains('active')) { closeChatView(); history.pushState(null, '', location.href); } });
 history.pushState(null, '', location.href);
 window.addEventListener('load', () => { setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500); });
-
 let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 async function installPWA() {
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) { showToast('✓ التطبيق مثبت بالفعل'); return; }
-  if (deferredPrompt) {
-    try {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') showToast('✓ جاري التثبيت...');
-      else showToast('تم الإلغاء');
-      deferredPrompt = null;
-    } catch(e) { showToast('تعذّر التثبيت', true); }
-    return;
-  }
-  const ua = navigator.userAgent;
-  if (/iPhone|iPad|iPod/.test(ua)) showToast('من Safari: زر المشاركة ↥ ← "إضافة إلى الشاشة الرئيسية"');
-  else if (/Android/.test(ua)) showToast('من قائمة المتصفح ⋮ ← "تثبيت التطبيق"');
-  else showToast('من أيقونة التثبيت في شريط العنوان، أو قائمة المتصفح');
+  if (deferredPrompt) { try { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') showToast('✓ جاري التثبيت...'); else showToast('تم الإلغاء'); deferredPrompt = null; } catch(e) { showToast('تعذّر التثبيت', true); } return; }
+  const ua = navigator.userAgent; if (/iPhone|iPad|iPod/.test(ua)) showToast('من Safari: زر المشاركة ↥ ← "إضافة إلى الشاشة الرئيسية"'); else if (/Android/.test(ua)) showToast('من قائمة المتصفح ⋮ ← "تثبيت التطبيق"'); else showToast('من أيقونة التثبيت في شريط العنوان، أو قائمة المتصفح');
 }
 window.addEventListener('appinstalled', () => { deferredPrompt = null; showToast('✓ تم التثبيت بنجاح'); });
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').catch((err) => console.warn('SW registration failed:', err));
-  });
-}
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./service-worker.js').catch((err) => console.warn('SW registration failed:', err)); }); }
 </script>
 </body>
 </html>
