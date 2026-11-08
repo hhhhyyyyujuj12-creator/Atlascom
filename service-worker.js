@@ -1,4 +1,4 @@
-const CACHE_NAME = 'atlas-site-v1';
+const CACHE_NAME = 'atlas-site-v2';
 const CORE_ASSETS = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', (event) => {
