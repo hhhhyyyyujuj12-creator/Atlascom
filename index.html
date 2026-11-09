@@ -974,7 +974,19 @@ function setupRealtime() {
   try {
     realtimeChannel = supabase.channel('user_' + currentUser.id)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const n = payload.new; if (n) { if (!allNotifs.find(x => x.id === n.id)) allNotifs.unshift(n); updateNotifBadge(); showToast('🔔 إشعار جديد'); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } })
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const m = payload.new; if (!m) return; if (allMessages.find(x => x.id === m.id)) return; allMessages.push(m); const chatOpen = $('chatView').classList.contains('active'); if (chatOpen && currentChatUser && m.sender_id === currentChatUser.id) { appendMsgToBody(m); supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); } else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); } }).subscribe();
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const m = payload.new; if (!m) return; if (allMessages.find(x => x.id === m.id)) return; allMessages.push(m); const chatOpen = $('chatView').classList.contains('active'); if (chatOpen && currentChatUser && m.sender_id === currentChatUser.id) { appendMsgToBody(m); supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); } else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); } })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'posts' }, payload => {
+        const updatedPost = payload.new;
+        if (!updatedPost) return;
+        const rowIndex = allRows.findIndex(r => r.id === updatedPost.id);
+        if (rowIndex !== -1) {
+          allRows[rowIndex].likes_count = updatedPost.likes_count;
+          document.querySelectorAll(`[data-like-id="${updatedPost.id}"] span`).forEach(span => {
+            span.textContent = updatedPost.likes_count;
+          });
+        }
+      })
+      .subscribe();
   } catch(e) {}
 }
 function startBackgroundPolling() {
