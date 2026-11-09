@@ -949,7 +949,7 @@ function appendMsgToBody(m) {
   const body = $('chatBody'); const emptyEl = body.querySelector('.empty'); if (emptyEl) emptyEl.remove(); if (body.querySelector(`[data-msg-id="${m.id}"]`)) return; const wasAtBottom = body.scrollHeight - body.scrollTop - body.clientHeight < 150; const temp = document.createElement('div'); temp.innerHTML = renderMessage(m); body.appendChild(temp.firstElementChild); if (wasAtBottom) body.scrollTop = body.scrollHeight;
 }
 async function sendChatImage(input) {
-  if (!input.files.length || !currentChatUser) return; const file = input.files[0]; if (file.size > 10 * 1024 * 1024) return showToast('الحجم يتجاوز 10 ميجا', true);
+  if (!input.files.length || !currentChatUser) return; const file = input.files[0];
   try { showToast('جاري رفع الصورة...'); const url = await uploadFileToStorage(file, 'chat'); const { data, error } = await supabase.from('messages').insert({ sender_id: currentUser.id, recipient_id: currentChatUser.id, content: '', message_type: 'image', media_url: url, is_read: false }).select().single(); if (error) throw error; input.value = ''; if (data) { appendMsgToBody(data); allMessages.push(data); } } catch(e) { showToast('فشل الإرسال: ' + e.message, true); }
 }
 async function toggleVoiceRecord() {
@@ -1010,12 +1010,12 @@ function setFiles(files) {
   const arr = Array.from(files); if (!arr.length) return; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
   if (arr.length === 1) {
     const file = arr[0]; const isVideo = file.type.startsWith('video/'); const isImage = file.type.startsWith('image/'); const isAudio = file.type.startsWith('audio/'); if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
-    if (currentPostType === 'audio') { if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true); if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true); currentFiles = [file]; currentFileType = 'audio'; selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
-    if (isVideo) { if (file.size > 100 * 1024 * 1024) return showToast('الحجم يتجاوز 100 ميجا', true); currentFiles = [file]; currentFileType = 'video'; selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
-    if (isImage) { if (file.size > 20 * 1024 * 1024) return showToast('الحجم يتجاوز 20 ميجا', true); currentFiles = [file]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
+    if (currentPostType === 'audio') { if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true); currentFiles = [file]; currentFileType = 'audio'; selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
+    if (isVideo) { currentFiles = [file]; currentFileType = 'video'; selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
+    if (isImage) { currentFiles = [file]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     return showToast('نوع الملف غير مدعوم', true);
   }
-  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true); if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true); const allImages = arr.every(f => f.type.startsWith('image/')); if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true); for (const f of arr) { if (f.size > 20 * 1024 * 1024) return showToast(`${f.name} كبير جداً (الحد 20 ميجا)`, true); }
+  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true); if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true); const allImages = arr.every(f => f.type.startsWith('image/')); if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true);
   currentFiles = arr; currentFileType = 'carousel'; selectedFile.textContent = `✓ ${arr.length} صورة مختارة`; renderMultiPreview();
 }
 function renderMultiPreview() {
