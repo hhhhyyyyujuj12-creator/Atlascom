@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="تيم الثار">
-<title>تيم الثار — منصة نشر حر</title>
+<meta name="apple-mobile-web-app-title" content="ATLAS.COM">
+<title>ATLAS.COM — منصة تواصل ونشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -376,6 +376,19 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .multi-preview-item .remove-btn:active{transform:scale(0.9)}
 @media (max-width:600px){header{padding:10px 3%;gap:6px}.logo{font-size:12px}.logo-atlas,.logo-site{padding:5px 7px}.search-wrap input{padding:8px 32px 8px 10px;font-size:12px}.header-icon-btn{width:38px;height:38px}.grid{gap:14px;padding:10px 3% 30px}.grid>.card{max-width:100%}.section-head{padding:16px 4% 8px;font-size:16px}.modal-box{padding:36px 18px calc(24px + env(safe-area-inset-bottom,0px))}.bottom-nav-item span{font-size:10px}.bottom-nav-item i{font-size:19px}.bottom-nav-plus{width:44px;height:30px}.chat-item-avatar{width:46px;height:46px;font-size:18px}.text-post-content{font-size:15px}.text-post-content.short{font-size:17px}.audio-play-btn{width:48px;height:48px;font-size:16px}.comment-item{padding:14px}.comment-item.reply{margin-right:24px}.comment-item.reply::before{right:-14px}.comment-avatar{width:32px;height:32px;font-size:13px}.comment-item-body{font-size:14.5px}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+
+.rich-toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:#090506;border:1px solid var(--border);border-bottom:0;border-radius:12px 12px 0 0}
+.rich-toolbar button{min-width:36px;height:34px;padding:0 9px;border:1px solid #342027;border-radius:8px;background:#160c0f;color:#eee;font:700 14px 'Cairo',sans-serif;cursor:pointer;transition:transform .18s,background .18s}
+.rich-toolbar button:active{transform:scale(.9);background:#35151d}
+.rich-editor{min-height:125px;max-height:280px;overflow:auto;padding:13px 14px;background:#050303;border:1px solid var(--border);border-radius:0 0 12px 12px;color:#fff;font-size:14px;line-height:1.9;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}
+.rich-editor:empty:before{content:attr(data-placeholder);color:#75696c;pointer-events:none}
+.rich-editor:focus{border-color:var(--orange)}
+.rich-editor blockquote,.text-post-content blockquote{margin:9px 0;padding:8px 13px;border-right:3px solid var(--orange);background:rgba(220,38,38,.09);border-radius:7px;color:#f3d9dd}
+.rich-editor .spoiler,.text-post-content .spoiler{background:#555;color:transparent;border-radius:4px;padding:0 4px;cursor:pointer;user-select:none;transition:color .2s,background .2s}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed{background:rgba(168,85,247,.18);color:inherit}
+.text-post-content{overflow-wrap:anywhere}
+.text-post-content a{color:#8fcaff}
+@media(prefers-reduced-motion:no-preference){.section.active{animation:sectionIn .32s cubic-bezier(.22,1,.36,1)}.card{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s}.card:active{transform:scale(.992)}.bottom-nav-item.active i{animation:navBounce .38s cubic-bezier(.34,1.56,.64,1)}@keyframes navBounce{0%{transform:translateY(0) scale(1)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-2px) scale(1.1)}}}
 </style>
 </head>
 <body>
@@ -384,7 +397,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
   <div class="warning-box">
     <div class="warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <h2>تنبيه مهم قبل الدخول</h2>
-    <p>مرحباً بك في <b>تيم الثار</b>. قبل المتابعة:</p>
+    <p>مرحباً بك في <b>ATLAS.COM</b>. قبل المتابعة:</p>
     <div class="warning-list">
       <div><i class="fa-solid fa-circle-check"></i> الموقع <b>مجاني بالكامل</b> ومتاح للجميع.</div>
       <div><i class="fa-solid fa-circle-check"></i> النشر متاح للمسجّلين فقط.</div>
@@ -398,7 +411,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 
 <header>
   <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-  <div class="logo"><span class="logo-atlas">تيم</span><span class="logo-site">الثار</span></div>
+  <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">.COM</span></div>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="ابحث..." oninput="applySearch()">
     <i class="fa-solid fa-magnifying-glass"></i>
@@ -411,7 +424,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="logo"><span class="logo-atlas">تيم</span><span class="logo-site">الثار</span></div>
+    <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">.COM</span></div>
   </div>
   <div class="sidebar-user" id="sidebarUser">
     <div class="sidebar-user-info">
@@ -499,7 +512,21 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
       <button type="button" class="post-type-tab" data-type="text" onclick="setPostType('text')"><i class="fa-solid fa-pen-nib"></i>نصي</button>
     </div>
     <input type="text" id="uploadTitle" class="input-field" placeholder="العنوان *" maxlength="80">
-    <textarea id="uploadDesc" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="300"></textarea>
+    <div id="uploadDescWrap">
+      <div class="rich-toolbar" id="richToolbar" aria-label="أدوات تنسيق النص">
+        <button type="button" onclick="formatPost('bold')" title="عريض"><b>B</b></button>
+        <button type="button" onclick="formatPost('italic')" title="مائل"><i>I</i></button>
+        <button type="button" onclick="formatPost('underline')" title="تسطير"><u>U</u></button>
+        <button type="button" onclick="formatPost('strikeThrough')" title="يتوسطه خط"><s>S</s></button>
+        <button type="button" onclick="formatPost('formatBlock','blockquote')" title="اقتباس"><i class="fa-solid fa-quote-right"></i></button>
+        <button type="button" onclick="formatPost('foreColor','#ff6b6b')" title="أحمر"><i class="fa-solid fa-palette" style="color:#ff6b6b"></i></button>
+        <button type="button" onclick="insertSpoiler()" title="نص مخفي"><i class="fa-solid fa-eye-slash"></i></button>
+        <button type="button" onclick="formatPost('removeFormat')" title="إزالة التنسيق"><i class="fa-solid fa-eraser"></i></button>
+      </div>
+      <div id="uploadRichEditor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="اكتب منشورك هنا... يمكنك تنسيق النص"></div>
+      <textarea id="uploadDesc" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="300" style="display:none"></textarea>
+      <div class="rich-hint">حدّد النص ثم اختر التنسيق. النص المخفي يظهر عند الضغط عليه.</div>
+    </div>
     <div class="file-drop" id="fileDrop">
       <i class="fa-solid fa-photo-film"></i>
       <p>اسحب الملف هنا أو انقر للاختيار</p>
@@ -697,7 +724,7 @@ let followingIds = new Set(), likedVideos = new Set(), viewedVideos = new Set(),
 let commentCounts = {};
 let homeVideoObserver = null, reelsObserver = null, activeVideo = null;
 let boostTargetId = null, personalMsgTargetUser = null, currentChatUser = null;
-let realtimeChannel = null, isSwitching = false, chatPollFallback = null, notifPoller = null, currentAudioId = null;
+let realtimeChannel = null, realtimeConnected = false, isSwitching = false, chatPollFallback = null, notifPoller = null, currentAudioId = null;
 let currentPage = 0, isLoadingMore = false, hasMore = true;
 let mediaRecorder = null, recordedChunks = [], voiceRecordStart = 0, voiceRecTimerInterval = null, voiceStream = null, isRecordingVoice = false, currentVoiceAudio = null;
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
@@ -706,6 +733,58 @@ function saveLikesLocal() { try { localStorage.setItem('atlas_likes', JSON.strin
 function saveViewsLocal() { try { localStorage.setItem('atlas_views', JSON.stringify([...viewedVideos])); } catch(e){} }
 function esc(s) { return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
 function escAttr(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+function formatPost(command, value = null) {
+  const editor = $('uploadRichEditor'); if (!editor) return;
+  editor.focus();
+  try { document.execCommand(command, false, value); } catch(e) {}
+}
+function insertSpoiler() {
+  const editor = $('uploadRichEditor'); if (!editor) return;
+  editor.focus();
+  const selection = window.getSelection();
+  const selected = selection && selection.toString();
+  if (!selected) return showToast('حدّد النص الذي تريد إخفاءه أولاً', true);
+  const span = document.createElement('span'); span.className = 'spoiler'; span.textContent = selected;
+  const range = selection.getRangeAt(0); range.deleteContents(); range.insertNode(span);
+  selection.removeAllRanges();
+}
+function sanitizeRichHTML(input) {
+  const template = document.createElement('template'); template.innerHTML = String(input || '');
+  const allowed = new Set(['B','STRONG','I','EM','U','S','DEL','BLOCKQUOTE','BR','SPAN','DIV','P','FONT']);
+  const walk = node => {
+    [...node.childNodes].forEach(child => {
+      if (child.nodeType === 1) {
+        if (!allowed.has(child.tagName)) { child.replaceWith(document.createTextNode(child.textContent || '')); return; }
+        if (child.tagName === 'FONT') {
+          const color = child.getAttribute('color') || '';
+          if (/^(#[0-9a-f]{3,8}|red|blue|green|purple|orange)$/i.test(color)) {
+            const span = document.createElement('span'); span.style.color = color;
+            while (child.firstChild) span.appendChild(child.firstChild);
+            child.replaceWith(span); child = span;
+          } else { child.replaceWith(...child.childNodes); return; }
+        }
+        [...child.attributes].forEach(attr => {
+          if (child.tagName === 'SPAN' && attr.name === 'class' && attr.value === 'spoiler') return;
+          if (child.tagName === 'SPAN' && attr.name === 'style' && /^color:\s*(#[0-9a-f]{3,8}|red|blue|green|purple|orange)$/i.test(attr.value)) return;
+          child.removeAttribute(attr.name);
+        });
+        walk(child);
+      } else if (child.nodeType !== 3) child.remove();
+    });
+  };
+  walk(template.content);
+  return template.innerHTML;
+}
+function renderRichHTML(input) {
+  const clean = sanitizeRichHTML(input);
+  return clean || '';
+}
+document.addEventListener('click', e => {
+  const spoiler = e.target.closest('.spoiler');
+  if (spoiler && spoiler.closest('.text-post-content')) spoiler.classList.toggle('revealed');
+});
+
 let toastTimer;
 function showToast(msg, isError = false) { const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (isError ? ' error' : ''); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3500); }
 function lockBodyScroll(){document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';document.body.classList.add('modal-open')}
@@ -784,6 +863,7 @@ function renderSidebar() {
 function celebrate() { const box = $('celebration'); if (!box) return; const colors = ['#dc2626', '#991b1b', '#7f1d1d', '#ef4444', '#b91c1c', '#ff3355']; const count = window.innerWidth < 600 ? 10 : 15; for (let i = 0; i < count; i++) { const el = document.createElement('div'); el.className = 'confetti'; el.style.left = Math.random() * 100 + '%'; el.style.background = colors[Math.floor(Math.random() * colors.length)]; el.style.animationDelay = (Math.random() * 0.4) + 's'; el.style.animationDuration = (1.8 + Math.random() * 1) + 's'; if (Math.random() > 0.5) el.style.borderRadius = '50%'; box.appendChild(el); setTimeout(() => el.remove(), 3000); } }
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
 function setPostType(type) {
+  const richWrap = $('uploadDescWrap'); if (richWrap) richWrap.style.display = type === 'text' ? 'block' : 'none';
   currentPostType = type; document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
   const fd = $('fileDrop'), fi = $('fileInput'); const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p'); const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
   currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
@@ -974,7 +1054,7 @@ function setupRealtime() {
   try {
     realtimeChannel = supabase.channel('user_' + currentUser.id)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const n = payload.new; if (n) { if (!allNotifs.find(x => x.id === n.id)) allNotifs.unshift(n); updateNotifBadge(); showToast('🔔 إشعار جديد'); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } })
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const m = payload.new; if (!m) return; if (allMessages.find(x => x.id === m.id)) return; allMessages.push(m); const chatOpen = $('chatView').classList.contains('active'); if (chatOpen && currentChatUser && m.sender_id === currentChatUser.id) { appendMsgToBody(m); supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); } else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); } })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `recipient_id=eq.${currentUser.id}` }, payload => { const m = payload.new; if (!m) return; if (allMessages.find(x => x.id === m.id)) return; allMessages.push(m); const chatOpen = $('chatView').classList.contains('active'); if (chatOpen && currentChatUser && (m.sender_id === currentChatUser.id || m.recipient_id === currentChatUser.id)) { appendMsgToBody(m); if (m.recipient_id === currentUser.id) supabase.from('messages').update({ is_read: true }).eq('id', m.id).then(() => {}); updateMsgBadge(); } else { const sender = getUserById(m.sender_id); const sName = sender ? (sender.display_name || sender.username) : 'مستخدم'; showToast('💬 رسالة من ' + sName); if (currentSection === 'messages') loadConversations(); updateMsgBadge(); } })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'posts' }, payload => {
         const updatedPost = payload.new;
         if (!updatedPost) return;
@@ -986,14 +1066,25 @@ function setupRealtime() {
           });
         }
       })
-      .subscribe();
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, payload => {
+        const fresh = payload.new; if (!fresh || allRows.some(r => r.id === fresh.id)) return;
+        allRows.unshift(fresh);
+        if (currentPage <= 1) { renderAll(); setTimeout(setupBlurUp, 30); }
+        $('count-home').textContent = allRows.length;
+        if (currentSection === 'home' && !searchQuery && homeFilter === 'all') {
+          const card = gridHome.querySelector(`[data-row-id="${fresh.id}"]`);
+          if (!card) gridHome.insertAdjacentHTML('afterbegin', cardHTML(fresh));
+          setTimeout(setupBlurUp, 30);
+        }
+      })
+      .subscribe(status => { realtimeConnected = status === 'SUBSCRIBED'; });
   } catch(e) {}
 }
 function startBackgroundPolling() {
   if (!currentUser) return; if (notifPoller) clearInterval(notifPoller);
   notifPoller = setInterval(async () => { if (!currentUser || document.hidden) return; try { const { data } = await supabase.from('notifications').select('*').eq('recipient_id', currentUser.id).order('created_at', { ascending: false }).limit(100); const oldUnread = allNotifs.filter(n => !n.is_read).length; allNotifs = data || []; const newUnread = allNotifs.filter(n => !n.is_read).length; if (newUnread !== oldUnread) { updateNotifBadge(); if ($('notificationsModal').classList.contains('active')) renderNotifications(); } } catch(e) {} }, 60000);
   if (chatPollFallback) clearInterval(chatPollFallback);
-  chatPollFallback = setInterval(async () => { if (!currentUser || document.hidden) return; if (!$('chatView').classList.contains('active') || !currentChatUser) return; try { const { data } = await supabase.from('messages').select('*').or(`and(sender_id.eq.${currentUser.id},recipient_id.eq.${currentChatUser.id}),and(sender_id.eq.${currentChatUser.id},recipient_id.eq.${currentUser.id})`).order('created_at', { ascending: true }).limit(500); const msgs = data || []; const newMsgs = msgs.filter(m => !allMessages.find(x => x.id === m.id)); if (newMsgs.length > 0) { allMessages = msgs; newMsgs.forEach(m => appendMsgToBody(m)); const unreadIds = newMsgs.filter(m => m.recipient_id === currentUser.id && !m.is_read).map(m => m.id); if (unreadIds.length) await supabase.from('messages').update({ is_read: true }).in('id', unreadIds); updateMsgBadge(); } } catch(e) {} }, 60000);
+  chatPollFallback = setInterval(async () => { if (!currentUser || document.hidden) return; if (!$('chatView').classList.contains('active') || !currentChatUser) return; try { const { data } = await supabase.from('messages').select('*').or(`and(sender_id.eq.${currentUser.id},recipient_id.eq.${currentChatUser.id}),and(sender_id.eq.${currentChatUser.id},recipient_id.eq.${currentUser.id})`).order('created_at', { ascending: true }).limit(500); const msgs = data || []; const newMsgs = msgs.filter(m => !allMessages.find(x => x.id === m.id)); if (newMsgs.length > 0) { allMessages = msgs; newMsgs.forEach(m => appendMsgToBody(m)); const unreadIds = newMsgs.filter(m => m.recipient_id === currentUser.id && !m.is_read).map(m => m.id); if (unreadIds.length) await supabase.from('messages').update({ is_read: true }).in('id', unreadIds); updateMsgBadge(); } } catch(e) {} }, 5000);
 }
 async function loadSaved() { if (!currentUser) { savedPostIds = new Set(); return; } try { const { data } = await supabase.from('saves').select('post_id').eq('user_id', currentUser.id); savedPostIds = new Set((data || []).map(r => r.post_id)); } catch(e) {} }
 async function loadLikedComments() { if (!currentUser) { likedComments = new Set(); return; } try { const { data } = await supabase.from('comment_likes').select('comment_id').eq('user_id', currentUser.id); likedComments = new Set((data || []).map(r => r.comment_id)); } catch(e) {} }
@@ -1040,7 +1131,7 @@ function scrollCarousel(postId, dir) { const track = document.querySelector(`.ca
 function setupCarousels() { document.querySelectorAll('.card-carousel-track').forEach(track => { if (track.dataset.bound) return; track.dataset.bound = '1'; const card = track.closest('.carousel-card'); if (!card) return; const counter = card.querySelector('.card-carousel-counter'); const dots = card.querySelectorAll('.card-carousel-dot'); let rafPending = false; track.addEventListener('scroll', () => { if (rafPending) return; rafPending = true; requestAnimationFrame(() => { rafPending = false; const w = track.clientWidth; if (!w) return; const idx = Math.round(track.scrollLeft / w); dots.forEach((d, i) => d.classList.toggle('active', i === idx)); if (counter) { const total = dots.length; counter.innerHTML = `<i class="fa-solid fa-images"></i> ${Math.min(idx + 1, total)}/${total}`; } }); }, { passive: true }); }); }
 function setupCarouselViews() { document.querySelectorAll('.carousel-card').forEach(card => { if (card.dataset.viewBound) return; card.dataset.viewBound = '1'; const postId = card.getAttribute('data-row-id'); if (!postId) return; const obs = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { markViewed(postId); obs.disconnect(); } }); }, { threshold: 0.5 }); obs.observe(card); }); }
 async function uploadContent() {
-  const title = $('uploadTitle').value.trim(); const desc = $('uploadDesc').value.trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
+  const title = $('uploadTitle').value.trim(); const richEditor = $('uploadRichEditor'); const desc = currentPostType === 'text' ? sanitizeRichHTML(richEditor ? richEditor.innerHTML : $('uploadDesc').value).trim() : $('uploadDesc').value.trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
   if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); } else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
   uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...'; progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%'; progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
   try {
@@ -1056,7 +1147,7 @@ async function uploadContent() {
     showToast('✓ تم النشر'); celebrate(); resetUploadForm(); closeModal('uploadModal', true); loadContent();
   } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); } finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
-function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
+function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
 async function loadContent(reset = true) {
   if (isLoadingMore) return; if (!reset && !hasMore) return; if (reset) { currentPage = 0; hasMore = true; allRows = []; setLoadingAll(); } isLoadingMore = true;
   try {
@@ -1100,7 +1191,7 @@ function cardHTML(v) {
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
   const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
-  if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${esc(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
+  if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc poem">${desc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
@@ -1282,6 +1373,7 @@ window.addEventListener('beforeunload', pauseActiveVideo);
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', async () => {
+  if ($('uploadDescWrap')) $('uploadDescWrap').style.display = 'none';
   showWarningIfNeeded(); const saved = loadSession();
   if (saved) {
     currentProfile = saved;
