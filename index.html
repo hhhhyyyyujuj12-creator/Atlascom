@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ATLAS.COM">
-<title>ATLAS.COM</title>
+<meta name="apple-mobile-web-app-title" content="HONDER">
+<title>HONDER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -384,8 +384,8 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .rich-editor:empty:before{content:attr(data-placeholder);color:#75696c;pointer-events:none}
 .rich-editor:focus{border-color:var(--orange)}
 .rich-editor blockquote,.text-post-content blockquote{margin:9px 0;padding:8px 13px;border-right:3px solid var(--orange);background:rgba(91,112,177,.09);border-radius:7px;color:#f3d9dd}
-.rich-editor .spoiler,.text-post-content .spoiler{background:#555;color:transparent;border-radius:4px;padding:0 4px;cursor:pointer;user-select:none;transition:color .2s,background .2s}
-.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed{background:rgba(168,85,247,.18);color:inherit}
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{background:#555;color:transparent;border-radius:4px;padding:0 4px;cursor:pointer;user-select:none;transition:color .2s,background .2s}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{background:rgba(168,85,247,.18);color:inherit}
 .text-post-content{overflow-wrap:anywhere}
 .text-post-content a{color:#8fcaff}
 @media(prefers-reduced-motion:no-preference){.section.active{animation:sectionIn .32s cubic-bezier(.22,1,.36,1)}.card{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s}.card:active{transform:scale(.992)}.bottom-nav-item.active i{animation:navBounce .38s cubic-bezier(.34,1.56,.64,1)}@keyframes navBounce{0%{transform:translateY(0) scale(1)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-2px) scale(1.1)}}}
@@ -426,13 +426,42 @@ header{background:rgba(16,22,35,.88)!important}
 .bottom-nav-item.active,.section-head i,.text-post-heading,.replies-toggle-btn{color:#aebeff!important}
 .save-btn.saved,.icon-btn.liked{color:#aebeff!important}
 /* Telegram-like spoiler: real soft blur with a low-cost moving sheen */
-.rich-editor .spoiler,.text-post-content .spoiler{display:inline-block;position:relative;overflow:hidden;vertical-align:baseline;border-radius:5px;padding:0 5px;color:inherit!important;background:linear-gradient(105deg,#66728b 0%,#aab6d1 38%,#596987 62%,#8c9bb9 100%);background-size:220% 100%;filter:blur(4.5px);opacity:.86;cursor:pointer;user-select:none;animation:atlasSpoilerSheen 3.8s ease-in-out infinite;transition:filter .28s ease,opacity .28s ease,background .28s ease}
-.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed{filter:blur(0);opacity:1;background:rgba(105,128,190,.16);animation:none}
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{display:inline-block;position:relative;overflow:hidden;vertical-align:baseline;border-radius:5px;padding:0 5px;color:inherit!important;background:linear-gradient(105deg,#66728b 0%,#aab6d1 38%,#596987 62%,#8c9bb9 100%);background-size:220% 100%;filter:blur(4.5px);opacity:.86;cursor:pointer;user-select:none;animation:atlasSpoilerSheen 3.8s ease-in-out infinite;transition:filter .28s ease,opacity .28s ease,background .28s ease}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{filter:blur(0);opacity:1;background:rgba(105,128,190,.16);animation:none}
 @keyframes atlasSpoilerSheen{0%,100%{background-position:100% 0;opacity:.78}50%{background-position:0 0;opacity:.96}}
-@media(prefers-reduced-motion:reduce){.rich-editor .spoiler,.text-post-content .spoiler{animation:none}}
+@media(prefers-reduced-motion:reduce){.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{animation:none}}
 /* Gentle depth without heavy continuous effects */
 .card{background:linear-gradient(155deg,rgba(28,38,58,.98),rgba(19,27,42,.98))!important;box-shadow:0 10px 30px rgba(0,0,0,.16)}
 .modal-box{background:linear-gradient(155deg,#1b263b,#131c2c)!important;border:1px solid #34435f!important}
+
+
+/* HONDER identity and polished responsive controls */
+:root{--bg:#10090b;--card:#1a1013;--border:#382027;--orange:#ff526b;--red-deep:#9f243b;--red-mid:#e13b58;--text:#f6edf0;--muted:#a9979d;--danger:#ff526b;--verified:#ff334f;color-scheme:dark}
+html{background:#090507!important}
+body{background:radial-gradient(ellipse at 50% -12%,rgba(255,65,92,.12),transparent 42%),linear-gradient(145deg,#0b0709,#140b0f 58%,#0b0709)!important;background-attachment:fixed!important}
+.logo-honder{display:inline-flex;align-items:center;justify-content:center;padding:5px 12px;border-radius:10px;color:#fff;font-size:15px;font-weight:1000;letter-spacing:1.2px;background:linear-gradient(135deg,#ff526b,#c72d49);text-shadow:0 0 10px rgba(255,75,103,.45);box-shadow:0 0 14px rgba(255,60,88,.18)}
+.logo{align-items:center}
+.profile-btn.follow,.home-tab.active,.post-type-tab.active,.bottom-nav-plus,.btn-primary{background:linear-gradient(135deg,#ff526b,#a91f3b)!important}
+.bottom-nav{justify-content:stretch;gap:0;padding-left:0;padding-right:0;background:rgba(13,7,10,.94)!important;border-color:rgba(255,75,103,.2)!important}
+.bottom-nav-item,.bottom-nav-plus{flex:1 1 25%;width:25%;max-width:none;min-width:0;margin:0;border-radius:0}
+.bottom-nav-item{padding:7px 2px;gap:4px}
+.bottom-nav-plus{height:100%;background:transparent!important;box-shadow:none;border:0;display:flex;align-items:center;justify-content:center}
+.bottom-nav-plus i{width:42px;height:34px;border-radius:11px;background:linear-gradient(135deg,#ff526b,#a91f3b);display:grid;place-items:center;box-shadow:0 0 13px rgba(255,60,88,.22)}
+.bottom-nav-item.active,.section-head i,.text-post-heading,.replies-toggle-btn{color:#ff7185!important}
+.bottom-nav-item.active i{filter:drop-shadow(0 0 5px rgba(255,70,100,.32))}
+.verified-badge{color:#ff304f!important;text-shadow:0 0 5px rgba(255,35,75,.65),0 0 11px rgba(255,35,75,.35);filter:drop-shadow(0 0 3px rgba(255,35,75,.35))}
+.rich-toolbar{background:#160d11!important;border-color:#43232d!important;align-items:center}
+.rich-toolbar button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0;height:36px;padding:0 10px;border-color:#512936!important;background:#211117!important;color:#fff!important;font-size:12px}
+.rich-toolbar button span{white-space:nowrap;font-size:11px}
+.rich-toolbar button:hover{background:#3a1823!important}
+.rich-editor:focus,.input-field:focus,.search-wrap input:focus{border-color:#ff7185!important;box-shadow:0 0 0 3px rgba(255,82,107,.12)!important}
+.rich-editor blockquote,.text-post-content blockquote{border-right-color:#ff526b!important;background:rgba(255,82,107,.09)!important;color:#ffe5ea!important}
+.audio-progress-track{direction:ltr;height:7px;touch-action:pan-y}
+.audio-progress-fill{background:linear-gradient(90deg,#ff526b,#ff9aa8)!important;transition:width .08s linear}
+.audio-time-row{direction:ltr;color:#d2bfc5;font-variant-numeric:tabular-nums}
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{background:linear-gradient(105deg,#7b3444 0%,#f09aaa 42%,#843447 70%,#c15b70 100%)!important;background-size:220% 100%;filter:blur(4px);opacity:.9;animation:atlasSpoilerSheen 4.2s ease-in-out infinite}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{filter:blur(0);opacity:1;background:rgba(255,82,107,.13)!important;animation:none}
+@media(max-width:600px){.bottom-nav-item{max-width:none}.bottom-nav-plus{width:25%;height:100%}.rich-toolbar{gap:5px;padding:7px}.rich-toolbar button{padding:0 8px}}
 
 </style>
 </head>
@@ -442,7 +471,7 @@ header{background:rgba(16,22,35,.88)!important}
   <div class="warning-box">
     <div class="warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <h2>تنبيه مهم قبل الدخول</h2>
-    <p>مرحباً بك في <b>ATLAS.COM</b>. قبل المتابعة:</p>
+    <p>مرحباً بك في <b>HONDER</b>. قبل المتابعة:</p>
     <div class="warning-list">
       <div><i class="fa-solid fa-circle-check"></i> الموقع <b>مجاني بالكامل</b> ومتاح للجميع.</div>
       <div><i class="fa-solid fa-circle-check"></i> النشر متاح للمسجّلين فقط.</div>
@@ -456,7 +485,7 @@ header{background:rgba(16,22,35,.88)!important}
 
 <header>
   <button class="header-icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-  <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">.COM</span></div>
+  <div class="logo"><span class="logo-honder">HONDER</span></div>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="ابحث..." oninput="applySearch()">
     <i class="fa-solid fa-magnifying-glass"></i>
@@ -469,7 +498,7 @@ header{background:rgba(16,22,35,.88)!important}
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <div class="logo"><span class="logo-atlas">ATLAS</span><span class="logo-site">.COM</span></div>
+    <div class="logo"><span class="logo-honder">HONDER</span></div>
   </div>
   <div class="sidebar-user" id="sidebarUser">
     <div class="sidebar-user-info">
@@ -495,12 +524,6 @@ header{background:rgba(16,22,35,.88)!important}
 
 <main>
   <section id="section-home" class="section active">
-    <div class="home-tabs">
-      <button class="home-tab active" data-filter="all" onclick="setHomeFilter('all')"><i class="fa-solid fa-layer-group"></i> الكل</button>
-      <button class="home-tab" data-filter="following" onclick="setHomeFilter('following')"><i class="fa-solid fa-user-check"></i> أتابعهم</button>
-      <button class="home-tab" data-filter="text" onclick="setHomeFilter('text')"><i class="fa-solid fa-pen"></i> نصوص</button>
-      <button class="home-tab" data-filter="audio" onclick="setHomeFilter('audio')"><i class="fa-solid fa-microphone"></i> صوتيات</button>
-    </div>
     <div class="grid" id="grid-home"></div>
   </section>
 
@@ -554,22 +577,16 @@ header{background:rgba(16,22,35,.88)!important}
     <div id="uploadDescWrap">
       <div id="uploadRichEditor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="اكتب منشورك هنا... يمكنك تنسيق النص"></div>
       <div class="rich-toolbar" id="richToolbar" aria-label="أدوات تنسيق النص">
-        <button type="button" onclick="formatPost('bold')" title="عريض"><b>B</b></button>
-        <button type="button" onclick="formatPost('italic')" title="مائل"><i>I</i></button>
-        <button type="button" onclick="formatPost('underline')" title="تسطير"><u>U</u></button>
-        <button type="button" onclick="formatPost('strikeThrough')" title="يتوسطه خط"><s>S</s></button>
-        <button type="button" onclick="formatPost('formatBlock','blockquote')" title="اقتباس"><i class="fa-solid fa-quote-right"></i></button>
-        <span class="rich-color-label">اللون</span>
-        <button type="button" class="rich-color-swatch" style="--swatch:#a9b8ff" onclick="formatPost('foreColor','#a9b8ff')" title="نيلي فاتح" aria-label="نيلي فاتح"></button>
-        <button type="button" class="rich-color-swatch" style="--swatch:#8fc7ff" onclick="formatPost('foreColor','#8fc7ff')" title="أزرق" aria-label="أزرق"></button>
-        <button type="button" class="rich-color-swatch" style="--swatch:#a8e0d2" onclick="formatPost('foreColor','#a8e0d2')" title="نعناعي" aria-label="نعناعي"></button>
-        <button type="button" class="rich-color-swatch" style="--swatch:#d6c0ff" onclick="formatPost('foreColor','#d6c0ff')" title="بنفسجي" aria-label="بنفسجي"></button>
-        <button type="button" class="rich-color-swatch" style="--swatch:#f0d6a5" onclick="formatPost('foreColor','#f0d6a5')" title="ذهبي هادئ" aria-label="ذهبي هادئ"></button>
-        <button type="button" onclick="insertSpoiler()" title="نص مخفي"><i class="fa-solid fa-eye-slash"></i></button>
-        <button type="button" onclick="formatPost('removeFormat')" title="إزالة التنسيق"><i class="fa-solid fa-eraser"></i></button>
+        <button type="button" onclick="formatPost('bold')" title="عريض"><i class="fa-solid fa-bold"></i><span>عريض</span></button>
+        <button type="button" onclick="formatPost('italic')" title="مائل"><i class="fa-solid fa-italic"></i><span>مائل</span></button>
+        <button type="button" onclick="formatPost('underline')" title="تسطير"><i class="fa-solid fa-underline"></i><span>تسطير</span></button>
+        <button type="button" onclick="formatPost('strikeThrough')" title="يتوسطه خط"><i class="fa-solid fa-strikethrough"></i><span>شطب</span></button>
+        <button type="button" onclick="toggleQuoteFormat()" title="اقتباس"><i class="fa-solid fa-quote-right"></i><span>اقتباس</span></button>
+        <button type="button" onclick="insertSpoiler()" title="نص مخفي"><i class="fa-solid fa-eye-slash"></i><span>إخفاء</span></button>
+        <button type="button" onclick="clearAllFormatting()" title="إزالة كل التنسيقات"><i class="fa-solid fa-eraser"></i><span>مسح التنسيق</span></button>
       </div>
       <textarea id="uploadDesc" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="300" style="display:none"></textarea>
-      <div class="rich-hint">حدّد النص ثم اختر التنسيق. النص المخفي يظهر عند الضغط عليه.</div>
+      
     </div>
     <div class="file-drop" id="fileDrop">
       <i class="fa-solid fa-photo-film"></i>
@@ -786,6 +803,21 @@ function formatPost(command, value = null) {
   }
   rememberEditorSelection(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
 }
+function toggleQuoteFormat() {
+  const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
+  let node = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
+  const quote = node && node.closest ? node.closest('blockquote') : null;
+  try { document.execCommand('formatBlock', false, quote ? 'p' : 'blockquote'); } catch(e) {}
+  rememberEditorSelection(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+}
+function clearAllFormatting() {
+  const editor = $('uploadRichEditor'); if (!editor) return;
+  const plain = editor.innerText || editor.textContent || '';
+  editor.replaceChildren(document.createTextNode(plain));
+  atlasEditorRange = null; editor.focus(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  showToast('تمت إزالة جميع التنسيقات');
+}
 function insertSpoiler() {
   const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر النص المخفي', true);
   const sel = window.getSelection(); if (!sel || sel.isCollapsed) return showToast('حدّد النص الذي تريد إخفاءه أولاً', true);
@@ -810,7 +842,7 @@ function sanitizeRichHTML(input) {
         }
         [...child.attributes].forEach(attr => {
           if (child.tagName === 'SPAN' && attr.name === 'class' && attr.value === 'spoiler') return;
-          if (child.tagName === 'SPAN' && attr.name === 'style' && /^color:\s*(#[0-9a-f]{3,8}|red|blue|green|purple|orange)$/i.test(attr.value)) return;
+          
           child.removeAttribute(attr.name);
         });
         walk(child);
@@ -826,7 +858,7 @@ function renderRichHTML(input) {
 }
 document.addEventListener('click', e => {
   const spoiler = e.target.closest('.spoiler');
-  if (spoiler && spoiler.closest('.text-post-content')) spoiler.classList.toggle('revealed');
+  if (spoiler && spoiler.closest('.text-post-content,.card-desc,.reel-overlay')) spoiler.classList.toggle('revealed');
 });
 
 let toastTimer;
@@ -906,7 +938,7 @@ function renderSidebar() {
 function celebrate() { const box = $('celebration'); if (!box) return; const colors = ['#657dbd', '#394a79', '#394a79', '#52669f', '#b91c1c', '#a9a8d8']; const count = window.innerWidth < 600 ? 10 : 15; for (let i = 0; i < count; i++) { const el = document.createElement('div'); el.className = 'confetti'; el.style.left = Math.random() * 100 + '%'; el.style.background = colors[Math.floor(Math.random() * colors.length)]; el.style.animationDelay = (Math.random() * 0.4) + 's'; el.style.animationDuration = (1.8 + Math.random() * 1) + 's'; if (Math.random() > 0.5) el.style.borderRadius = '50%'; box.appendChild(el); setTimeout(() => el.remove(), 3000); } }
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
 function setPostType(type) {
-  const richWrap = $('uploadDescWrap'); if (richWrap) richWrap.style.display = type === 'text' ? 'block' : 'none';
+  const richWrap = $('uploadDescWrap'); if (richWrap) richWrap.style.display = 'block';
   currentPostType = type; document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
   const fd = $('fileDrop'), fi = $('fileInput'); const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p'); const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
   currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
@@ -1079,7 +1111,7 @@ function scrollCarousel(postId, dir) { const track = document.querySelector(`.ca
 function setupCarousels() { document.querySelectorAll('.card-carousel-track').forEach(track => { if (track.dataset.bound) return; track.dataset.bound = '1'; const card = track.closest('.carousel-card'); if (!card) return; const counter = card.querySelector('.card-carousel-counter'); const dots = card.querySelectorAll('.card-carousel-dot'); let rafPending = false; track.addEventListener('scroll', () => { if (rafPending) return; rafPending = true; requestAnimationFrame(() => { rafPending = false; const w = track.clientWidth; if (!w) return; const idx = Math.round(track.scrollLeft / w); dots.forEach((d, i) => d.classList.toggle('active', i === idx)); if (counter) { const total = dots.length; counter.innerHTML = `<i class="fa-solid fa-images"></i> ${Math.min(idx + 1, total)}/${total}`; } }); }, { passive: true }); }); }
 function setupCarouselViews() { document.querySelectorAll('.carousel-card').forEach(card => { if (card.dataset.viewBound) return; card.dataset.viewBound = '1'; const postId = card.getAttribute('data-row-id'); if (!postId) return; const obs = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { markViewed(postId); obs.disconnect(); } }); }, { threshold: 0.5 }); obs.observe(card); }); }
 async function uploadContent() {
-  const title = $('uploadTitle').value.trim(); const richEditor = $('uploadRichEditor'); const desc = currentPostType === 'text' ? sanitizeRichHTML(richEditor ? richEditor.innerHTML : $('uploadDesc').value).trim() : $('uploadDesc').value.trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
+  const title = $('uploadTitle').value.trim(); const richEditor = $('uploadRichEditor'); const desc = sanitizeRichHTML(richEditor ? richEditor.innerHTML : $('uploadDesc').value).trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
   if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); } else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
   uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...'; progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%'; progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
   try {
@@ -1133,31 +1165,31 @@ function renderAll() {
 function setHomeFilter(f) { homeFilter = f; document.querySelectorAll('.home-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); renderAll(); }
 function canDelete(row) { return currentUser && (row.user_id === currentUser.id || isAdmin()); }
 function cardHTML(v) {
-  const url = escAttr(v.media_url || ''); const mtype = getMediaType(v); const title = esc(v.title); const desc = esc(v.description); const canDel = canDelete(v); const isLiked = likedVideos.has(v.id); const isSaved = savedPostIds.has(v.id);
+  const url = escAttr(v.media_url || ''); const mtype = getMediaType(v); const title = esc(v.title); const desc = esc(v.description); const richDesc = renderRichHTML(v.description || ''); const canDel = canDelete(v); const isLiked = likedVideos.has(v.id); const isSaved = savedPostIds.has(v.id);
   const likesCount = v.likes_count || 0; const viewsCount = v.views_count || 0; const commentsCount = commentCounts[v.id] || 0; const safeTitle = escAttr(v.title);
   const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const verified = verifiedBadgeHTML(v.user_id); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
   const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
-  if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc poem">${desc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" ondurationchange="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
       const dotsHTML = imageUrls.map((_, i) => `<span class="card-carousel-dot ${i === 0 ? 'active' : ''}"></span>`).join('');
       const slidesHTML = imageUrls.map((u, i) => `<div class="card-carousel-slide"><img src="${escAttr(u)}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}"></div>`).join('');
-      return `<div class="card carousel-card" data-row-id="${v.id}"><div class="card-carousel">${overlayAuthorHTML}<div class="card-carousel-counter"><i class="fa-solid fa-images"></i> 1/${imageUrls.length}</div><div class="card-carousel-track" data-carousel-id="${v.id}">${slidesHTML}</div><div class="card-carousel-dots">${dotsHTML}</div><button class="card-carousel-arrow prev" onclick="event.stopPropagation(); scrollCarousel('${v.id}', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-left"></i></button><button class="card-carousel-arrow next" onclick="event.stopPropagation(); scrollCarousel('${v.id}', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-right"></i></button></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
+      return `<div class="card carousel-card" data-row-id="${v.id}"><div class="card-carousel">${overlayAuthorHTML}<div class="card-carousel-counter"><i class="fa-solid fa-images"></i> 1/${imageUrls.length}</div><div class="card-carousel-track" data-carousel-id="${v.id}">${slidesHTML}</div><div class="card-carousel-dots">${dotsHTML}</div><button class="card-carousel-arrow prev" onclick="event.stopPropagation(); scrollCarousel('${v.id}', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-left"></i></button><button class="card-carousel-arrow next" onclick="event.stopPropagation(); scrollCarousel('${v.id}', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-right"></i></button></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`;
     }
   }
   const media = mtype === 'image' ? `<img class="card-media" src="${url}" alt="${title}" loading="lazy">` : `<video class="card-media" src="${url}" loop playsinline preload="metadata" muted onplay="markViewed('${v.id}')"></video>`;
-  return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap">${media}${overlayAuthorHTML}${mtype === 'video' ? `<button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button><div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>` : ''}</div><div class="card-body"><div class="card-title">${title}</div>${desc ? `<div class="card-desc">${desc}</div>` : ''}${actionsRowHTML}</div></div>`;
+  return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap">${media}${overlayAuthorHTML}${mtype === 'video' ? `<button class="play-big" onclick="event.stopPropagation(); togglePlayPauseCard(this)" type="button"><i class="fa-solid fa-play"></i></button><div class="progress-bar-overlay" onclick="seekVideo(event, this)"><div class="progress-track"><div class="progress-fill-v"></div></div></div>` : ''}</div><div class="card-body"><div class="card-title">${title}</div>${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`;
 }
 function renderGrid(container, rows) { if (!container) return; if (!rows.length) { container.innerHTML = `<div class="empty"><i class="fa-solid fa-photo-film"></i><p>لا يوجد محتوى</p><span>اضغط زر + في الأسفل</span></div>`; return; } container.innerHTML = rows.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
 function renderReels(rows) {
   if (!rows.length) { reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>لا توجد ريلزات بعد</p></div>`; return; }
   reelsBox.innerHTML = rows.map(v => {
-    const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
-    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${desc ? `<p>${desc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
+    const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description), richDesc = renderRichHTML(v.description || ''); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
+    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls, 100); setTimeout(setupReelsObserver, 150);
 }
@@ -1301,16 +1333,38 @@ function togglePlayPauseCard(btn) {
   else { video.pause(); btn.style.display = 'flex'; activeVideo = null; }
 }
 function seekVideo(e, barEl) { e.stopPropagation(); const card = barEl.closest('.card'); const video = card ? card.querySelector('.card-media') : null; if (!video || video.tagName !== 'VIDEO' || !video.duration) return; const rect = barEl.getBoundingClientRect(); video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration; }
+function formatDur(value) {
+  const seconds = Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+  const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60), sec = seconds % 60;
+  return h ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${m}:${String(sec).padStart(2,'0')}`;
+}
 function toggleAudioPlay(id, btn) {
   const audio = document.getElementById('aud-' + id); if (!audio) return;
   document.querySelectorAll('audio').forEach(a => { if (a.id !== 'aud-' + id && !a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } });
   if (activeVideo && !activeVideo.paused) { activeVideo.pause(); const pb = activeVideo.closest('.card') ? activeVideo.closest('.card').querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; activeVideo = null; }
-  if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => showToast('تعذّر تشغيل الملف', true)); btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; currentAudioId = id; } else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; currentAudioId = null; }
+  if (audio.paused) {
+    const p = audio.play(); if (p && p.then) p.then(() => { btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; currentAudioId = id; }).catch(() => { btn.innerHTML = '<i class="fa-solid fa-play"></i>'; showToast('تعذّر تشغيل الملف', true); });
+  } else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; if (currentAudioId === id) currentAudioId = null; }
 }
-function onAudioTime(id) { const audio = document.getElementById('aud-' + id); if (!audio || !audio.duration) return; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = ((audio.currentTime / audio.duration) * 100) + '%'; const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.currentTime); }
-function onAudioLoaded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const dur = document.getElementById('apd-' + id); if (dur) dur.textContent = formatDur(audio.duration); }
-function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const btn = audio.closest('.audio-player-custom') ? audio.closest('.audio-player-custom').querySelector('.audio-play-btn') : null; if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = '0%'; if (currentAudioId === id) currentAudioId = null; }
-function seekAudio(e, id) { e.stopPropagation(); const audio = document.getElementById('aud-' + id); if (!audio || !audio.duration) return; const rect = e.currentTarget.getBoundingClientRect(); audio.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * audio.duration; }
+function onAudioTime(id) {
+  const audio = document.getElementById('aud-' + id); if (!audio) return;
+  const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+  const fill = document.getElementById('apf-' + id); if (fill && duration > 0) fill.style.width = `${Math.min(100, Math.max(0, audio.currentTime / duration * 100))}%`;
+  const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.currentTime);
+  const dur = document.getElementById('apd-' + id); if (dur && duration > 0) dur.textContent = formatDur(duration);
+}
+function onAudioLoaded(id) {
+  const audio = document.getElementById('aud-' + id); if (!audio) return;
+  const dur = document.getElementById('apd-' + id); if (dur) dur.textContent = Number.isFinite(audio.duration) ? formatDur(audio.duration) : '0:00';
+  onAudioTime(id);
+}
+function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const btn = audio.closest('.audio-player-custom') ? audio.closest('.audio-player-custom').querySelector('.audio-play-btn') : null; if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = '100%'; const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.duration); if (currentAudioId === id) currentAudioId = null; }
+function seekAudio(e, id) {
+  e.stopPropagation(); const audio = document.getElementById('aud-' + id); if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
+  const rect = e.currentTarget.getBoundingClientRect(); if (!rect.width) return;
+  const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  try { audio.currentTime = ratio * audio.duration; onAudioTime(id); } catch(err) { showToast('تعذّر تغيير موضع الصوت', true); }
+}
 function setupHomeObserver() { if (homeVideoObserver) homeVideoObserver.disconnect(); homeVideoObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const video = entry.target; const card = video.closest('.card'); const pb = card ? card.querySelector('.play-big') : null; if (entry.intersectionRatio < 0.3) { if (!video.paused) { video.pause(); if (pb) pb.style.display = 'flex'; if (activeVideo === video) activeVideo = null; } } }); }, { threshold: [0, 0.3, 0.5] }); document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'VIDEO') homeVideoObserver.observe(el); }); }
 function setupVideoControls() {
   document.querySelectorAll('.card-media').forEach(el => {
