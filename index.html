@@ -9,7 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ATLAS.COM">
-<title>ATLAS.COM — منصة تواصل ونشر</title>
+<title>ATLAS.COM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -389,6 +389,31 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .text-post-content{overflow-wrap:anywhere}
 .text-post-content a{color:#8fcaff}
 @media(prefers-reduced-motion:no-preference){.section.active{animation:sectionIn .32s cubic-bezier(.22,1,.36,1)}.card{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s}.card:active{transform:scale(.992)}.bottom-nav-item.active i{animation:navBounce .38s cubic-bezier(.34,1.56,.64,1)}@keyframes navBounce{0%{transform:translateY(0) scale(1)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-2px) scale(1.1)}}}
+
+/* ATLAS selection menu */
+body{-webkit-touch-callout:none}
+#atlasSelectionMenu{position:fixed;z-index:999999;display:none;align-items:center;gap:5px;max-width:min(94vw,680px);padding:7px;background:rgba(19,12,15,.96);border:1px solid rgba(255,255,255,.13);border-radius:16px;box-shadow:0 14px 42px rgba(0,0,0,.55),0 2px 10px rgba(220,38,38,.12);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);overflow-x:auto;overscroll-behavior:contain;scrollbar-width:none;direction:rtl;transform:translateY(9px) scale(.96);opacity:0;transition:opacity .28s cubic-bezier(.2,.8,.2,1),transform .42s cubic-bezier(.18,1.25,.32,1)}
+#atlasSelectionMenu::-webkit-scrollbar{display:none}
+#atlasSelectionMenu.visible{opacity:1;transform:translateY(0) scale(1)}
+#atlasSelectionMenu button{flex:0 0 auto;min-width:39px;height:39px;padding:0 10px;border:1px solid transparent;border-radius:10px;background:transparent;color:#f8edf0;font:700 13px 'Cairo',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;cursor:pointer;transition:background .3s cubic-bezier(.2,.8,.2,1),transform .38s cubic-bezier(.18,1.25,.32,1),color .3s}
+#atlasSelectionMenu button:active{background:rgba(220,38,38,.22);transform:scale(.91)}
+#atlasSelectionMenu button:disabled{opacity:.3;cursor:default}
+#atlasSelectionMenu .menu-divider{width:1px;height:25px;flex:0 0 1px;background:rgba(255,255,255,.13);margin:0 2px}
+#atlasSelectionMenu .menu-danger{color:#ff8a9c}
+#atlasSelectionMenu .menu-color{width:24px;min-width:24px;height:24px;padding:0;border:3px solid rgba(255,255,255,.75);border-radius:50%;background:#ef4444}
+@media(max-width:600px){#atlasSelectionMenu{max-width:96vw;gap:3px;padding:6px;border-radius:14px}#atlasSelectionMenu button{height:42px;min-width:42px;padding:0 9px;font-size:12px}}
+/* Slower, deliberate interface motion */
+@media(prefers-reduced-motion:no-preference){
+ button,a,.card,.modal-box,.modal-overlay,.section,.sidebar,.sidebar-overlay,.toast,.bottom-nav-item,.chat-item,.comment-item,.profile-btn,.header-icon-btn,.home-tab,.post-type-tab,.icon-btn,.warning-box,.user-chip,.logo,.rich-toolbar button{transition-duration:.44s!important;transition-timing-function:cubic-bezier(.18,1,.32,1)!important}
+ .section.active{animation:atlasSectionEnter .62s cubic-bezier(.18,1,.32,1)}
+ .modal-overlay.active .modal-box{animation:atlasModalEnter .58s cubic-bezier(.18,1.2,.32,1)}
+ .card{transition:transform .5s cubic-bezier(.18,1,.32,1),box-shadow .5s cubic-bezier(.18,1,.32,1)!important}
+ .card:active{transform:scale(.985)}
+ .bottom-nav-item:active,.header-icon-btn:active,.profile-btn:active{transform:translateY(-2px) scale(.96)}
+ @keyframes atlasSectionEnter{from{opacity:.35;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+ @keyframes atlasModalEnter{from{opacity:.55;transform:translateY(22px) scale(.965)}to{opacity:1;transform:translateY(0) scale(1)}}
+}
+
 </style>
 </head>
 <body>
@@ -498,6 +523,20 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
   <div class="bottom-nav-item" data-nav="messages" onclick="switchSection('messages')"><i class="fa-solid fa-comments"></i><span>المحادثات</span><span class="notif-count hidden" id="msgCount">0</span></div>
   <div class="bottom-nav-item" data-nav="profile" onclick="goToMyProfile()"><i class="fa-solid fa-user"></i><span>الملف</span></div>
 </nav>
+
+<div id="atlasSelectionMenu" role="toolbar" aria-label="أدوات النص" dir="rtl">
+  <button type="button" data-action="copy" title="نسخ"><i class="fa-regular fa-copy"></i><span>نسخ</span></button>
+  <button type="button" data-action="cut" title="قص"><i class="fa-solid fa-scissors"></i><span>قص</span></button>
+  <button type="button" data-action="selectAll" title="تحديد الكل"><i class="fa-solid fa-text-height"></i></button>
+  <i class="menu-divider"></i>
+  <button type="button" data-action="bold" title="عريض"><b>B</b></button>
+  <button type="button" data-action="italic" title="مائل"><i>I</i></button>
+  <button type="button" data-action="underline" title="تسطير"><u>U</u></button>
+  <button type="button" data-action="strike" title="يتوسطه خط"><s>S</s></button>
+  <button type="button" data-action="quote" title="اقتباس"><i class="fa-solid fa-quote-right"></i></button>
+  <button type="button" data-action="color" title="لون النص"><span class="menu-color"></span></button>
+  <button type="button" data-action="spoiler" title="نص مخفي"><i class="fa-solid fa-eye-slash"></i></button>
+</div>
 
 <div class="celebration" id="celebration"></div>
 
@@ -1391,6 +1430,95 @@ window.addEventListener('focus', async () => { if (currentUser) { try { const { 
 window.addEventListener('popstate', () => { if ($('chatView') && $('chatView').classList.contains('active')) { closeChatView(); history.pushState(null, '', location.href); } });
 history.pushState(null, '', location.href);
 window.addEventListener('load', () => { setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500); });
+</script>
+
+<script>
+(() => {
+  const menu = document.getElementById('atlasSelectionMenu');
+  if (!menu) return;
+  let savedRange = null, savedEditor = null, hideTimer = null;
+  const isEditable = el => !!(el && (el.closest('[contenteditable="true"],input,textarea') || el.isContentEditable));
+  const currentSelection = () => {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount || sel.isCollapsed || !sel.toString().trim()) return null;
+    return {sel, range:sel.getRangeAt(0), text:sel.toString()};
+  };
+  function placeMenu(range){
+    const rect = range.getBoundingClientRect();
+    const width = Math.min(menu.scrollWidth || 520, window.innerWidth - 16);
+    menu.style.display = 'flex'; menu.style.visibility = 'hidden';
+    const h = menu.offsetHeight || 54;
+    let left = Math.max(8, Math.min(window.innerWidth - width - 8, rect.left + rect.width/2 - width/2));
+    let top = rect.top - h - 12;
+    if (top < 8) top = Math.min(window.innerHeight - h - 8, rect.bottom + 12);
+    menu.style.left = left + 'px'; menu.style.top = Math.max(8,top) + 'px';
+    menu.style.visibility = 'visible'; requestAnimationFrame(() => menu.classList.add('visible'));
+  }
+  function hideMenu(){menu.classList.remove('visible');setTimeout(()=>{if(!menu.classList.contains('visible'))menu.style.display='none';},300);}
+  function showMenu(){
+    clearTimeout(hideTimer);
+    const info=currentSelection();
+    if(!info){hideMenu();return;}
+    savedRange=info.range.cloneRange();
+    const node=savedRange.commonAncestorContainer;
+    savedEditor=(node.nodeType===1?node:node.parentElement)?.closest?.('[contenteditable="true"]')||null;
+    const canEdit=!!savedEditor;
+    menu.querySelector('[data-action="cut"]').disabled=!canEdit;
+    ['bold','italic','underline','strike','quote','color','spoiler'].forEach(a=>menu.querySelector(`[data-action="${a}"]`).disabled=!canEdit);
+    placeMenu(savedRange);
+  }
+  function scheduleShow(){clearTimeout(hideTimer);hideTimer=setTimeout(showMenu,180);}
+  document.addEventListener('selectionchange',scheduleShow);
+  document.addEventListener('mouseup',scheduleShow);
+  document.addEventListener('touchend',()=>setTimeout(showMenu,220),{passive:true});
+  document.addEventListener('contextmenu',e=>{
+    const info=currentSelection();
+    if(info){e.preventDefault();showMenu();}
+  });
+  document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))hideMenu();});
+  window.addEventListener('scroll',hideMenu,{passive:true});
+  window.addEventListener('resize',hideMenu);
+  function restoreRange(){
+    if(!savedRange)return false;
+    const sel=window.getSelection();
+    try{sel.removeAllRanges();sel.addRange(savedRange);if(savedEditor)savedEditor.focus({preventScroll:true});return true;}catch(e){return false;}
+  }
+  async function copyText(text){
+    try{await navigator.clipboard.writeText(text);}catch(e){
+      const box=document.createElement('textarea');box.value=text;box.style.position='fixed';box.style.opacity='0';document.body.appendChild(box);box.select();try{document.execCommand('copy');}catch(_){}box.remove();
+    }
+  }
+  function selectAll(){
+    const target=savedEditor || (savedRange?.commonAncestorContainer.nodeType===1?savedRange.commonAncestorContainer:savedRange?.commonAncestorContainer.parentElement)?.closest?.('.text-post-content');
+    if(!target)return;
+    const range=document.createRange();range.selectNodeContents(target);const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);savedRange=range.cloneRange();savedEditor=target.matches('[contenteditable="true"]')?target:null;showMenu();
+  }
+  function applyFormat(action){
+    if(!savedEditor||!restoreRange())return;
+    const commands={bold:'bold',italic:'italic',underline:'underline',strike:'strikeThrough',quote:'formatBlock'};
+    if(action==='quote')document.execCommand('formatBlock',false,'blockquote');
+    else if(commands[action])document.execCommand(commands[action],false,null);
+    else if(action==='color')document.execCommand('foreColor',false,'#ef4444');
+    else if(action==='spoiler'){
+      const sel=window.getSelection();if(!sel||sel.isCollapsed)return;
+      const span=document.createElement('span');span.className='spoiler';
+      try{const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);const r=document.createRange();r.selectNodeContents(span);sel.removeAllRanges();sel.addRange(r);}catch(e){}
+    }
+    const editor=savedEditor; if(editor)editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+    const now=currentSelection();if(now)savedRange=now.range.cloneRange();
+  }
+  menu.addEventListener('pointerdown',e=>e.preventDefault());
+  menu.addEventListener('click',async e=>{
+    const btn=e.target.closest('button[data-action]');if(!btn||btn.disabled)return;
+    const action=btn.dataset.action;const text=savedRange?.toString()||'';
+    if(action==='copy'){await copyText(text);hideMenu();return;}
+    if(action==='cut'&&savedEditor&&restoreRange()){
+      await copyText(text);const sel=window.getSelection();if(sel&&!sel.isCollapsed)sel.deleteFromDocument();savedEditor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'deleteByCut'}));hideMenu();return;
+    }
+    if(action==='selectAll'){selectAll();return;}
+    applyFormat(action);showMenu();
+  });
+})();
 </script>
 </body>
 </html>
