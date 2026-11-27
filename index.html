@@ -515,6 +515,44 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 /* Reduce GPU-heavy effects on phones */
 @media(max-width:768px){header,.bottom-nav,.sidebar,.modal-box,.chat-view{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:0 4px 14px rgba(0,0,0,.16)!important}.card{box-shadow:0 4px 14px rgba(0,0,0,.14)!important}}
 
+
+/* HONDER spoiler: transparent field with moving particles only (no grey panel, no blur filter) */
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{
+  display:inline-block!important;position:relative!important;isolation:isolate;overflow:hidden!important;
+  vertical-align:baseline;border-radius:3px;padding:0 2px;color:transparent!important;
+  -webkit-text-fill-color:transparent!important;background:transparent!important;
+  filter:none!important;opacity:1!important;animation:none!important;cursor:pointer;user-select:none;
+}
+.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{
+  content:"";position:absolute;inset:-1px;pointer-events:none;opacity:1;
+  background-image:
+    radial-gradient(circle,rgba(244,247,255,.98) 0 1.25px,transparent 1.65px),
+    radial-gradient(circle,rgba(165,190,255,.95) 0 1px,transparent 1.55px),
+    radial-gradient(circle,rgba(255,255,255,.88) 0 .8px,transparent 1.35px);
+  background-size:8px 8px,11px 11px,6px 6px;
+  background-position:0 0,3px 4px,1px 2px;
+  animation:honderTelegramDots 1.8s steps(6,end) infinite;
+}
+@keyframes honderTelegramDots{
+  0%{background-position:0 0,3px 4px,1px 2px}
+  25%{background-position:2px -2px,1px 6px,-1px 1px}
+  50%{background-position:4px 1px,5px 2px,2px -1px}
+  75%{background-position:1px 3px,2px 0,0 3px}
+  100%{background-position:0 0,3px 4px,1px 2px}
+}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{
+  color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;
+}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none!important}
+@media(prefers-reduced-motion:reduce){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{animation:none!important}}
+
+/* Site-native comment delete confirmation */
+#deleteCommentModal .modal-box{max-width:390px!important;border:1px solid rgba(143,165,245,.35)!important;box-shadow:0 18px 55px rgba(0,0,0,.48)!important}
+#deleteCommentModal .delete-confirm-icon{background:rgba(143,165,245,.12)!important;color:#aebeff!important;border:1px solid rgba(143,165,245,.22)}
+#deleteCommentModal .btn-danger{background:linear-gradient(135deg,#657dbd,#394d80)!important;color:#fff!important}
+#deleteCommentModal .modal-sub{line-height:1.9}
+@media(max-width:768px){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{background-size:7px 7px,10px 10px,6px 6px;animation-duration:2.2s}}
+
 </style>
 </head>
 <body>
@@ -725,6 +763,18 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
   </div>
 </div>
 
+<div class="modal-overlay" id="deleteCommentModal" aria-hidden="true">
+  <div class="modal-box delete-confirm-box comment-delete-confirm-box" role="dialog" aria-modal="true" aria-labelledby="deleteCommentTitle">
+    <div class="delete-confirm-icon"><i class="fa-solid fa-comment-slash"></i></div>
+    <h2 id="deleteCommentTitle">حذف التعليق؟</h2>
+    <p class="modal-sub">راح ينحذف التعليق من المنشور. ما تگدر تتراجع عن هالعملية.</p>
+    <div class="delete-confirm-actions">
+      <button class="btn btn-ghost" type="button" onclick="closeModal('deleteCommentModal')">إلغاء</button>
+      <button class="btn btn-danger" id="confirmDeleteCommentBtn" type="button" onclick="confirmDeleteComment()"><i class="fa-solid fa-trash"></i> حذف التعليق</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="notificationsModal">
   <div class="modal-box" style="max-width:560px;">
     <button class="modal-close" onclick="closeModal('notificationsModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -814,7 +864,7 @@ let currentSection = 'home', searchQuery = '';
 let currentFiles = [], currentFileType = null, avatarFile = null, editAvatarFile = null;
 let currentPostType = 'media';
 let viewingProfileId = null, searchDebounce = null;
-let currentCommentsVideoId = null, currentCommentsVideoOwnerId = null;
+let currentCommentsVideoId = null, currentCommentsVideoOwnerId = null, pendingDeleteCommentId = null;
 let homeFilter = 'all';
 let followingIds = new Set(), likedVideos = new Set(), viewedVideos = new Set(), likedComments = new Set(), savedPostIds = new Set();
 let commentCounts = {};
@@ -823,7 +873,7 @@ let boostTargetId = null, personalMsgTargetUser = null;
 let realtimeChannel = null, realtimeConnected = false, isSwitching = false, notifPoller = null, currentAudioId = null;
 let currentPage = 0, isLoadingMore = false, hasMore = true;
 let serverOffset = 0, serverDone = false;
-const INITIAL_POST_BATCH = 200, NEXT_POST_BATCH = 100;
+const INITIAL_POST_BATCH = 40, NEXT_POST_BATCH = 40;
 let currentVoiceAudio = null;
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -843,26 +893,50 @@ function restoreEditorSelection() {
   try { editor.focus({preventScroll:true}); sel.removeAllRanges(); sel.addRange(atlasEditorRange); return true; } catch(e) { return false; }
 }
 document.addEventListener('selectionchange', rememberEditorSelection);
-function selectedTextHasOnlyTag(range, tagName) {
-  const editor = $('uploadRichEditor');
-  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
-  let node, found = false, allMatch = true;
+function selectedTextNodes(range, editor) {
+  const out = [], walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+  let node;
   while ((node = walker.nextNode())) {
-    if (!node.nodeValue || !node.nodeValue.trim()) continue;
-    try {
-      const probe = document.createRange(); probe.selectNodeContents(node);
-      if (range.compareBoundaryPoints(Range.END_TO_START, probe) <= 0 || range.compareBoundaryPoints(Range.START_TO_END, probe) >= 0) continue;
-      found = true;
-      let parent = node.parentElement, matched = false;
-      while (parent && parent !== editor) { if (parent.tagName === tagName) { matched = true; break; } parent = parent.parentElement; }
-      if (!matched) { allMatch = false; break; }
-    } catch(e) {}
+    if (!node.nodeValue || !node.nodeValue.length) continue;
+    try { if (range.intersectsNode(node)) out.push(node); } catch(e) {}
   }
-  return found && allMatch;
+  return out;
 }
-function unwrapFormatting(fragment) {
-  const tags = ['STRONG','B','EM','I','U','S','DEL','BLOCKQUOTE'];
-  tags.forEach(tag => fragment.querySelectorAll(tag).forEach(el => el.replaceWith(...el.childNodes)));
+function selectedNodesHaveClass(nodes, className) {
+  return nodes.length > 0 && nodes.every(node => node.parentElement && node.parentElement.closest('.' + className));
+}
+function selectedNodesHaveTag(nodes, tagName) {
+  return nodes.length > 0 && nodes.every(node => {
+    let p = node.parentElement;
+    while (p && p !== document.body) {
+      if (p.tagName === tagName) return true;
+      if (p === $('uploadRichEditor')) break;
+      p = p.parentElement;
+    }
+    return false;
+  });
+}
+const INLINE_FORMAT_TAGS = new Set(['B','STRONG','I','EM','U','S','DEL','FONT']);
+function liftTextOutOfInlineFormats(node, editor) {
+  while (node && node.parentNode && node.parentNode !== editor) {
+    const parent = node.parentNode;
+    const isFormat = parent.nodeType === 1 && (INLINE_FORMAT_TAGS.has(parent.tagName) || parent.tagName === 'BLOCKQUOTE' || (parent.tagName === 'SPAN' && (parent.classList.contains('spoiler') || parent.hasAttribute('style'))));
+    if (!isFormat) break;
+    const before = parent.cloneNode(false), after = parent.cloneNode(false);
+    while (parent.firstChild && parent.firstChild !== node) before.appendChild(parent.firstChild);
+    while (node.nextSibling) after.appendChild(node.nextSibling);
+    const replacement = document.createDocumentFragment();
+    if (before.childNodes.length) replacement.appendChild(before);
+    replacement.appendChild(node);
+    if (after.childNodes.length) replacement.appendChild(after);
+    parent.replaceWith(replacement);
+  }
+  return node;
+}
+function restoreSelectionAroundNodes(nodes, editor) {
+  if (!nodes.length) return;
+  const range = document.createRange(); range.setStartBefore(nodes[0]); range.setEndAfter(nodes[nodes.length - 1]);
+  const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); atlasEditorRange = range.cloneRange();
 }
 function applyExclusiveFormat(command, value = null) {
   const editor = $('uploadRichEditor');
@@ -872,27 +946,33 @@ function applyExclusiveFormat(command, value = null) {
   const tags = {bold:'STRONG', italic:'EM', underline:'U', strikeThrough:'S', quote:'BLOCKQUOTE'};
   const tag = tags[command]; if (!tag && command !== 'foreColor') return;
   try {
-    const range = sel.getRangeAt(0);
-    const isSame = command !== 'foreColor' && selectedTextHasOnlyTag(range, tag);
-    const fragment = range.extractContents();
-    unwrapFormatting(fragment);
-    let inserted;
-    if (isSame) inserted = fragment;
-    else {
-      const wrapper = document.createElement(tag || 'span');
-      if (command === 'foreColor') wrapper.style.color = value || '#8fa5f5';
-      wrapper.appendChild(fragment); inserted = document.createDocumentFragment(); inserted.appendChild(wrapper);
+    const range = sel.getRangeAt(0).cloneRange();
+    // Split text nodes at both selection edges so only the highlighted characters change.
+    if (range.endContainer.nodeType === Node.TEXT_NODE && range.endOffset > 0 && range.endOffset < range.endContainer.length) {
+      const endMarker = range.endContainer.splitText(range.endOffset);
+      range.setEndBefore(endMarker);
     }
-    range.insertNode(inserted);
-    const next = document.createRange();
-    const target = range.startContainer;
-    if (target && target.nodeType === 1 && target.childNodes.length) {
-      const node = target.childNodes[Math.min(range.startOffset, target.childNodes.length - 1)];
-      if (node) next.selectNodeContents(node); else next.selectNodeContents(editor);
-    } else next.selectNodeContents(editor);
-    sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
+    if (range.startContainer.nodeType === Node.TEXT_NODE && range.startOffset > 0) {
+      const startMarker = range.startContainer.splitText(range.startOffset);
+      range.setStartBefore(startMarker);
+    }
+    const nodes = selectedTextNodes(range, editor);
+    if (!nodes.length) return;
+    const same = command === 'spoiler' ? selectedNodesHaveClass(nodes, 'spoiler') : (command !== 'foreColor' && selectedNodesHaveTag(nodes, tag));
+    // Lift each selected text node out of existing inline styles so formats never stack.
+    nodes.forEach(node => {
+      if (!node.isConnected) return;
+      liftTextOutOfInlineFormats(node, editor);
+      if (same) return; // same button pressed twice = remove that format
+      const wrapper = document.createElement(command === 'spoiler' ? 'span' : (tag || 'span'));
+      if (command === 'spoiler') wrapper.className = 'spoiler';
+      if (command === 'foreColor') wrapper.style.color = value || '#8fa5f5';
+      node.parentNode.insertBefore(wrapper, node); wrapper.appendChild(node);
+    });
+    const liveNodes = nodes.filter(n => n.isConnected);
+    restoreSelectionAroundNodes(liveNodes, editor);
     editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
-  } catch(e) { showToast('تعذّر تطبيق النمط، حدّد النص مجدداً', true); }
+  } catch(e) { console.error('format toggle:', e); showToast('تعذّر تطبيق النمط، حدّد النص مجدداً', true); }
 }
 function formatPost(command, value = null) { applyExclusiveFormat(command, value); }
 function toggleQuoteFormat() { applyExclusiveFormat('quote'); }
@@ -903,31 +983,7 @@ function clearAllFormatting() {
   atlasEditorRange = null; editor.focus(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
   showToast('تمت إزالة جميع التنسيقات');
 }
-function selectedTextHasSpoiler(range) {
-  const editor = $('uploadRichEditor'), walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
-  let node, found = false, allMatch = true;
-  while ((node = walker.nextNode())) {
-    if (!node.nodeValue || !node.nodeValue.trim()) continue;
-    try {
-      const probe = document.createRange(); probe.selectNodeContents(node);
-      if (range.compareBoundaryPoints(Range.END_TO_START, probe) <= 0 || range.compareBoundaryPoints(Range.START_TO_END, probe) >= 0) continue;
-      found = true; if (!node.parentElement.closest('.spoiler')) { allMatch = false; break; }
-    } catch(e) {}
-  }
-  return found && allMatch;
-}
-function insertSpoiler() {
-  const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر النص المخفي', true);
-  const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص الذي تريد إخفاءه أولاً', true);
-  try {
-    const range = sel.getRangeAt(0), alreadyHidden = selectedTextHasSpoiler(range), fragment = range.extractContents();
-    if (fragment.querySelectorAll) [...fragment.querySelectorAll('.spoiler')].forEach(el => el.replaceWith(...el.childNodes));
-    if (!alreadyHidden) { const span = document.createElement('span'); span.className = 'spoiler'; span.appendChild(fragment); range.insertNode(span); }
-    else range.insertNode(fragment);
-    const next = document.createRange(); next.selectNodeContents(editor); sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
-  } catch(e) {}
-  editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
-}
+function insertSpoiler() { applyExclusiveFormat('spoiler'); }
 function sanitizeRichHTML(input) {
   const template = document.createElement('template'); template.innerHTML = String(input || '');
   const allowed = new Set(['B','STRONG','I','EM','U','S','DEL','BLOCKQUOTE','BR','SPAN','DIV','P','FONT']);
@@ -985,7 +1041,7 @@ function closeModal(id, force = false) {
   setTimeout(() => { if (!document.querySelector('.modal-overlay.active')) unlockBodyScroll(); }, 50);
 }
 document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','commentsModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','deleteConfirmModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','commentsModal','deleteCommentModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','deleteConfirmModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); } });
 function switchAuthModal(id) { ['loginModal','signupModal'].forEach(x => $(x).classList.remove('active')); openModal(id); }
 function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('warningOverlay').classList.add('active'); }
 function acceptWarning() { localStorage.setItem('atlas_warn', '1'); $('warningOverlay').classList.remove('active'); }
@@ -1435,7 +1491,7 @@ function getCreatorLikeBadgeHTML(c) { const cName = c.creator_name || ''; const 
 function renderCommentItem(c, isReply = false) {
   const canDel = canDeleteComment(c); const isLiked = likedComments.has(c.id); const author = getUserById(c.user_id); const authorName = author ? (author.display_name || author.username) : (c.author_name || 'زائر'); const authorAvatar = (author && author.avatar_url) ? `<img src="${escAttr(author.avatar_url)}" alt="">` : (c.author_avatar ? `<img src="${escAttr(c.author_avatar)}" alt="">` : esc(authorName.charAt(0).toUpperCase())); const verified = verifiedBadgeHTML(c.user_id); const likeCount = c.likes_count || 0;
   const showCreatorBadge = (c.creator_name && c.creator_name.length > 0) || c.creator_liked === true; const creatorBadge = showCreatorBadge ? getCreatorLikeBadgeHTML(c) : '';
-  return `<div class="comment-item ${isReply ? 'reply' : ''}"><div class="comment-item-head"><div class="comment-avatar">${authorAvatar}</div><b>${esc(authorName)}${verified}</b><span>${c.created_at ? timeAgoFrom(c.created_at) : ''}</span>${canDel ? `<button class="comment-del-btn" onclick="deleteComment('${c.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${likeCount}</span></button>${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}</div><div id="reply-form-${c.id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
+  return `<div class="comment-item ${isReply ? 'reply' : ''}"><div class="comment-item-head"><div class="comment-avatar">${authorAvatar}</div><b>${esc(authorName)}${verified}</b><span>${c.created_at ? timeAgoFrom(c.created_at) : ''}</span>${canDel ? `<button class="comment-del-btn" onclick="askDeleteComment('${c.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><div class="comment-item-body">${esc(c.content)}</div><div class="comment-actions">${creatorBadge}<button class="${isLiked ? 'liked' : ''}" onclick="toggleCommentLike('${c.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${likeCount}</span></button>${!isReply ? `<button onclick="showReplyForm('${c.id}')"><i class="fa-solid fa-reply"></i> رد</button>` : ''}</div><div id="reply-form-${c.id}" style="display:none;" class="reply-form"><input type="text" id="reply-input-${c.id}" placeholder="اكتب ردك..." maxlength="300"><button onclick="submitReply('${c.id}')"><i class="fa-solid fa-paper-plane"></i></button></div></div>`;
 }
 function showReplyForm(commentId) { const el = $('reply-form-' + commentId); if (!el) return; if (!currentUser) { showToast('سجّل دخول للرد', true); openModal('loginModal'); return; } el.style.display = el.style.display === 'none' ? 'flex' : 'none'; if (el.style.display === 'flex') $('reply-input-' + commentId).focus(); }
 async function submitReply(parentId) {
@@ -1446,7 +1502,17 @@ async function addComment() {
   if (!currentUser) return showToast('سجّل دخول', true); const input = $('commentInput'); const content = input.value.trim(); if (!content) return showToast('اكتب تعليقاً', true); if (!currentCommentsVideoId) return; const btn = $('commentBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري النشر...';
   try { const { error } = await supabase.from('comments').insert({ post_id: currentCommentsVideoId, user_id: currentUser.id, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', content, is_deleted: false, parent_id: null, likes_count: 0, creator_liked: false, creator_name: '', creator_avatar: '' }); if (error) throw error; input.value = ''; showToast('✓ تم النشر'); const video = allRows.find(r => r.id === currentCommentsVideoId); if (video && video.user_id && video.user_id !== currentUser.id) await createNotification(video.user_id, 'comment', 'علّق على منشورك', currentCommentsVideoId); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل النشر', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> نشر التعليق'; }
 }
-async function deleteComment(commentId) { if (!confirm('حذف التعليق؟')) return; try { await supabase.from('comments').update({ is_deleted: true }).eq('id', commentId); showToast('✓ تم الحذف'); loadComments(currentCommentsVideoId); } catch (err) { showToast('فشل', true); } }
+function askDeleteComment(commentId) { pendingDeleteCommentId = commentId; openModal('deleteCommentModal'); }
+async function confirmDeleteComment() {
+  const commentId = pendingDeleteCommentId; if (!commentId) return;
+  const btn = $('confirmDeleteCommentBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحذف...';
+  try {
+    const { error } = await supabase.from('comments').update({ is_deleted: true }).eq('id', commentId);
+    if (error) throw error;
+    pendingDeleteCommentId = null; closeModal('deleteCommentModal', true); showToast('✓ تم حذف التعليق'); await loadComments(currentCommentsVideoId);
+  } catch (err) { console.error('deleteComment:', err); showToast('فشل حذف التعليق', true); }
+  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-trash"></i> حذف التعليق'; }
+}
 async function toggleCommentLike(commentId, btn) {
   if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } const isLiked = likedComments.has(commentId); btn.disabled = true;
   try {
