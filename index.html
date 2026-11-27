@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0a0405">
+<meta name="theme-color" content="#10141f">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -631,6 +631,36 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
   .reel-overlay .spoiler::after { animation:none!important; }
 }
 
+
+
+/* HONDER V6 final consistency fixes */
+:root{--bg:#10141f!important;--card:#191f2d!important;--border:#303b53!important;--orange:#8fa5f5!important;--red-deep:#394a79!important;--red-mid:#52669f!important;--text:#e8edf9!important;--muted:#929db5!important;--danger:#a9a8d8!important;--verified:#8bbcff!important;color-scheme:dark}
+.bottom-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:stretch!important;justify-items:stretch!important;gap:0!important;padding:0 0 env(safe-area-inset-bottom,0px)!important}
+.bottom-nav-item,.bottom-nav-plus{width:100%!important;min-width:0!important;max-width:none!important;min-height:100%!important;flex:none!important;margin:0!important;box-sizing:border-box!important;border:0!important;border-radius:0!important}
+.bottom-nav-item{display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:4px!important;padding:6px 1px!important}
+.bottom-nav-plus{display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important;box-shadow:none!important}
+.bottom-nav-plus i{width:40px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:11px!important;background:linear-gradient(135deg,#657dbd,#394d80)!important;box-shadow:0 0 13px rgba(91,119,190,.24)!important}
+.audio-progress-track{height:8px!important;cursor:pointer!important;touch-action:pan-y!important;border-radius:8px!important;overflow:hidden!important}
+.audio-progress-fill{height:100%!important;transition:none!important;border-radius:8px!important}
+.audio-time-row{direction:ltr!important;font-variant-numeric:tabular-nums!important}
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{
+  display:inline-block!important;position:relative!important;overflow:hidden!important;vertical-align:baseline!important;isolation:isolate!important;
+  padding:0 3px!important;border:0!important;border-radius:3px!important;background:transparent!important;
+  color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:0 0 6px rgba(218,228,250,.96)!important;
+  filter:blur(1.8px)!important;opacity:1!important;cursor:pointer!important;user-select:none!important;
+}
+.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{
+  content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:2!important;pointer-events:none!important;
+  background-image:radial-gradient(circle,rgba(250,252,255,.98) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(168,191,250,.95) 0 .9px,transparent 1.4px),radial-gradient(circle,rgba(255,255,255,.9) 0 .7px,transparent 1.2px)!important;
+  background-size:8px 8px,12px 12px,6px 6px!important;background-position:0 0,3px 5px,1px 2px!important;background-repeat:repeat!important;
+  animation:honderFinalDots 3.6s steps(7,end) infinite!important;
+}
+@keyframes honderFinalDots{0%{background-position:0 0,3px 5px,1px 2px}25%{background-position:2px -2px,1px 7px,-1px 1px}50%{background-position:4px 1px,6px 2px,2px -1px}75%{background-position:1px 3px,2px 0,0 3px}100%{background-position:0 0,3px 5px,1px 2px}}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{color:inherit!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important;filter:none!important;background:transparent!important}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none!important;content:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{animation:none!important}}
+@media(max-width:600px){.bottom-nav{height:calc(66px + env(safe-area-inset-bottom,0px))!important}.bottom-nav-item span{font-size:9.5px!important}.bottom-nav-item i{font-size:18px!important}}
+
 </style>
 </head>
 <body>
@@ -951,7 +981,7 @@ let boostTargetId = null, personalMsgTargetUser = null;
 let realtimeChannel = null, realtimeConnected = false, isSwitching = false, notifPoller = null, currentAudioId = null;
 let currentPage = 0, isLoadingMore = false, hasMore = true;
 let serverOffset = 0, serverDone = false;
-const INITIAL_POST_BATCH = 40, NEXT_POST_BATCH = 40;
+const INITIAL_POST_BATCH = 20, NEXT_POST_BATCH = 40;
 let currentVoiceAudio = null;
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -1416,10 +1446,51 @@ function showErrorAll(msg) { const h = `<div class="empty"><i class="fa-solid fa
 function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
 function getFiltered(fn) { let rows = allRows; if (fn) rows = rows.filter(fn); return rows; }
 function getFilteredHome() { let rows = allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
+let audioServerOffset = 0, audioServerHasMore = true, audioServerLoading = false, audioServerObserver = null;
+const AUDIO_PAGE_SIZE = 20;
 function renderAudio(shuffle = true) {
   if (!gridAudio) return;
-  const audioRows = allRows.filter(r => getMediaType(r) === 'audio');
-  renderGrid(gridAudio, shuffle ? shuffleRows(audioRows) : audioRows);
+  if (!shuffle) {
+    const knownAudio = allRows.filter(r => getMediaType(r) === 'audio');
+    renderGrid(gridAudio, knownAudio);
+    return;
+  }
+  audioServerOffset = 0; audioServerHasMore = true; audioServerLoading = false;
+  if (audioServerObserver) { audioServerObserver.disconnect(); audioServerObserver = null; }
+  gridAudio.innerHTML = '<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل الصوتيات...</p></div>';
+  loadAudioPage(true);
+}
+async function loadAudioPage(reset = false) {
+  if (!gridAudio || audioServerLoading || (!audioServerHasMore && !reset)) return;
+  audioServerLoading = true;
+  if (reset) audioServerOffset = 0;
+  try {
+    const from = audioServerOffset, to = from + AUDIO_PAGE_SIZE - 1;
+    const { data, error } = await supabase.from('posts').select('*').eq('media_type', 'audio').order('created_at', { ascending: false }).range(from, to);
+    if (error) throw error;
+    const rows = shuffleRows(data || []);
+    audioServerOffset += rows.length;
+    audioServerHasMore = rows.length === AUDIO_PAGE_SIZE;
+    const oldSentinel = document.getElementById('audio-infinite-sentinel');
+    if (oldSentinel) oldSentinel.remove();
+    if (reset) gridAudio.innerHTML = '';
+    if (rows.length) gridAudio.insertAdjacentHTML('beforeend', rows.map(cardHTML).join(''));
+    else if (reset) gridAudio.innerHTML = '<div class="empty"><i class="fa-solid fa-headphones"></i><p>لا توجد منشورات صوتية بعد</p><span>ستظهر المقاطع الصوتية هنا</span></div>';
+    if (audioServerHasMore) {
+      const sentinel = document.createElement('div'); sentinel.id = 'audio-infinite-sentinel'; sentinel.style.cssText = 'height:2px;width:100%;grid-column:1/-1;'; gridAudio.appendChild(sentinel);
+      if (audioServerObserver) audioServerObserver.disconnect();
+      audioServerObserver = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) loadAudioPage(false); }, { rootMargin: '500px 0px' });
+      audioServerObserver.observe(sentinel);
+    }
+    setupBlurUp();
+  } catch (err) {
+    if (reset) gridAudio.innerHTML = '<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><p>تعذّر تحميل الصوتيات</p><span>تحقق من الاتصال وحاول مجدداً</span></div>';
+    console.error('HONDER audio loading error:', err);
+  } finally {
+    audioServerLoading = false;
+    const sentinel = document.getElementById('audio-infinite-sentinel');
+    if (sentinel && audioServerHasMore && audioServerObserver) { audioServerObserver.unobserve(sentinel); audioServerObserver.observe(sentinel); }
+  }
 }
 function renderAll() {
   $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
@@ -1442,7 +1513,7 @@ function cardHTML(v) {
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
   const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
-  if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" onclick="seekAudio(event, '${v.id}')"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none" ontimeupdate="onAudioTime('${v.id}')" onloadedmetadata="onAudioLoaded('${v.id}')" ondurationchange="onAudioLoaded('${v.id}')" onended="onAudioEnded('${v.id}')" onplay="markViewed('${v.id}')"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -1618,32 +1689,73 @@ function formatDur(value) {
   const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60), sec = seconds % 60;
   return h ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${m}:${String(sec).padStart(2,'0')}`;
 }
+function getAudioSeekTrack(id) { return Array.from(document.querySelectorAll('[data-audio-seek]')).find(track => track.dataset.audioSeek === String(id)) || null; }
+function updateAudioUI(audio) {
+  if (!audio || !audio.id || !audio.id.startsWith('aud-')) return;
+  const id = audio.id.slice(4), duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+  const fill = document.getElementById('apf-' + id), time = document.getElementById('apt-' + id), dur = document.getElementById('apd-' + id);
+  const track = getAudioSeekTrack(id);
+  const pct = duration > 0 ? Math.max(0, Math.min(100, audio.currentTime / duration * 100)) : 0;
+  if (fill) fill.style.width = pct + '%';
+  if (time) time.textContent = formatDur(audio.currentTime);
+  if (dur) dur.textContent = duration > 0 ? formatDur(duration) : '0:00';
+  if (track) track.setAttribute('aria-valuenow', String(Math.round(pct)));
+  const btn = audio.closest('.audio-player-custom')?.querySelector('.audio-play-btn');
+  if (btn) btn.innerHTML = audio.paused || audio.ended ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+}
+function setupAudioPlayers() {
+  document.querySelectorAll('audio[id^="aud-"]').forEach(audio => {
+    if (audio.dataset.honderAudioBound === '1') return;
+    audio.dataset.honderAudioBound = '1';
+    ['loadedmetadata','durationchange','timeupdate','seeking','seeked','play','pause','ended'].forEach(type => audio.addEventListener(type, () => {
+      updateAudioUI(audio);
+      if (type === 'play') markViewed(audio.id.slice(4));
+      if (type === 'ended' && currentAudioId === audio.id.slice(4)) currentAudioId = null;
+      if (type === 'play') currentAudioId = audio.id.slice(4);
+      if (type === 'pause' && currentAudioId === audio.id.slice(4)) currentAudioId = null;
+    }));
+    audio.addEventListener('error', () => { updateAudioUI(audio); console.warn('HONDER audio source error:', audio.currentSrc || audio.src); });
+  });
+  document.querySelectorAll('[data-audio-seek]').forEach(track => {
+    if (track.dataset.honderSeekBound === '1') return;
+    track.dataset.honderSeekBound = '1';
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      e.preventDefault(); seekAudio(e, track.dataset.audioSeek);
+    });
+    track.addEventListener('keydown', e => {
+      const audio = document.getElementById('aud-' + track.dataset.audioSeek);
+      if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
+      let next = audio.currentTime;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next -= 5;
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next += 5;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = audio.duration;
+      else return;
+      e.preventDefault(); audio.currentTime = Math.max(0, Math.min(audio.duration, next)); updateAudioUI(audio);
+    });
+  });
+}
 function toggleAudioPlay(id, btn) {
   const audio = document.getElementById('aud-' + id); if (!audio) return;
-  document.querySelectorAll('audio').forEach(a => { if (a.id !== 'aud-' + id && !a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } });
-  if (activeVideo && !activeVideo.paused) { activeVideo.pause(); const pb = activeVideo.closest('.card') ? activeVideo.closest('.card').querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; activeVideo = null; }
+  document.querySelectorAll('audio[id^="aud-"]').forEach(a => { if (a !== audio && !a.paused) a.pause(); });
+  if (activeVideo && !activeVideo.paused) { activeVideo.pause(); const pb = activeVideo.closest('.card')?.querySelector('.play-big'); if (pb) pb.style.display = 'flex'; activeVideo = null; }
   if (audio.paused) {
-    const p = audio.play(); if (p && p.then) p.then(() => { btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; currentAudioId = id; }).catch(() => { btn.innerHTML = '<i class="fa-solid fa-play"></i>'; showToast('تعذّر تشغيل الملف', true); });
-  } else { audio.pause(); btn.innerHTML = '<i class="fa-solid fa-play"></i>'; if (currentAudioId === id) currentAudioId = null; }
+    const playPromise = audio.play();
+    if (playPromise && playPromise.catch) playPromise.catch(err => { updateAudioUI(audio); showToast('تعذّر تشغيل الملف الصوتي. تحقق من رابط الملف.', true); console.warn('HONDER audio play error:', err); });
+  } else audio.pause();
+  updateAudioUI(audio);
 }
-function onAudioTime(id) {
-  const audio = document.getElementById('aud-' + id); if (!audio) return;
-  const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-  const fill = document.getElementById('apf-' + id); if (fill && duration > 0) fill.style.width = `${Math.min(100, Math.max(0, audio.currentTime / duration * 100))}%`;
-  const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.currentTime);
-  const dur = document.getElementById('apd-' + id); if (dur && duration > 0) dur.textContent = formatDur(duration);
-}
-function onAudioLoaded(id) {
-  const audio = document.getElementById('aud-' + id); if (!audio) return;
-  const dur = document.getElementById('apd-' + id); if (dur) dur.textContent = Number.isFinite(audio.duration) ? formatDur(audio.duration) : '0:00';
-  onAudioTime(id);
-}
-function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (!audio) return; const btn = audio.closest('.audio-player-custom') ? audio.closest('.audio-player-custom').querySelector('.audio-play-btn') : null; if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; const fill = document.getElementById('apf-' + id); if (fill) fill.style.width = '100%'; const time = document.getElementById('apt-' + id); if (time) time.textContent = formatDur(audio.duration); if (currentAudioId === id) currentAudioId = null; }
+function onAudioTime(id) { const audio = document.getElementById('aud-' + id); if (audio) updateAudioUI(audio); }
+function onAudioLoaded(id) { const audio = document.getElementById('aud-' + id); if (audio) updateAudioUI(audio); }
+function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (audio) updateAudioUI(audio); }
 function seekAudio(e, id) {
-  e.stopPropagation(); const audio = document.getElementById('aud-' + id); if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
-  const rect = e.currentTarget.getBoundingClientRect(); if (!rect.width) return;
+  if (e && e.stopPropagation) e.stopPropagation();
+  const audio = document.getElementById('aud-' + id); if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
+  const track = e.currentTarget || getAudioSeekTrack(id);
+  const rect = track?.getBoundingClientRect(); if (!rect || !rect.width) return;
   const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  try { audio.currentTime = ratio * audio.duration; onAudioTime(id); } catch(err) { showToast('تعذّر تغيير موضع الصوت', true); }
+  try { audio.currentTime = ratio * audio.duration; updateAudioUI(audio); } catch(err) { showToast('تعذّر تغيير موضع الصوت', true); }
 }
 function setupHomeObserver() { if (homeVideoObserver) homeVideoObserver.disconnect(); homeVideoObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const video = entry.target; const card = video.closest('.card'); const pb = card ? card.querySelector('.play-big') : null; if (entry.intersectionRatio < 0.3) { if (!video.paused) { video.pause(); if (pb) pb.style.display = 'flex'; if (activeVideo === video) activeVideo = null; } } }); }, { threshold: [0, 0.3, 0.5] }); document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'VIDEO') homeVideoObserver.observe(el); }); }
 function setupVideoControls() {
@@ -1662,7 +1774,7 @@ function setupVideoControls() {
   });
   setupHomeObserver();
 }
-function setupBlurUp() { document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'IMG' && el.complete && el.naturalHeight !== 0) el.classList.add('loaded'); }); setupVideoControls(); setupCarousels(); setupCarouselViews(); }
+function setupBlurUp() { document.querySelectorAll('.card-media').forEach(el => { if (el.tagName === 'IMG' && el.complete && el.naturalHeight !== 0) el.classList.add('loaded'); }); setupAudioPlayers(); setupVideoControls(); setupCarousels(); setupCarouselViews(); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseActiveVideo(); });
 window.addEventListener('beforeunload', pauseActiveVideo);
 </script>
