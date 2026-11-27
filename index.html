@@ -661,6 +661,44 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 @media(prefers-reduced-motion:reduce){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{animation:none!important}}
 @media(max-width:600px){.bottom-nav{height:calc(66px + env(safe-area-inset-bottom,0px))!important}.bottom-nav-item span{font-size:9.5px!important}.bottom-nav-item i{font-size:18px!important}}
 
+
+/* HONDER V7 — dependable editor selection, broad TikTok-like comments sheet, per-post controls */
+.post-publish-options,.post-settings-box{display:flex;flex-direction:column;gap:9px;margin:12px 0;padding:13px;border:1px solid #33425f;border-radius:13px;background:#121c2d}
+.post-publish-options label,.post-settings-box label{font-size:13px;font-weight:800;color:#dce5ff}
+.post-option-check{display:flex;align-items:center;gap:9px;font-size:13px;color:#dce5ff}
+.post-option-check input{width:18px;height:18px;accent-color:#8fa5f5}
+.post-settings-box{max-width:460px!important}
+.code-post-head{display:flex;align-items:center;gap:13px;padding:20px;background:linear-gradient(135deg,#172640,#111a2b);border-radius:15px 15px 0 0;color:#eaf0ff}
+.code-post-head>i{font-size:34px;color:#a9c3ff}
+.code-post-head>div{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.code-post-head b{overflow-wrap:anywhere;font-size:15px}
+.code-post-head small{color:#9eabc7;font-size:11px}
+.code-download{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border-radius:10px;background:#526da8;color:white;text-decoration:none;font-size:12px;font-weight:800}
+#commentsModal{align-items:flex-end!important;justify-content:center!important;padding:0!important}
+#commentsModal .comments-modal-box{width:min(100%,780px)!important;max-width:780px!important;height:min(88dvh,900px)!important;max-height:92dvh!important;min-height:52dvh!important;margin:0!important;padding:22px 20px calc(16px + env(safe-area-inset-bottom,0px))!important;border-radius:25px 25px 0 0!important;border:1px solid rgba(143,165,245,.24)!important;border-bottom:0!important;display:flex!important;flex-direction:column!important;gap:10px!important;overflow:hidden!important;transform:translate3d(0,38px,0) scale(.985)!important;opacity:.55!important;transition:transform .42s cubic-bezier(.2,.85,.25,1),opacity .32s ease!important;will-change:transform,opacity}
+#commentsModal.active.comments-ready .comments-modal-box{transform:translate3d(0,0,0) scale(1)!important;opacity:1!important}
+#commentsModal .comments-modal-title{flex:0 0 auto;margin:0!important;padding:2px 0 10px!important;border-bottom:1px solid #2b3850!important;font-size:20px!important}
+#commentsModal .modal-sub{flex:0 0 auto;margin:0 0 2px!important}
+#commentsModal .comment-list{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:4px 2px 14px!important;scrollbar-width:thin}
+#commentsModal #commentFormBox,#commentsModal #commentLoginMsg{flex:0 0 auto!important;padding-top:10px!important;border-top:1px solid #2b3850!important;background:#172238!important}
+#commentsModal #commentFormBox{display:flex;gap:9px;align-items:flex-end}
+#commentsModal #commentInput{flex:1;min-height:48px;max-height:120px;resize:vertical;margin:0!important;border-radius:17px!important}
+#commentsModal #commentBtn{width:auto!important;min-width:52px;height:48px;padding:0 15px!important;border-radius:15px!important;white-space:nowrap}
+#commentsModal .comment-item{padding:15px 14px!important;margin:0 0 11px!important;border-radius:17px!important;background:#1b2940!important;border:1px solid #2d3c58!important}
+#commentsModal .comment-avatar{width:40px!important;height:40px!important;font-size:15px!important}
+#commentsModal .comment-item-body{font-size:15px!important;line-height:1.85!important;padding:7px 50px 4px 4px!important;color:#edf2ff!important}
+#commentsModal .comment-item-head b{font-size:13px!important}
+#commentsModal .comment-actions button{min-height:34px!important;padding:5px 10px!important}
+#commentsModal .modal-close{z-index:4}
+@media(min-width:781px){#commentsModal{align-items:center!important;padding:22px!important}#commentsModal .comments-modal-box{height:min(82vh,850px)!important;border-radius:22px!important;border-bottom:1px solid rgba(143,165,245,.24)!important;transform:translateY(18px) scale(.985)!important}#commentsModal.active.comments-ready .comments-modal-box{transform:translateY(0) scale(1)!important}}
+@media(max-width:600px){#commentsModal .comments-modal-box{height:88dvh!important;max-height:92dvh!important;padding:20px 13px calc(12px + env(safe-area-inset-bottom,0px))!important;border-radius:23px 23px 0 0!important}#commentsModal #commentFormBox{gap:7px}#commentsModal #commentBtn{min-width:46px;padding:0 11px!important}#commentsModal .comment-item-body{padding-right:47px!important}}
+@media(prefers-reduced-motion:reduce){#commentsModal .comments-modal-box{transition:none!important;transform:none!important;opacity:1!important}}
+/* Spoiler uses a solid masked ink layer: no reliance on filter blur to hide selected glyphs */
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{position:relative!important;display:inline!important;color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;filter:none!important;background:#71809b!important;border-radius:5px!important;padding:0 4px!important;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{content:"••••••"!important;display:inline!important;position:absolute!important;inset:0!important;overflow:hidden!important;white-space:nowrap!important;letter-spacing:2px!important;text-align:center!important;color:#e8efff!important;-webkit-text-fill-color:#e8efff!important;background:linear-gradient(90deg,#596b8a,#9aa9c5,#596b8a)!important;pointer-events:none!important;border-radius:5px!important;opacity:1!important;animation:none!important}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;text-shadow:none!important}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none!important;content:none!important}
+
 </style>
 </head>
 <body>
@@ -777,6 +815,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
       <button type="button" class="post-type-tab active" data-type="media" onclick="setPostType('media')"><i class="fa-solid fa-photo-film"></i>صورة / فيديو</button>
       <button type="button" class="post-type-tab" data-type="audio" onclick="setPostType('audio')"><i class="fa-solid fa-microphone"></i>صوتي</button>
       <button type="button" class="post-type-tab" data-type="text" onclick="setPostType('text')"><i class="fa-solid fa-pen-nib"></i>نصي</button>
+      <button type="button" class="post-type-tab" data-type="code" onclick="setPostType('code')"><i class="fa-brands fa-python"></i>Python / TXT</button>
     </div>
     <input type="text" id="uploadTitle" class="input-field" placeholder="العنوان *" maxlength="80">
     <div id="uploadDescWrap">
@@ -792,6 +831,11 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
       </div>
       <textarea id="uploadDesc" class="input-field" rows="2" placeholder="وصف مختصر (اختياري)" maxlength="300" style="display:none"></textarea>
       
+    </div>
+    <div class="post-publish-options">
+      <label>خصوصية المنشور</label>
+      <select id="newPostVisibility" class="input-field"><option value="public">عام — الجميع</option><option value="friends">الأصدقاء — متابعة متبادلة</option><option value="private">خاص — أنا فقط</option></select>
+      <label class="post-option-check"><input id="newPostComments" type="checkbox" checked> السماح بالتعليقات</label>
     </div>
     <div class="file-drop" id="fileDrop">
       <i class="fa-solid fa-photo-film"></i>
@@ -855,10 +899,22 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
   </div>
 </div>
 
+<div class="modal-overlay" id="postSettingsModal">
+  <div class="modal-box post-settings-box">
+    <button class="modal-close" onclick="closeModal('postSettingsModal')"><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-sliders"></i> إعدادات المنشور</h2>
+    <p class="modal-sub">تتحكم هذه الإعدادات بهذا المنشور فقط.</p>
+    <label>من يستطيع مشاهدة المنشور؟</label>
+    <select id="editPostVisibility" class="input-field"><option value="public">عام — الجميع</option><option value="friends">الأصدقاء — متابعة متبادلة</option><option value="private">خاص — أنا فقط</option></select>
+    <label class="post-option-check"><input id="editPostComments" type="checkbox"> السماح بالتعليقات</label>
+    <button class="btn btn-primary" id="savePostSettingsBtn" onclick="savePostSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="commentsModal">
-  <div class="modal-box" style="max-width:580px;">
+  <div class="modal-box comments-modal-box">
     <button class="modal-close" onclick="closeModal('commentsModal')"><i class="fa-solid fa-xmark"></i></button>
-    <h2><i class="fa-solid fa-comments"></i> التعليقات</h2>
+    <h2 class="comments-modal-title"><i class="fa-solid fa-comments"></i> التعليقات</h2>
     <p class="modal-sub" id="commentsTitle" style="margin-bottom:14px;">—</p>
     <div class="comment-list" id="commentList"><div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div></div>
     <div id="commentFormBox" style="display:none;">
@@ -1001,6 +1057,8 @@ function restoreEditorSelection() {
   try { editor.focus({preventScroll:true}); sel.removeAllRanges(); sel.addRange(atlasEditorRange); return true; } catch(e) { return false; }
 }
 document.addEventListener('selectionchange', rememberEditorSelection);
+const richToolbarEl = $('richToolbar');
+if (richToolbarEl) { ['pointerdown','mousedown','touchstart'].forEach(type => richToolbarEl.addEventListener(type, e => { captureEditorSelection(); if (type === 'mousedown' && e.cancelable) e.preventDefault(); }, {capture:true,passive:false})); }
 function selectedTextNodes(range, editor) {
   const out = [], walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
   let node;
@@ -1091,7 +1149,47 @@ function clearAllFormatting() {
   atlasEditorRange = null; editor.focus(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
   showToast('تمت إزالة جميع التنسيقات');
 }
-function insertSpoiler() { applyExclusiveFormat('spoiler'); }
+function captureEditorSelection() {
+  const editor = $('uploadRichEditor'), sel = window.getSelection();
+  if (!editor || !sel || !sel.rangeCount || sel.isCollapsed) return;
+  const r = sel.getRangeAt(0);
+  if (editor.contains(r.commonAncestorContainer)) atlasEditorRange = r.cloneRange();
+}
+function insertSpoiler() {
+  const editor = $('uploadRichEditor');
+  if (!editor) return;
+  const range = atlasEditorRange ? atlasEditorRange.cloneRange() : null;
+  if (!range || !editor.contains(range.commonAncestorContainer) || range.collapsed) {
+    showToast('ظلّل النص بإصبعك أولاً، ثم اضغط إخفاء', true); return;
+  }
+  try {
+    const fragment = range.extractContents();
+    const hasText = (fragment.textContent || '').length > 0;
+    if (!hasText) { range.insertNode(fragment); return; }
+    const existing = fragment.querySelectorAll ? [...fragment.querySelectorAll('span.spoiler')] : [];
+    const selectedText = fragment.textContent || '';
+    const allAlreadyHidden = existing.length > 0 && (() => {
+      const clone = fragment.cloneNode(true);
+      const hiddenText = [...clone.querySelectorAll('span.spoiler')].map(n => n.textContent || '').join('');
+      return hiddenText.replace(/\s/g,'') === selectedText.replace(/\s/g,'');
+    })();
+    let inserted;
+    if (allAlreadyHidden) {
+      existing.forEach(el => { const parent = el.parentNode; while (el.firstChild) parent.insertBefore(el.firstChild, el); el.remove(); });
+      inserted = fragment;
+    } else {
+      const wrapper = document.createElement('span'); wrapper.className = 'spoiler'; wrapper.appendChild(fragment); inserted = document.createDocumentFragment(); inserted.appendChild(wrapper);
+    }
+    const first = inserted.firstChild;
+    range.insertNode(inserted);
+    const sel = window.getSelection(); sel.removeAllRanges();
+    const selected = document.createRange();
+    const target = first && first.nodeType === 1 && first.classList.contains('spoiler') ? first : first;
+    if (target && target.parentNode) { selected.selectNodeContents(target); sel.addRange(selected); atlasEditorRange = selected.cloneRange(); }
+    editor.focus({preventScroll:true});
+    editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  } catch (err) { console.error('HONDER spoiler selection:', err); showToast('تعذّر إخفاء النص. أعد تحديده وحاول مجدداً', true); }
+}
 function sanitizeRichHTML(input) {
   const template = document.createElement('template'); template.innerHTML = String(input || '');
   const allowed = new Set(['B','STRONG','I','EM','U','S','DEL','BLOCKQUOTE','BR','SPAN','DIV','P','FONT']);
@@ -1125,7 +1223,7 @@ function renderRichHTML(input) {
 }
 document.addEventListener('click', e => {
   const spoiler = e.target.closest('.spoiler');
-  if (spoiler && spoiler.closest('.text-post-content,.card-desc,.reel-overlay')) spoiler.classList.toggle('revealed');
+  if (spoiler && spoiler.closest('.text-post-content,.card-desc,.reel-overlay') && !spoiler.closest('.rich-editor')) spoiler.classList.toggle('revealed');
 });
 
 let toastTimer;
@@ -1145,11 +1243,12 @@ function closeModal(id, force = false) {
     if (id === 'personalMsgModal' && $('personalMsgSendBtn').disabled) return;
     if (id === 'boostModal' && $('boostApplyBtn').disabled) return;
   }
+  if (id === 'commentsModal') m.classList.remove('comments-ready');
   m.classList.remove('active');
   setTimeout(() => { if (!document.querySelector('.modal-overlay.active')) unlockBodyScroll(); }, 50);
 }
 document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','commentsModal','deleteCommentModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','deleteConfirmModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','postSettingsModal','commentsModal','deleteCommentModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','deleteConfirmModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); } });
 function switchAuthModal(id) { ['loginModal','signupModal'].forEach(x => $(x).classList.remove('active')); openModal(id); }
 function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('warningOverlay').classList.add('active'); }
 function acceptWarning() { localStorage.setItem('atlas_warn', '1'); $('warningOverlay').classList.remove('active'); }
@@ -1183,7 +1282,7 @@ function verifiedBadgeHTML(userId) { if (!isUserVerified(userId)) return ''; ret
 function bannedBadgeHTML(userId) { if (!isUserBanned(userId)) return ''; return `<i class="fa-solid fa-ban banned-badge" title="محظور"></i>`; }
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
-  const ALLOWED = { media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif'] };
+  const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif'] };
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
@@ -1212,6 +1311,7 @@ function setPostType(type) {
   currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
   const richEditor = $('uploadRichEditor');
   if (type === 'text') { fd.style.display = 'none'; fi.multiple = false; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب منشورك النصي هنا... يمكنك تنسيق النص'; }
+  else if (type === 'code') { fd.style.display = 'block'; fi.accept = '.py,.txt,text/x-python,text/plain'; fi.multiple = false; fdIcon.className = 'fa-brands fa-python'; fdText.textContent = 'ارفع ملف Python (.py) أو ملف TXT / requirements.txt'; titleInput.placeholder = 'اسم المشروع أو الملف *'; descInput.placeholder = 'اشرح وظيفة الملف والمكتبات المطلوبة...'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب شرحاً للمشروع وطريقة استخدامه...'; }
   else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fi.multiple = false; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اختر ملفاً صوتياً (MP3 / WAV / M4A)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً أو كلمات المقطع الصوتي... ويمكنك تنسيق النص'; }
   else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fi.multiple = true; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اختر صورة أو فيديو أو عدة صور (حتى 10)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً للصورة أو الفيديو... ويمكنك تنسيق النص'; }
 }
@@ -1352,7 +1452,7 @@ $('signupAvatarInput').addEventListener('change', e => { if (!e.target.files.len
 function resetSignupForm() { $('signupUsername').value = ''; $('signupDisplayName').value = ''; $('signupPassword').value = ''; $('signupPassword2').value = ''; $('signupAvatarInput').value = ''; $('signupAvatarPreview').innerHTML = '<i class="fa-solid fa-user"></i>'; avatarFile = null; }
 </script>
 <script>
-function handleFabClick() { if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; } if (currentProfile && currentProfile.is_banned) return showToast('حسابك محظور', true); openModal('uploadModal'); }
+function handleFabClick() { atlasEditorRange = null; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; if (!currentUser) { showToast('سجّل دخول للنشر', true); openModal('loginModal'); return; } if (currentProfile && currentProfile.is_banned) return showToast('حسابك محظور', true); openModal('uploadModal'); }
 ['dragenter','dragover'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.add('dragover'); }));
 ['dragleave','drop'].forEach(ev => fileDrop.addEventListener(ev, e => { e.preventDefault(); fileDrop.classList.remove('dragover'); }));
 fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFiles(e.dataTransfer.files); });
@@ -1361,7 +1461,9 @@ fileInput.addEventListener('change', e => { if (e.target.files.length) setFiles(
 function setFiles(files) {
   const arr = Array.from(files); if (!arr.length) return; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
   if (arr.length === 1) {
-    const file = arr[0]; const isVideo = file.type.startsWith('video/'); const isImage = file.type.startsWith('image/'); const isAudio = file.type.startsWith('audio/'); if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
+    const file = arr[0];
+    if (currentPostType === 'code') { const ext = (file.name.split('.').pop() || '').toLowerCase(); if (!['py','txt'].includes(ext)) return showToast('المسموح فقط ملفات .py و .txt', true); if (file.size > 2 * 1024 * 1024) return showToast('حجم ملف الكود يجب ألا يتجاوز 2MB', true); currentFiles = [file]; currentFileType = 'code'; selectedFile.textContent = `✓ ${ext.toUpperCase()} — ${file.name} — ${(file.size/1024).toFixed(1)} KB`; return; }
+    const isVideo = file.type.startsWith('video/'); const isImage = file.type.startsWith('image/'); const isAudio = file.type.startsWith('audio/'); if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
     if (currentPostType === 'audio') { if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true); currentFiles = [file]; currentFileType = 'audio'; selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     if (isVideo) { currentFiles = [file]; currentFileType = 'video'; selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     if (isImage) { currentFiles = [file]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
@@ -1386,17 +1488,17 @@ async function uploadContent() {
   try {
     let mediaUrl = '', mediaUrls = null, finalType = currentPostType;
     if (currentPostType !== 'text') {
-      if (currentFiles.length === 1) { const file = currentFiles[0]; const folder = currentFileType === 'audio' ? 'audio' : 'media'; mediaUrl = await uploadFileToStorage(file, folder); finalType = currentFileType; }
+      if (currentFiles.length === 1) { const file = currentFiles[0]; const folder = currentFileType === 'audio' ? 'audio' : (currentFileType === 'code' ? 'code' : 'media'); mediaUrl = await uploadFileToStorage(file, folder); finalType = currentFileType; }
       else { mediaUrls = []; for (let i = 0; i < currentFiles.length; i++) { progressStat.textContent = `رفع الصور (${i+1}/${currentFiles.length})...`; const url = await uploadFileToStorage(currentFiles[i], 'media'); mediaUrls.push(url); progressFill.style.width = `${((i + 1) / currentFiles.length) * 100}%`; progressPct.textContent = `${Math.round(((i + 1) / currentFiles.length) * 100)}%`; } mediaUrl = mediaUrls[0]; finalType = 'image'; }
     }
     progressStat.textContent = 'جاري النشر...'; progressFill.style.width = '100%'; progressPct.textContent = '100%';
-    const insertData = { user_id: currentUser.id, title: title || '', description: desc || '', media_url: mediaUrl, media_type: finalType, likes_count: 0, views_count: 0, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '' };
+    const insertData = { user_id: currentUser.id, title: title || '', description: desc || '', media_url: mediaUrl, media_type: finalType, likes_count: 0, views_count: 0, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', visibility: $('newPostVisibility')?.value || 'public', comments_enabled: $('newPostComments') ? $('newPostComments').checked : true };
     if (mediaUrls) insertData.media_urls = mediaUrls;
     const { error } = await supabase.from('posts').insert(insertData); if (error) throw new Error('فشل حفظ البيانات: ' + error.message);
     showToast('✓ تم النشر'); celebrate(); resetUploadForm(); closeModal('uploadModal', true); loadContent();
   } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); } finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
-function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
+function resetUploadForm() { if ($('newPostVisibility')) $('newPostVisibility').value = 'public'; if ($('newPostComments')) $('newPostComments').checked = true; $('uploadTitle').value = ''; $('uploadDesc').value = ''; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
 function shuffleRows(rows) {
   const a = rows.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -1443,7 +1545,7 @@ function setupInfiniteScroll() {
 }
 function setLoadingAll() { const h = Array(3).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join(''); gridHome.innerHTML = h; gridImages.innerHTML = h; if (gridSaved) gridSaved.innerHTML = h; }
 function showErrorAll(msg) { const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`; gridHome.innerHTML = h; gridImages.innerHTML = h; }
-function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
+function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text' || r.media_type === 'code') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
 function getFiltered(fn) { let rows = allRows; if (fn) rows = rows.filter(fn); return rows; }
 function getFilteredHome() { let rows = allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
 let audioServerOffset = 0, audioServerHasMore = true, audioServerLoading = false, audioServerObserver = null;
@@ -1511,9 +1613,10 @@ function cardHTML(v) {
   const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const verified = verifiedBadgeHTML(v.user_id); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
-  const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button><span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
+  const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${ownerSettings}${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'code') { const ext = (String(v.media_url || '').split('?')[0].split('.').pop() || 'file').toUpperCase(); return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'ملف برمجي'}</b><small>${ext} · ملف قابل للتحميل</small></div><a class="code-download" href="${url}" target="_blank" rel="noopener" download><i class="fa-solid fa-download"></i> تحميل</a></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -1530,7 +1633,7 @@ function renderReels(rows) {
   if (!rows.length) { reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>لا توجد ريلزات بعد</p></div>`; return; }
   reelsBox.innerHTML = rows.map(v => {
     const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description), richDesc = renderRichHTML(v.description || ''); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
-    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button><button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button></div></div></div>`;
+    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}${currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button>${v.comments_enabled === false ? '' : `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>`}</div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls, 100); setTimeout(setupReelsObserver, 150);
 }
@@ -1624,12 +1727,35 @@ async function toggleSave(videoId, btn) {
   try { if (isSaved) { await supabase.from('saves').delete().eq('user_id', currentUser.id).eq('post_id', videoId); savedPostIds.delete(videoId); btn.classList.remove('saved'); btn.querySelector('i').className = 'fa-regular fa-bookmark'; showToast('تم إلغاء الحفظ'); } else { await supabase.from('saves').insert({ user_id: currentUser.id, post_id: videoId }); savedPostIds.add(videoId); btn.classList.add('saved'); btn.querySelector('i').className = 'fa-solid fa-bookmark'; showToast('✓ تم الحفظ'); } } catch(e) { showToast('فشل', true); } finally { btn.disabled = false; }
 }
 function renderSaved() { const box = $('grid-saved'); if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; } const saved = allRows.filter(r => savedPostIds.has(r.id)); if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; } box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
-function openComments(videoId, title, ownerId) { pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; $('commentsTitle').textContent = title ? `على: ${title}` : '—'; openModal('commentsModal'); loadComments(videoId); if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } }
+function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(() => $('commentsModal').classList.add('comments-ready')); loadComments(videoId); }
+let editingPostSettingsId = null;
+function openPostSettings(postId) {
+  const post = allRows.find(r => r.id === postId);
+  if (!post || !currentUser || post.user_id !== currentUser.id) return showToast('هذه الإعدادات لصاحب المنشور فقط', true);
+  editingPostSettingsId = postId;
+  $('editPostVisibility').value = ['public','friends','private'].includes(post.visibility) ? post.visibility : 'public';
+  $('editPostComments').checked = post.comments_enabled !== false;
+  openModal('postSettingsModal');
+}
+async function savePostSettings() {
+  const id = editingPostSettingsId, btn = $('savePostSettingsBtn');
+  if (!id || !currentUser) return;
+  const visibility = $('editPostVisibility').value, comments_enabled = $('editPostComments').checked;
+  btn.disabled = true;
+  try {
+    const { data, error } = await supabase.from('posts').update({visibility, comments_enabled}).eq('id', id).eq('user_id', currentUser.id).select().single();
+    if (error) throw error;
+    const idx = allRows.findIndex(r => r.id === id); if (idx >= 0) allRows[idx] = {...allRows[idx], ...data};
+    closeModal('postSettingsModal', true); showToast('✓ تم تحديث إعدادات المنشور');
+    renderAll();
+  } catch (e) { console.error('post settings:', e); showToast('تعذّر حفظ الإعدادات. تأكد من تطبيق تحديث قاعدة البيانات أولاً.', true); }
+  finally { btn.disabled = false; }
+}
 function canDeleteComment(c) { if (!currentUser) return false; if (c.user_id === currentUser.id) return true; const video = allRows.find(r => r.id === c.post_id); if (video && video.user_id === currentUser.id) return true; if (isAdmin()) return true; return false; }
 async function loadComments(videoId) {
   const list = $('commentList'); list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
-    const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false }); if (error) throw error;
+    const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comment-slash"></i><p>التعليقات مغلقة لهذا المنشور</p></div>`; return; } const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false }); if (error) throw error;
     allComments = data || []; const parents = allComments.filter(c => !c.parent_id); const replies = allComments.filter(c => c.parent_id); commentCounts[videoId] = allComments.length;
     if (!parents.length) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`; return; }
     list.innerHTML = parents.map(p => { const childs = replies.filter(r => r.parent_id === p.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); const repliesHTML = childs.length ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>` : ''; return renderCommentItem(p) + repliesHTML; }).join('');
