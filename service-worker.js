@@ -3,5 +3,4 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // مجرد مستمع فارغ لتفعيل خاصية التثبيت
 });
