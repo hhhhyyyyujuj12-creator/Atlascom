@@ -463,6 +463,33 @@ body{background:radial-gradient(ellipse at 50% -12%,rgba(255,65,92,.12),transpar
 .rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{filter:blur(0);opacity:1;background:rgba(255,82,107,.13)!important;animation:none}
 @media(max-width:600px){.bottom-nav-item{max-width:none}.bottom-nav-plus{width:25%;height:100%}.rich-toolbar{gap:5px;padding:7px}.rich-toolbar button{padding:0 8px}}
 
+
+/* HONDER refinement: unified midnight-indigo palette and balanced five-slot navigation */
+:root{--bg:#10141f!important;--card:#191f2d!important;--border:#303b53!important;--orange:#8fa5f5!important;--red-deep:#394a79!important;--red-mid:#52669f!important;--text:#e8edf9!important;--muted:#929db5!important;--danger:#a9a8d8!important;--verified:#8bbcff!important;color-scheme:dark}
+html{background:#0b0f18!important}
+body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transparent 42%),radial-gradient(ellipse at 88% 86%,rgba(49,67,119,.25),transparent 46%),linear-gradient(145deg,#0c111c,#121a29 55%,#0d1422)!important;background-attachment:fixed!important}
+.logo-honder{background:linear-gradient(135deg,#8fa5f5,#394a79)!important;color:#f7f9ff!important;text-shadow:0 0 9px rgba(143,165,245,.28)!important;box-shadow:0 0 12px rgba(91,119,190,.16)!important}
+.profile-btn.follow,.home-tab.active,.post-type-tab.active,.btn-primary{background:linear-gradient(135deg,#657dbd,#394d80)!important}
+.bottom-nav{display:flex!important;justify-content:stretch!important;align-items:stretch!important;gap:0!important;padding:0 0 env(safe-area-inset-bottom,0px)!important;background:rgba(13,19,31,.96)!important;border-top:1px solid rgba(143,165,245,.2)!important}
+.bottom-nav-item,.bottom-nav-plus{box-sizing:border-box!important;flex:1 1 20%!important;width:20%!important;max-width:none!important;min-width:0!important;margin:0!important;border:0!important;border-radius:0!important}
+.bottom-nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:6px 1px!important;background:transparent!important;color:#8793ad!important;font-family:inherit!important}
+.bottom-nav-item span{font-size:10px!important;white-space:nowrap!important;line-height:1.15!important}
+.bottom-nav-item i{font-size:19px!important;line-height:1!important}
+.bottom-nav-item.active,.section-head i,.text-post-heading,.replies-toggle-btn{color:#aebeff!important}
+.bottom-nav-item.active i{filter:drop-shadow(0 0 5px rgba(143,165,245,.32))!important}
+.bottom-nav-plus{height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important;box-shadow:none!important;color:#fff!important}
+.bottom-nav-plus i{width:40px!important;height:34px!important;border-radius:11px!important;background:linear-gradient(135deg,#657dbd,#394d80)!important;display:grid!important;place-items:center!important;box-shadow:0 0 13px rgba(91,119,190,.24)!important;font-size:21px!important}
+.rich-toolbar{display:flex!important;flex-wrap:wrap!important;gap:6px!important;padding:9px!important;background:#111a29!important;border:1px solid #34425f!important;align-items:center!important}
+.rich-toolbar button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;min-width:62px!important;height:38px!important;padding:0 10px!important;border:1px solid #394866!important;border-radius:9px!important;background:#1b2940!important;color:#e5ebff!important;font-size:12px!important;cursor:pointer!important;touch-action:manipulation!important;user-select:none!important}
+.rich-toolbar button span{white-space:nowrap!important;font-size:11px!important}
+.rich-toolbar button:active{transform:scale(.96)!important}
+.rich-editor{background:#111a29!important;border-color:#34425f!important;color:#f1f4ff!important;min-height:110px!important}
+.rich-editor:focus,.input-field:focus,.search-wrap input:focus{border-color:#8298df!important;box-shadow:0 0 0 3px rgba(112,137,205,.12)!important}
+.rich-editor blockquote,.text-post-content blockquote{border-right-color:#8298df!important;background:rgba(103,127,190,.12)!important;color:#dce5ff!important}
+#uploadDescWrap{display:block!important}
+@media(max-width:600px){.bottom-nav{height:calc(66px + env(safe-area-inset-bottom,0px))!important}.bottom-nav-item span{font-size:9.5px!important}.bottom-nav-item i{font-size:18px!important}.bottom-nav-plus i{width:38px!important;height:33px!important}.rich-toolbar{gap:5px!important;padding:7px!important}.rich-toolbar button{min-width:58px!important;padding:0 7px!important;height:36px!important}}
+@media(prefers-reduced-motion:reduce){.bottom-nav-item,.bottom-nav-plus,.rich-toolbar button{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -513,6 +540,7 @@ body{background:radial-gradient(ellipse at 50% -12%,rgba(255,65,92,.12),transpar
     <a data-section="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i> الرئيسية <span class="count" id="count-home">0</span></a>
     <a data-section="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i> ريلزات <span class="count" id="count-reels">0</span></a>
     <a data-section="images" onclick="switchSection('images')"><i class="fa-solid fa-image"></i> صور <span class="count" id="count-images">0</span></a>
+    <a data-section="audio" onclick="switchSection('audio')"><i class="fa-solid fa-headphones"></i> الصوتيات</a>
     <a data-section="saved" onclick="switchSection('saved')"><i class="fa-solid fa-bookmark"></i> المحفوظات</a>
     <a onclick="openNotifications()"><i class="fa-solid fa-bell"></i> الإشعارات <span class="notif-badge hidden" id="sidebarNotifCount">0</span></a>
     <div id="authNav"></div>
@@ -534,6 +562,11 @@ body{background:radial-gradient(ellipse at 50% -12%,rgba(255,65,92,.12),transpar
     <div class="grid" id="grid-images"></div>
   </section>
 
+  <section id="section-audio" class="section">
+    <div class="section-head"><i class="fa-solid fa-headphones"></i> الصوتيات</div>
+    <div class="grid" id="grid-audio"></div>
+  </section>
+
   <section id="section-saved" class="section">
     <div class="section-head"><i class="fa-solid fa-bookmark"></i> المحفوظات</div>
     <div class="grid" id="grid-saved"></div>
@@ -552,11 +585,12 @@ body{background:radial-gradient(ellipse at 50% -12%,rgba(255,65,92,.12),transpar
   </section>
 </main>
 
-<nav class="bottom-nav" id="bottomNav">
-  <div class="bottom-nav-item active" data-nav="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i><span>الرئيسية</span></div>
-  <div class="bottom-nav-item" data-nav="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i><span>ريلزات</span></div>
-  <button class="bottom-nav-plus" onclick="handleFabClick()" title="نشر"><i class="fa-solid fa-plus"></i></button>
-  <div class="bottom-nav-item" data-nav="profile" onclick="goToMyProfile()"><i class="fa-solid fa-user"></i><span>الملف</span></div>
+<nav class="bottom-nav" id="bottomNav" aria-label="التنقل الرئيسي">
+  <button type="button" class="bottom-nav-item active" data-nav="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i><span>الرئيسية</span></button>
+  <button type="button" class="bottom-nav-item" data-nav="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i><span>ريلزات</span></button>
+  <button type="button" class="bottom-nav-plus" onclick="handleFabClick()" title="نشر" aria-label="نشر"><i class="fa-solid fa-plus"></i></button>
+  <button type="button" class="bottom-nav-item" data-nav="audio" onclick="switchSection('audio')"><i class="fa-solid fa-headphones"></i><span>الصوتيات</span></button>
+  <button type="button" class="bottom-nav-item" data-nav="profile" onclick="goToMyProfile()"><i class="fa-solid fa-user"></i><span>الملف</span></button>
 </nav>
 
 
@@ -747,7 +781,7 @@ var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 const fileDrop = $('fileDrop'), fileInput = $('fileInput'), selectedFile = $('selectedFile'), multiPreview = $('multiPreview');
 const progressWrap = $('progressWrap'), progressFill = $('progressFill'), progressPct = $('progressPct'), progressStat = $('progressStatus');
-const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images'), gridSaved = $('grid-saved');
+const uploadBtn = $('uploadBtn'), gridHome = $('grid-home'), gridImages = $('grid-images'), gridAudio = $('grid-audio'), gridSaved = $('grid-saved');
 const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 let currentUser = null, currentProfile = null;
 let allRows = [], allUsers = [], allComments = [], allNotifs = [];
@@ -782,34 +816,34 @@ function restoreEditorSelection() {
   try { editor.focus({preventScroll:true}); sel.removeAllRanges(); sel.addRange(atlasEditorRange); return true; } catch(e) { return false; }
 }
 document.addEventListener('selectionchange', rememberEditorSelection);
-document.addEventListener('pointerdown', e => { if (e.target.closest('#richToolbar')) e.preventDefault(); }, true);
 function formatPost(command, value = null) {
-  const editor = $('uploadRichEditor'); if (!editor) return;
-  if (!restoreEditorSelection()) { editor.focus(); return showToast('حدّد النص أولاً ثم اختر النمط', true); }
-  if (command === 'foreColor') {
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed) return showToast('حدّد النص أولاً ثم اختر اللون', true);
-    try {
-      const range = sel.getRangeAt(0);
-      const span = document.createElement('span');
-      span.style.color = value;
-      span.appendChild(range.extractContents());
-      range.insertNode(span);
-      const next = document.createRange(); next.selectNodeContents(span);
-      sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
-    } catch(e) { return showToast('تعذّر تطبيق اللون، جرّب تحديد النص مجدداً', true); }
-  } else {
-    try { document.execCommand(command, false, value); } catch(e) {}
-  }
-  rememberEditorSelection(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  const editor = $('uploadRichEditor');
+  if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر النمط', true);
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص أولاً ثم اختر النمط', true);
+  const tags = {bold:'strong', italic:'em', underline:'u', strikeThrough:'s'};
+  const tag = tags[command];
+  if (!tag && command !== 'foreColor') return;
+  try {
+    const range = sel.getRangeAt(0);
+    const wrapper = document.createElement(tag || 'span');
+    if (command === 'foreColor') wrapper.style.color = value || '#8fa5f5';
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    const next = document.createRange(); next.selectNodeContents(wrapper);
+    sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
+    editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  } catch(e) { showToast('تعذّر تطبيق النمط، حدّد النص مجدداً', true); }
 }
 function toggleQuoteFormat() {
   const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
-  const sel = window.getSelection(); if (!sel || sel.isCollapsed) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
-  let node = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
-  const quote = node && node.closest ? node.closest('blockquote') : null;
-  try { document.execCommand('formatBlock', false, quote ? 'p' : 'blockquote'); } catch(e) {}
-  rememberEditorSelection(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
+  try {
+    const range = sel.getRangeAt(0); const quote = document.createElement('blockquote');
+    quote.appendChild(range.extractContents()); range.insertNode(quote);
+    const next = document.createRange(); next.selectNodeContents(quote); sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
+    editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
+  } catch(e) { showToast('تعذّر تطبيق الاقتباس', true); }
 }
 function clearAllFormatting() {
   const editor = $('uploadRichEditor'); if (!editor) return;
@@ -888,7 +922,7 @@ function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('war
 function acceptWarning() { localStorage.setItem('atlas_warn', '1'); $('warningOverlay').classList.remove('active'); }
 function pauseActiveVideo() { if (activeVideo) { try { activeVideo.pause(); } catch(e) {} activeVideo = null; } if (currentVoiceAudio) { try { currentVoiceAudio.pause(); } catch(e) {} currentVoiceAudio = null; } }
 function switchSection(name, id) {
-  if (isSwitching && currentSection === name && !id) return;
+  if (isSwitching && currentSection === name && !id && name !== 'audio') return;
   isSwitching = true; setTimeout(() => { isSwitching = false; }, 350); pauseActiveVideo();
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   const t = $('section-' + name); if (t) t.classList.add('active'); currentSection = name;
@@ -897,6 +931,7 @@ function switchSection(name, id) {
   if (name === 'profile' && id) { viewingProfileId = id; viewProfile(id); }
   if (name === 'users') renderUsersList();
   if (name === 'saved') renderSaved();
+  if (name === 'audio') renderAudio(true);
   if (name === 'home' && !allRows.length) loadContent();
   if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar();
   window.scrollTo(0, 0);
@@ -942,9 +977,10 @@ function setPostType(type) {
   currentPostType = type; document.querySelectorAll('.post-type-tab').forEach(b => b.classList.toggle('active', b.dataset.type === type));
   const fd = $('fileDrop'), fi = $('fileInput'); const fdIcon = fd.querySelector('i'), fdText = fd.querySelector('p'); const titleInput = $('uploadTitle'), descInput = $('uploadDesc');
   currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
-  if (type === 'text') { fd.style.display = 'none'; fi.multiple = false; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; }
-  else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fi.multiple = false; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اسحب ملفاً صوتياً (mp3/wav) أو انقر للاختيار'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; }
-  else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fi.multiple = true; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اسحب صورة أو فيديو أو عدة صور (حتى 10)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; }
+  const richEditor = $('uploadRichEditor');
+  if (type === 'text') { fd.style.display = 'none'; fi.multiple = false; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب منشورك النصي هنا... يمكنك تنسيق النص'; }
+  else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fi.multiple = false; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اختر ملفاً صوتياً (MP3 / WAV / M4A)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً أو كلمات المقطع الصوتي... ويمكنك تنسيق النص'; }
+  else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fi.multiple = true; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اختر صورة أو فيديو أو عدة صور (حتى 10)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً للصورة أو الفيديو... ويمكنك تنسيق النص'; }
 }
 </script>
 <script>
@@ -1128,21 +1164,39 @@ async function uploadContent() {
   } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); } finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
 function resetUploadForm() { $('uploadTitle').value = ''; $('uploadDesc').value = ''; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
+function shuffleRows(rows) {
+  const a = rows.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
 async function loadContent(reset = true) {
-  if (isLoadingMore) return; if (!reset && !hasMore) return; if (reset) { currentPage = 0; hasMore = true; allRows = []; setLoadingAll(); } isLoadingMore = true;
+  if (isLoadingMore) return;
+  if (!reset && !hasMore) return;
+  isLoadingMore = true;
   try {
-    const from = currentPage * PAGE_SIZE; const to = from + PAGE_SIZE - 1; const { data: posts, error: pErr } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(from, to); if (pErr) throw pErr; const newPosts = posts || [];
-    if (reset) { allRows = newPosts; if (newPosts.length < PAGE_SIZE) hasMore = false; currentPage = 1; await loadCommentCounts(); renderAll(); setTimeout(setupBlurUp, 100); }
-    else {
-      if (newPosts.length === 0) { hasMore = false; } else {
-        await loadCommentCountsForPostIds(newPosts.map(p => p.id)); allRows = [...allRows, ...newPosts];
-        if (homeFilter === 'all' && !searchQuery) { const html = newPosts.map(cardHTML).join(''); gridHome.insertAdjacentHTML('beforeend', html); } else { renderGrid(gridHome, getFilteredHome()); }
-        renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image')); renderReels(getFiltered(r => getMediaType(r) === 'video'));
-        $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
-        if (newPosts.length < PAGE_SIZE) hasMore = false; currentPage++; setTimeout(setupBlurUp, 100);
+    if (reset) {
+      currentPage = 0; hasMore = true; allRows = []; setLoadingAll();
+      let collected = [], start = 0, batchSize = 1000;
+      while (true) {
+        const { data: posts, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(start, start + batchSize - 1);
+        if (error) throw error;
+        const batch = posts || []; collected = collected.concat(batch);
+        if (batch.length < batchSize) break;
+        start += batchSize;
       }
+      allRows = shuffleRows(collected);
+      hasMore = allRows.length > PAGE_SIZE; currentPage = 1;
+      await loadCommentCounts(); renderAll(); setTimeout(setupBlurUp, 100);
+    } else {
+      const from = currentPage * PAGE_SIZE, nextRows = allRows.slice(from, from + PAGE_SIZE);
+      if (!nextRows.length) { hasMore = false; return; }
+      if (homeFilter === 'all' && !searchQuery) gridHome.insertAdjacentHTML('beforeend', nextRows.map(cardHTML).join(''));
+      else renderGrid(gridHome, getFilteredHome().slice(0, (currentPage + 1) * PAGE_SIZE));
+      currentPage++; hasMore = currentPage * PAGE_SIZE < allRows.length;
+      setTimeout(setupBlurUp, 80);
     }
-  } catch (err) { if (reset) showErrorAll(err.message); } finally { isLoadingMore = false; }
+  } catch (err) { if (reset) showErrorAll(err.message); }
+  finally { isLoadingMore = false; }
 }
 async function loadCommentCounts() { try { const { data } = await supabase.from('comments').select('post_id').eq('is_deleted', false); commentCounts = {}; (data || []).forEach(c => { if (c.post_id) commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; }); } catch(e) {} }
 async function loadCommentCountsForPostIds(postIds) { if (!postIds.length) return; try { const { data } = await supabase.from('comments').select('post_id').in('post_id', postIds).eq('is_deleted', false); const counts = {}; (data || []).forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; }); Object.keys(counts).forEach(id => { commentCounts[id] = counts[id]; }); } catch(e) {} }
@@ -1156,11 +1210,21 @@ function showErrorAll(msg) { const h = `<div class="empty"><i class="fa-solid fa
 function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
 function getFiltered(fn) { let rows = allRows; if (fn) rows = rows.filter(fn); return rows; }
 function getFilteredHome() { let rows = allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
+function renderAudio(shuffle = true) {
+  if (!gridAudio) return;
+  const audioRows = allRows.filter(r => getMediaType(r) === 'audio');
+  renderGrid(gridAudio, shuffle ? shuffleRows(audioRows) : audioRows);
+}
 function renderAll() {
   $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
   const homeRows = getFilteredHome();
-  if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`; else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`; else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`; else renderGrid(gridHome, homeRows);
-  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image')); renderReels(getFiltered(r => getMediaType(r) === 'video'));
+  if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
+  else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`;
+  else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`;
+  else renderGrid(gridHome, homeRows.slice(0, PAGE_SIZE));
+  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image'));
+  renderReels(getFiltered(r => getMediaType(r) === 'video'));
+  renderAudio(false);
 }
 function setHomeFilter(f) { homeFilter = f; document.querySelectorAll('.home-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); renderAll(); }
 function canDelete(row) { return currentUser && (row.user_id === currentUser.id || isAdmin()); }
