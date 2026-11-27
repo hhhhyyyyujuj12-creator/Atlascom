@@ -890,7 +890,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
   <button type="button" class="bottom-nav-item active" data-nav="home" onclick="switchSection('home')"><i class="fa-solid fa-house"></i><span>الرئيسية</span></button>
   <button type="button" class="bottom-nav-item" data-nav="reels" onclick="switchSection('reels')"><i class="fa-solid fa-film"></i><span>ريلزات</span></button>
   <button type="button" class="bottom-nav-plus" onclick="handleFabClick()" title="نشر" aria-label="نشر"><i class="fa-solid fa-plus"></i></button>
-  <button type="button" class="bottom-nav-item" data-nav="audio" onclick="switchSection('audio')"><i class="fa-solid fa-headphones"></i><span>الصوتيات</span></button>
+  <button type="button" class="bottom-nav-item" data-nav="images" onclick="switchSection('images')"><i class="fa-solid fa-images"></i><span>الصور</span></button>
   <button type="button" class="bottom-nav-item" data-nav="profile" onclick="goToMyProfile()"><i class="fa-solid fa-user"></i><span>الملف</span></button>
 </nav>
 
@@ -1008,7 +1008,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
     <div class="code-modal-heading"><i class="fa-brands fa-python"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>افتح الملف داخل HONDER أو نزّله</p></div></div>
     <div id="codeFilesList" class="code-files-list"></div>
-    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><span id="codeViewerName">ملف</span><button type="button" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع للقائمة</button></div><pre id="codeViewerContent" dir="auto"></pre></div>
+    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><span id="codeViewerName">ملف</span><button type="button" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع للقائمة</button></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
   </div>
 </div>
 
@@ -1126,6 +1126,7 @@ const reelsBox = $('reelsContainer'), searchInput = $('searchInput');
 let currentUser = null, currentProfile = null;
 let allRows = [], allUsers = [], allComments = [], allNotifs = [];
 let currentSection = 'home', searchQuery = '';
+let searchRows = null, searchRequestToken = 0;
 let currentFiles = [], currentFileType = null, avatarFile = null, editAvatarFile = null;
 let currentPostType = 'media';
 let viewingProfileId = null, searchDebounce = null;
@@ -1699,8 +1700,8 @@ function setupInfiniteScroll() {
 function setLoadingAll() { const h = Array(3).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-media"></div><div class="skeleton-body"><div class="skeleton skeleton-line title"></div><div class="skeleton skeleton-line desc"></div></div></div>`).join(''); gridHome.innerHTML = h; gridImages.innerHTML = h; if (gridSaved) gridSaved.innerHTML = h; }
 function showErrorAll(msg) { const h = `<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل التحميل</p><span>${esc(msg)}</span></div>`; gridHome.innerHTML = h; gridImages.innerHTML = h; }
 function getMediaType(r) { if (r.media_type === 'image' || r.media_type === 'video' || r.media_type === 'audio' || r.media_type === 'text' || r.media_type === 'code') return r.media_type; const url = r.media_url || ''; if (!url) return 'text'; if (/\.(mp3|wav|ogg|m4a|aac|flac|opus)(\?|$)/i.test(url)) return 'audio'; if (/\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?|$)/i.test(url)) return 'image'; return 'video'; }
-function getFiltered(fn) { let rows = allRows; if (fn) rows = rows.filter(fn); return rows; }
-function getFilteredHome() { let rows = allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
+function getFiltered(fn) { let rows = searchQuery ? (searchRows || []) : allRows; if (fn) rows = rows.filter(fn); return rows; }
+function getFilteredHome() { let rows = searchQuery ? (searchRows || []) : allRows; if (homeFilter === 'following') rows = currentUser ? rows.filter(r => followingIds.has(r.user_id)) : []; else if (homeFilter === 'text') rows = rows.filter(r => getMediaType(r) === 'text'); else if (homeFilter === 'audio') rows = rows.filter(r => getMediaType(r) === 'audio'); return rows; }
 let audioServerOffset = 0, audioServerHasMore = true, audioServerLoading = false, audioServerObserver = null;
 const AUDIO_PAGE_SIZE = 20;
 function renderAudio(shuffle = true) {
@@ -1748,12 +1749,16 @@ async function loadAudioPage(reset = false) {
   }
 }
 function renderAll() {
-  $('count-home').textContent = allRows.length; $('count-reels').textContent = allRows.filter(r => getMediaType(r) === 'video').length; $('count-images').textContent = allRows.filter(r => getMediaType(r) === 'image').length;
+  const sourceRows = searchQuery ? (searchRows || []) : allRows;
+  $('count-home').textContent = sourceRows.length;
+  $('count-reels').textContent = sourceRows.filter(r => getMediaType(r) === 'video').length;
+  $('count-images').textContent = sourceRows.filter(r => getMediaType(r) === 'image').length;
   const homeRows = getFilteredHome();
-  if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
+  if (searchQuery && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-magnifying-glass"></i><p>ما لقينا نتائج مطابقة</p><span>جرّب كلمة ثانية أو تأكد من الكتابة</span></div>`;
+  else if (homeFilter === 'following' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-user-plus"></i><p>لا يوجد محتوى من متابَعيك</p><span>ابدأ بمتابعة البعض</span></div>`;
   else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`;
   else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`;
-  else renderGrid(gridHome, homeRows.slice(0, PAGE_SIZE));
+  else renderGrid(gridHome, homeRows.slice(0, searchQuery ? 100 : PAGE_SIZE));
   renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image').slice(0, 40));
   renderReels(getFiltered(r => getMediaType(r) === 'video').slice(0, 12));
   renderAudio(false);
@@ -1893,9 +1898,34 @@ async function viewCodeFile(index) {
   const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
   const files=Array.isArray(post.code_files)&&post.code_files.length?post.code_files:[{name:(String(post.media_url||'').split('/').pop()||'project.txt'),url:post.media_url}];
   const file=files[index]; if(!file) return;
-  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeViewerName').textContent=file.name||'ملف'; $('codeViewerContent').textContent='جارٍ تحميل محتوى الملف...';
-  try { const response=await fetch(file.url,{cache:'force-cache'}); if(!response.ok) throw new Error('HTTP '+response.status); const text=await response.text(); $('codeViewerContent').textContent=text.slice(0,500000); }
-  catch(e) { $('codeViewerContent').textContent='تعذّر عرض الملف داخل الصفحة. يمكنك الرجوع للقائمة واختيار «تنزيل».'; }
+  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeViewerName').textContent=file.name||'ملف'; $('codeViewerContent').querySelector('code').textContent='جارٍ تحميل محتوى الملف...';
+  try {
+    const response=await fetch(file.url,{cache:'force-cache'});
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const source=await response.text();
+    const code=$('codeViewerContent').querySelector('code');
+    code.innerHTML = /\.py$/i.test(file.name || '') ? highlightPython(source.slice(0,500000)) : esc(source.slice(0,500000));
+  } catch(e) {
+    $('codeViewerContent').querySelector('code').textContent='تعذّر عرض الملف داخل الصفحة. يمكنك الرجوع للقائمة واختيار «تنزيل».';
+  }
+}
+function highlightPython(source) {
+  const tokenRE = /(#[^\n]*|\b(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield|self)\b|\b(?:print|len|range|str|int|float|list|dict|set|tuple|super|open|enumerate|zip|map|filter|sum|min|max|input|type|isinstance|Exception|ValueError|RuntimeError)\b|(?:\"\"\"[\s\S]*?\"\"\"|'''[\s\S]*?'''|\"(?:\\.|[^\"\\])*\"|'(?:\\.|[^'\\])*')|\b\d+(?:\.\d+)?\b)/g;
+  let out='', last=0, match;
+  while ((match=tokenRE.exec(source)) !== null) {
+    out += esc(source.slice(last, match.index));
+    const value=match[0];
+    let cls='';
+    if (value.startsWith('#')) cls='py-comment';
+    else if (/^(?:"|')/.test(value)) cls='py-string';
+    else if (/^\d/.test(value)) cls='py-number';
+    else if (/^(?:False|None|True)$/.test(value)) cls='py-constant';
+    else if (/^(?:print|len|range|str|int|float|list|dict|set|tuple|super|open|enumerate|zip|map|filter|sum|min|max|input|type|isinstance|Exception|ValueError|RuntimeError)$/.test(value)) cls='py-builtin';
+    else cls='py-keyword';
+    out += `<span class="${cls}">${esc(value)}</span>`;
+    last=tokenRE.lastIndex;
+  }
+  return out + esc(source.slice(last));
 }
 function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; }
 function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; const modal=$('commentsModal'); modal.classList.remove('comments-ready'); $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('comments-ready'))); loadComments(videoId); }
@@ -1991,7 +2021,33 @@ async function toggleCommentLike(commentId, btn) {
   } catch(e) { console.error('toggleCommentLike error:', e); showToast('فشل الإعجاب: ' + (e.message || ''), true); if (isLiked) likedComments.add(commentId); else likedComments.delete(commentId); loadComments(currentCommentsVideoId); } finally { btn.disabled = false; }
 }
 function copyLink(url) { navigator.clipboard.writeText(url).then(() => showToast('✓ تم النسخ')).catch(() => { const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✓ تم النسخ'); }); }
-function applySearch() { clearTimeout(searchDebounce); searchDebounce = setTimeout(() => { searchQuery = searchInput.value.trim().toLowerCase(); renderAll(); }, 250); }
+async function applySearch() {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(async () => {
+    const query = String(searchInput.value || '').trim().replace(/\s+/g, ' ');
+    const token = ++searchRequestToken;
+    searchQuery = query.toLocaleLowerCase();
+    if (!query) { searchRows = null; renderAll(); return; }
+    gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري البحث عن: ${esc(query)}</p></div>`;
+    try {
+      // Search the database, not only the currently loaded feed batch.
+      const safe = query.replace(/[,%()]/g, ' ').trim();
+      if (!safe) { searchRows = []; renderAll(); return; }
+      const pattern = `%${safe}%`;
+      const { data, error } = await supabase.from('posts').select('*').or(`title.ilike.${pattern},description.ilike.${pattern}`).limit(100);
+      if (error) throw error;
+      if (token !== searchRequestToken) return;
+      searchRows = shuffleRows(data || []);
+      renderAll();
+      setTimeout(setupBlurUp, 80);
+    } catch (err) {
+      if (token !== searchRequestToken) return;
+      searchRows = [];
+      gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><p>تعذّر تنفيذ البحث</p><span>${esc(err.message || 'تحقق من الاتصال وحاول مجدداً')}</span></div>`;
+      console.error('HONDER search error:', err);
+    }
+  }, 280);
+}
 function togglePlayPauseCard(btn) {
   const card = btn.closest('.card'); const video = card ? card.querySelector('.card-media') : null; if (!video || video.tagName !== 'VIDEO') return;
   if (video.paused) { document.querySelectorAll('.card-media').forEach(v => { if (v !== video && v.tagName === 'VIDEO' && !v.paused) { v.pause(); const c = v.closest('.card'); const pb = c ? c.querySelector('.play-big') : null; if (pb) pb.style.display = 'flex'; } }); document.querySelectorAll('audio').forEach(a => { if (!a.paused) { a.pause(); const ob = a.closest('.audio-player-custom'); const obtn = ob ? ob.querySelector('.audio-play-btn') : null; if (obtn) obtn.innerHTML = '<i class="fa-solid fa-play"></i>'; } }); video.muted = false; const p = video.play(); if (p && p.catch) p.catch(() => {}); btn.style.display = 'none'; activeVideo = video; }
@@ -2007,14 +2063,17 @@ function getAudioSeekTrack(id) { return Array.from(document.querySelectorAll('[d
 function updateAudioUI(audio) {
   if (!audio || !audio.id || !audio.id.startsWith('aud-')) return;
   const id = audio.id.slice(4), duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-  const fill = document.getElementById('apf-' + id), time = document.getElementById('apt-' + id), dur = document.getElementById('apd-' + id);
-  const track = getAudioSeekTrack(id);
+  const card = audio.closest('.card') || audio.parentElement;
+  const fill = card?.querySelector('.audio-progress-fill');
+  const time = card?.querySelector('.audio-time-row span:first-child');
+  const dur = card?.querySelector('.audio-time-row span:last-child');
+  const track = card?.querySelector('[data-audio-seek]');
   const pct = duration > 0 ? Math.max(0, Math.min(100, audio.currentTime / duration * 100)) : 0;
   if (fill) fill.style.width = pct + '%';
   if (time) time.textContent = formatDur(audio.currentTime);
   if (dur) dur.textContent = duration > 0 ? formatDur(duration) : '0:00';
   if (track) track.setAttribute('aria-valuenow', String(Math.round(pct)));
-  const btn = audio.closest('.audio-player-custom')?.querySelector('.audio-play-btn');
+  const btn = card?.querySelector('.audio-play-btn');
   if (btn) btn.innerHTML = audio.paused || audio.ended ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
 }
 function setupAudioPlayers() {
@@ -2038,7 +2097,7 @@ function setupAudioPlayers() {
       e.preventDefault(); seekAudio(e, track.dataset.audioSeek);
     });
     track.addEventListener('keydown', e => {
-      const audio = document.getElementById('aud-' + track.dataset.audioSeek);
+      const audio = track.closest('.card')?.querySelector('audio[id^="aud-"]');
       if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
       let next = audio.currentTime;
       if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next -= 5;
@@ -2051,12 +2110,15 @@ function setupAudioPlayers() {
   });
 }
 function toggleAudioPlay(id, btn) {
-  const audio = document.getElementById('aud-' + id); if (!audio) return;
-  document.querySelectorAll('audio[id^="aud-"]').forEach(a => { if (a !== audio && !a.paused) a.pause(); });
+  // Resolve the audio element from the clicked card, never by duplicate document IDs.
+  const card = btn?.closest('.card');
+  const audio = card?.querySelector('audio[id^="aud-"]');
+  if (!audio) return;
+  document.querySelectorAll('audio[id^="aud-"]').forEach(a => { if (a !== audio && !a.paused) { a.pause(); updateAudioUI(a); } });
   if (activeVideo && !activeVideo.paused) { activeVideo.pause(); const pb = activeVideo.closest('.card')?.querySelector('.play-big'); if (pb) pb.style.display = 'flex'; activeVideo = null; }
-  if (audio.paused) {
+  if (audio.paused || audio.ended) {
     const playPromise = audio.play();
-    if (playPromise && playPromise.catch) playPromise.catch(err => { updateAudioUI(audio); showToast('تعذّر تشغيل الملف الصوتي. تحقق من رابط الملف.', true); console.warn('HONDER audio play error:', err); });
+    if (playPromise && playPromise.then) playPromise.then(() => updateAudioUI(audio)).catch(err => { updateAudioUI(audio); showToast('تعذّر تشغيل الملف الصوتي. تحقق من رابط الملف.', true); console.warn('HONDER audio play error:', err); });
   } else audio.pause();
   updateAudioUI(audio);
 }
@@ -2065,8 +2127,8 @@ function onAudioLoaded(id) { const audio = document.getElementById('aud-' + id);
 function onAudioEnded(id) { const audio = document.getElementById('aud-' + id); if (audio) updateAudioUI(audio); }
 function seekAudio(e, id) {
   if (e && e.stopPropagation) e.stopPropagation();
-  const audio = document.getElementById('aud-' + id); if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
   const track = e.currentTarget || getAudioSeekTrack(id);
+  const audio = track?.closest('.card')?.querySelector('audio[id^="aud-"]'); if (!audio || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
   const rect = track?.getBoundingClientRect(); if (!rect || !rect.width) return;
   const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   try { audio.currentTime = ratio * audio.duration; updateAudioUI(audio); } catch(err) { showToast('تعذّر تغيير موضع الصوت', true); }
@@ -2113,5 +2175,31 @@ window.addEventListener('popstate', () => {  });
 history.pushState(null, '', location.href);
 window.addEventListener('load', () => { setTimeout(() => { if (currentUser) startBackgroundPolling(); }, 1500); });
 </script>
+
+
+
+<style id="honder-v10-final-fixes">
+/* V10: spoiler feature is visually disabled completely */
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{
+ color:inherit!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important;filter:none!important;
+ background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;
+ padding:0!important;display:inline!important;animation:none!important;box-shadow:none!important
+}
+.rich-editor .spoiler::before,.rich-editor .spoiler::after,
+.text-post-content .spoiler::before,.text-post-content .spoiler::after,
+.card-desc .spoiler::before,.card-desc .spoiler::after,
+.reel-overlay .spoiler::before,.reel-overlay .spoiler::after{content:none!important;display:none!important;animation:none!important}
+.code-files-modal-box{width:min(97vw,1120px)!important;max-width:1120px!important;max-height:94dvh!important;padding:clamp(14px,2.5vw,28px)!important}
+.code-file-viewer{flex:1;min-height:0}
+.code-file-viewer pre#codeViewerContent{width:100%;min-height:55dvh;max-height:70dvh;overflow:auto;white-space:pre;direction:ltr;text-align:left;tab-size:4;padding:20px 22px;background:#080f1b;border:1px solid #30415e;border-radius:16px;color:#dce7ff;font:13.5px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;overscroll-behavior:contain}
+#codeViewerContent code{font:inherit;color:inherit}
+#codeViewerContent .py-keyword{color:#c792ea;font-weight:700}
+#codeViewerContent .py-string{color:#c3e88d}
+#codeViewerContent .py-comment{color:#7f91a9;font-style:italic}
+#codeViewerContent .py-number{color:#f78c6c}
+#codeViewerContent .py-constant{color:#ffcb6b}
+#codeViewerContent .py-builtin{color:#82aaff}
+@media(max-width:600px){.code-files-modal-box{width:98vw!important;max-height:95dvh!important;padding:12px!important}.code-file-viewer pre#codeViewerContent{min-height:58dvh;max-height:72dvh;padding:14px;font-size:12.5px;line-height:1.75}.code-file-row{flex-wrap:wrap}.code-file-action{padding:8px 9px}}
+</style>
 </body>
 </html>
