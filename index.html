@@ -699,6 +699,48 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 .rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;text-shadow:none!important}
 .rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none!important;content:none!important}
 
+
+/* HONDER V8 — slower spring sheet, subtle animated spoiler particles, native-looking app panels */
+@media(prefers-reduced-motion:no-preference){
+ #commentsModal .comments-modal-box{transform:translate3d(0,112px,0) scale(.965)!important;opacity:.35!important;transition:transform .82s cubic-bezier(.16,1.18,.28,1),opacity .58s ease!important;will-change:transform,opacity}
+ #commentsModal.active.comments-ready .comments-modal-box{transform:translate3d(0,0,0) scale(1)!important;opacity:1!important}
+ #commentsModal .modal-box{animation:none!important}
+}
+#commentsModal{transition:background-color .58s ease!important}
+#commentsModal.active{background:rgba(0,0,0,.66)!important}
+/* Tiny moving particles clearly indicate concealed text without a bulky grey slab */
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{
+ position:relative!important;display:inline!important;color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;filter:none!important;
+ background:transparent!important;border-radius:4px!important;padding:0 2px!important;box-decoration-break:clone;-webkit-box-decoration-break:clone;cursor:pointer!important;overflow:visible!important
+}
+.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{
+ content:""!important;position:absolute!important;inset:0!important;z-index:3!important;pointer-events:none!important;border-radius:4px!important;
+ background-image:radial-gradient(circle,rgba(242,247,255,.98) 0 1px,transparent 1.45px),radial-gradient(circle,rgba(145,174,245,.95) 0 .85px,transparent 1.3px),radial-gradient(circle,rgba(255,255,255,.9) 0 .7px,transparent 1.15px)!important;
+ background-size:5px 5px,7px 7px,4px 4px!important;background-position:0 0,2px 3px,1px 1px!important;background-repeat:repeat!important;
+ animation:honderParticleDrift 2.8s linear infinite!important;opacity:.96!important
+}
+@keyframes honderParticleDrift{0%{background-position:0 0,2px 3px,1px 1px;opacity:.82}50%{background-position:5px -3px,-3px 6px,3px 4px;opacity:1}100%{background-position:0 0,2px 3px,1px 1px;opacity:.82}}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;filter:none!important}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none!important;content:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{animation:none!important}#commentsModal .comments-modal-box{transition:none!important;transform:none!important;opacity:1!important}}
+.code-files-modal-box{width:min(94vw,680px)!important;max-height:min(84dvh,780px)!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;gap:14px!important;border:1px solid #354767!important;background:linear-gradient(155deg,#18243a,#111a2a)!important;border-radius:24px!important;padding:25px 20px calc(18px + env(safe-area-inset-bottom,0px))!important}
+.code-modal-heading{display:flex;align-items:center;gap:13px;padding:4px 38px 14px 0;border-bottom:1px solid #34425b}
+.code-modal-heading>i{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(120,151,225,.16);color:#b8cbff;font-size:27px}
+.code-modal-heading h2{margin:0;font-size:19px;color:#edf2ff}.code-modal-heading p{margin:4px 0 0;color:#9eacc8;font-size:12px}
+.code-files-list{overflow:auto;display:flex;flex-direction:column;gap:9px;min-height:0;padding:2px}
+.code-file-row{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid #34435e;background:rgba(30,45,69,.72);border-radius:15px;min-width:0}
+.code-file-icon{width:42px;height:42px;flex:0 0 42px;border-radius:12px;background:#263954;color:#c4d3f6;display:grid;place-items:center;font-size:20px}.code-file-icon.python{color:#b8ceff;background:#263d62}
+.code-file-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}.code-file-info b{font-size:13px;overflow-wrap:anywhere;color:#f1f5ff}.code-file-info small{font-size:10px;color:#9eacc8}
+.code-file-action{border:1px solid #536a94;background:#2a3c5b;color:#edf3ff;border-radius:10px;padding:9px 10px;text-decoration:none;font:700 11px 'Cairo',sans-serif;white-space:nowrap;cursor:pointer}.code-file-action.download{background:#526da8;border-color:#6d86bd}
+.code-file-viewer{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}.code-file-viewer[hidden]{display:none!important}.code-viewer-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#dfe8ff;font-size:12px}.code-viewer-toolbar button{border:1px solid #435777;background:#243651;color:#dfe8ff;border-radius:10px;padding:8px 10px;font:700 11px 'Cairo',sans-serif}.code-file-viewer pre{margin:0;min-height:180px;max-height:58dvh;overflow:auto;white-space:pre;direction:ltr;text-align:left;padding:16px;border-radius:14px;background:#080f1b;border:1px solid #293a55;color:#d8e5ff;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4}
+.code-upload-file{display:flex;align-items:center;gap:9px;padding:8px;background:#18263c;border:1px solid #34435e;border-radius:10px;min-width:0}.code-upload-file>i{font-size:19px;color:#b8cbff}.code-upload-file>span{display:flex;flex:1;min-width:0;flex-direction:column}.code-upload-file b{font-size:11px;overflow-wrap:anywhere}.code-upload-file small{font-size:10px;color:#aab8d3}.code-upload-file .remove-btn{position:static;flex:0 0 25px;width:25px;height:25px}
+#fileInput[multiple]{cursor:pointer}
+
+
+/* App-owned select styling for privacy and publishing controls */
+#newPostVisibility,#editPostVisibility,.post-publish-options select,.post-settings-box select{appearance:none;-webkit-appearance:none;background-color:#18253a!important;color:#eaf0ff!important;border:1px solid #405474!important;border-radius:12px!important;padding:12px 42px 12px 14px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b8cbff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:12px center!important;background-size:16px!important}
+#newPostVisibility option,#editPostVisibility option{background:#17243a;color:#edf2ff}
+
 </style>
 </head>
 <body>
@@ -908,6 +950,15 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <select id="editPostVisibility" class="input-field"><option value="public">عام — الجميع</option><option value="friends">الأصدقاء — متابعة متبادلة</option><option value="private">خاص — أنا فقط</option></select>
     <label class="post-option-check"><input id="editPostComments" type="checkbox"> السماح بالتعليقات</label>
     <button class="btn btn-primary" id="savePostSettingsBtn" onclick="savePostSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="codeFilesModal">
+  <div class="modal-box code-files-modal-box">
+    <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
+    <div class="code-modal-heading"><i class="fa-brands fa-python"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>افتح الملف داخل HONDER أو نزّله</p></div></div>
+    <div id="codeFilesList" class="code-files-list"></div>
+    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><span id="codeViewerName">ملف</span><button type="button" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع للقائمة</button></div><pre id="codeViewerContent" dir="auto"></pre></div>
   </div>
 </div>
 
@@ -1285,7 +1336,8 @@ async function uploadFileToStorage(file, folder = 'media') {
   const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif'] };
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+  const inferredType = file.type || (ext === 'py' ? 'text/x-python' : (ext === 'txt' ? 'text/plain' : 'application/octet-stream'));
+  const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   const { data: urlData } = supabase.storage.from('media').getPublicUrl(data.path);
   return urlData.publicUrl;
@@ -1311,7 +1363,7 @@ function setPostType(type) {
   currentFiles = []; currentFileType = null; selectedFile.textContent = ''; fileInput.value = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
   const richEditor = $('uploadRichEditor');
   if (type === 'text') { fd.style.display = 'none'; fi.multiple = false; titleInput.placeholder = 'عنوان (اختياري)'; descInput.placeholder = 'اكتب نصك هنا... *'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب منشورك النصي هنا... يمكنك تنسيق النص'; }
-  else if (type === 'code') { fd.style.display = 'block'; fi.accept = '.py,.txt,text/x-python,text/plain'; fi.multiple = false; fdIcon.className = 'fa-brands fa-python'; fdText.textContent = 'ارفع ملف Python (.py) أو ملف TXT / requirements.txt'; titleInput.placeholder = 'اسم المشروع أو الملف *'; descInput.placeholder = 'اشرح وظيفة الملف والمكتبات المطلوبة...'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب شرحاً للمشروع وطريقة استخدامه...'; }
+  else if (type === 'code') { fd.style.display = 'block'; fi.accept = '.py,.txt,text/x-python,text/plain'; fi.multiple = true; fdIcon.className = 'fa-brands fa-python'; fdText.textContent = 'ارفع عدة ملفات Python / TXT للمشروع الواحد (حتى 12 ملفاً)'; titleInput.placeholder = 'اسم المشروع أو الملف *'; descInput.placeholder = 'اشرح وظيفة الملف والمكتبات المطلوبة...'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'اكتب شرحاً للمشروع وطريقة استخدامه...'; }
   else if (type === 'audio') { fd.style.display = 'block'; fi.accept = 'audio/*'; fi.multiple = false; fdIcon.className = 'fa-solid fa-microphone'; fdText.textContent = 'اختر ملفاً صوتياً (MP3 / WAV / M4A)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'نص القصيدة أو الوصف (اختياري)'; descInput.rows = 5; descInput.maxLength = 3000; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً أو كلمات المقطع الصوتي... ويمكنك تنسيق النص'; }
   else { fd.style.display = 'block'; fi.accept = 'video/*,image/*'; fi.multiple = true; fdIcon.className = 'fa-solid fa-photo-film'; fdText.textContent = 'اختر صورة أو فيديو أو عدة صور (حتى 10)'; titleInput.placeholder = 'العنوان *'; descInput.placeholder = 'وصف مختصر (اختياري)'; descInput.rows = 2; descInput.maxLength = 300; if (richEditor) richEditor.dataset.placeholder = 'أضف وصفاً للصورة أو الفيديو... ويمكنك تنسيق النص'; }
 }
@@ -1459,19 +1511,33 @@ fileDrop.addEventListener('drop', e => { if (e.dataTransfer.files.length) setFil
 fileDrop.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', e => { if (e.target.files.length) setFiles(e.target.files); });
 function setFiles(files) {
-  const arr = Array.from(files); if (!arr.length) return; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  const arr = Array.from(files || []); if (!arr.length) return;
+  currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active');
+  if (currentPostType === 'code') {
+    if (arr.length > 12) return showToast('الحد الأقصى 12 ملفاً للمشروع الواحد', true);
+    const invalid = arr.find(f => !['py','txt'].includes((f.name.split('.').pop() || '').toLowerCase()));
+    if (invalid) return showToast('ملفات المشروع تقبل امتداد .py و .txt فقط', true);
+    if (arr.some(f => f.size > 2 * 1024 * 1024)) return showToast('حجم كل ملف يجب ألا يتجاوز 2MB', true);
+    if (arr.reduce((n,f)=>n+f.size,0) > 15 * 1024 * 1024) return showToast('الحجم الإجمالي للملفات يجب ألا يتجاوز 15MB', true);
+    currentFiles = arr; currentFileType = 'code'; selectedFile.textContent = `✓ تم اختيار ${arr.length} ملف للمشروع`;
+    renderCodeUploadPreview(); return;
+  }
   if (arr.length === 1) {
     const file = arr[0];
-    if (currentPostType === 'code') { const ext = (file.name.split('.').pop() || '').toLowerCase(); if (!['py','txt'].includes(ext)) return showToast('المسموح فقط ملفات .py و .txt', true); if (file.size > 2 * 1024 * 1024) return showToast('حجم ملف الكود يجب ألا يتجاوز 2MB', true); currentFiles = [file]; currentFileType = 'code'; selectedFile.textContent = `✓ ${ext.toUpperCase()} — ${file.name} — ${(file.size/1024).toFixed(1)} KB`; return; }
     const isVideo = file.type.startsWith('video/'); const isImage = file.type.startsWith('image/'); const isAudio = file.type.startsWith('audio/'); if (!isVideo && !isImage && !isAudio) return showToast('نوع الملف غير مدعوم', true);
     if (currentPostType === 'audio') { if (!isAudio) return showToast('اختر ملفاً صوتياً (mp3/wav)', true); currentFiles = [file]; currentFileType = 'audio'; selectedFile.textContent = `✓ 🎵 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     if (isVideo) { currentFiles = [file]; currentFileType = 'video'; selectedFile.textContent = `✓ 🎬 ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
     if (isImage) { currentFiles = [file]; currentFileType = 'image'; selectedFile.textContent = `✓ 🖼️ ${file.name} — ${(file.size/1024/1024).toFixed(2)} MB`; return; }
-    return showToast('نوع الملف غير مدعوم', true);
   }
-  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط في وضع الصورة/الفيديو', true); if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true); const allImages = arr.every(f => f.type.startsWith('image/')); if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true);
+  if (currentPostType !== 'media') return showToast('اختيار متعدد متاح فقط للمشاريع أو الصور', true); if (arr.length > 10) return showToast('الحد الأقصى 10 صور', true); const allImages = arr.every(f => f.type.startsWith('image/')); if (!allImages) return showToast('للصور المتعددة: اختر صوراً فقط', true);
   currentFiles = arr; currentFileType = 'carousel'; selectedFile.textContent = `✓ ${arr.length} صورة مختارة`; renderMultiPreview();
 }
+function renderCodeUploadPreview() {
+  multiPreview.classList.add('active');
+  multiPreview.innerHTML = currentFiles.map((f,i)=>`<div class="code-upload-file"><i class="fa-${f.name.toLowerCase().endsWith('.py')?'brands fa-python':'solid fa-file-lines'}"></i><span><b>${esc(f.name)}</b><small>${(f.size/1024).toFixed(1)} KB · ${f.name.split('.').pop().toUpperCase()}</small></span><button type="button" class="remove-btn" onclick="removeCodeUploadFile(${i})" aria-label="حذف الملف"><i class="fa-solid fa-xmark"></i></button></div>`).join('');
+}
+function removeCodeUploadFile(i) { currentFiles.splice(i,1); if (!currentFiles.length) { currentFileType=null; selectedFile.textContent=''; multiPreview.innerHTML=''; multiPreview.classList.remove('active'); fileInput.value=''; return; } selectedFile.textContent=`✓ تم اختيار ${currentFiles.length} ملف للمشروع`; renderCodeUploadPreview(); }
+
 function renderMultiPreview() {
   if (currentFiles.length <= 1) { multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); return; } multiPreview.classList.add('active');
   multiPreview.innerHTML = currentFiles.map((f, i) => { const u = URL.createObjectURL(f); return `<div class="multi-preview-item"><img src="${u}" alt=""><button type="button" class="remove-btn" onclick="removePreviewImage(${i})" aria-label="حذف"><i class="fa-solid fa-xmark"></i></button></div>`; }).join('');
@@ -1484,20 +1550,30 @@ function setupCarouselViews() { document.querySelectorAll('.carousel-card').forE
 async function uploadContent() {
   const title = $('uploadTitle').value.trim(); const richEditor = $('uploadRichEditor'); const desc = sanitizeRichHTML(richEditor ? richEditor.innerHTML : $('uploadDesc').value).trim(); if (!currentUser) return showToast('يجب تسجيل الدخول', true);
   if (currentPostType === 'text') { if (!desc) return showToast('اكتب نصك أولاً', true); } else { if (!title) return showToast('العنوان مطلوب', true); if (currentFiles.length === 0) return showToast('اختر ملفاً', true); }
-  uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...'; progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%'; progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملف...';
+  uploadBtn.disabled = true; uploadBtn.innerHTML = '<span class="spinner-border"></span> جاري الرفع...'; progressWrap.classList.add('active'); progressFill.style.width = '0%'; progressPct.textContent = '0%'; progressStat.textContent = currentPostType === 'text' ? 'جاري النشر...' : 'جاري رفع الملفات...';
   try {
-    let mediaUrl = '', mediaUrls = null, finalType = currentPostType;
-    if (currentPostType !== 'text') {
-      if (currentFiles.length === 1) { const file = currentFiles[0]; const folder = currentFileType === 'audio' ? 'audio' : (currentFileType === 'code' ? 'code' : 'media'); mediaUrl = await uploadFileToStorage(file, folder); finalType = currentFileType; }
+    let mediaUrl = '', mediaUrls = null, codeFiles = null, finalType = currentPostType;
+    if (currentPostType === 'code') {
+      codeFiles = [];
+      for (let i=0;i<currentFiles.length;i++) {
+        const file=currentFiles[i]; progressStat.textContent=`رفع ملفات المشروع (${i+1}/${currentFiles.length})...`;
+        const url=await uploadFileToStorage(file,'code'); codeFiles.push({name:file.name,url,size:file.size,type:file.name.toLowerCase().endsWith('.py')?'python':'text'});
+        const pct=Math.round(((i+1)/currentFiles.length)*100); progressFill.style.width=pct+'%'; progressPct.textContent=pct+'%';
+      }
+      mediaUrl=codeFiles[0]?.url || ''; finalType='code';
+    } else if (currentPostType !== 'text') {
+      if (currentFiles.length === 1) { const file = currentFiles[0]; const folder = currentFileType === 'audio' ? 'audio' : 'media'; mediaUrl = await uploadFileToStorage(file, folder); finalType = currentFileType; }
       else { mediaUrls = []; for (let i = 0; i < currentFiles.length; i++) { progressStat.textContent = `رفع الصور (${i+1}/${currentFiles.length})...`; const url = await uploadFileToStorage(currentFiles[i], 'media'); mediaUrls.push(url); progressFill.style.width = `${((i + 1) / currentFiles.length) * 100}%`; progressPct.textContent = `${Math.round(((i + 1) / currentFiles.length) * 100)}%`; } mediaUrl = mediaUrls[0]; finalType = 'image'; }
     }
-    progressStat.textContent = 'جاري النشر...'; progressFill.style.width = '100%'; progressPct.textContent = '100%';
+    progressStat.textContent = 'جاري نشر المشروع...'; progressFill.style.width = '100%'; progressPct.textContent = '100%';
     const insertData = { user_id: currentUser.id, title: title || '', description: desc || '', media_url: mediaUrl, media_type: finalType, likes_count: 0, views_count: 0, author_name: currentProfile.display_name || currentProfile.username, author_avatar: currentProfile.avatar_url || '', visibility: $('newPostVisibility')?.value || 'public', comments_enabled: $('newPostComments') ? $('newPostComments').checked : true };
     if (mediaUrls) insertData.media_urls = mediaUrls;
+    if (codeFiles) insertData.code_files = codeFiles;
     const { error } = await supabase.from('posts').insert(insertData); if (error) throw new Error('فشل حفظ البيانات: ' + error.message);
     showToast('✓ تم النشر'); celebrate(); resetUploadForm(); closeModal('uploadModal', true); loadContent();
   } catch (err) { showToast(err.message || 'خطأ أثناء النشر', true); } finally { uploadBtn.disabled = false; uploadBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> نشر'; progressWrap.classList.remove('active'); }
 }
+
 function resetUploadForm() { if ($('newPostVisibility')) $('newPostVisibility').value = 'public'; if ($('newPostComments')) $('newPostComments').checked = true; $('uploadTitle').value = ''; $('uploadDesc').value = ''; if ($('uploadRichEditor')) $('uploadRichEditor').innerHTML = ''; fileInput.value = ''; currentFiles = []; currentFileType = null; selectedFile.textContent = ''; multiPreview.innerHTML = ''; multiPreview.classList.remove('active'); setPostType('media'); }
 function shuffleRows(rows) {
   const a = rows.slice();
@@ -1613,10 +1689,10 @@ function cardHTML(v) {
   const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const verified = verifiedBadgeHTML(v.user_id); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
-  const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${ownerSettings}${mtype !== 'text' ? `<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
+  const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
-  if (mtype === 'code') { const ext = (String(v.media_url || '').split('?')[0].split('.').pop() || 'file').toUpperCase(); return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'ملف برمجي'}</b><small>${ext} · ملف قابل للتحميل</small></div><a class="code-download" href="${url}" target="_blank" rel="noopener" download><i class="fa-solid fa-download"></i> تحميل</a></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div><button class="code-download" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-folder-open"></i> فتح المشروع</button></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -1633,7 +1709,7 @@ function renderReels(rows) {
   if (!rows.length) { reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>لا توجد ريلزات بعد</p></div>`; return; }
   reelsBox.innerHTML = rows.map(v => {
     const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description), richDesc = renderRichHTML(v.description || ''); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
-    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}${currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''}<button class="icon-btn" onclick="copyLink('${url}')"><i class="fa-solid fa-link"></i></button>${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button>${v.comments_enabled === false ? '' : `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>`}</div></div></div>`;
+    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}${currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button>${v.comments_enabled === false ? '' : `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>`}</div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls, 100); setTimeout(setupReelsObserver, 150);
 }
@@ -1727,7 +1803,25 @@ async function toggleSave(videoId, btn) {
   try { if (isSaved) { await supabase.from('saves').delete().eq('user_id', currentUser.id).eq('post_id', videoId); savedPostIds.delete(videoId); btn.classList.remove('saved'); btn.querySelector('i').className = 'fa-regular fa-bookmark'; showToast('تم إلغاء الحفظ'); } else { await supabase.from('saves').insert({ user_id: currentUser.id, post_id: videoId }); savedPostIds.add(videoId); btn.classList.add('saved'); btn.querySelector('i').className = 'fa-solid fa-bookmark'; showToast('✓ تم الحفظ'); } } catch(e) { showToast('فشل', true); } finally { btn.disabled = false; }
 }
 function renderSaved() { const box = $('grid-saved'); if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; } const saved = allRows.filter(r => savedPostIds.has(r.id)); if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; } box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
-function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(() => $('commentsModal').classList.add('comments-ready')); loadComments(videoId); }
+let activeCodePostId=null;
+function openCodeFiles(postId) {
+  const post=allRows.find(r=>r.id===postId); if(!post || post.media_type!=='code') return;
+  activeCodePostId=postId; $('codeFilesTitle').textContent=post.title || 'ملفات المشروع';
+  const files=Array.isArray(post.code_files)&&post.code_files.length?post.code_files:[{name:(String(post.media_url||'').split('/').pop()||'project.txt'),url:post.media_url,size:0,type:'text'}];
+  $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false;
+  $('codeFilesList').innerHTML=files.map((f,i)=>`<div class="code-file-row"><div class="code-file-icon ${f.type==='python'||/\.py$/i.test(f.name)?'python':''}"><i class="${f.type==='python'||/\.py$/i.test(f.name)?'fa-brands fa-python':'fa-solid fa-file-lines'}"></i></div><div class="code-file-info"><b>${esc(f.name||'ملف')}</b><small>${f.size?`${(f.size/1024).toFixed(1)} KB`:'ملف نصي'} · ${(f.name||'').split('.').pop().toUpperCase()}</small></div><button class="code-file-action" type="button" onclick="viewCodeFile(${i})"><i class="fa-solid fa-eye"></i> فتح</button><a class="code-file-action download" href="${escAttr(f.url)}" download="${escAttr(f.name||'file')}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> تنزيل</a></div>`).join('');
+  openModal('codeFilesModal');
+}
+async function viewCodeFile(index) {
+  const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
+  const files=Array.isArray(post.code_files)&&post.code_files.length?post.code_files:[{name:(String(post.media_url||'').split('/').pop()||'project.txt'),url:post.media_url}];
+  const file=files[index]; if(!file) return;
+  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeViewerName').textContent=file.name||'ملف'; $('codeViewerContent').textContent='جارٍ تحميل محتوى الملف...';
+  try { const response=await fetch(file.url,{cache:'force-cache'}); if(!response.ok) throw new Error('HTTP '+response.status); const text=await response.text(); $('codeViewerContent').textContent=text.slice(0,500000); }
+  catch(e) { $('codeViewerContent').textContent='تعذّر عرض الملف داخل الصفحة. يمكنك الرجوع للقائمة واختيار «تنزيل».'; }
+}
+function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; }
+function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; const modal=$('commentsModal'); modal.classList.remove('comments-ready'); $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('comments-ready'))); loadComments(videoId); }
 let editingPostSettingsId = null;
 function openPostSettings(postId) {
   const post = allRows.find(r => r.id === postId);
