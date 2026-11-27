@@ -732,7 +732,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 .code-file-icon{width:42px;height:42px;flex:0 0 42px;border-radius:12px;background:#263954;color:#c4d3f6;display:grid;place-items:center;font-size:20px}.code-file-icon.python{color:#b8ceff;background:#263d62}
 .code-file-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}.code-file-info b{font-size:13px;overflow-wrap:anywhere;color:#f1f5ff}.code-file-info small{font-size:10px;color:#9eacc8}
 .code-file-action{border:1px solid #536a94;background:#2a3c5b;color:#edf3ff;border-radius:10px;padding:9px 10px;text-decoration:none;font:700 11px 'Cairo',sans-serif;white-space:nowrap;cursor:pointer}.code-file-action.download{background:#526da8;border-color:#6d86bd}
-.code-file-viewer{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}.code-file-viewer[hidden]{display:none!important}.code-viewer-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#dfe8ff;font-size:12px}.code-viewer-toolbar button{border:1px solid #435777;background:#243651;color:#dfe8ff;border-radius:10px;padding:8px 10px;font:700 11px 'Cairo',sans-serif}.code-file-viewer pre{margin:0;min-height:180px;max-height:58dvh;overflow:auto;white-space:pre;direction:ltr;text-align:left;padding:16px;border-radius:14px;background:#080f1b;border:1px solid #293a55;color:#d8e5ff;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4}
+.code-file-viewer{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}.code-file-viewer[hidden]{display:none!important}.code-viewer-toolbar{display:none!important}.code-file-viewer pre{margin:0;min-height:180px;max-height:58dvh;overflow:auto;white-space:pre;direction:ltr;text-align:left;padding:16px;border-radius:14px;background:#080f1b;border:1px solid #293a55;color:#d8e5ff;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4}
 .code-upload-file{display:flex;align-items:center;gap:9px;padding:8px;background:#18263c;border:1px solid #34435e;border-radius:10px;min-width:0}.code-upload-file>i{font-size:19px;color:#b8cbff}.code-upload-file>span{display:flex;flex:1;min-width:0;flex-direction:column}.code-upload-file b{font-size:11px;overflow-wrap:anywhere}.code-upload-file small{font-size:10px;color:#aab8d3}.code-upload-file .remove-btn{position:static;flex:0 0 25px;width:25px;height:25px}
 #fileInput[multiple]{cursor:pointer}
 
@@ -791,6 +791,12 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
    animation:honderV9Dust 2.4s linear infinite!important;
  }
 }
+
+/* HONDER V15: immersive code viewer without the legacy back/name/download strip. */
+#codeFilesModal .code-viewer-toolbar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;overflow:hidden!important;gap:0!important}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important}
+#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:flex!important;z-index:20!important}
 </style>
 </head>
 <body>
@@ -1007,7 +1013,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
     <div class="code-modal-heading"><i class="fa-solid fa-folder-open"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>اختار أي ملف تريد تفتحه؟</p></div></div>
     <div id="codeFilesList" class="code-files-list"></div>
-    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><button type="button" class="code-viewer-back" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع</button><span id="codeViewerName">ملف</span><a id="codeViewerDownload" class="code-file-action download" href="#" download><i class="fa-solid fa-download"></i> تنزيل</a></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
+    <div id="codeFileViewer" class="code-file-viewer" hidden><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
   </div>
 </div>
 
@@ -1376,16 +1382,25 @@ async function prepareAvatarForUpload(file) {
   } finally { URL.revokeObjectURL(sourceUrl); }
 }
 async function uploadAvatarToStorage(file) {
-  const normalized = await prepareAvatarForUpload(file);
-  return await uploadFileToStorage(normalized, 'avatars');
+  if (!file) throw new Error('اختر صورة أولاً');
+  try {
+    const normalized = await prepareAvatarForUpload(file);
+    return await uploadFileToStorage(normalized, 'avatars');
+  } catch (conversionError) {
+    const ext = String(file.name || '').split('.').pop().toLowerCase();
+    const supported = /^(png|jpe?g|gif|webp|bmp|avif|heic|heif|tif?f|svg)$/i.test(ext);
+    if (!supported || !file.type || !file.type.toLowerCase().startsWith('image/')) throw conversionError;
+    if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
+    return await uploadFileToStorage(file, 'avatars');
+  }
 }
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
-  const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif'] };
+  const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif','bmp','avif','heic','heif','tif','tiff','svg'] };
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
-  const inferredType = folder === 'avatars' ? 'image/png' : (file.type || MIME_BY_EXT[ext] || 'application/octet-stream');
+  const inferredType = file.type || MIME_BY_EXT[ext] || (folder === 'avatars' ? 'image/png' : 'application/octet-stream');
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   if (!data || !data.path) throw new Error('تم إرسال الصورة لكن لم يرجع التخزين مسار الملف');
@@ -1554,7 +1569,7 @@ async function saveProfileEdit() {
     const { data: updatedProfile, error: profileUpdateError } = await supabase.from('profiles').update({ username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }).eq('id', currentProfile.id).select('id').maybeSingle();
     if (profileUpdateError) throw new Error('فشل حفظ بيانات الحساب: ' + profileUpdateError.message);
     if (!updatedProfile) throw new Error('لم يتم تحديث الحساب؛ تحقق من صلاحيات UPDATE لجدول profiles في Supabase');
-    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl; editAvatarFile = null; $('editAvatarInput').value = ''; saveSession(currentProfile); await loadAllUsers(); renderSidebar(); showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true); if (currentSection === 'profile') viewProfile(currentProfile.id); loadContent();
+    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl ? (avatarUrl + (avatarUrl.includes('?') ? '&' : '?') + 'v=' + Date.now()) : ''; editAvatarFile = null; $('editAvatarInput').value = ''; saveSession(currentProfile); await loadAllUsers(); renderSidebar(); showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true); if (currentSection === 'profile') viewProfile(currentProfile.id); loadContent();
   } catch (err) { showToast(err.message || 'فشل الحفظ', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات'; }
 }
 $('signupAvatarInput').addEventListener('change', e => { if (!e.target.files.length) return; avatarFile = e.target.files[0]; const r = new FileReader(); r.onload = ev => { $('signupAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="">`; }; r.readAsDataURL(avatarFile); });
@@ -1918,8 +1933,7 @@ function openCodeFiles(postId) {
 async function viewCodeFile(index) {
   const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
   const file=getCodePostFiles(post)[index]; if(!file || !file.url) return;
-  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); $('codeViewerName').textContent=file.name||'ملف';
-  const downloadLink=$('codeViewerDownload'); downloadLink.href=file.url; downloadLink.download=file.name||'file';
+  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); 
   const code=$('codeViewerContent').querySelector('code'); code.textContent='جارٍ تحميل محتوى الملف...';
   try {
     const response=await fetch(file.url,{cache:'no-store'});
@@ -2279,12 +2293,10 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 #codeFilesModal .code-modal-heading{flex:0 0 auto;padding-top:10px}
 #codeFilesModal.code-viewing .code-modal-heading{display:none!important}
 #codeFilesModal .code-files-list{flex:1;min-height:0;overflow:auto}
-#codeFilesModal .code-file-viewer{flex:1;min-height:0;overflow:hidden;gap:12px;animation:honderCodeViewIn .32s cubic-bezier(.2,.9,.25,1) both}
+#codeFilesModal .code-file-viewer{flex:1;min-height:0;width:100%;height:100%;overflow:hidden;gap:0;animation:honderCodeViewIn .32s cubic-bezier(.2,.9,.25,1) both}
 @keyframes honderCodeViewIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
-#codeFilesModal .code-viewer-toolbar{flex:0 0 auto;min-height:52px;padding:7px 10px;border:1px solid #34435e;background:rgba(25,39,60,.95);border-radius:14px;position:sticky;top:0;z-index:2}
-#codeFilesModal .code-viewer-toolbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-#codeFilesModal .code-viewer-toolbar button,#codeFilesModal .code-viewer-toolbar a{min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 12px;font:700 12px 'Cairo',sans-serif;text-decoration:none;cursor:pointer}
-#codeFilesModal pre#codeViewerContent{flex:1;width:100%;min-height:0;height:auto;max-height:none!important;overflow:auto;white-space:pre;direction:ltr;text-align:left;tab-size:4;padding:clamp(14px,2vw,24px);background:#080f1b;border:1px solid #30415e;border-radius:16px;color:#dce7ff;font:clamp(12px,1.2vw,14px)/1.85 ui-monospace,SFMono-Regular,Consolas,monospace;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#codeFilesModal .code-viewer-toolbar{display:none!important}
+#codeFilesModal pre#codeViewerContent{flex:1;width:100%;min-height:0;height:100%;max-height:none!important;overflow:auto;white-space:pre;direction:ltr;text-align:left;tab-size:4;padding:clamp(14px,2vw,24px);background:#080f1b;border:1px solid #30415e;border-radius:16px;color:#dce7ff;font:clamp(12px,1.2vw,14px)/1.85 ui-monospace,SFMono-Regular,Consolas,monospace;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 /* Heart actions are clearly red and slightly larger, including active state. */
 .icon-btn.liked,.icon-btn.liked i,.comment-actions button.liked,.comment-actions button.liked i{color:#ff4058!important}
 .icon-btn.liked{background:rgba(255,64,88,.12)!important}
