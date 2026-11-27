@@ -824,6 +824,45 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 
 
 </style>
+<style id="honder-comments-sheet-v21">
+
+/* HONDER comments sheet — compact mobile bottom sheet */
+#commentsModal{align-items:flex-end!important;justify-content:center!important;padding:0!important;background:rgba(0,0,0,.68)!important;}
+#commentsModal .comments-modal-box{box-sizing:border-box!important;width:min(100%,680px)!important;max-width:680px!important;height:min(64dvh,680px)!important;min-height:48dvh!important;max-height:68dvh!important;margin:0!important;padding:25px 16px calc(9px + env(safe-area-inset-bottom,0px))!important;display:flex!important;flex-direction:column!important;gap:8px!important;overflow:hidden!important;border:1px solid rgba(145,164,215,.22)!important;border-bottom:0!important;border-radius:24px 24px 0 0!important;background:#11141f!important;box-shadow:0 -12px 40px rgba(0,0,0,.34)!important;transform:translate3d(0,105%,0)!important;opacity:1!important;animation:none!important;transition:transform .42s cubic-bezier(.22,.82,.22,1)!important;will-change:transform;}
+#commentsModal.active.comments-ready .comments-modal-box{transform:translate3d(0,0,0)!important;}
+#commentsModal .comments-modal-box:before{content:"";position:absolute;top:8px;left:50%;width:42px;height:4px;transform:translateX(-50%);border-radius:8px;background:rgba(220,228,248,.3);pointer-events:none;}
+#commentsModal .comments-modal-title{flex:0 0 auto;display:flex;align-items:center;gap:9px;margin:0!important;padding:4px 0 11px!important;border-bottom:1px solid rgba(145,164,215,.18)!important;color:#f4f6ff!important;font-size:19px!important;font-weight:800!important;}
+#commentsModal .comments-modal-title i{color:#a9b9f7!important;}
+#commentsModal .modal-close{top:27px!important;left:10px!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:rgba(255,255,255,.07)!important;color:#cbd3e8!important;font-size:17px!important;}
+#commentsModal .modal-sub{flex:0 0 auto;margin:0!important;padding:1px 0 3px!important;color:#aab3c8!important;font-size:12px!important;line-height:1.5!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+#commentsModal .comment-list{flex:1 1 0!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:thin!important;margin:0!important;padding:5px 1px 12px!important;border:0!important;border-radius:0!important;background:transparent!important;}
+#commentsModal .comment-list>.empty{min-height:100%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;padding:18px!important;color:#aab3c8!important;text-align:center!important;}
+#commentsModal .comment-list>.empty i{font-size:34px!important;color:#8798d4!important;opacity:.75!important;}
+#commentsModal .comment-list>.empty p{margin:0!important;font-size:15px!important;font-weight:700!important;}
+#commentsModal .comment-item{position:relative!important;margin:0!important;padding:12px 3px!important;border:0!important;border-bottom:1px solid rgba(150,160,190,.12)!important;border-radius:0!important;background:transparent!important;}
+#commentsModal .comment-item.reply{margin:8px 34px 0 0!important;padding:10px 3px!important;border:0!important;border-radius:0!important;background:rgba(255,255,255,.025)!important;}
+#commentsModal .comment-item.reply:before{right:-15px!important;top:8px!important;bottom:8px!important;width:1px!important;background:rgba(151,166,210,.35)!important;}
+#commentsModal .comment-item-head{gap:9px!important;margin:0 0 5px!important;flex-wrap:nowrap!important;}
+#commentsModal .comment-avatar{width:38px!important;height:38px!important;min-width:38px!important;border:2px solid rgba(145,164,215,.24)!important;background:#263149!important;font-size:13px!important;}
+#commentsModal .comment-item-head b{min-width:0!important;color:#e7ebf7!important;font-size:13px!important;font-weight:700!important;overflow-wrap:anywhere!important;}
+#commentsModal .comment-item-head span{margin-right:auto!important;color:#8791a8!important;font-size:10px!important;white-space:nowrap!important;}
+#commentsModal .comment-item-body{padding:0 47px 0 3px!important;color:#f0f2f8!important;font-size:14px!important;line-height:1.7!important;font-weight:500!important;}
+#commentsModal .comment-actions{gap:14px!important;margin:5px 46px 0 0!important;font-size:11px!important;}
+#commentsModal .comment-actions button{min-height:28px!important;padding:3px 6px!important;color:#9ca6ba!important;font-size:11px!important;}
+#commentsModal .replies-toggle-btn{margin:4px 46px 0 0!important;padding:4px 0!important;color:#aebbf0!important;font-size:11px!important;}
+#commentsModal #commentFormBox{flex:0 0 auto!important;align-items:center!important;gap:8px!important;margin:0!important;padding:9px 0 2px!important;border-top:1px solid rgba(145,164,215,.18)!important;background:#11141f!important;direction:rtl!important;}
+#commentsModal .comment-composer-avatar{width:38px!important;height:38px!important;min-width:38px!important;display:grid!important;place-items:center!important;overflow:hidden!important;border-radius:50%!important;background:#28344d!important;color:#f5f7ff!important;font-size:14px!important;font-weight:800!important;}
+#commentsModal .comment-composer-avatar img{width:100%!important;height:100%!important;object-fit:cover!important;}
+#commentsModal #commentInput{flex:1 1 auto!important;width:0!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:90px!important;resize:none!important;margin:0!important;padding:11px 15px!important;border:1px solid rgba(160,174,210,.12)!important;border-radius:24px!important;background:#292d38!important;color:#f5f6fa!important;font-size:13px!important;line-height:1.5!important;box-shadow:none!important;}
+#commentsModal #commentInput::placeholder{color:#9aa1b1!important;opacity:1!important;}
+#commentsModal #commentBtn{flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;padding:0!important;display:grid!important;place-items:center!important;border:0!important;border-radius:50%!important;background:#586da8!important;color:#fff!important;font-size:17px!important;box-shadow:none!important;}
+#commentsModal #commentBtn:disabled{opacity:.55!important;}
+#commentsModal #commentLoginMsg{flex:0 0 auto!important;margin:0!important;padding:12px!important;border:1px solid rgba(145,164,215,.16)!important;border-radius:14px!important;background:#1a2030!important;color:#aab3c8!important;}
+@media(min-width:781px){#commentsModal{align-items:center!important;padding:20px!important}#commentsModal .comments-modal-box{height:min(76vh,760px)!important;min-height:520px!important;max-height:86vh!important;border:1px solid rgba(145,164,215,.22)!important;border-radius:22px!important;padding:26px 22px 16px!important;transform:translateY(24px)!important}#commentsModal.active.comments-ready .comments-modal-box{transform:translateY(0)!important}#commentsModal .comments-modal-box:before{display:none!important}}
+@media(max-width:380px){#commentsModal .comments-modal-box{height:66dvh!important;min-height:50dvh!important;padding-left:12px!important;padding-right:12px!important}#commentsModal .comment-avatar{width:34px!important;height:34px!important;min-width:34px!important}#commentsModal .comment-item-body{padding-right:42px!important;font-size:13px!important}}
+@media(prefers-reduced-motion:reduce){#commentsModal .comments-modal-box{transition:none!important;transform:none!important}}
+
+</style>
 </head>
 <body>
 
@@ -1050,8 +1089,9 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <p class="modal-sub" id="commentsTitle" style="margin-bottom:14px;">—</p>
     <div class="comment-list" id="commentList"><div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري التحميل...</p></div></div>
     <div id="commentFormBox" style="display:none;">
-      <textarea id="commentInput" class="input-field" rows="3" maxlength="500" placeholder="اكتب تعليقك..."></textarea>
-      <button class="btn btn-primary" id="commentBtn" onclick="addComment()"><i class="fa-solid fa-paper-plane"></i> نشر التعليق</button>
+      <div class="comment-composer-avatar" id="commentComposerAvatar" aria-hidden="true">؟</div>
+      <textarea id="commentInput" class="input-field" rows="1" maxlength="500" placeholder="إضافة تعليق..."></textarea>
+      <button class="btn btn-primary" id="commentBtn" type="button" aria-label="نشر التعليق" onclick="addComment()"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
     <div id="commentLoginMsg" style="display:none;text-align:center;padding:14px;background:#050303;border:1px solid var(--border);border-radius:10px;color:#888;font-size:13px;">
       <a onclick="closeModal('commentsModal'); openModal('loginModal');" style="color:var(--orange);cursor:pointer;font-weight:700;">سجّل دخول</a> للتعليق
@@ -2046,7 +2086,7 @@ function highlightPython(source) {
   }
   return out + esc(source.slice(last));
 }
-function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; const modal=$('commentsModal'); modal.classList.remove('comments-ready'); $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('comments-ready'))); loadComments(videoId); }
+function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; const modal=$('commentsModal'); modal.classList.remove('comments-ready'); $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'flex'; $('commentLoginMsg').style.display = 'none'; const composerAvatar = $('commentComposerAvatar'); const profileName = currentProfile ? (currentProfile.display_name || currentProfile.username || '?') : '?'; if (composerAvatar) composerAvatar.innerHTML = currentProfile && currentProfile.avatar_url ? `<img src="${escAttr(currentProfile.avatar_url)}" alt="">` : esc(profileName.charAt(0).toUpperCase()); } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('comments-ready'))); loadComments(videoId); }
 let editingPostSettingsId = null;
 function openPostSettings(postId) {
   const post = allRows.find(r => r.id === postId);
