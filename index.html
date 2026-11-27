@@ -553,6 +553,84 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 #deleteCommentModal .modal-sub{line-height:1.9}
 @media(max-width:768px){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{background-size:7px 7px,10px 10px,6px 6px;animation-duration:2.2s}}
 
+
+
+/* HONDER spoiler — final override: dense moving dots, transparent background */
+.rich-editor .spoiler,
+.text-post-content .spoiler,
+.card-desc .spoiler,
+.reel-overlay .spoiler {
+  display:inline-block!important;
+  position:relative!important;
+  vertical-align:baseline!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  padding:0 2px!important;
+  border:0!important;
+  border-radius:2px!important;
+  background:transparent!important;
+  color:transparent!important;
+  -webkit-text-fill-color:transparent!important;
+  text-shadow:none!important;
+  filter:none!important;
+  opacity:1!important;
+  cursor:pointer!important;
+}
+.rich-editor .spoiler::after,
+.text-post-content .spoiler::after,
+.card-desc .spoiler::after,
+.reel-overlay .spoiler::after {
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:5!important;
+  inset:0!important;
+  border-radius:inherit!important;
+  pointer-events:none!important;
+  opacity:1!important;
+  background-color:transparent!important;
+  background-image:
+    radial-gradient(circle,rgba(250,252,255,.98) 0 1.05px,transparent 1.45px),
+    radial-gradient(circle,rgba(178,199,255,.96) 0 .95px,transparent 1.4px),
+    radial-gradient(circle,rgba(255,255,255,.9) 0 .7px,transparent 1.2px),
+    radial-gradient(circle,rgba(137,163,235,.9) 0 .8px,transparent 1.3px);
+  background-size:6px 6px,7px 7px,5px 5px,9px 9px!important;
+  background-position:0 0,2px 3px,1px 2px,4px 1px!important;
+  background-repeat:repeat!important;
+  animation:honderSpoilerDrift 2.4s linear infinite!important;
+  transform:translate3d(0,0,0);
+  will-change:transform;
+}
+@keyframes honderSpoilerDrift {
+  0% { transform:translate3d(-2px,1px,0); }
+  25% { transform:translate3d(1px,-1px,0); }
+  50% { transform:translate3d(2px,1px,0); }
+  75% { transform:translate3d(-1px,2px,0); }
+  100% { transform:translate3d(-2px,1px,0); }
+}
+.rich-editor .spoiler.revealed,
+.text-post-content .spoiler.revealed,
+.card-desc .spoiler.revealed,
+.reel-overlay .spoiler.revealed {
+  color:inherit!important;
+  -webkit-text-fill-color:currentColor!important;
+  background:transparent!important;
+}
+.rich-editor .spoiler.revealed::after,
+.text-post-content .spoiler.revealed::after,
+.card-desc .spoiler.revealed::after,
+.reel-overlay .spoiler.revealed::after {
+  content:none!important;
+  display:none!important;
+  animation:none!important;
+}
+@media(prefers-reduced-motion:reduce) {
+  .rich-editor .spoiler::after,
+  .text-post-content .spoiler::after,
+  .card-desc .spoiler::after,
+  .reel-overlay .spoiler::after { animation:none!important; }
+}
+
 </style>
 </head>
 <body>
