@@ -963,7 +963,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="signupAvatarPreview" onclick="document.getElementById('signupAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b> (اختياري)<br>انقر على الدائرة لاختيار صورة.</div>
-      <input type="file" id="signupAvatarInput" accept="image/*" hidden>
+      <input type="file" id="signupAvatarInput" accept="image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
     </div>
     <input type="text" id="signupUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="signupDisplayName" class="input-field" placeholder="الاسم الظاهر (اختياري)" maxlength="100">
@@ -982,7 +982,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="editAvatarPreview" onclick="document.getElementById('editAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b><br>انقر لتغيير الصورة.</div>
-      <input type="file" id="editAvatarInput" accept="image/*" hidden>
+      <input type="file" id="editAvatarInput" accept="image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
     </div>
     <input type="text" id="editUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="editDisplayName" class="input-field" placeholder="الاسم الظاهر *" maxlength="100">
@@ -1005,9 +1005,9 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 <div class="modal-overlay" id="codeFilesModal">
   <div class="modal-box code-files-modal-box">
     <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
-    <div class="code-modal-heading"><i class="fa-brands fa-python"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>افتح الملف داخل HONDER أو نزّله</p></div></div>
+    <div class="code-modal-heading"><i class="fa-solid fa-folder-open"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>اختار أي ملف تريد تفتحه؟</p></div></div>
     <div id="codeFilesList" class="code-files-list"></div>
-    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><span id="codeViewerName">ملف</span><div class="code-viewer-toolbar-actions"><a id="codeViewerDownload" class="code-file-action download" href="#" download><i class="fa-solid fa-download"></i> تنزيل الملف</a><button type="button" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع</button></div></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
+    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-toolbar"><button type="button" class="code-viewer-back" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i> رجوع</button><span id="codeViewerName">ملف</span><a id="codeViewerDownload" class="code-file-action download" href="#" download><i class="fa-solid fa-download"></i> تنزيل</a></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
   </div>
 </div>
 
@@ -1344,37 +1344,40 @@ function isUserVerified(userId) { const u = getUserById(userId); return u && u.i
 function isUserBanned(userId) { const u = getUserById(userId); return u && u.is_banned === true; }
 function verifiedBadgeHTML(userId) { if (!isUserVerified(userId)) return ''; return `<i class="fa-solid fa-circle-check verified-badge" title="موثّق"></i>`; }
 function bannedBadgeHTML(userId) { if (!isUserBanned(userId)) return ''; return `<i class="fa-solid fa-ban banned-badge" title="محظور"></i>`; }
-async function prepareAvatarForUpload(file, preferredType = 'image/webp') {
-  if (!file || !file.type || !file.type.startsWith('image/')) throw new Error('اختر صورة بصيغة JPG أو PNG أو WEBP');
+async function prepareAvatarForUpload(file) {
+  if (!file) throw new Error('اختر صورة أولاً');
+  const ext = String(file.name || '').split('.').pop().toLowerCase();
+  const looksLikeImage = (file.type && file.type.toLowerCase().startsWith('image/')) || /^(png|jpe?g|gif|webp|bmp|avif|heic|heif|svg|tif?f)$/i.test(ext);
+  if (!looksLikeImage) throw new Error('الملف المحدد ليس صورة معروفة');
   if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
   const sourceUrl = URL.createObjectURL(file);
   try {
     const image = new Image();
-    await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = () => reject(new Error('تعذّر قراءة الصورة؛ جرّب صورة أخرى')); image.src = sourceUrl; });
-    const maxSide = 512;
-    const scale = Math.min(1, maxSide / Math.max(image.naturalWidth || image.width, image.naturalHeight || image.height));
+    image.decoding = 'async';
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = () => reject(new Error('تعذّر فك ترميز هذه الصورة في المتصفح. جرّب حفظها بصيغة PNG أو JPG'));
+      image.src = sourceUrl;
+    });
+    const width = image.naturalWidth || image.width;
+    const height = image.naturalHeight || image.height;
+    if (!width || !height) throw new Error('ملف الصورة تالف أو غير مدعوم');
+    const maxSide = 640;
+    const scale = Math.min(1, maxSide / Math.max(width, height));
     const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round((image.naturalWidth || image.width) * scale));
-    canvas.height = Math.max(1, Math.round((image.naturalHeight || image.height) * scale));
-    const ctx = canvas.getContext('2d');
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) throw new Error('متصفحك لا يدعم معالجة الصور');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, preferredType, preferredType === 'image/webp' ? 0.88 : undefined));
-    if (!blob || !blob.size) throw new Error('تعذّر تجهيز الصورة للرفع');
-    const mime = blob.type === 'image/webp' ? 'image/webp' : 'image/png';
-    const ext = mime === 'image/webp' ? 'webp' : 'png';
-    return new File([blob], `avatar.${ext}`, { type: mime, lastModified: Date.now() });
+    const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b && b.size ? resolve(b) : reject(new Error('تعذّر تحويل الصورة إلى PNG')), 'image/png'));
+    return new File([blob], `avatar-${Date.now()}.png`, { type: 'image/png', lastModified: Date.now() });
   } finally { URL.revokeObjectURL(sourceUrl); }
 }
 async function uploadAvatarToStorage(file) {
-  const webpAvatar = await prepareAvatarForUpload(file, 'image/webp');
-  try { return await uploadFileToStorage(webpAvatar, 'avatars'); }
-  catch (error) {
-    const message = String(error && error.message || error || '');
-    if (!/mime.*(not supported|unsupported)|unsupported.*mime|نوع.*غير مدعوم/i.test(message)) throw error;
-    const pngAvatar = await prepareAvatarForUpload(file, 'image/png');
-    return await uploadFileToStorage(pngAvatar, 'avatars');
-  }
+  const normalized = await prepareAvatarForUpload(file);
+  return await uploadFileToStorage(normalized, 'avatars');
 }
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
@@ -1382,7 +1385,7 @@ async function uploadFileToStorage(file, folder = 'media') {
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
-  const inferredType = file.type || MIME_BY_EXT[ext] || 'application/octet-stream';
+  const inferredType = folder === 'avatars' ? 'image/png' : (file.type || MIME_BY_EXT[ext] || 'application/octet-stream');
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   if (!data || !data.path) throw new Error('تم إرسال الصورة لكن لم يرجع التخزين مسار الملف');
@@ -1787,7 +1790,7 @@ function cardHTML(v) {
   const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${formatCount(likesCount)}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span data-comment-count-id="${v.id}">${formatCount(commentsCount)}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${formatCount(viewsCount)}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
-  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; const codeBoostBtn = isAdmin() ? `<button class="admin-boost-btn code-admin-boost" type="button" onclick="openBoost('${v.id}')" title="زيادة اللايكات والمشاهدات للمالك"><i class="fa-solid fa-bolt"></i></button>` : ''; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div>${codeBoostBtn}<button class="code-download" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-folder-open"></i> فتح المشروع</button></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; const codeBoostBtn = isAdmin() ? `<button class="admin-boost-btn code-admin-boost" type="button" onclick="openBoost('${v.id}')" title="زيادة اللايكات والمشاهدات للمالك"><i class="fa-solid fa-bolt"></i></button>` : ''; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div>${codeBoostBtn}<div class="code-post-actions"><button class="code-post-action view" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-eye"></i> عرض الملفات</button><button class="code-post-action download" type="button" onclick="downloadCodeFiles('${v.id}')"><i class="fa-solid fa-download"></i> تنزيل الملفات</button></div></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -1899,29 +1902,75 @@ async function toggleSave(videoId, btn) {
 }
 function renderSaved() { const box = $('grid-saved'); if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; } const saved = allRows.filter(r => savedPostIds.has(r.id)); if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; } box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
 let activeCodePostId=null;
+function getCodePostFiles(post) {
+  return Array.isArray(post && post.code_files) && post.code_files.length
+    ? post.code_files
+    : [{name:(String(post && post.media_url || '').split('/').pop() || 'project.txt'),url:post && post.media_url,size:0,type:'text'}];
+}
 function openCodeFiles(postId) {
   const post=allRows.find(r=>r.id===postId); if(!post || post.media_type!=='code') return;
   activeCodePostId=postId; $('codeFilesTitle').textContent=post.title || 'ملفات المشروع';
-  const files=Array.isArray(post.code_files)&&post.code_files.length?post.code_files:[{name:(String(post.media_url||'').split('/').pop()||'project.txt'),url:post.media_url,size:0,type:'text'}];
+  const files=getCodePostFiles(post);
   $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing');
-  $('codeFilesList').innerHTML=files.map((f,i)=>`<div class="code-file-row"><div class="code-file-icon ${f.type==='python'||/\.py$/i.test(f.name)?'python':''}"><i class="${f.type==='python'||/\.py$/i.test(f.name)?'fa-brands fa-python':'fa-solid fa-file-lines'}"></i></div><div class="code-file-info"><b>${esc(f.name||'ملف')}</b><small>${f.size?`${(f.size/1024).toFixed(1)} KB`:'ملف نصي'} · ${(f.name||'').split('.').pop().toUpperCase()}</small></div><button class="code-file-action" type="button" onclick="viewCodeFile(${i})"><i class="fa-solid fa-eye"></i> فتح</button><a class="code-file-action download" href="${escAttr(f.url)}" download="${escAttr(f.name||'file')}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> تنزيل</a></div>`).join('');
+  $('codeFilesList').innerHTML=files.map((f,i)=>`<div class="code-file-row"><div class="code-file-icon ${f.type==='python'||/\.py$/i.test(f.name)?'python':''}"><i class="${f.type==='python'||/\.py$/i.test(f.name)?'fa-brands fa-python':'fa-solid fa-file-lines'}"></i></div><div class="code-file-info"><b>${esc(f.name||'ملف')}</b><small>${f.size?`${(f.size/1024).toFixed(1)} KB`:'ملف نصي'} · ${(f.name||'').split('.').pop().toUpperCase()}</small></div><button class="code-file-action" type="button" onclick="viewCodeFile(${i})"><i class="fa-solid fa-folder-open"></i> فتح</button></div>`).join('');
   openModal('codeFilesModal');
 }
 async function viewCodeFile(index) {
   const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
-  const files=Array.isArray(post.code_files)&&post.code_files.length?post.code_files:[{name:(String(post.media_url||'').split('/').pop()||'project.txt'),url:post.media_url}];
-  const file=files[index]; if(!file) return;
+  const file=getCodePostFiles(post)[index]; if(!file || !file.url) return;
   $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); $('codeViewerName').textContent=file.name||'ملف';
   const downloadLink=$('codeViewerDownload'); downloadLink.href=file.url; downloadLink.download=file.name||'file';
-  $('codeViewerContent').querySelector('code').textContent='جارٍ تحميل محتوى الملف...';
+  const code=$('codeViewerContent').querySelector('code'); code.textContent='جارٍ تحميل محتوى الملف...';
   try {
-    const response=await fetch(file.url,{cache:'force-cache'});
+    const response=await fetch(file.url,{cache:'no-store'});
     if(!response.ok) throw new Error('HTTP '+response.status);
     const source=await response.text();
-    const code=$('codeViewerContent').querySelector('code');
-    code.innerHTML = /\.py$/i.test(file.name || '') ? highlightPython(source.slice(0,500000)) : esc(source.slice(0,500000));
+    code.innerHTML = /\.py$/i.test(file.name || '') ? highlightPython(source.slice(0,1000000)) : esc(source.slice(0,1000000));
   } catch(e) {
-    $('codeViewerContent').querySelector('code').textContent='تعذّر عرض الملف داخل الصفحة. يمكنك الرجوع للقائمة واختيار «تنزيل».';
+    code.textContent='تعذّر عرض محتوى الملف. يمكنك استخدام زر التنزيل في الشريط العلوي.';
+  }
+}
+function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing'); }
+function crc32Bytes(bytes) {
+  let crc=0xffffffff;
+  for(let i=0;i<bytes.length;i++){crc^=bytes[i];for(let j=0;j<8;j++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+  return (crc^0xffffffff)>>>0;
+}
+async function buildZipBlob(entries) {
+  const enc=new TextEncoder(), local=[], central=[]; let offset=0;
+  const u16=(n)=>new Uint8Array([n&255,(n>>>8)&255]);
+  const u32=(n)=>new Uint8Array([n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]);
+  const join=(parts)=>{const size=parts.reduce((a,b)=>a+b.length,0),out=new Uint8Array(size);let at=0;for(const part of parts){out.set(part,at);at+=part.length;}return out;};
+  for(const entry of entries){
+    const name=enc.encode(String(entry.name||'file').replace(/[\\/:*?"<>|]/g,'_'));
+    const data=new Uint8Array(await entry.blob.arrayBuffer()); const crc=crc32Bytes(data);
+    const localHeader=join([u32(0x04034b50),u16(20),u16(0x0800),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),name]);
+    local.push(localHeader,data);
+    const centralHeader=join([u32(0x02014b50),u16(20),u16(20),u16(0x0800),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset),name]);
+    central.push(centralHeader); offset+=localHeader.length+data.length;
+  }
+  const centralBytes=join(central), localBytes=join(local);
+  const end=join([u32(0x06054b50),u16(0),u16(0),u16(entries.length),u16(entries.length),u32(centralBytes.length),u32(localBytes.length),u16(0)]);
+  return new Blob([localBytes,centralBytes,end],{type:'application/zip'});
+}
+async function downloadCodeFiles(postId) {
+  const post=allRows.find(r=>r.id===postId); if(!post || post.media_type!=='code') return;
+  const files=getCodePostFiles(post).filter(f=>f && f.url);
+  if(!files.length){showToast('لا توجد ملفات قابلة للتنزيل',true);return;}
+  showToast('جاري تجهيز ملفات المشروع...');
+  try {
+    const entries=[];
+    for(let i=0;i<files.length;i++){
+      const f=files[i],res=await fetch(f.url,{mode:'cors',cache:'no-store'});
+      if(!res.ok) throw new Error('تعذّر تحميل '+(f.name||'الملف'));
+      entries.push({name:f.name||`file-${i+1}`,blob:await res.blob()});
+    }
+    const zip=await buildZipBlob(entries),url=URL.createObjectURL(zip),a=document.createElement('a');
+    a.href=url; a.download=((post.title||'HONDER-project').replace(/[^a-z0-9_\-\u0600-\u06FF ]/gi,'').trim()||'HONDER-project')+'.zip';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+    showToast('✓ تم تجهيز ملف المشروع للتنزيل');
+  } catch(error) {
+    showToast('تعذّر تجميع الملفات في ZIP: '+(error.message||'خطأ شبكة'),true);
   }
 }
 function highlightPython(source) {
@@ -2262,6 +2311,22 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 #codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;}
 .code-post-head .code-admin-boost{position:static!important;flex:0 0 38px!important;width:38px!important;height:38px!important;margin-inline-start:4px!important;}
 @media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 8px) 8px calc(env(safe-area-inset-bottom,0px) + 8px)!important;gap:8px!important}#codeFilesModal .code-viewer-toolbar{min-height:48px!important;border-radius:11px!important}#codeFilesModal pre#codeViewerContent{font-size:12px!important;line-height:1.7!important;padding:10px!important;border-radius:11px!important}.code-post-head{gap:8px!important;padding:14px!important}.code-post-head .code-admin-boost{width:36px!important;height:36px!important;flex-basis:36px!important}}
+
+/* HONDER V14: clean project actions + single-screen source viewer. */
+.code-post-head{flex-wrap:wrap!important;align-items:center!important}
+.code-post-actions{display:flex!important;flex:1 1 100%!important;width:100%!important;gap:10px!important;margin-top:8px!important}
+.code-post-action{display:inline-flex!important;flex:1 1 0!important;min-width:0!important;min-height:44px!important;align-items:center!important;justify-content:center!important;gap:8px!important;border:1px solid #536a94!important;border-radius:12px!important;padding:10px 12px!important;color:#edf3ff!important;background:#2a3c5b!important;font:800 13px 'Cairo',sans-serif!important;cursor:pointer!important}
+.code-post-action.view{background:linear-gradient(135deg,#354f7b,#263b60)!important}
+.code-post-action.download{background:linear-gradient(135deg,#536fa9,#354e7b)!important}
+.code-post-action:active{transform:scale(.985)}
+#codeFilesModal .code-modal-heading p{font-size:13px!important;color:#c3cfe5!important}
+#codeFilesModal .code-viewer-toolbar{position:sticky!important;top:0!important;min-height:54px!important;padding:7px 10px!important;display:flex!important;align-items:center!important;gap:10px!important;background:#18263c!important;border:1px solid #405474!important;border-radius:13px!important}
+#codeFilesModal .code-viewer-toolbar #codeViewerName{flex:1!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;text-align:center!important;font-weight:800!important;color:#f0f4ff!important}
+#codeFilesModal .code-viewer-back{flex:0 0 auto!important;min-height:38px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:8px 13px!important;border:1px solid #536a94!important;border-radius:10px!important;background:#263b5a!important;color:#edf3ff!important;font:800 12px 'Cairo',sans-serif!important}
+#codeFilesModal .code-viewer-toolbar #codeViewerDownload{flex:0 0 auto!important;min-height:38px!important}
+#codeFilesModal.code-viewing .code-file-viewer{gap:10px!important}
+#codeFilesModal.code-viewing #codeViewerContent{overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important}
+@media(max-width:600px){.code-post-actions{gap:8px!important}.code-post-action{min-height:42px!important;padding:9px 7px!important;font-size:12px!important}#codeFilesModal .code-viewer-toolbar{min-height:50px!important;gap:6px!important;padding:6px!important}#codeFilesModal .code-viewer-back{padding:7px 9px!important;font-size:11px!important}#codeFilesModal .code-viewer-toolbar #codeViewerDownload{padding:7px 9px!important;font-size:11px!important}}
 </style>
 </body>
 </html>
