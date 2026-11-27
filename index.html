@@ -741,6 +741,56 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 #newPostVisibility,#editPostVisibility,.post-publish-options select,.post-settings-box select{appearance:none;-webkit-appearance:none;background-color:#18253a!important;color:#eaf0ff!important;border:1px solid #405474!important;border-radius:12px!important;padding:12px 42px 12px 14px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b8cbff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:12px center!important;background-size:16px!important}
 #newPostVisibility option,#editPostVisibility option{background:#17243a;color:#edf2ff}
 
+
+/* HONDER V9: refined animated spoiler dust — lightweight and visibly moving */
+.rich-editor .spoiler:not(.revealed),
+.text-post-content .spoiler:not(.revealed),
+.card-desc .spoiler:not(.revealed),
+.reel-overlay .spoiler:not(.revealed){
+  position:relative!important;display:inline!important;overflow:visible!important;
+  color:transparent!important;-webkit-text-fill-color:transparent!important;
+  text-shadow:none!important;filter:none!important;background:transparent!important;
+  border-radius:3px!important;padding:0 2px!important;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.rich-editor .spoiler:not(.revealed)::after,
+.text-post-content .spoiler:not(.revealed)::after,
+.card-desc .spoiler:not(.revealed)::after,
+.reel-overlay .spoiler:not(.revealed)::after{
+  content:""!important;display:block!important;position:absolute!important;inset:0!important;
+  z-index:4!important;pointer-events:none!important;border-radius:3px!important;
+  background-image:
+    radial-gradient(circle,rgba(239,244,255,.94) 0 .85px,transparent 1.25px),
+    radial-gradient(circle,rgba(151,177,244,.82) 0 .7px,transparent 1.1px),
+    radial-gradient(circle,rgba(255,255,255,.72) 0 .55px,transparent .95px)!important;
+  background-size:7px 7px,9px 9px,6px 6px!important;
+  background-position:0 0,3px 2px,1px 4px!important;background-repeat:repeat!important;
+  opacity:.92!important;animation:honderV9Dust 1.65s linear infinite!important;
+  will-change:background-position,opacity!important;
+}
+@keyframes honderV9Dust{
+  0%{background-position:0 0,3px 2px,1px 4px;opacity:.78}
+  25%{background-position:3px -2px,0 5px,-2px 1px;opacity:.98}
+  50%{background-position:6px 1px,5px 0,2px -2px;opacity:.88}
+  75%{background-position:2px 4px,1px -3px,4px 3px;opacity:1}
+  100%{background-position:0 0,3px 2px,1px 4px;opacity:.78}
+}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,
+.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{
+  color:inherit!important;-webkit-text-fill-color:currentColor!important;
+  background:transparent!important;filter:none!important;
+}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,
+.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{
+  content:none!important;display:none!important;animation:none!important;
+}
+/* Keep the requested animation even when the device has a reduced-motion preference. */
+@media(prefers-reduced-motion:reduce){
+ .rich-editor .spoiler:not(.revealed)::after,.text-post-content .spoiler:not(.revealed)::after,
+ .card-desc .spoiler:not(.revealed)::after,.reel-overlay .spoiler:not(.revealed)::after{
+   animation:honderV9Dust 2.4s linear infinite!important;
+ }
+}
 </style>
 </head>
 <body>
@@ -1612,8 +1662,35 @@ async function loadContent(reset = true) {
   } catch (err) { if (reset) showErrorAll(err.message); else showToast('تعذّر تحميل المزيد', true); }
   finally { isLoadingMore = false; }
 }
-async function loadCommentCounts() { try { const { data } = await supabase.from('comments').select('post_id').eq('is_deleted', false); commentCounts = {}; (data || []).forEach(c => { if (c.post_id) commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; }); } catch(e) {} }
-async function loadCommentCountsForPostIds(postIds) { if (!postIds.length) return; try { const { data } = await supabase.from('comments').select('post_id').in('post_id', postIds).eq('is_deleted', false); const counts = {}; (data || []).forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; }); Object.keys(counts).forEach(id => { commentCounts[id] = counts[id]; }); } catch(e) {} }
+function countVisibleComments(rows) {
+  const active = (rows || []).filter(c => c && c.is_deleted !== true);
+  const roots = new Set(active.filter(c => !c.parent_id).map(c => String(c.id)));
+  const validReplies = active.filter(c => c.parent_id && roots.has(String(c.parent_id)));
+  const counts = {};
+  active.filter(c => !c.parent_id).forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; });
+  validReplies.forEach(c => { if (c.post_id) counts[c.post_id] = (counts[c.post_id] || 0) + 1; });
+  return counts;
+}
+function updateCommentCountUI(postId, count) {
+  document.querySelectorAll('[data-comment-count-id]').forEach(el => { if (el.getAttribute('data-comment-count-id') === String(postId)) el.textContent = String(count); });
+}
+async function loadCommentCounts() {
+  try {
+    const { data, error } = await supabase.from('comments').select('id,post_id,parent_id,is_deleted').eq('is_deleted', false);
+    if (error) throw error;
+    commentCounts = countVisibleComments(data || []);
+    allRows.forEach(post => updateCommentCountUI(post.id, commentCounts[post.id] || 0));
+  } catch(e) { console.warn('loadCommentCounts:', e); }
+}
+async function loadCommentCountsForPostIds(postIds) {
+  if (!postIds.length) return;
+  try {
+    const { data, error } = await supabase.from('comments').select('id,post_id,parent_id,is_deleted').in('post_id', postIds).eq('is_deleted', false);
+    if (error) throw error;
+    const counts = countVisibleComments(data || []);
+    postIds.forEach(id => { commentCounts[id] = counts[id] || 0; updateCommentCountUI(id, commentCounts[id]); });
+  } catch(e) { console.warn('loadCommentCountsForPostIds:', e); }
+}
 function setupInfiniteScroll() {
   if (window._infiniteObserver) window._infiniteObserver.disconnect(); let sentinel = document.getElementById('infinite-sentinel');
   if (!sentinel) { sentinel = document.createElement('div'); sentinel.id = 'infinite-sentinel'; sentinel.style.cssText = 'height:1px;width:100%;pointer-events:none;'; const homeSection = document.getElementById('section-home'); if (homeSection) homeSection.appendChild(sentinel); }
@@ -1689,7 +1766,7 @@ function cardHTML(v) {
   const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const authorAvatar = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const verified = verifiedBadgeHTML(v.user_id); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
   const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')" title="التحكم"><i class="fa-solid fa-bolt"></i></button>` : '';
   const overlayAuthorHTML = `<div class="card-overlay-author"><div class="card-author-chip" ${authorClick}><div class="card-author-avatar">${authorAvatar}</div><div class="card-author-name">${authorName}${verified}</div></div><div class="overlay-btns">${boostBtn}<button class="save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${v.id}', this)" title="حفظ"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button></div></div>`;
-  const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
+  const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${likesCount}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span data-comment-count-id="${v.id}">${commentsCount}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${viewsCount}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div><button class="code-download" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-folder-open"></i> فتح المشروع</button></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
@@ -1709,7 +1786,7 @@ function renderReels(rows) {
   if (!rows.length) { reelsBox.innerHTML = `<div class="empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;"><i class="fa-solid fa-film"></i><p>لا توجد ريلزات بعد</p></div>`; return; }
   reelsBox.innerHTML = rows.map(v => {
     const url = escAttr(v.media_url), title = esc(v.title), desc = esc(v.description), richDesc = renderRichHTML(v.description || ''); const canDel = canDelete(v); const author = getUserById(v.user_id); const authorName = esc(author ? (author.display_name || author.username) : 'مجهول'); const avatarImg = author && author.avatar_url ? `<img src="${escAttr(author.avatar_url)}" alt="">` : authorName.charAt(0).toUpperCase(); const authorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : ''; const safeTitle = escAttr(v.title); const isLiked = likedVideos.has(v.id); const verified = verifiedBadgeHTML(v.user_id); const commentsCount = commentCounts[v.id] || 0; const boostBtn = isAdmin() ? `<button class="admin-boost-btn" onclick="openBoost('${v.id}')"><i class="fa-solid fa-bolt"></i></button>` : '';
-    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}${currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button>${v.comments_enabled === false ? '' : `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span>${commentsCount}</span></button>`}</div></div></div>`;
+    return `<div class="reel-item" data-reel-id="${v.id}"><video src="${url}" loop playsinline preload="metadata" onplay="markViewed('${v.id}')"></video><button class="reel-play-big" onclick="toggleReelPlay(this)"><i class="fa-solid fa-play"></i></button><div class="reel-progress"><div class="reel-progress-fill"></div></div><div class="reel-actions">${boostBtn}${currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div><button class="reel-mute-btn hidden" onclick="event.stopPropagation(); toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></button><div class="reel-overlay"><div class="reel-author card-author" ${authorClick}><div class="card-author-avatar">${avatarImg}</div><div class="card-author-name" style="color:#fff;font-size:13px;">${authorName}${verified}</div></div><h3>${title}</h3>${richDesc ? `<p>${richDesc}</p>` : ''}<div style="display:flex;gap:8px;margin-top:10px;pointer-events:auto;"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${v.likes_count || 0}</span></button>${v.comments_enabled === false ? '' : `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')" style="background:rgba(10,4,5,0.92);color:#fff;border-radius:20px;padding:6px 14px;"><i class="fa-solid fa-comment"></i><span data-comment-count-id="${v.id}">${commentsCount}</span></button>`}</div></div></div>`;
   }).join('');
   setTimeout(setupReelsControls, 100); setTimeout(setupReelsObserver, 150);
 }
@@ -1850,9 +1927,15 @@ async function loadComments(videoId) {
   const list = $('commentList'); list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   try {
     const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comment-slash"></i><p>التعليقات مغلقة لهذا المنشور</p></div>`; return; } const { data, error } = await supabase.from('comments').select('*').eq('post_id', videoId).eq('is_deleted', false).order('created_at', { ascending: false }); if (error) throw error;
-    allComments = data || []; const parents = allComments.filter(c => !c.parent_id); const replies = allComments.filter(c => c.parent_id); commentCounts[videoId] = allComments.length;
+    allComments = data || [];
+    const parents = allComments.filter(c => !c.parent_id);
+    const parentIds = new Set(parents.map(c => String(c.id)));
+    // Ignore orphan replies: their parent may have been deleted in an older version.
+    const replies = allComments.filter(c => c.parent_id && parentIds.has(String(c.parent_id)));
+    commentCounts[videoId] = parents.length + replies.length;
+    updateCommentCountUI(videoId, commentCounts[videoId]);
     if (!parents.length) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-comments"></i><p>لا تعليقات بعد</p></div>`; return; }
-    list.innerHTML = parents.map(p => { const childs = replies.filter(r => r.parent_id === p.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); const repliesHTML = childs.length ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>` : ''; return renderCommentItem(p) + repliesHTML; }).join('');
+    list.innerHTML = parents.map(p => { const childs = replies.filter(r => String(r.parent_id) === String(p.id)).sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); const repliesHTML = childs.length ? `<button class="replies-toggle-btn" onclick="toggleReplies('${p.id}', this)"><i class="fa-solid fa-chevron-down"></i> عرض الردود (${childs.length})</button><div class="replies-container" id="replies-${p.id}">${childs.map(r => renderCommentItem(r, true)).join('')}</div>` : ''; return renderCommentItem(p) + repliesHTML; }).join('');
   } catch (err) { list.innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i><p>فشل تحميل التعليقات</p></div>`; }
 }
 function toggleReplies(commentId, btn) { const el = $('replies-' + commentId); if (!el) return; const isShown = el.classList.toggle('show'); const count = el.children.length; if (isShown) btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> إخفاء الردود (${count})`; else btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> عرض الردود (${count})`; }
@@ -1876,11 +1959,22 @@ async function confirmDeleteComment() {
   const commentId = pendingDeleteCommentId; if (!commentId) return;
   const btn = $('confirmDeleteCommentBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحذف...';
   try {
-    const { error } = await supabase.from('comments').update({ is_deleted: true }).eq('id', commentId);
+    const target = allComments.find(c => String(c.id) === String(commentId));
+    if (!target) throw new Error('comment_not_found');
+    // SECURITY DEFINER RPC cascades root deletion to replies even when replies
+    // were written by other users and ordinary row-level update policies block it.
+    const { error } = await supabase.rpc('honder_delete_comment_cascade', { p_comment_id: commentId });
     if (error) throw error;
-    pendingDeleteCommentId = null; closeModal('deleteCommentModal', true); showToast('✓ تم حذف التعليق'); await loadComments(currentCommentsVideoId);
-  } catch (err) { console.error('deleteComment:', err); showToast('فشل حذف التعليق', true); }
-  finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-trash"></i> حذف التعليق'; }
+    pendingDeleteCommentId = null;
+    closeModal('deleteCommentModal', true);
+    showToast('✓ تم حذف التعليق وردوده');
+    await loadComments(currentCommentsVideoId);
+    // Reconcile the post badge from the database instead of decrementing a possibly stale value.
+    await loadCommentCountsForPostIds([currentCommentsVideoId]);
+    updateCommentCountUI(currentCommentsVideoId, commentCounts[currentCommentsVideoId] || 0);
+  } catch (err) {
+    console.error('deleteComment:', err); showToast('فشل حذف التعليق', true);
+  } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-trash"></i> حذف التعليق'; }
 }
 async function toggleCommentLike(commentId, btn) {
   if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } const isLiked = likedComments.has(commentId); btn.disabled = true;
