@@ -1344,15 +1344,50 @@ function isUserVerified(userId) { const u = getUserById(userId); return u && u.i
 function isUserBanned(userId) { const u = getUserById(userId); return u && u.is_banned === true; }
 function verifiedBadgeHTML(userId) { if (!isUserVerified(userId)) return ''; return `<i class="fa-solid fa-circle-check verified-badge" title="موثّق"></i>`; }
 function bannedBadgeHTML(userId) { if (!isUserBanned(userId)) return ''; return `<i class="fa-solid fa-ban banned-badge" title="محظور"></i>`; }
+async function prepareAvatarForUpload(file, preferredType = 'image/webp') {
+  if (!file || !file.type || !file.type.startsWith('image/')) throw new Error('اختر صورة بصيغة JPG أو PNG أو WEBP');
+  if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
+  const sourceUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = () => reject(new Error('تعذّر قراءة الصورة؛ جرّب صورة أخرى')); image.src = sourceUrl; });
+    const maxSide = 512;
+    const scale = Math.min(1, maxSide / Math.max(image.naturalWidth || image.width, image.naturalHeight || image.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round((image.naturalWidth || image.width) * scale));
+    canvas.height = Math.max(1, Math.round((image.naturalHeight || image.height) * scale));
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('متصفحك لا يدعم معالجة الصور');
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, preferredType, preferredType === 'image/webp' ? 0.88 : undefined));
+    if (!blob || !blob.size) throw new Error('تعذّر تجهيز الصورة للرفع');
+    const mime = blob.type === 'image/webp' ? 'image/webp' : 'image/png';
+    const ext = mime === 'image/webp' ? 'webp' : 'png';
+    return new File([blob], `avatar.${ext}`, { type: mime, lastModified: Date.now() });
+  } finally { URL.revokeObjectURL(sourceUrl); }
+}
+async function uploadAvatarToStorage(file) {
+  const webpAvatar = await prepareAvatarForUpload(file, 'image/webp');
+  try { return await uploadFileToStorage(webpAvatar, 'avatars'); }
+  catch (error) {
+    const message = String(error && error.message || error || '');
+    if (!/mime.*(not supported|unsupported)|unsupported.*mime|نوع.*غير مدعوم/i.test(message)) throw error;
+    const pngAvatar = await prepareAvatarForUpload(file, 'image/png');
+    return await uploadFileToStorage(pngAvatar, 'avatars');
+  }
+}
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
   const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif'] };
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  const inferredType = file.type || (ext === 'py' ? 'text/x-python' : (ext === 'txt' ? 'text/plain' : 'application/octet-stream'));
+  const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
+  const inferredType = file.type || MIME_BY_EXT[ext] || 'application/octet-stream';
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
+  if (!data || !data.path) throw new Error('تم إرسال الصورة لكن لم يرجع التخزين مسار الملف');
   const { data: urlData } = supabase.storage.from('media').getPublicUrl(data.path);
+  if (!urlData || !urlData.publicUrl) throw new Error('تعذّر إنشاء رابط الصورة');
   return urlData.publicUrl;
 }
 function renderSidebar() {
@@ -1389,10 +1424,12 @@ async function doSignup() {
   try {
     const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).maybeSingle(); if (existing) throw new Error('اسم المستخدم محجوز');
     const authEmail = `${username}@atlasapp.io`; const { data: signupData, error: signupErr } = await supabase.auth.signUp({ email: authEmail, password: pass, options: { data: { username, display_name: finalName } } }); if (signupErr) throw new Error(signupErr.message);
-    const userId = signupData.user.id; let avatarUrl = ''; if (avatarFile) { try { avatarUrl = await uploadFileToStorage(avatarFile, 'avatars'); } catch(e) {} }
-    await supabase.from('profiles').upsert({ id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false });
+    const userId = signupData.user.id; let avatarUrl = ''; let avatarUploadWarning = '';
+    if (avatarFile) { try { avatarUrl = await uploadAvatarToStorage(avatarFile); } catch(e) { avatarUploadWarning = ' — تعذّر رفع الصورة: ' + (e.message || 'خطأ غير معروف'); } }
+    const { error: profileCreateError } = await supabase.from('profiles').upsert({ id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false });
+    if (profileCreateError) throw new Error('تم إنشاء تسجيل الدخول لكن تعذّر إنشاء ملف الحساب: ' + profileCreateError.message);
     currentUser = { id: userId, email: authEmail }; currentProfile = { id: userId, username, display_name: finalName, avatar_url: avatarUrl, is_verified: false, is_banned: false, is_admin: false };
-    saveSession(currentProfile); await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments(); renderSidebar(); showToast('✓ تم إنشاء الحساب'); resetSignupForm(); closeModal('signupModal', true); switchSection('home'); loadContent(); setupRealtime(); startBackgroundPolling();
+    saveSession(currentProfile); await loadAllUsers(); await loadFollowing(); await loadSaved(); await loadLikedComments(); renderSidebar(); showToast('✓ تم إنشاء الحساب' + avatarUploadWarning, !!avatarUploadWarning); resetSignupForm(); closeModal('signupModal', true); switchSection('home'); loadContent(); setupRealtime(); startBackgroundPolling();
   } catch (err) { showToast(err.message || 'حدث خطأ', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> إنشاء الحساب'; }
 }
 async function doLogin() {
@@ -1502,15 +1539,19 @@ function startBackgroundPolling() {
 }
 async function loadSaved() { if (!currentUser) { savedPostIds = new Set(); return; } try { const { data } = await supabase.from('saves').select('post_id').eq('user_id', currentUser.id); savedPostIds = new Set((data || []).map(r => r.post_id)); } catch(e) {} }
 async function loadLikedComments() { if (!currentUser) { likedComments = new Set(); return; } try { const { data } = await supabase.from('comment_likes').select('comment_id').eq('user_id', currentUser.id); likedComments = new Set((data || []).map(r => r.comment_id)); } catch(e) {} }
-function openEditModal() { if (!currentProfile) return; $('editUsername').value = currentProfile.username; $('editDisplayName').value = currentProfile.display_name || currentProfile.username; const prev = $('editAvatarPreview'); if (currentProfile.avatar_url) prev.innerHTML = `<img src="${escAttr(currentProfile.avatar_url)}" alt="">`; else prev.innerHTML = (currentProfile.display_name || currentProfile.username).charAt(0).toUpperCase(); editAvatarFile = null; openModal('editModal'); }
+function openEditModal() { if (!currentProfile) return; $('editUsername').value = currentProfile.username; $('editDisplayName').value = currentProfile.display_name || currentProfile.username; const prev = $('editAvatarPreview'); if (currentProfile.avatar_url) prev.innerHTML = `<img src="${escAttr(currentProfile.avatar_url)}" alt="">`; else prev.innerHTML = (currentProfile.display_name || currentProfile.username).charAt(0).toUpperCase(); editAvatarFile = null; $('editAvatarInput').value = ''; openModal('editModal'); }
 $('editAvatarInput').addEventListener('change', e => { if (!e.target.files.length) return; editAvatarFile = e.target.files[0]; const r = new FileReader(); r.onload = ev => { $('editAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="">`; }; r.readAsDataURL(editAvatarFile); });
 async function saveProfileEdit() {
   const newUsername = $('editUsername').value.trim().toLowerCase(); const newDisplayName = $('editDisplayName').value.trim(); if (!newUsername || !newDisplayName) return showToast('املأ الحقول', true); if (!/^[a-z0-9_]{3,20}$/.test(newUsername)) return showToast('اسم المستخدم غير صالح', true);
   const btn = $('editSaveBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الحفظ...';
   try {
     if (newUsername !== currentProfile.username) { const { data: existing } = await supabase.from('profiles').select('id').eq('username', newUsername).maybeSingle(); if (existing && existing.id !== currentProfile.id) throw new Error('اسم المستخدم الجديد محجوز'); }
-    let avatarUrl = currentProfile.avatar_url || ''; if (editAvatarFile) avatarUrl = await uploadFileToStorage(editAvatarFile, 'avatars'); await supabase.from('profiles').update({ username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }).eq('id', currentProfile.id);
-    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl; saveSession(currentProfile); await loadAllUsers(); renderSidebar(); showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true); if (currentSection === 'profile') viewProfile(currentProfile.id); loadContent();
+    let avatarUrl = currentProfile.avatar_url || '';
+    if (editAvatarFile) { avatarUrl = await uploadAvatarToStorage(editAvatarFile); }
+    const { data: updatedProfile, error: profileUpdateError } = await supabase.from('profiles').update({ username: newUsername, display_name: newDisplayName, avatar_url: avatarUrl }).eq('id', currentProfile.id).select('id').maybeSingle();
+    if (profileUpdateError) throw new Error('فشل حفظ بيانات الحساب: ' + profileUpdateError.message);
+    if (!updatedProfile) throw new Error('لم يتم تحديث الحساب؛ تحقق من صلاحيات UPDATE لجدول profiles في Supabase');
+    currentProfile.username = newUsername; currentProfile.display_name = newDisplayName; currentProfile.avatar_url = avatarUrl; editAvatarFile = null; $('editAvatarInput').value = ''; saveSession(currentProfile); await loadAllUsers(); renderSidebar(); showToast('✓ تم حفظ التعديلات'); closeModal('editModal', true); if (currentSection === 'profile') viewProfile(currentProfile.id); loadContent();
   } catch (err) { showToast(err.message || 'فشل الحفظ', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات'; }
 }
 $('signupAvatarInput').addEventListener('change', e => { if (!e.target.files.length) return; avatarFile = e.target.files[0]; const r = new FileReader(); r.onload = ev => { $('signupAvatarPreview').innerHTML = `<img src="${ev.target.result}" alt="">`; }; r.readAsDataURL(avatarFile); });
@@ -1746,7 +1787,7 @@ function cardHTML(v) {
   const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${formatCount(likesCount)}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span data-comment-count-id="${v.id}">${formatCount(commentsCount)}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${formatCount(viewsCount)}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
-  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div><button class="code-download" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-folder-open"></i> فتح المشروع</button></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; const codeBoostBtn = isAdmin() ? `<button class="admin-boost-btn code-admin-boost" type="button" onclick="openBoost('${v.id}')" title="زيادة اللايكات والمشاهدات للمالك"><i class="fa-solid fa-bolt"></i></button>` : ''; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div>${codeBoostBtn}<button class="code-download" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-folder-open"></i> فتح المشروع</button></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -1827,7 +1868,7 @@ function setBoostToMax() { $('boostLikes').value = MAX_BOOST; $('boostViews').va
 async function applyBoost() {
   if (!isAdmin() || !boostTargetId) return; const likesDelta = parseInt($('boostLikes').value) || 0; const viewsDelta = parseInt($('boostViews').value) || 0; if (likesDelta === 0 && viewsDelta === 0) return showToast('أدخل قيمة مختلفة عن صفر', true); const row = allRows.find(r => r.id === boostTargetId); if (!row) return;
   const btn = $('boostApplyBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري التطبيق...';
-  try { let newLikes = Math.max(0, Math.min(MAX_BOOST, (row.likes_count || 0) + likesDelta)); let newViews = Math.max(0, Math.min(MAX_BOOST, (row.views_count || 0) + viewsDelta)); row.likes_count = newLikes; row.views_count = newViews; document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = formatCount(newLikes)); document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${formatCount(newViews)}`; }); await supabase.from('posts').update({ likes_count: newLikes, views_count: newViews }).eq('id', boostTargetId); showToast(`✓ تم التحديث`); closeModal('boostModal', true); } catch(e) { showToast('فشل التحديث', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> تطبيق'; }
+  try { const newLikes = Math.max(0, Math.min(MAX_BOOST, (row.likes_count || 0) + likesDelta)); const newViews = Math.max(0, Math.min(MAX_BOOST, (row.views_count || 0) + viewsDelta)); const { error } = await supabase.from('posts').update({ likes_count: newLikes, views_count: newViews }).eq('id', boostTargetId); if (error) throw error; row.likes_count = newLikes; row.views_count = newViews; document.querySelectorAll(`[data-like-id="${boostTargetId}"] span`).forEach(s => s.textContent = formatCount(newLikes)); document.querySelectorAll(`.card[data-row-id="${boostTargetId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${formatCount(newViews)}`; }); $('boostSub').innerHTML = `المنشور: <b>${esc(row.title || 'بدون عنوان')}</b><br><span style="color:var(--danger);"><i class="fa-solid fa-heart"></i> ${newLikes}</span> · <span style="color:var(--orange);"><i class="fa-solid fa-eye"></i> ${newViews}</span>`; showToast('✓ تم تحديث اللايكات والمشاهدات'); closeModal('boostModal', true); } catch(e) { console.error('HONDER admin boost:', e); showToast('فشل التحديث: تحقق من صلاحية تعديل posts في Supabase', true); } finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> تطبيق'; }
 }
 let pendingDeletePostId = null;
 function deleteItem(rowId) {
@@ -2204,6 +2245,23 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 .reel-overlay .icon-btn[data-like-id] i{font-size:19px!important}
 @media(max-width:600px){#codeFilesModal .code-modal-heading h2{font-size:17px}#codeFilesModal .code-viewer-toolbar{gap:6px;padding:6px}#codeFilesModal .code-viewer-toolbar-actions{gap:5px}#codeFilesModal .code-viewer-toolbar button,#codeFilesModal .code-viewer-toolbar a{padding:7px 9px;font-size:11px}#codeFilesModal pre#codeViewerContent{font-size:12px;line-height:1.75;padding:12px;border-radius:12px}}
 @media(prefers-reduced-motion:reduce){#codeFilesModal.active .code-files-modal-box{animation:none!important;transform:none!important;opacity:1!important}#codeFilesModal .code-file-viewer{animation:none!important}}
+
+/* HONDER V13: one toolbar + true edge-to-edge code workspace; admin-only code post boost. */
+@supports not (height: 100dvh){#codeFilesModal .code-files-modal-box{height:100vh!important;min-height:100vh!important;max-height:100vh!important}#codeFilesModal{height:100vh!important}}
+#codeFilesModal.code-viewing .code-modal-heading,#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important}
+#codeFilesModal.code-viewing #codeFileViewer[hidden]{display:none!important}
+#codeFilesModal.code-viewing #codeFileViewer:not([hidden]){display:flex!important;flex:1 1 0!important;min-height:0!important;height:auto!important}
+#codeFilesModal #codeViewerContent{box-sizing:border-box!important;flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;width:100%!important;overflow:auto!important}
+
+#codeFilesModal{position:fixed!important;inset:0!important;padding:0!important;align-items:stretch!important;justify-content:flex-start!important;overflow:hidden!important;}
+#codeFilesModal .code-files-modal-box{box-sizing:border-box!important;position:relative!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important;width:100vw!important;max-width:none!important;height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;margin:0!important;padding:calc(env(safe-area-inset-top,0px) + 12px) clamp(10px,2vw,24px) calc(env(safe-area-inset-bottom,0px) + 12px)!important;gap:10px!important;border:0!important;border-radius:0!important;overflow:hidden!important;}
+#codeFilesModal.code-viewing .code-modal-heading,
+#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important;}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;overflow:hidden!important;gap:10px!important;}
+#codeFilesModal .code-viewer-toolbar{position:relative!important;top:auto!important;z-index:2!important;display:flex!important;flex:0 0 auto!important;width:100%!important;min-height:50px!important;box-sizing:border-box!important;margin:0!important;}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;}
+.code-post-head .code-admin-boost{position:static!important;flex:0 0 38px!important;width:38px!important;height:38px!important;margin-inline-start:4px!important;}
+@media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 8px) 8px calc(env(safe-area-inset-bottom,0px) + 8px)!important;gap:8px!important}#codeFilesModal .code-viewer-toolbar{min-height:48px!important;border-radius:11px!important}#codeFilesModal pre#codeViewerContent{font-size:12px!important;line-height:1.7!important;padding:10px!important;border-radius:11px!important}.code-post-head{gap:8px!important;padding:14px!important}.code-post-head .code-admin-boost{width:36px!important;height:36px!important;flex-basis:36px!important}}
 </style>
 </body>
 </html>
