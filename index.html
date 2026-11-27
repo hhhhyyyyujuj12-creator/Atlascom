@@ -809,6 +809,39 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 #codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;border-radius:13px!important;padding:clamp(12px,2vw,22px)!important;}
 @media(max-width:600px){#codeFilesModal .code-file-viewer{gap:6px!important}#codeFilesModal .code-viewer-realbar{min-height:40px!important}#codeFilesModal .code-viewer-realback{min-height:38px!important;padding:7px 11px!important;font-size:12px!important}#codeFilesModal pre#codeViewerContent{padding:10px!important}}
 
+
+/* HONDER V18: larger file viewer and black/gold project actions. */
+.code-post-actions{gap:12px!important;margin-top:12px!important}
+.code-post-action{min-height:54px!important;padding:13px 16px!important;border:1px solid #b89542!important;border-radius:14px!important;background:#050505!important;color:#e8c66f!important;font-size:15px!important;font-weight:900!important;box-shadow:0 5px 18px rgba(0,0,0,.22)!important;transition:transform .16s ease,background .16s ease,border-color .16s ease!important}
+.code-post-action.view,.code-post-action.download{background:#050505!important;color:#e8c66f!important;border-color:#b89542!important}
+.code-post-action:hover{background:#17130a!important;border-color:#f0d58a!important;color:#ffe7a5!important}
+.code-post-action:active{transform:scale(.975)!important}
+#codeFilesModal .code-files-modal-box{width:min(98vw,1400px)!important;max-width:1400px!important;height:96dvh!important;max-height:96dvh!important;padding:clamp(12px,2vw,24px)!important;gap:10px!important}
+#codeFilesModal.code-viewing .code-files-modal-box{height:96dvh!important;max-height:96dvh!important}
+#codeFilesModal .code-viewer-realbar{min-height:58px!important;gap:14px!important}
+#codeFilesModal .code-viewer-realback{min-height:48px!important;padding:10px 20px!important;font-size:15px!important;border-radius:13px!important}
+#codeFilesModal .code-viewer-filename{font-size:14px!important}
+#codeFilesModal .code-file-viewer{flex:1 1 auto!important;min-height:0!important}
+#codeFilesModal pre#codeViewerContent{font-size:clamp(13px,1.15vw,16px)!important;line-height:1.8!important;padding:clamp(14px,2vw,26px)!important}
+@media(max-width:600px){
+ .code-post-actions{gap:8px!important}
+ .code-post-action{min-height:50px!important;padding:11px 8px!important;font-size:13px!important;gap:6px!important}
+ #codeFilesModal .code-files-modal-box,#codeFilesModal.code-viewing .code-files-modal-box{width:99vw!important;height:97dvh!important;max-height:97dvh!important;padding:8px 6px!important;gap:6px!important}
+ #codeFilesModal .code-viewer-realbar{min-height:50px!important}
+ #codeFilesModal .code-viewer-realback{min-height:44px!important;padding:8px 14px!important;font-size:14px!important}
+ #codeFilesModal pre#codeViewerContent{font-size:12px!important;padding:9px!important;line-height:1.7!important}
+}
+
+
+#codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:48px!important;margin:0!important;padding:0 4px!important;box-sizing:border-box!important}
+#codeFilesModal .code-viewer-realbar[hidden],#codeFilesModal .code-file-viewer[hidden]{display:none!important}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;min-height:0!important;height:0!important;max-height:none!important;width:100%!important;margin:0!important;padding:clamp(8px,1.4vw,18px)!important;border-radius:10px!important;font-size:clamp(12px,1.2vw,15px)!important;line-height:1.72!important}
+#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing .code-viewer-realbar{order:0!important}
+#codeFilesModal.code-viewing .code-file-viewer{order:1!important}
+@media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 5px) 5px calc(env(safe-area-inset-bottom,0px) + 5px)!important;gap:4px!important}#codeFilesModal .code-viewer-realbar{min-height:43px!important;padding:0 3px!important}#codeFilesModal .code-viewer-realback{min-height:39px!important;padding:7px 13px!important}#codeFilesModal pre#codeViewerContent{padding:7px!important;font-size:12px!important;line-height:1.65!important;border-radius:7px!important}}
+
 </style>
 </head>
 <body>
@@ -981,7 +1014,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="signupAvatarPreview" onclick="document.getElementById('signupAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b> (اختياري)<br>انقر على الدائرة لاختيار صورة.</div>
-      <input type="file" id="signupAvatarInput" accept="image/jpeg,.jpg,.jpeg,image/png,image/webp,image/gif,image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
+      <input type="file" id="signupAvatarInput" accept="image/*,.avif,.heic,.heif,.jxl,.tif,.tiff,.bmp,.svg,.psd,.raw,.dng" hidden>
     </div>
     <input type="text" id="signupUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="signupDisplayName" class="input-field" placeholder="الاسم الظاهر (اختياري)" maxlength="100">
@@ -1000,7 +1033,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="editAvatarPreview" onclick="document.getElementById('editAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b><br>انقر لتغيير الصورة.</div>
-      <input type="file" id="editAvatarInput" accept="image/jpeg,.jpg,.jpeg,image/png,image/webp,image/gif,image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
+      <input type="file" id="editAvatarInput" accept="image/*,.avif,.heic,.heif,.jxl,.tif,.tiff,.bmp,.svg,.psd,.raw,.dng" hidden>
     </div>
     <input type="text" id="editUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="editDisplayName" class="input-field" placeholder="الاسم الظاهر *" maxlength="100">
@@ -1362,57 +1395,36 @@ function isUserVerified(userId) { const u = getUserById(userId); return u && u.i
 function isUserBanned(userId) { const u = getUserById(userId); return u && u.is_banned === true; }
 function verifiedBadgeHTML(userId) { if (!isUserVerified(userId)) return ''; return `<i class="fa-solid fa-circle-check verified-badge" title="موثّق"></i>`; }
 function bannedBadgeHTML(userId) { if (!isUserBanned(userId)) return ''; return `<i class="fa-solid fa-ban banned-badge" title="محظور"></i>`; }
-async function prepareAvatarForUpload(file) {
-  if (!file) throw new Error('اختر صورة أولاً');
-  const ext = String(file.name || '').split('.').pop().toLowerCase();
-  const looksLikeImage = (file.type && file.type.toLowerCase().startsWith('image/')) || /^(png|jpe?g|gif|webp|bmp|avif|heic|heif|svg|tif?f)$/i.test(ext);
-  if (!looksLikeImage) throw new Error('الملف المحدد ليس صورة معروفة');
-  if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
-  const sourceUrl = URL.createObjectURL(file);
-  try {
-    const image = new Image();
-    image.decoding = 'async';
-    await new Promise((resolve, reject) => {
-      image.onload = resolve;
-      image.onerror = () => reject(new Error('تعذّر فك ترميز هذه الصورة في المتصفح. جرّب حفظها بصيغة PNG أو JPG'));
-      image.src = sourceUrl;
-    });
-    const width = image.naturalWidth || image.width;
-    const height = image.naturalHeight || image.height;
-    if (!width || !height) throw new Error('ملف الصورة تالف أو غير مدعوم');
-    const maxSide = 640;
-    const scale = Math.min(1, maxSide / Math.max(width, height));
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(width * scale));
-    canvas.height = Math.max(1, Math.round(height * scale));
-    const ctx = canvas.getContext('2d', { alpha: false });
-    if (!ctx) throw new Error('متصفحك لا يدعم معالجة الصور');
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b && b.size ? resolve(b) : reject(new Error('تعذّر تحويل الصورة إلى PNG')), 'image/png'));
-    return new File([blob], `avatar-${Date.now()}.png`, { type: 'image/png', lastModified: Date.now() });
-  } finally { URL.revokeObjectURL(sourceUrl); }
-}
 async function uploadAvatarToStorage(file) {
   if (!file) throw new Error('اختر صورة أولاً');
-  const ext = String(file.name || '').split('.').pop().toLowerCase();
+  const originalName = String(file.name || 'avatar-image');
+  const ext = (originalName.includes('.') ? originalName.split('.').pop() : '').toLowerCase();
+  const knownImageExt = /^(apng|avif|bmp|dib|gif|heic|heif|ico|jfif|jif|jp2|j2k|jpf|jpx|jpm|jpg|jpeg|jxl|png|svg|tif|tiff|webp|wmf|emf|psd|raw|dng|cr2|nef|arw|orf|rw2)$/i.test(ext);
+  const mime = String(file.type || '').toLowerCase();
+  if (!mime.startsWith('image/') && !knownImageExt) throw new Error('الملف المحدد لا يبدو ملف صورة');
+  if (!file.size) throw new Error('ملف الصورة فارغ أو غير صالح');
   if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
-  // Android browsers sometimes report an empty or incorrect MIME for JPEG files.
-  // Keep the original JPEG bytes and explicitly label them image/jpeg for Supabase.
-  if (ext === 'jpg' || ext === 'jpeg' || file.type.toLowerCase() === 'image/jpeg') {
-    const jpegFile = new File([file], `avatar-${Date.now()}.jpg`, { type: 'image/jpeg', lastModified: Date.now() });
-    return await uploadFileToStorage(jpegFile, 'avatars');
-  }
-  const normalized = await prepareAvatarForUpload(file);
-  return await uploadFileToStorage(normalized, 'avatars');
+  // Keep the original bytes. The media bucket must have unrestricted allowed_mime_types.
+  // This avoids browser-side decoding failures for HEIC/TIFF/RAW and preserves animated GIFs.
+  const safeExt = knownImageExt ? ext : (mime.split('/')[1] || 'img').replace(/[^a-z0-9.+-]/g, '').slice(0, 12) || 'img';
+  const mimeByExt = {
+    jpg:'image/jpeg', jpeg:'image/jpeg', jpe:'image/jpeg', jfif:'image/jpeg', png:'image/png', apng:'image/apng', gif:'image/gif', webp:'image/webp',
+    avif:'image/avif', heic:'image/heic', heif:'image/heif', bmp:'image/bmp', dib:'image/bmp', tif:'image/tiff', tiff:'image/tiff', svg:'image/svg+xml',
+    ico:'image/x-icon', jxl:'image/jxl', jp2:'image/jp2', j2k:'image/jp2', psd:'image/vnd.adobe.photoshop'
+  };
+  const contentType = mime.startsWith('image/') ? mime : (mimeByExt[ext] || 'application/octet-stream');
+  const uploadFile = new File([file], `avatar-${Date.now()}.${safeExt}`, { type: contentType, lastModified: Date.now() });
+  return await uploadFileToStorage(uploadFile, 'avatars');
 }
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
   const ALLOWED = { code: ['py','txt'], media: ['mp4','webm','mov','jpg','jpeg','png','webp','gif'], audio: ['mp3','wav','ogg','m4a','aac','webm'], voice: ['webm','ogg','mp4','m4a','wav','mp3'], chat: ['jpg','jpeg','png','webp','gif'], avatars: ['jpg','jpeg','png','webp','gif','bmp','avif','heic','heif','tif','tiff','svg'] };
-  if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
+  if (folder !== 'avatars' && ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
+  if (folder === 'avatars' && !String(file.type || '').toLowerCase().startsWith('image/') && !/^(apng|avif|bmp|dib|gif|heic|heif|ico|jfif|jif|jp2|j2k|jpf|jpx|jpm|jpg|jpeg|jxl|png|svg|tif|tiff|webp|wmf|emf|psd|raw|dng|cr2|nef|arw|orf|rw2)$/i.test(ext)) throw new Error('صيغة الصورة غير معروفة');
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
-  const inferredType = MIME_BY_EXT[ext] || file.type || (folder === 'avatars' ? 'image/png' : 'application/octet-stream');
+  const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', jpe:'image/jpeg', jfif:'image/jpeg', png:'image/png', apng:'image/apng', webp:'image/webp', gif:'image/gif', bmp:'image/bmp', dib:'image/bmp', avif:'image/avif', heic:'image/heic', heif:'image/heif', tif:'image/tiff', tiff:'image/tiff', svg:'image/svg+xml', ico:'image/x-icon', jxl:'image/jxl', jp2:'image/jp2', j2k:'image/jp2', psd:'image/vnd.adobe.photoshop', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
+  const suppliedType = String(file.type || '').toLowerCase();
+  const inferredType = (folder === 'avatars' && suppliedType.startsWith('image/')) ? suppliedType : (MIME_BY_EXT[ext] || suppliedType || 'application/octet-stream');
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   if (!data || !data.path) throw new Error('تم إرسال الصورة لكن لم يرجع التخزين مسار الملف');
@@ -2389,13 +2401,3 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 </style>
 </body>
 </html>
-<style id="honder-website-only-viewer-fix">
-#codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:48px!important;margin:0!important;padding:0 4px!important;box-sizing:border-box!important}
-#codeFilesModal .code-viewer-realbar[hidden],#codeFilesModal .code-file-viewer[hidden]{display:none!important}
-#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;margin:0!important;padding:0!important;overflow:hidden!important}
-#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;min-height:0!important;height:0!important;max-height:none!important;width:100%!important;margin:0!important;padding:clamp(8px,1.4vw,18px)!important;border-radius:10px!important;font-size:clamp(12px,1.2vw,15px)!important;line-height:1.72!important}
-#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
-#codeFilesModal.code-viewing .code-viewer-realbar{order:0!important}
-#codeFilesModal.code-viewing .code-file-viewer{order:1!important}
-@media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 5px) 5px calc(env(safe-area-inset-bottom,0px) + 5px)!important;gap:4px!important}#codeFilesModal .code-viewer-realbar{min-height:43px!important;padding:0 3px!important}#codeFilesModal .code-viewer-realback{min-height:39px!important;padding:7px 13px!important}#codeFilesModal pre#codeViewerContent{padding:7px!important;font-size:12px!important;line-height:1.65!important;border-radius:7px!important}}
-</style>
