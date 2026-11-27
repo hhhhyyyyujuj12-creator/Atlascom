@@ -1228,7 +1228,42 @@ function accountStorageKey(kind, userId = currentUser && currentUser.id) { retur
 function loadAccountViews() { viewedVideos = new Set(); const key = accountStorageKey('views'); if (!key) return; try { JSON.parse(localStorage.getItem(key) || '[]').forEach(id => viewedVideos.add(id)); } catch(e) {} }
 function saveLikesLocal() { const key = accountStorageKey('likes'); if (key) { try { localStorage.setItem(key, JSON.stringify([...likedVideos])); } catch(e) {} } }
 function saveViewsLocal() { const key = accountStorageKey('views'); if (key) { try { localStorage.setItem(key, JSON.stringify([...viewedVideos])); } catch(e) {} } }
-async function loadLikedPosts() { likedVideos = new Set(); if (!currentUser) return; try { const { data, error } = await supabase.from('likes').select('post_id').eq('user_id', currentUser.id); if (error) throw error; likedVideos = new Set((data || []).map(row => row.post_id)); saveLikesLocal(); } catch(e) { const key = accountStorageKey('likes'); try { JSON.parse(key ? localStorage.getItem(key) || '[]' : '[]').forEach(id => likedVideos.add(id)); } catch(err) {} } }
+function syncLikeButtons() {
+  document.querySelectorAll('[data-like-id]').forEach(button => {
+    const postId = button.getAttribute('data-like-id');
+    const liked = likedVideos.has(postId);
+    button.classList.toggle('liked', liked);
+    const icon = button.querySelector('i');
+    if (icon) icon.className = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+  });
+}
+async function loadLikedPosts() {
+  likedVideos = new Set();
+  if (!currentUser) { syncLikeButtons(); return; }
+  const userId = currentUser.id;
+  const key = accountStorageKey('likes', userId);
+  // Restore the account-specific cache immediately so the UI never flashes unliked.
+  try {
+    const cached = JSON.parse(key ? localStorage.getItem(key) || '[]' : '[]');
+    if (Array.isArray(cached)) cached.forEach(id => { if (id != null) likedVideos.add(String(id)); });
+  } catch (e) {}
+  syncLikeButtons();
+  try {
+    const { data, error } = await supabase.from('likes').select('post_id').eq('user_id', userId);
+    if (error) throw error;
+    // The database is authoritative after a successful read, including an empty result.
+    if (!currentUser || currentUser.id !== userId) return;
+    const serverLikes = new Set((data || []).map(row => String(row.post_id)));
+    // Preserve locally confirmed likes if the backend's SELECT policy returns an empty visible set.
+    for (const id of likedVideos) serverLikes.add(id);
+    likedVideos = serverLikes;
+    saveLikesLocal();
+  } catch (e) {
+    // Keep the account-scoped local copy when the network or read policy is unavailable.
+    console.warn('HONDER: تعذّر تحميل اللايكات من الخادم؛ تم استخدام النسخة المحلية.', e);
+  }
+  if (currentUser && currentUser.id === userId) syncLikeButtons();
+}
 function esc(s) { return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
 function escAttr(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
@@ -1975,9 +2010,43 @@ async function confirmDeleteItem() {
   finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-trash"></i> حذف المنشور'; }
 }
 async function toggleLike(videoId, btn) {
-  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; } const isLiked = likedVideos.has(videoId); const cardRow = allRows.find(r => r.id === videoId); if (!cardRow) return; let newCount = cardRow.likes_count || 0; if (isLiked) { likedVideos.delete(videoId); newCount = Math.max(0, newCount - 1); } else { likedVideos.add(videoId); newCount++; } cardRow.likes_count = newCount; saveLikesLocal();
-  document.querySelectorAll(`[data-like-id="${videoId}"]`).forEach(b => { const icon = b.querySelector('i'); const span = b.querySelector('span'); if (isLiked) { b.classList.remove('liked'); if (icon) icon.className = 'fa-regular fa-heart'; } else { b.classList.add('liked'); if (icon) icon.className = 'fa-solid fa-heart'; } if (span) span.textContent = formatCount(newCount); });
-  try { if (isLiked) { await supabase.from('likes').delete().eq('user_id', currentUser.id).eq('post_id', videoId); } else { await supabase.from('likes').insert({ user_id: currentUser.id, post_id: videoId }); if (cardRow.user_id && cardRow.user_id !== currentUser.id) await createNotification(cardRow.user_id, 'like', 'أعجب بمنشورك', videoId); } } catch(e) {}
+  if (!currentUser) { showToast('سجّل دخول', true); openModal('loginModal'); return; }
+  const userId = currentUser.id;
+  const wasLiked = likedVideos.has(videoId);
+  const cardRow = allRows.find(r => r.id === videoId);
+  if (!cardRow) return;
+  const previousCount = Number(cardRow.likes_count) || 0;
+  const nextCount = wasLiked ? Math.max(0, previousCount - 1) : previousCount + 1;
+  if (wasLiked) likedVideos.delete(videoId); else likedVideos.add(videoId);
+  cardRow.likes_count = nextCount;
+  saveLikesLocal();
+  document.querySelectorAll(`[data-like-id="${videoId}"]`).forEach(button => {
+    const icon = button.querySelector('i');
+    const span = button.querySelector('span');
+    button.classList.toggle('liked', !wasLiked);
+    if (icon) icon.className = !wasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+    if (span) span.textContent = formatCount(nextCount);
+  });
+  try {
+    if (wasLiked) {
+      const { error } = await supabase.from('likes').delete().eq('user_id', userId).eq('post_id', videoId);
+      if (error) throw error;
+    } else {
+      const { error } = await supabase.from('likes').insert({ user_id: userId, post_id: videoId });
+      if (error) throw error;
+      if (cardRow.user_id && cardRow.user_id !== userId) await createNotification(cardRow.user_id, 'like', 'أعجب بمنشورك', videoId);
+    }
+  } catch (e) {
+    // Revert optimistic UI if the database did not accept the change.
+    if (!currentUser || currentUser.id !== userId) return;
+    if (wasLiked) likedVideos.add(videoId); else likedVideos.delete(videoId);
+    cardRow.likes_count = previousCount;
+    saveLikesLocal();
+    syncLikeButtons();
+    document.querySelectorAll(`[data-like-id="${videoId}"] span`).forEach(span => { span.textContent = formatCount(previousCount); });
+    console.error('HONDER like persistence error:', e);
+    showToast('تعذّر حفظ اللايك. تحقق من الاتصال وحاول مجدداً', true);
+  }
 }
 async function markViewed(videoId) { if (viewedVideos.has(videoId)) return; viewedVideos.add(videoId); saveViewsLocal(); const row = allRows.find(r => r.id === videoId); if (!row) return; const newCount = (row.views_count || 0) + 1; row.views_count = newCount; document.querySelectorAll(`.card[data-row-id="${videoId}"] .meta-date`).forEach(el => { el.innerHTML = `<i class="fa-solid fa-eye"></i> ${formatCount(newCount)}`; }); try { await supabase.rpc('increment_views', { p_post_id: videoId }); } catch(e) {} }
 async function toggleSave(videoId, btn) {
