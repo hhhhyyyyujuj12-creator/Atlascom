@@ -969,11 +969,11 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <input type="text" id="loginUsername" class="input-field" placeholder="اسم المستخدم" maxlength="50">
     <input type="password" id="loginPassword" class="input-field" placeholder="كلمة السر">
     <button class="btn btn-primary" id="loginBtn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> دخول</button>
-    <div class="modal-switch">ليس لديك حساب؟ <a onclick="switchAuthModal('signupModal')">أنشئ حساب</a></div>
+    <div class="modal-switch">إنشاء الحسابات متاح عبر بوت HONDER الرسمي على تيليغرام.</div>
   </div>
 </div>
 
-<div class="modal-overlay" id="signupModal">
+<div class="modal-overlay" id="signupModal" style="display:none!important">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('signupModal')"><i class="fa-solid fa-xmark"></i></button>
     <h2><i class="fa-solid fa-user-plus"></i> حساب جديد</h2>
@@ -1002,7 +1002,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
       <div class="avatar-info"><b>صورة الحساب</b><br>انقر لتغيير الصورة.</div>
       <input type="file" id="editAvatarInput" accept="image/jpeg,.jpg,.jpeg,image/png,image/webp,image/gif,image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
     </div>
-    <input type="text" id="editUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
+    <input type="text" id="editUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50" readonly aria-readonly="true"><small style="display:block;color:var(--muted);margin:-5px 0 10px">تغيير اسم مستخدم الموقع يتم من بوت HONDER على تيليغرام.</small>
     <input type="text" id="editDisplayName" class="input-field" placeholder="الاسم الظاهر *" maxlength="100">
     <button class="btn btn-primary" id="editSaveBtn" onclick="saveProfileEdit()"><i class="fa-solid fa-floppy-disk"></i> حفظ التغييرات</button>
   </div>
@@ -1025,7 +1025,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
     <div class="code-modal-heading"><i class="fa-solid fa-folder-open"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>اختار أي ملف تريد تفتحه؟</p></div></div>
     <div id="codeFilesList" class="code-files-list"></div>
-    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-realbar"><button type="button" class="code-viewer-realback" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i><span>رجوع إلى الملفات</span></button><span id="codeViewerName" class="code-viewer-filename">عرض الملف</span></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
+    <div id="codeViewerBackbar" class="code-viewer-realbar" hidden><button type="button" class="code-viewer-realback" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i><span>رجوع</span></button><span id="codeViewerName" class="code-viewer-filename">عرض الملف</span></div><div id="codeFileViewer" class="code-file-viewer" hidden><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
   </div>
 </div>
 
@@ -1331,7 +1331,7 @@ function closeModal(id, force = false) {
 }
 document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }));
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { ['uploadModal','loginModal','signupModal','editModal','postSettingsModal','commentsModal','deleteCommentModal','notificationsModal','broadcastModal','personalMsgModal','personalPickerModal','boostModal','deleteConfirmModal'].forEach(id => { const el = $(id); if (el && el.classList.contains('active')) closeModal(id); }); } });
-function switchAuthModal(id) { ['loginModal','signupModal'].forEach(x => $(x).classList.remove('active')); openModal(id); }
+function switchAuthModal(id) { if(id==='signupModal') return showToast('إنشاء الحسابات متاح عبر بوت HONDER على تيليغرام', true); ['loginModal'].forEach(x => $(x).classList.remove('active')); openModal(id); }
 function showWarningIfNeeded() { if (!localStorage.getItem('atlas_warn')) $('warningOverlay').classList.add('active'); }
 function acceptWarning() { localStorage.setItem('atlas_warn', '1'); $('warningOverlay').classList.remove('active'); }
 function pauseActiveVideo() { if (activeVideo) { try { activeVideo.pause(); } catch(e) {} activeVideo = null; } if (currentVoiceAudio) { try { currentVoiceAudio.pause(); } catch(e) {} currentVoiceAudio = null; } }
@@ -1430,7 +1430,7 @@ function renderSidebar() {
     chip.classList.add('active'); setAvatar($('userChipAvatar'));
     const adminLinks = isAdmin() ? `<a class="admin" data-section="users" onclick="switchSection('users')"><i class="fa-solid fa-users-gear"></i> المستخدمون</a>` : '';
     nav.innerHTML = `${adminLinks}<a data-section="profile" onclick="switchSection('profile','${currentProfile.id}')"><i class="fa-solid fa-user"></i> حسابي</a><a class="danger" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>`;
-  } else { ub.classList.remove('active'); chip.classList.remove('active'); nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a><a onclick="openModal('signupModal')"><i class="fa-solid fa-user-plus"></i> حساب جديد</a>`; }
+  } else { ub.classList.remove('active'); chip.classList.remove('active'); nav.innerHTML = `<a onclick="openModal('loginModal')"><i class="fa-solid fa-right-to-bracket"></i> دخول</a>`; }
 }
 function celebrate() { const box = $('celebration'); if (!box) return; const colors = ['#657dbd', '#394a79', '#394a79', '#52669f', '#b91c1c', '#a9a8d8']; const count = window.innerWidth < 600 ? 10 : 15; for (let i = 0; i < count; i++) { const el = document.createElement('div'); el.className = 'confetti'; el.style.left = Math.random() * 100 + '%'; el.style.background = colors[Math.floor(Math.random() * colors.length)]; el.style.animationDelay = (Math.random() * 0.4) + 's'; el.style.animationDuration = (1.8 + Math.random() * 1) + 's'; if (Math.random() > 0.5) el.style.borderRadius = '50%'; box.appendChild(el); setTimeout(() => el.remove(), 3000); } }
 function toggleSidebar() { $('sidebar').classList.toggle('active'); $('sidebarOverlay').classList.toggle('active'); }
@@ -1447,7 +1447,8 @@ function setPostType(type) {
 }
 </script>
 <script>
-async function doSignup() {
+async function doSignup() { return showToast('إنشاء الحسابات متاح عبر بوت HONDER على تيليغرام فقط', true); /* disabled */
+
   const username = $('signupUsername').value.trim().toLowerCase(); const displayName = $('signupDisplayName').value.trim(); const pass = $('signupPassword').value, pass2 = $('signupPassword2').value;
   if (!username || !pass) return showToast('يرجى إدخال البيانات', true); if (!/^[a-z0-9_]{3,20}$/.test(username)) return showToast('اسم المستخدم: 3-20 حرف إنجليزي/رقم/_', true); if (pass.length < 6) return showToast('كلمة السر 6 أحرف على الأقل', true); if (pass !== pass2) return showToast('كلمتا السر غير متطابقتين', true);
   const btn = $('signupBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner-border"></span> جاري الإنشاء...'; const finalName = displayName || username;
@@ -1876,7 +1877,7 @@ async function viewProfile(userId) {
   if (isMe) actions += `<button class="profile-btn" onclick="openEditModal()"><i class="fa-solid fa-user-pen"></i> تعديل</button>`;
   else if (currentUser) { actions += isFollowing ? `<button class="profile-btn following" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-check"></i> إلغاء المتابعة</button>` : `<button class="profile-btn follow" onclick="toggleFollow('${userId}', this)"><i class="fa-solid fa-plus"></i> متابعة</button>`; }
   if (amAdmin && !isMe) { actions += isVerified ? `<button class="profile-btn unverify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-xmark"></i> إزالة التوثيق</button>` : `<button class="profile-btn verify" onclick="toggleVerification('${userId}')"><i class="fa-solid fa-circle-check"></i> توثيق</button>`; actions += isBanned ? `<button class="profile-btn" onclick="toggleBlock('${userId}')" style="border-color:var(--admin);color:var(--admin);"><i class="fa-solid fa-unlock"></i> رفع الحظر</button>` : `<button class="profile-btn ban" onclick="toggleBlock('${userId}')"><i class="fa-solid fa-ban"></i> حظر</button>`; }
-  box.innerHTML = `<div class="profile-head"><div class="profile-avatar">${avatar}</div><div class="profile-name">${name}${verifiedIcon}${bannedIcon}</div><div class="profile-handle">@${handle}</div>${actions ? `<div class="profile-actions">${actions}</div>` : ''}<div class="profile-stats"><div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div><div class="profile-stat" onclick="showFollowers('${userId}', '${handle}')"><b>${counts.followers}</b><span>متابع</span></div><div class="profile-stat" onclick="showFollowing('${userId}', '${handle}')"><b>${counts.following}</b><span>يتابع</span></div></div></div><div class="grid" id="profileGrid"></div>`;
+  box.innerHTML = `<div class="profile-head"><div class="profile-avatar">${avatar}</div><div class="profile-name">${name}${verifiedIcon}${bannedIcon}</div><div class="profile-handle">@${handle}</div>${profile.telegram_id ? `<div class="profile-handle" style="margin-top:5px;opacity:.8">Telegram ID: ${esc(String(profile.telegram_id))}</div>` : ''}${profile.bio ? `<div class="profile-handle" style="margin-top:6px;max-width:620px;white-space:pre-wrap">${esc(profile.bio)}</div>` : ''}${actions ? `<div class="profile-actions">${actions}</div>` : ''}<div class="profile-stats"><div class="profile-stat"><b>${userVideos.length}</b><span>منشور</span></div><div class="profile-stat" onclick="showFollowers('${userId}', '${handle}')"><b>${counts.followers}</b><span>متابع</span></div><div class="profile-stat" onclick="showFollowing('${userId}', '${handle}')"><b>${counts.following}</b><span>يتابع</span></div></div></div><div class="grid" id="profileGrid"></div>`;
   const grid = $('profileGrid'); if (!userVideos.length) grid.innerHTML = `<div class="empty"><i class="fa-solid fa-inbox"></i><p>لا يوجد محتوى</p></div>`; else grid.innerHTML = userVideos.map(cardHTML).join(''); setTimeout(setupBlurUp, 150);
 }
 async function showFollowers(userId, handle) { pauseActiveVideo(); currentSection = 'connections'; document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); $('section-connections').classList.add('active'); $('connectionsHead').innerHTML = `<i class="fa-solid fa-users"></i> متابعو @${esc(handle)}`; const list = $('connectionsList'); list.innerHTML = `<div class="empty"><i class="fa-solid fa-spinner fa-spin"></i></div>`; const ids = await fetchFollowersList(userId); if (!ids.length) { list.innerHTML = `<div class="empty"><i class="fa-solid fa-users"></i><p>لا يوجد متابعون</p></div>`; return; } list.innerHTML = ids.map(uid => renderConnectionUser(uid)).join(''); if (window.innerWidth <= 900 && $('sidebar').classList.contains('active')) toggleSidebar(); window.scrollTo(0, 0); }
@@ -1929,6 +1930,7 @@ async function toggleSave(videoId, btn) {
 }
 function renderSaved() { const box = $('grid-saved'); if (!currentUser) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-lock"></i><p>سجّل دخول لعرض المحفوظات</p></div>`; return; } const saved = allRows.filter(r => savedPostIds.has(r.id)); if (!saved.length) { box.innerHTML = `<div class="empty"><i class="fa-solid fa-bookmark"></i><p>لا يوجد محفوظات</p></div>`; return; } box.innerHTML = saved.map(cardHTML).join(''); setTimeout(setupBlurUp, 150); }
 let activeCodePostId=null;
+let codeViewerReturnState={section:"home",scrollY:0};
 function getCodePostFiles(post) {
   return Array.isArray(post && post.code_files) && post.code_files.length
     ? post.code_files
@@ -1936,9 +1938,10 @@ function getCodePostFiles(post) {
 }
 function openCodeFiles(postId) {
   const post=allRows.find(r=>r.id===postId); if(!post || post.media_type!=='code') return;
+  codeViewerReturnState={section:currentSection||'home',scrollY:window.scrollY||0};
   activeCodePostId=postId; $('codeFilesTitle').textContent=post.title || 'ملفات المشروع';
   const files=getCodePostFiles(post);
-  $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing');
+  $('codeFileViewer').hidden=true; $('codeViewerBackbar').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing');
   $('codeFilesList').innerHTML=files.map((f,i)=>`<div class="code-file-row"><div class="code-file-icon ${f.type==='python'||/\.py$/i.test(f.name)?'python':''}"><i class="${f.type==='python'||/\.py$/i.test(f.name)?'fa-brands fa-python':'fa-solid fa-file-lines'}"></i></div><div class="code-file-info"><b>${esc(f.name||'ملف')}</b><small>${f.size?`${(f.size/1024).toFixed(1)} KB`:'ملف نصي'} · ${(f.name||'').split('.').pop().toUpperCase()}</small></div><button class="code-file-action" type="button" onclick="viewCodeFile(${i})"><i class="fa-solid fa-folder-open"></i> فتح</button></div>`).join('');
   openModal('codeFilesModal');
 }
@@ -1946,7 +1949,7 @@ async function viewCodeFile(index) {
   const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
   const file=getCodePostFiles(post)[index]; if(!file || !file.url) return;
   $('codeViewerName').textContent = file.name || 'عرض الملف';
-  $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); 
+  $('codeFilesList').hidden=true; $('codeViewerBackbar').hidden=false; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); 
   const code=$('codeViewerContent').querySelector('code'); code.textContent='جارٍ تحميل محتوى الملف...';
   try {
     const response=await fetch(file.url,{cache:'no-store'});
@@ -1957,7 +1960,11 @@ async function viewCodeFile(index) {
     code.textContent='تعذّر عرض محتوى الملف. ارجع إلى قائمة الملفات وحاول فتحه مجدداً.';
   }
 }
-function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing'); }
+function closeCodeViewer(){
+  closeModal('codeFilesModal', true);
+  $('codeFileViewer').hidden=true; $('codeViewerBackbar').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing');
+  setTimeout(()=>{ window.scrollTo(0, Math.max(0, codeViewerReturnState.scrollY||0)); }, 80);
+}
 function crc32Bytes(bytes) {
   let crc=0xffffffff;
   for(let i=0;i<bytes.length;i++){crc^=bytes[i];for(let j=0;j<8;j++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
@@ -2018,7 +2025,11 @@ function highlightPython(source) {
   }
   return out + esc(source.slice(last));
 }
-function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing'); }
+function closeCodeViewer(){
+  closeModal('codeFilesModal', true);
+  $('codeFileViewer').hidden=true; $('codeViewerBackbar').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing');
+  setTimeout(()=>{ window.scrollTo(0, Math.max(0, codeViewerReturnState.scrollY||0)); }, 80);
+}
 function openComments(videoId, title, ownerId) { const post = allRows.find(r => r.id === videoId); if (post && post.comments_enabled === false) return showToast('صاحب المنشور أغلق التعليقات'); pauseActiveVideo(); currentCommentsVideoId = videoId; currentCommentsVideoOwnerId = ownerId || null; const modal=$('commentsModal'); modal.classList.remove('comments-ready'); $('commentsTitle').textContent = title ? `على: ${title}` : '—'; $('commentList').innerHTML = `<div class="empty" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i><p>جاري تحميل التعليقات...</p></div>`; if (currentUser) { $('commentFormBox').style.display = 'block'; $('commentLoginMsg').style.display = 'none'; } else { $('commentFormBox').style.display = 'none'; $('commentLoginMsg').style.display = 'block'; } openModal('commentsModal'); requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('comments-ready'))); loadComments(videoId); }
 let editingPostSettingsId = null;
 function openPostSettings(postId) {
@@ -2378,3 +2389,13 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 </style>
 </body>
 </html>
+<style id="honder-v17-viewer-auth">
+#codeFilesModal .code-files-modal-box{gap:5px!important;padding:calc(env(safe-area-inset-top,0px) + 7px) 7px calc(env(safe-area-inset-bottom,0px) + 7px)!important}
+#codeFilesModal .code-viewer-realbar{order:0;flex:0 0 auto!important;min-height:48px!important;margin:0 0 3px!important;padding:0 4px!important}
+#codeFilesModal .code-viewer-realback{min-height:42px!important;padding:9px 18px!important;font-size:14px!important}
+#codeFilesModal .code-file-viewer{flex:1 1 0!important;height:0!important;min-height:0!important;width:100%!important;margin:0!important;padding:0!important}
+#codeFilesModal pre#codeViewerContent{flex:1 1 0!important;height:0!important;min-height:0!important;max-height:none!important;width:100%!important;margin:0!important;padding:10px!important;border-radius:8px!important;font-size:clamp(12px,1.25vw,15px)!important;line-height:1.72!important}
+#codeFilesModal #codeViewerBackbar[hidden]{display:none!important}
+#signupModal{display:none!important}
+@media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 4px) 4px calc(env(safe-area-inset-bottom,0px) + 4px)!important;gap:3px!important}#codeFilesModal .code-viewer-realbar{min-height:43px!important}#codeFilesModal pre#codeViewerContent{font-size:12px!important;line-height:1.65!important;padding:7px!important}}
+</style>
