@@ -490,6 +490,31 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 @media(max-width:600px){.bottom-nav{height:calc(66px + env(safe-area-inset-bottom,0px))!important}.bottom-nav-item span{font-size:9.5px!important}.bottom-nav-item i{font-size:18px!important}.bottom-nav-plus i{width:38px!important;height:33px!important}.rich-toolbar{gap:5px!important;padding:7px!important}.rich-toolbar button{min-width:58px!important;padding:0 7px!important;height:36px!important}}
 @media(prefers-reduced-motion:reduce){.bottom-nav-item,.bottom-nav-plus,.rich-toolbar button{transition:none!important}}
 
+/* HONDER performance + Telegram-style animated spoiler particles */
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{
+  display:inline-block!important;position:relative!important;isolation:isolate;overflow:hidden!important;vertical-align:baseline;
+  border-radius:5px;padding:0 5px;color:transparent!important;-webkit-text-fill-color:transparent!important;
+  background:#59647a!important;filter:none!important;opacity:1!important;animation:none!important;
+  cursor:pointer;user-select:none;transition:background-color .18s ease;
+}
+.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.95;
+  background-image:radial-gradient(circle,rgba(245,248,255,.95) 0 1px,transparent 1.6px),radial-gradient(circle,rgba(184,205,255,.85) 0 1.2px,transparent 1.8px),radial-gradient(circle,rgba(255,255,255,.65) 0 .8px,transparent 1.4px);
+  background-size:13px 13px,19px 19px,9px 9px;background-position:0 0,5px 7px,2px 4px;
+  animation:honderSpoilerParticles 5.5s ease-in-out infinite;will-change:transform;
+}
+@keyframes honderSpoilerParticles{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(7px,-4px,0)}}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{
+  color:inherit!important;-webkit-text-fill-color:currentColor!important;background:rgba(105,128,190,.13)!important;filter:none!important;animation:none!important;
+}
+.rich-editor .spoiler.revealed::after,.text-post-content .spoiler.revealed::after,.card-desc .spoiler.revealed::after,.reel-overlay .spoiler.revealed::after{display:none}
+@media(prefers-reduced-motion:reduce){.rich-editor .spoiler::after,.text-post-content .spoiler::after,.card-desc .spoiler::after,.reel-overlay .spoiler::after{animation:none;background-position:0 0}}
+/* Avoid costly fixed-background repaint on mobile devices */
+@media(max-width:768px){body{background-attachment:scroll!important}}
+
+/* Reduce GPU-heavy effects on phones */
+@media(max-width:768px){header,.bottom-nav,.sidebar,.modal-box,.chat-view{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:0 4px 14px rgba(0,0,0,.16)!important}.card{box-shadow:0 4px 14px rgba(0,0,0,.14)!important}}
+
 </style>
 </head>
 <body>
@@ -797,6 +822,8 @@ let homeVideoObserver = null, reelsObserver = null, activeVideo = null;
 let boostTargetId = null, personalMsgTargetUser = null;
 let realtimeChannel = null, realtimeConnected = false, isSwitching = false, notifPoller = null, currentAudioId = null;
 let currentPage = 0, isLoadingMore = false, hasMore = true;
+let serverOffset = 0, serverDone = false;
+const INITIAL_POST_BATCH = 200, NEXT_POST_BATCH = 100;
 let currentVoiceAudio = null;
 try { JSON.parse(localStorage.getItem('atlas_likes') || '[]').forEach(id => likedVideos.add(id)); } catch(e){}
 try { JSON.parse(localStorage.getItem('atlas_views') || '[]').forEach(id => viewedVideos.add(id)); } catch(e){}
@@ -816,35 +843,59 @@ function restoreEditorSelection() {
   try { editor.focus({preventScroll:true}); sel.removeAllRanges(); sel.addRange(atlasEditorRange); return true; } catch(e) { return false; }
 }
 document.addEventListener('selectionchange', rememberEditorSelection);
-function formatPost(command, value = null) {
+function selectedTextHasOnlyTag(range, tagName) {
+  const editor = $('uploadRichEditor');
+  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+  let node, found = false, allMatch = true;
+  while ((node = walker.nextNode())) {
+    if (!node.nodeValue || !node.nodeValue.trim()) continue;
+    try {
+      const probe = document.createRange(); probe.selectNodeContents(node);
+      if (range.compareBoundaryPoints(Range.END_TO_START, probe) <= 0 || range.compareBoundaryPoints(Range.START_TO_END, probe) >= 0) continue;
+      found = true;
+      let parent = node.parentElement, matched = false;
+      while (parent && parent !== editor) { if (parent.tagName === tagName) { matched = true; break; } parent = parent.parentElement; }
+      if (!matched) { allMatch = false; break; }
+    } catch(e) {}
+  }
+  return found && allMatch;
+}
+function unwrapFormatting(fragment) {
+  const tags = ['STRONG','B','EM','I','U','S','DEL','BLOCKQUOTE'];
+  tags.forEach(tag => fragment.querySelectorAll(tag).forEach(el => el.replaceWith(...el.childNodes)));
+}
+function applyExclusiveFormat(command, value = null) {
   const editor = $('uploadRichEditor');
   if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر النمط', true);
   const sel = window.getSelection();
   if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص أولاً ثم اختر النمط', true);
-  const tags = {bold:'strong', italic:'em', underline:'u', strikeThrough:'s'};
-  const tag = tags[command];
-  if (!tag && command !== 'foreColor') return;
+  const tags = {bold:'STRONG', italic:'EM', underline:'U', strikeThrough:'S', quote:'BLOCKQUOTE'};
+  const tag = tags[command]; if (!tag && command !== 'foreColor') return;
   try {
     const range = sel.getRangeAt(0);
-    const wrapper = document.createElement(tag || 'span');
-    if (command === 'foreColor') wrapper.style.color = value || '#8fa5f5';
-    wrapper.appendChild(range.extractContents());
-    range.insertNode(wrapper);
-    const next = document.createRange(); next.selectNodeContents(wrapper);
+    const isSame = command !== 'foreColor' && selectedTextHasOnlyTag(range, tag);
+    const fragment = range.extractContents();
+    unwrapFormatting(fragment);
+    let inserted;
+    if (isSame) inserted = fragment;
+    else {
+      const wrapper = document.createElement(tag || 'span');
+      if (command === 'foreColor') wrapper.style.color = value || '#8fa5f5';
+      wrapper.appendChild(fragment); inserted = document.createDocumentFragment(); inserted.appendChild(wrapper);
+    }
+    range.insertNode(inserted);
+    const next = document.createRange();
+    const target = range.startContainer;
+    if (target && target.nodeType === 1 && target.childNodes.length) {
+      const node = target.childNodes[Math.min(range.startOffset, target.childNodes.length - 1)];
+      if (node) next.selectNodeContents(node); else next.selectNodeContents(editor);
+    } else next.selectNodeContents(editor);
     sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
     editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
   } catch(e) { showToast('تعذّر تطبيق النمط، حدّد النص مجدداً', true); }
 }
-function toggleQuoteFormat() {
-  const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
-  const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص أولاً ثم اختر الاقتباس', true);
-  try {
-    const range = sel.getRangeAt(0); const quote = document.createElement('blockquote');
-    quote.appendChild(range.extractContents()); range.insertNode(quote);
-    const next = document.createRange(); next.selectNodeContents(quote); sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
-    editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
-  } catch(e) { showToast('تعذّر تطبيق الاقتباس', true); }
-}
+function formatPost(command, value = null) { applyExclusiveFormat(command, value); }
+function toggleQuoteFormat() { applyExclusiveFormat('quote'); }
 function clearAllFormatting() {
   const editor = $('uploadRichEditor'); if (!editor) return;
   const plain = editor.innerText || editor.textContent || '';
@@ -852,11 +903,29 @@ function clearAllFormatting() {
   atlasEditorRange = null; editor.focus(); editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
   showToast('تمت إزالة جميع التنسيقات');
 }
+function selectedTextHasSpoiler(range) {
+  const editor = $('uploadRichEditor'), walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+  let node, found = false, allMatch = true;
+  while ((node = walker.nextNode())) {
+    if (!node.nodeValue || !node.nodeValue.trim()) continue;
+    try {
+      const probe = document.createRange(); probe.selectNodeContents(node);
+      if (range.compareBoundaryPoints(Range.END_TO_START, probe) <= 0 || range.compareBoundaryPoints(Range.START_TO_END, probe) >= 0) continue;
+      found = true; if (!node.parentElement.closest('.spoiler')) { allMatch = false; break; }
+    } catch(e) {}
+  }
+  return found && allMatch;
+}
 function insertSpoiler() {
   const editor = $('uploadRichEditor'); if (!editor || !restoreEditorSelection()) return showToast('حدّد النص أولاً ثم اختر النص المخفي', true);
-  const sel = window.getSelection(); if (!sel || sel.isCollapsed) return showToast('حدّد النص الذي تريد إخفاءه أولاً', true);
-  const span = document.createElement('span'); span.className = 'spoiler';
-  try { const range = sel.getRangeAt(0); span.appendChild(range.extractContents()); range.insertNode(span); const next = document.createRange(); next.selectNodeContents(span); sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange(); } catch(e) {}
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return showToast('حدّد النص الذي تريد إخفاءه أولاً', true);
+  try {
+    const range = sel.getRangeAt(0), alreadyHidden = selectedTextHasSpoiler(range), fragment = range.extractContents();
+    if (fragment.querySelectorAll) [...fragment.querySelectorAll('.spoiler')].forEach(el => el.replaceWith(...el.childNodes));
+    if (!alreadyHidden) { const span = document.createElement('span'); span.className = 'spoiler'; span.appendChild(fragment); range.insertNode(span); }
+    else range.insertNode(fragment);
+    const next = document.createRange(); next.selectNodeContents(editor); sel.removeAllRanges(); sel.addRange(next); atlasEditorRange = next.cloneRange();
+  } catch(e) {}
   editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'}));
 }
 function sanitizeRichHTML(input) {
@@ -1175,27 +1244,30 @@ async function loadContent(reset = true) {
   isLoadingMore = true;
   try {
     if (reset) {
-      currentPage = 0; hasMore = true; allRows = []; setLoadingAll();
-      let collected = [], start = 0, batchSize = 1000;
-      while (true) {
-        const { data: posts, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(start, start + batchSize - 1);
-        if (error) throw error;
-        const batch = posts || []; collected = collected.concat(batch);
-        if (batch.length < batchSize) break;
-        start += batchSize;
-      }
-      allRows = shuffleRows(collected);
-      hasMore = allRows.length > PAGE_SIZE; currentPage = 1;
-      await loadCommentCounts(); renderAll(); setTimeout(setupBlurUp, 100);
+      currentPage = 0; hasMore = true; allRows = []; serverOffset = 0; serverDone = false; setLoadingAll();
+      const batchSize = INITIAL_POST_BATCH;
+      const { data: posts, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(0, batchSize - 1);
+      if (error) throw error;
+      const batch = posts || []; allRows = shuffleRows(batch); serverOffset = batch.length; serverDone = batch.length < batchSize;
+      hasMore = allRows.length > PAGE_SIZE || !serverDone; currentPage = 1;
+      await loadCommentCountsForPostIds(allRows.map(r => r.id)); renderAll(); setTimeout(setupBlurUp, 100);
     } else {
-      const from = currentPage * PAGE_SIZE, nextRows = allRows.slice(from, from + PAGE_SIZE);
+      let from = currentPage * PAGE_SIZE;
+      if (from >= allRows.length && !serverDone) {
+        const { data: posts, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false }).range(serverOffset, serverOffset + NEXT_POST_BATCH - 1);
+        if (error) throw error;
+        const batch = posts || []; serverOffset += batch.length; serverDone = batch.length < NEXT_POST_BATCH;
+        const fresh = shuffleRows(batch); allRows.push(...fresh);
+        await loadCommentCountsForPostIds(fresh.map(r => r.id));
+      }
+      const nextRows = allRows.slice(from, from + PAGE_SIZE);
       if (!nextRows.length) { hasMore = false; return; }
       if (homeFilter === 'all' && !searchQuery) gridHome.insertAdjacentHTML('beforeend', nextRows.map(cardHTML).join(''));
       else renderGrid(gridHome, getFilteredHome().slice(0, (currentPage + 1) * PAGE_SIZE));
-      currentPage++; hasMore = currentPage * PAGE_SIZE < allRows.length;
+      currentPage++; hasMore = currentPage * PAGE_SIZE < allRows.length || !serverDone;
       setTimeout(setupBlurUp, 80);
     }
-  } catch (err) { if (reset) showErrorAll(err.message); }
+  } catch (err) { if (reset) showErrorAll(err.message); else showToast('تعذّر تحميل المزيد', true); }
   finally { isLoadingMore = false; }
 }
 async function loadCommentCounts() { try { const { data } = await supabase.from('comments').select('post_id').eq('is_deleted', false); commentCounts = {}; (data || []).forEach(c => { if (c.post_id) commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; }); } catch(e) {} }
@@ -1222,8 +1294,8 @@ function renderAll() {
   else if (homeFilter === 'text' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-pen"></i><p>لا منشورات نصية بعد</p><span>اضغط + لنشر أول نص</span></div>`;
   else if (homeFilter === 'audio' && !homeRows.length) gridHome.innerHTML = `<div class="empty"><i class="fa-solid fa-microphone"></i><p>لا منشورات صوتية بعد</p><span>اضغط + لنشر أول صوت</span></div>`;
   else renderGrid(gridHome, homeRows.slice(0, PAGE_SIZE));
-  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image'));
-  renderReels(getFiltered(r => getMediaType(r) === 'video'));
+  renderGrid(gridImages, getFiltered(r => getMediaType(r) === 'image').slice(0, 40));
+  renderReels(getFiltered(r => getMediaType(r) === 'video').slice(0, 12));
   renderAudio(false);
 }
 function setHomeFilter(f) { homeFilter = f; document.querySelectorAll('.home-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); renderAll(); }
