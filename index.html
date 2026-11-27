@@ -800,6 +800,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 
 /* HONDER V16: real viewer back control + maximum usable source area. */
 #codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing #codeFilesList{display:none!important}
 #codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important}
 #codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;max-height:none!important;overflow:hidden!important;flex-direction:column!important;gap:8px!important;padding:0!important;margin:0!important}
 #codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:42px!important;padding:0 2px!important}
@@ -841,6 +842,8 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 #codeFilesModal.code-viewing .code-viewer-realbar{order:0!important}
 #codeFilesModal.code-viewing .code-file-viewer{order:1!important}
 @media(max-width:600px){#codeFilesModal .code-files-modal-box{padding:calc(env(safe-area-inset-top,0px) + 5px) 5px calc(env(safe-area-inset-bottom,0px) + 5px)!important;gap:4px!important}#codeFilesModal .code-viewer-realbar{min-height:43px!important;padding:0 3px!important}#codeFilesModal .code-viewer-realback{min-height:39px!important;padding:7px 13px!important}#codeFilesModal pre#codeViewerContent{padding:7px!important;font-size:12px!important;line-height:1.65!important;border-radius:7px!important}}
+
+
 
 </style>
 </head>
@@ -1829,7 +1832,19 @@ function cardHTML(v) {
   const commentsOpen = v.comments_enabled !== false; const ownerSettings = currentUser && v.user_id === currentUser.id ? `<button class="icon-btn" onclick="openPostSettings('${v.id}')" title="إعدادات المنشور"><i class="fa-solid fa-sliders"></i></button>` : ''; const actionsRowHTML = `<div class="card-meta"><div class="actions-row"><button class="icon-btn ${isLiked ? 'liked' : ''}" data-like-id="${v.id}" onclick="toggleLike('${v.id}', this)"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i><span>${formatCount(likesCount)}</span></button>${commentsOpen ? `<button class="icon-btn" onclick="openComments('${v.id}', '${safeTitle}', '${escAttr(v.user_id || '')}')"><i class="fa-solid fa-comment"></i><span data-comment-count-id="${v.id}">${formatCount(commentsCount)}</span></button>` : ''}<span class="meta-date"><i class="fa-solid fa-eye"></i> ${formatCount(viewsCount)}</span></div><div class="actions-row">${ownerSettings}${canDel ? `<button class="icon-btn del" onclick="deleteItem('${v.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div>`;
   if (mtype === 'text') { const content = v.description || v.title || ''; const lenClass = content.length > 300 ? 'long' : (content.length < 60 ? 'short' : ''); return `<div class="card" data-row-id="${v.id}"><div class="text-post-wrap">${overlayAuthorHTML}${v.title && v.title !== content ? `<div class="text-post-heading"><i class="fa-solid fa-quote-right"></i> ${title}</div>` : ''}<div class="text-post-content ${lenClass}">${renderRichHTML(content)}</div></div><div class="card-body">${actionsRowHTML}</div></div>`; }
   if (mtype === 'audio') { return `<div class="card" data-row-id="${v.id}"><div class="card-media-wrap audio-mode">${overlayAuthorHTML}<div class="audio-post-wrap"><div class="audio-post-label"><i class="fa-solid fa-wave-square"></i> مقطع صوتي</div><div class="audio-player-custom"><button class="audio-play-btn" onclick="event.stopPropagation(); toggleAudioPlay('${v.id}', this)"><i class="fa-solid fa-play"></i></button><div class="audio-progress-wrap"><div class="audio-progress-track" data-audio-seek="${v.id}" role="slider" tabindex="0" aria-label="موضع تشغيل الصوت" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="audio-progress-fill" id="apf-${v.id}"></div></div><div class="audio-time-row"><span id="apt-${v.id}">0:00</span><span id="apd-${v.id}">0:00</span></div></div><div class="audio-deco"><i class="fa-solid fa-music"></i></div></div><audio id="aud-${v.id}" src="${url}" preload="none"></audio></div></div><div class="card-body">${title ? `<div class="card-title">${title}</div>` : ''}${richDesc ? `<div class="card-desc poem">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
-  if (mtype === 'code') { const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}]; const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`; const codeBoostBtn = isAdmin() ? `<button class="admin-boost-btn code-admin-boost" type="button" onclick="openBoost('${v.id}')" title="زيادة اللايكات والمشاهدات للمالك"><i class="fa-solid fa-bolt"></i></button>` : ''; return `<div class="card" data-row-id="${v.id}"><div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div>${codeBoostBtn}<div class="code-post-actions"><button class="code-post-action view" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-eye"></i> عرض الملفات</button><button class="code-post-action download" type="button" onclick="downloadCodeFiles('${v.id}')"><i class="fa-solid fa-download"></i> تنزيل الملفات</button></div></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`; }
+  if (mtype === 'code') {
+    const files = Array.isArray(v.code_files) && v.code_files.length ? v.code_files : [{name:(String(v.media_url||'').split('/').pop()||'project.txt'),url:v.media_url,size:0,type:'text'}];
+    const fileLabel = `${files.length} ملف${files.length===1?'':'ات'} داخل المشروع`;
+    const codeAuthor = getUserById(v.user_id);
+    const codeAuthorName = esc(codeAuthor ? (codeAuthor.display_name || codeAuthor.username) : (v.author_name || 'مجهول'));
+    const codeAuthorAvatarUrl = codeAuthor?.avatar_url || v.author_avatar || '';
+    const codeAuthorAvatar = codeAuthorAvatarUrl ? `<img src="${escAttr(codeAuthorAvatarUrl)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">` : '';
+    const codeAuthorInitial = codeAuthorName.charAt(0).toUpperCase();
+    const codeAuthorClick = v.user_id ? `onclick="switchSection('profile','${escAttr(v.user_id)}')"` : '';
+    const codeAuthorHTML = `<div class="code-post-author" ${codeAuthorClick}><span class="code-post-author-avatar">${codeAuthorAvatar}<span class="code-post-author-initial" ${codeAuthorAvatar ? 'style="display:none"' : ''}>${codeAuthorInitial}</span></span><span class="code-post-author-info"><b>${codeAuthorName}</b><small>ناشر المشروع</small></span></div>`;
+    const codeBoostBtn = isAdmin() ? `<button class="admin-boost-btn code-admin-boost" type="button" onclick="openBoost('${v.id}')" title="زيادة اللايكات والمشاهدات للمالك"><i class="fa-solid fa-bolt"></i></button>` : '';
+    return `<div class="card" data-row-id="${v.id}">${codeAuthorHTML}<div class="code-post-head"><i class="fa-brands fa-python"></i><div><b>${title || 'مشروع برمجي'}</b><small>${fileLabel} · Python / TXT</small></div>${codeBoostBtn}<div class="code-post-actions"><button class="code-post-action view" type="button" onclick="openCodeFiles('${v.id}')"><i class="fa-solid fa-eye"></i> عرض الملفات</button><button class="code-post-action download" type="button" onclick="downloadCodeFiles('${v.id}')"><i class="fa-solid fa-download"></i> تنزيل الملفات</button></div></div><div class="card-body">${richDesc ? `<div class="card-desc">${richDesc}</div>` : ''}${actionsRowHTML}</div></div>`;
+  }
   if (mtype === 'image') {
     const imageUrls = getPostImageUrls(v);
     if (imageUrls.length > 1) {
@@ -2398,6 +2413,39 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 #codeFilesModal .code-viewer-filename{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#cbd8f2!important;font-size:12px!important;font-weight:700!important}
 #codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;border-radius:13px!important;padding:clamp(12px,2vw,22px)!important;}
 @media(max-width:600px){#codeFilesModal .code-file-viewer{gap:6px!important}#codeFilesModal .code-viewer-realbar{min-height:40px!important}#codeFilesModal .code-viewer-realback{min-height:38px!important;padding:7px 11px!important;font-size:12px!important}#codeFilesModal pre#codeViewerContent{padding:10px!important}}
+
+
+/* HONDER V19: final targeted fixes — publisher attribution, true full-screen source viewer, no blur. */
+.code-post-author{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;min-width:0!important;padding:12px 14px 2px!important;box-sizing:border-box!important;cursor:pointer!important}
+.code-post-author-avatar{position:relative!important;display:grid!important;place-items:center!important;flex:0 0 42px!important;width:42px!important;height:42px!important;overflow:hidden!important;border-radius:50%!important;background:#202020!important;border:1px solid rgba(184,149,66,.55)!important;color:#e8c66f!important;font-weight:900!important}
+.code-post-author-avatar img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important}
+.code-post-author-initial{display:grid;place-items:center;width:100%;height:100%}
+.code-post-author-info{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+.code-post-author-info b{color:var(--text,#fff)!important;font-size:13px!important;font-weight:800!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.code-post-author-info small{color:var(--muted,#9ca3af)!important;font-size:10px!important}
+#codeFilesModal.code-viewing .code-files-modal-box{width:96vw!important;max-width:1600px!important;height:96dvh!important;max-height:96dvh!important;min-height:0!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:12px!important;gap:8px!important}
+#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing .code-viewer-realbar{display:flex!important;flex:0 0 auto!important;min-height:48px!important;width:100%!important;align-items:center!important;justify-content:space-between!important}
+#codeFilesModal.code-viewing .code-viewer-realback{min-height:44px!important;padding:9px 16px!important;font-size:14px!important}
+#codeFilesModal.code-viewing .code-file-viewer{display:flex!important;flex:1 1 auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important}
+#codeFilesModal.code-viewing pre#codeViewerContent{display:block!important;flex:1 1 auto!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;overflow:auto!important;box-sizing:border-box!important;margin:0!important;font-size:clamp(12px,1.05vw,16px)!important;line-height:1.7!important}
+#codeFilesModal.code-viewing .modal-close{display:none!important}
+@media(max-width:600px){
+ #codeFilesModal.code-viewing{padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+ #codeFilesModal.code-viewing .code-files-modal-box{width:100vw!important;max-width:100vw!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;margin:0!important;padding:calc(env(safe-area-inset-top,0px) + 6px) 6px calc(env(safe-area-inset-bottom,0px) + 6px)!important;gap:5px!important}
+ #codeFilesModal.code-viewing .code-viewer-realbar{min-height:44px!important;padding:0 2px!important}
+ #codeFilesModal.code-viewing .code-viewer-realback{min-height:40px!important;padding:7px 13px!important;font-size:13px!important}
+ #codeFilesModal.code-viewing pre#codeViewerContent{font-size:12px!important;line-height:1.6!important;padding:8px!important;border-radius:7px!important}
+}
+/* Remove the unwanted glass blur and all spoiler masking/particle overlays. */
+/* Override the more-specific legacy :not(.revealed) masking rules as well. */
+.rich-editor .spoiler:not(.revealed),.text-post-content .spoiler:not(.revealed),.card-desc .spoiler:not(.revealed),.reel-overlay .spoiler:not(.revealed){filter:none!important;opacity:1!important;color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;text-shadow:none!important;animation:none!important;user-select:text!important}
+
+header,.bottom-nav,.sidebar,.modal-box,.chat-view{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+header,.bottom-nav{background:rgba(10,4,5,.98)!important}
+.rich-editor .spoiler,.text-post-content .spoiler,.card-desc .spoiler,.reel-overlay .spoiler{filter:none!important;opacity:1!important;color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important;animation:none!important;cursor:text!important;user-select:text!important}
+.rich-editor .spoiler::before,.rich-editor .spoiler::after,.text-post-content .spoiler::before,.text-post-content .spoiler::after,.card-desc .spoiler::before,.card-desc .spoiler::after,.reel-overlay .spoiler::before,.reel-overlay .spoiler::after{content:none!important;display:none!important;animation:none!important;filter:none!important}
+.rich-editor .spoiler.revealed,.text-post-content .spoiler.revealed,.card-desc .spoiler.revealed,.reel-overlay .spoiler.revealed{filter:none!important;opacity:1!important;color:inherit!important;-webkit-text-fill-color:currentColor!important;background:transparent!important}
 </style>
 </body>
 </html>
