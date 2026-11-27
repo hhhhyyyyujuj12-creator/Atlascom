@@ -797,6 +797,18 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
 #codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;overflow:hidden!important;gap:0!important}
 #codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important}
 #codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:flex!important;z-index:20!important}
+
+/* HONDER V16: real viewer back control + maximum usable source area. */
+#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;max-height:none!important;overflow:hidden!important;flex-direction:column!important;gap:8px!important;padding:0!important;margin:0!important}
+#codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:42px!important;padding:0 2px!important}
+#codeFilesModal .code-viewer-realback{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:40px!important;padding:8px 14px!important;border:1px solid #607aa8!important;border-radius:11px!important;background:#263b5a!important;color:#fff!important;font:800 13px 'Cairo',sans-serif!important;cursor:pointer!important}
+#codeFilesModal .code-viewer-realback:active{transform:scale(.97)}
+#codeFilesModal .code-viewer-filename{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#cbd8f2!important;font-size:12px!important;font-weight:700!important}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;border-radius:13px!important;padding:clamp(12px,2vw,22px)!important;}
+@media(max-width:600px){#codeFilesModal .code-file-viewer{gap:6px!important}#codeFilesModal .code-viewer-realbar{min-height:40px!important}#codeFilesModal .code-viewer-realback{min-height:38px!important;padding:7px 11px!important;font-size:12px!important}#codeFilesModal pre#codeViewerContent{padding:10px!important}}
+
 </style>
 </head>
 <body>
@@ -969,7 +981,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="signupAvatarPreview" onclick="document.getElementById('signupAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b> (اختياري)<br>انقر على الدائرة لاختيار صورة.</div>
-      <input type="file" id="signupAvatarInput" accept="image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
+      <input type="file" id="signupAvatarInput" accept="image/jpeg,.jpg,.jpeg,image/png,image/webp,image/gif,image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
     </div>
     <input type="text" id="signupUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="signupDisplayName" class="input-field" placeholder="الاسم الظاهر (اختياري)" maxlength="100">
@@ -988,7 +1000,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <div class="avatar-picker">
       <div class="avatar-preview" id="editAvatarPreview" onclick="document.getElementById('editAvatarInput').click()"><i class="fa-solid fa-user"></i></div>
       <div class="avatar-info"><b>صورة الحساب</b><br>انقر لتغيير الصورة.</div>
-      <input type="file" id="editAvatarInput" accept="image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
+      <input type="file" id="editAvatarInput" accept="image/jpeg,.jpg,.jpeg,image/png,image/webp,image/gif,image/*,.avif,.heic,.heif,.bmp,.tif,.tiff,.svg" hidden>
     </div>
     <input type="text" id="editUsername" class="input-field" placeholder="اسم المستخدم *" maxlength="50">
     <input type="text" id="editDisplayName" class="input-field" placeholder="الاسم الظاهر *" maxlength="100">
@@ -1013,7 +1025,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(83,105,174,.24),transpare
     <button class="modal-close" onclick="closeModal('codeFilesModal')"><i class="fa-solid fa-xmark"></i></button>
     <div class="code-modal-heading"><i class="fa-solid fa-folder-open"></i><div><h2 id="codeFilesTitle">ملفات المشروع</h2><p>اختار أي ملف تريد تفتحه؟</p></div></div>
     <div id="codeFilesList" class="code-files-list"></div>
-    <div id="codeFileViewer" class="code-file-viewer" hidden><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
+    <div id="codeFileViewer" class="code-file-viewer" hidden><div class="code-viewer-realbar"><button type="button" class="code-viewer-realback" onclick="closeCodeViewer()"><i class="fa-solid fa-arrow-right"></i><span>رجوع إلى الملفات</span></button><span id="codeViewerName" class="code-viewer-filename">عرض الملف</span></div><pre id="codeViewerContent" dir="ltr"><code></code></pre></div>
   </div>
 </div>
 
@@ -1383,16 +1395,16 @@ async function prepareAvatarForUpload(file) {
 }
 async function uploadAvatarToStorage(file) {
   if (!file) throw new Error('اختر صورة أولاً');
-  try {
-    const normalized = await prepareAvatarForUpload(file);
-    return await uploadFileToStorage(normalized, 'avatars');
-  } catch (conversionError) {
-    const ext = String(file.name || '').split('.').pop().toLowerCase();
-    const supported = /^(png|jpe?g|gif|webp|bmp|avif|heic|heif|tif?f|svg)$/i.test(ext);
-    if (!supported || !file.type || !file.type.toLowerCase().startsWith('image/')) throw conversionError;
-    if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
-    return await uploadFileToStorage(file, 'avatars');
+  const ext = String(file.name || '').split('.').pop().toLowerCase();
+  if (file.size > 12 * 1024 * 1024) throw new Error('حجم الصورة كبير؛ الحد الأقصى 12MB');
+  // Android browsers sometimes report an empty or incorrect MIME for JPEG files.
+  // Keep the original JPEG bytes and explicitly label them image/jpeg for Supabase.
+  if (ext === 'jpg' || ext === 'jpeg' || file.type.toLowerCase() === 'image/jpeg') {
+    const jpegFile = new File([file], `avatar-${Date.now()}.jpg`, { type: 'image/jpeg', lastModified: Date.now() });
+    return await uploadFileToStorage(jpegFile, 'avatars');
   }
+  const normalized = await prepareAvatarForUpload(file);
+  return await uploadFileToStorage(normalized, 'avatars');
 }
 async function uploadFileToStorage(file, folder = 'media') {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase();
@@ -1400,7 +1412,7 @@ async function uploadFileToStorage(file, folder = 'media') {
   if (ALLOWED[folder] && !ALLOWED[folder].includes(ext)) throw new Error('امتداد غير مسموح: ' + ext);
   const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const MIME_BY_EXT = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', webp:'image/webp', gif:'image/gif', mp4:'video/mp4', webm:'video/webm', mov:'video/quicktime', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', m4a:'audio/mp4', aac:'audio/aac', py:'text/x-python', txt:'text/plain' };
-  const inferredType = file.type || MIME_BY_EXT[ext] || (folder === 'avatars' ? 'image/png' : 'application/octet-stream');
+  const inferredType = MIME_BY_EXT[ext] || file.type || (folder === 'avatars' ? 'image/png' : 'application/octet-stream');
   const { data, error } = await supabase.storage.from('media').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: inferredType });
   if (error) throw new Error('فشل رفع الملف: ' + error.message);
   if (!data || !data.path) throw new Error('تم إرسال الصورة لكن لم يرجع التخزين مسار الملف');
@@ -1933,6 +1945,7 @@ function openCodeFiles(postId) {
 async function viewCodeFile(index) {
   const post=allRows.find(r=>r.id===activeCodePostId); if(!post) return;
   const file=getCodePostFiles(post)[index]; if(!file || !file.url) return;
+  $('codeViewerName').textContent = file.name || 'عرض الملف';
   $('codeFilesList').hidden=true; $('codeFileViewer').hidden=false; $('codeFilesModal').classList.add('code-viewing'); 
   const code=$('codeViewerContent').querySelector('code'); code.textContent='جارٍ تحميل محتوى الملف...';
   try {
@@ -1941,7 +1954,7 @@ async function viewCodeFile(index) {
     const source=await response.text();
     code.innerHTML = /\.py$/i.test(file.name || '') ? highlightPython(source.slice(0,1000000)) : esc(source.slice(0,1000000));
   } catch(e) {
-    code.textContent='تعذّر عرض محتوى الملف. يمكنك استخدام زر التنزيل في الشريط العلوي.';
+    code.textContent='تعذّر عرض محتوى الملف. ارجع إلى قائمة الملفات وحاول فتحه مجدداً.';
   }
 }
 function closeCodeViewer(){ $('codeFileViewer').hidden=true; $('codeFilesList').hidden=false; $('codeFilesModal').classList.remove('code-viewing'); }
@@ -2278,6 +2291,18 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 #codeViewerContent .py-constant{color:#ffcb6b}
 #codeViewerContent .py-builtin{color:#82aaff}
 @media(max-width:600px){.code-files-modal-box{width:98vw!important;max-height:95dvh!important;padding:12px!important}.code-file-viewer pre#codeViewerContent{min-height:58dvh;max-height:72dvh;padding:14px;font-size:12.5px;line-height:1.75}.code-file-row{flex-wrap:wrap}.code-file-action{padding:8px 9px}}
+
+/* HONDER V16: real viewer back control + maximum usable source area. */
+#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;max-height:none!important;overflow:hidden!important;flex-direction:column!important;gap:8px!important;padding:0!important;margin:0!important}
+#codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:42px!important;padding:0 2px!important}
+#codeFilesModal .code-viewer-realback{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:40px!important;padding:8px 14px!important;border:1px solid #607aa8!important;border-radius:11px!important;background:#263b5a!important;color:#fff!important;font:800 13px 'Cairo',sans-serif!important;cursor:pointer!important}
+#codeFilesModal .code-viewer-realback:active{transform:scale(.97)}
+#codeFilesModal .code-viewer-filename{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#cbd8f2!important;font-size:12px!important;font-weight:700!important}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;border-radius:13px!important;padding:clamp(12px,2vw,22px)!important;}
+@media(max-width:600px){#codeFilesModal .code-file-viewer{gap:6px!important}#codeFilesModal .code-viewer-realbar{min-height:40px!important}#codeFilesModal .code-viewer-realback{min-height:38px!important;padding:7px 11px!important;font-size:12px!important}#codeFilesModal pre#codeViewerContent{padding:10px!important}}
+
 </style>
 
 
@@ -2339,6 +2364,17 @@ window.addEventListener('load', () => { setTimeout(() => { if (currentUser) star
 #codeFilesModal.code-viewing .code-file-viewer{gap:10px!important}
 #codeFilesModal.code-viewing #codeViewerContent{overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important}
 @media(max-width:600px){.code-post-actions{gap:8px!important}.code-post-action{min-height:42px!important;padding:9px 7px!important;font-size:12px!important}#codeFilesModal .code-viewer-toolbar{min-height:50px!important;gap:6px!important;padding:6px!important}#codeFilesModal .code-viewer-back{padding:7px 9px!important;font-size:11px!important}#codeFilesModal .code-viewer-toolbar #codeViewerDownload{padding:7px 9px!important;font-size:11px!important}}
+
+/* HONDER V16: real viewer back control + maximum usable source area. */
+#codeFilesModal.code-viewing .code-modal-heading{display:none!important}
+#codeFilesModal.code-viewing>.code-files-modal-box>.modal-close{display:none!important}
+#codeFilesModal .code-file-viewer{display:flex!important;flex:1 1 0!important;min-height:0!important;height:0!important;width:100%!important;max-height:none!important;overflow:hidden!important;flex-direction:column!important;gap:8px!important;padding:0!important;margin:0!important}
+#codeFilesModal .code-viewer-realbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex:0 0 auto!important;width:100%!important;min-height:42px!important;padding:0 2px!important}
+#codeFilesModal .code-viewer-realback{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:40px!important;padding:8px 14px!important;border:1px solid #607aa8!important;border-radius:11px!important;background:#263b5a!important;color:#fff!important;font:800 13px 'Cairo',sans-serif!important;cursor:pointer!important}
+#codeFilesModal .code-viewer-realback:active{transform:scale(.97)}
+#codeFilesModal .code-viewer-filename{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#cbd8f2!important;font-size:12px!important;font-weight:700!important}
+#codeFilesModal pre#codeViewerContent{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;margin:0!important;overflow:auto!important;border-radius:13px!important;padding:clamp(12px,2vw,22px)!important;}
+@media(max-width:600px){#codeFilesModal .code-file-viewer{gap:6px!important}#codeFilesModal .code-viewer-realbar{min-height:40px!important}#codeFilesModal .code-viewer-realback{min-height:38px!important;padding:7px 11px!important;font-size:12px!important}#codeFilesModal pre#codeViewerContent{padding:10px!important}}
 </style>
 </body>
 </html>
